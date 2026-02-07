@@ -1,12 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
 const projects = allProjects.sort((a, b) => a.data.order - b.data.order);
 
 const categories = ['All', 'Web App', 'Mobile App', 'Chrome Extension'] as const;
+
+const categoryColors: Record<string, string> = {
+  'Web App': 'text-indigo-400 bg-indigo-400/10',
+  'Mobile App': 'text-emerald-400 bg-emerald-400/10',
+  'Chrome Extension': 'text-amber-400 bg-amber-400/10',
+};
 ---
 
 <Base title="Projects — Jason Moon">
@@ -14,10 +19,10 @@ const categories = ['All', 'Web App', 'Mobile App', 'Chrome Extension'] as const
     <div class="mx-auto max-w-5xl px-6">
       <h1 class="text-3xl sm:text-4xl font-bold mb-4">Projects</h1>
       <p class="text-text-muted mb-10 max-w-2xl">
-        Tools and apps I've built — from visual prompt editors to Chrome extensions that fight doomscrolling.
+        Everything I've built — from AI-powered learning platforms with custom domains to Chrome extensions and Android apps.
       </p>
 
-      <!-- Category filter (client-side) -->
+      <!-- Category filter -->
       <div class="flex flex-wrap gap-2 mb-8" id="filters">
         {categories.map((cat) => (
           <button
@@ -34,16 +39,58 @@ const categories = ['All', 'Web App', 'Mobile App', 'Chrome Extension'] as const
         ))}
       </div>
 
-      <div class="grid gap-4 sm:grid-cols-2" id="project-grid">
+      <div class="space-y-4" id="project-grid">
         {projects.map((project) => (
           <div data-cat={project.data.category}>
-            <ProjectCard
-              title={project.data.title}
-              description={project.data.description}
-              slug={project.id}
-              category={project.data.category}
-              stack={project.data.stack}
-            />
+            <a
+              href={`/projects/${project.id}`}
+              class="group block rounded-xl border border-border bg-surface overflow-hidden hover:border-accent/40 transition-all duration-200"
+            >
+              <div class:list={['flex flex-col', project.data.image ? 'sm:flex-row' : '']}>
+                {project.data.image && (
+                  <div class="sm:w-64 shrink-0 bg-bg/50 overflow-hidden">
+                    <img
+                      src={project.data.image}
+                      alt={project.data.title}
+                      class="w-full h-40 sm:h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div class="p-6 flex-1">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${categoryColors[project.data.category] || 'text-text-muted bg-surface'}`}>
+                      {project.data.category}
+                    </span>
+                    {project.data.domain && (
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono text-emerald-400 bg-emerald-400/10">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                        {project.data.domain}
+                      </span>
+                    )}
+                  </div>
+                  <h3 class="text-lg font-semibold mb-1 group-hover:text-accent transition-colors">
+                    {project.data.title}
+                    {project.data.tagline && <span class="text-sm font-normal text-text-muted ml-2">— {project.data.tagline}</span>}
+                  </h3>
+                  <p class="text-sm text-text-muted leading-relaxed mb-4">
+                    {project.data.description}
+                  </p>
+                  <div class="flex flex-wrap gap-1.5">
+                    {project.data.stack.slice(0, 5).map((tech) => (
+                      <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
+                        {tech}
+                      </span>
+                    ))}
+                    {project.data.stack.length > 5 && (
+                      <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
+                        +{project.data.stack.length - 5}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </a>
           </div>
         ))}
       </div>

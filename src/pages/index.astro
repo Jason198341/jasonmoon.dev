@@ -1,61 +1,186 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
 
-const featured = [
-  {
-    title: 'Prompt Garden',
-    description: 'Visual prompt engineering workspace. Build, connect, and test AI prompts with a node-based editor.',
-    slug: 'prompt-garden',
-    category: 'Web App',
-    stack: ['React', 'TypeScript', 'xyflow', 'Tailwind'],
-  },
-  {
-    title: 'SAT Crusher',
-    description: 'Adaptive SAT prep with AI tutoring, spaced repetition, and wrong-answer DNA analysis.',
-    slug: 'sat-crusher',
-    category: 'Web App',
-    stack: ['React', 'Supabase', 'Fireworks AI', 'KaTeX'],
-  },
-  {
-    title: 'Family Graph',
-    description: 'Knowledge graph for family growth tracking. Map interests, values, and goals visually.',
-    slug: 'family-graph',
-    category: 'Web App',
-    stack: ['React', 'xyflow', 'Zustand', 'Fireworks AI'],
-  },
-  {
-    title: 'The Parasite',
-    description: 'Chrome extension that fights YouTube Shorts addiction with progressive lockdown mechanics.',
-    slug: 'the-parasite',
-    category: 'Chrome Extension',
-    stack: ['TypeScript', 'Chrome API', 'esbuild'],
-  },
-];
+const allProjects = await getCollection('projects');
+const flagships = allProjects.filter(p => p.data.flagship).sort((a, b) => a.data.order - b.data.order);
+const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Base title="Jason Moon — Automotive Engineer × Builder">
-  <Hero />
 
-  <!-- Featured Projects -->
-  <section class="pb-20">
+  <!-- Hero -->
+  <section class="py-24 sm:py-32">
     <div class="mx-auto max-w-5xl px-6">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-2xl font-bold">Featured Projects</h2>
-        <a href="/projects" class="text-sm text-text-muted hover:text-accent transition-colors">
-          View all &rarr;
+      <p class="font-mono text-sm text-accent mb-4">Hi, I'm</p>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+        Jason Moon
+      </h1>
+      <p class="text-lg sm:text-xl text-text-muted max-w-2xl leading-relaxed mb-4">
+        Automotive Engineer by day, Builder by night.
+      </p>
+      <p class="text-base text-text-muted max-w-2xl leading-relaxed mb-8">
+        I build tools and apps that solve real problems — from AI-powered English learning platforms to Chrome extensions that fight doomscrolling.
+        <span class="text-text font-medium">7 projects shipped. 2 with custom domains. All built from scratch.</span>
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="/projects"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
+        >
+          View All Projects
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-text-muted font-medium text-sm hover:text-text hover:border-text-muted transition-colors"
+        >
+          About Me
         </a>
       </div>
-      <div class="grid gap-4 sm:grid-cols-2">
-        {featured.map((project) => (
-          <ProjectCard {...project} />
+    </div>
+  </section>
+
+  <!-- Flagship Projects — Full-width showcase -->
+  <section class="pb-24">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="flex items-center gap-3 mb-10">
+        <div class="h-px flex-1 bg-border"></div>
+        <h2 class="text-sm font-mono text-accent uppercase tracking-widest">Live Products</h2>
+        <div class="h-px flex-1 bg-border"></div>
+      </div>
+
+      <div class="space-y-8">
+        {flagships.map((project, i) => (
+          <a
+            href={`/projects/${project.id}`}
+            class="group block rounded-2xl border border-border bg-surface overflow-hidden hover:border-accent/50 transition-all duration-300"
+          >
+            <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
+              <!-- Text side -->
+              <div class="p-8 sm:p-10 flex flex-col justify-center">
+                {project.data.domain && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <span class="relative flex h-2.5 w-2.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                    </span>
+                    <span class="font-mono text-sm text-emerald-400">{project.data.domain}</span>
+                  </div>
+                )}
+                <h3 class="text-2xl sm:text-3xl font-bold mb-2 group-hover:text-accent transition-colors">
+                  {project.data.title}
+                </h3>
+                {project.data.tagline && (
+                  <p class="text-sm font-medium text-accent mb-3">{project.data.tagline}</p>
+                )}
+                <p class="text-text-muted leading-relaxed mb-6">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-6">
+                  {project.data.stack.slice(0, 5).map((tech) => (
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono text-text-muted bg-bg border border-border">
+                      {tech}
+                    </span>
+                  ))}
+                  {project.data.stack.length > 5 && (
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono text-text-muted bg-bg border border-border">
+                      +{project.data.stack.length - 5}
+                    </span>
+                  )}
+                </div>
+                <div class="flex items-center gap-3">
+                  {project.data.live && (
+                    <span class="inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+                      Visit Live
+                      <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </span>
+                  )}
+                </div>
+              </div>
+              <!-- Image side -->
+              {project.data.image && (
+                <div class="relative bg-bg/50 overflow-hidden">
+                  <img
+                    src={project.data.image}
+                    alt={`${project.data.title} screenshot`}
+                    class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-surface/60 lg:via-transparent lg:to-transparent"></div>
+                </div>
+              )}
+              {!project.data.image && project.data.domain && (
+                <div class="hidden lg:flex items-center justify-center bg-bg/30 p-10">
+                  <div class="text-center">
+                    <p class="font-mono text-4xl font-bold text-accent/30 mb-2">{project.data.domain}</p>
+                    <p class="text-sm text-text-muted">Live on the web</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Recent Activity -->
+  <!-- Other Featured Projects -->
+  <section class="pb-24">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="flex items-center gap-3 mb-10">
+        <div class="h-px flex-1 bg-border"></div>
+        <h2 class="text-sm font-mono text-accent uppercase tracking-widest">More Projects</h2>
+        <div class="h-px flex-1 bg-border"></div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {others.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            slug={project.id}
+            category={project.data.category}
+            stack={project.data.stack}
+          />
+        ))}
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="/projects" class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-accent transition-colors">
+          View all projects
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="pb-24">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="rounded-xl border border-border bg-surface p-5 text-center">
+          <p class="text-3xl font-bold text-accent">7</p>
+          <p class="text-xs text-text-muted mt-1">Projects Shipped</p>
+        </div>
+        <div class="rounded-xl border border-border bg-surface p-5 text-center">
+          <p class="text-3xl font-bold text-accent">2</p>
+          <p class="text-xs text-text-muted mt-1">Custom Domains</p>
+        </div>
+        <div class="rounded-xl border border-border bg-surface p-5 text-center">
+          <p class="text-3xl font-bold text-accent">3</p>
+          <p class="text-xs text-text-muted mt-1">Platforms</p>
+        </div>
+        <div class="rounded-xl border border-border bg-surface p-5 text-center">
+          <p class="text-3xl font-bold text-accent">1</p>
+          <p class="text-xs text-text-muted mt-1">Builder</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Archive -->
   <section class="pb-20">
     <div class="mx-auto max-w-5xl px-6">
       <h2 class="text-2xl font-bold mb-8">Archive</h2>
@@ -65,14 +190,14 @@ const featured = [
             <span class="text-2xl">📚</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Reading</h3>
           </div>
-          <p class="text-sm text-text-muted">Book notes, highlights, and reading progress.</p>
+          <p class="text-sm text-text-muted">자존감 수업 100회 읽기 프로젝트. 3/100 completed.</p>
         </a>
         <a href="/archive/running" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">🏃</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Running</h3>
           </div>
-          <p class="text-sm text-text-muted">Monthly running logs and cumulative stats.</p>
+          <p class="text-sm text-text-muted">기록은 남기되, 성과는 쫓지 않는다.</p>
         </a>
       </div>
     </div>
@@ -81,10 +206,10 @@ const featured = [
   <!-- CTA -->
   <section class="pb-24">
     <div class="mx-auto max-w-5xl px-6">
-      <div class="rounded-xl border border-border bg-surface p-8 sm:p-12 text-center">
+      <div class="rounded-2xl border border-border bg-surface p-8 sm:p-12 text-center">
         <h2 class="text-2xl font-bold mb-3">Let's Connect</h2>
         <p class="text-text-muted mb-6 max-w-md mx-auto">
-          Have a project idea or just want to say hi? I'd love to hear from you.
+          Have a project idea, feedback, or just want to say hi?
         </p>
         <a
           href="/contact"

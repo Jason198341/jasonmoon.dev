@@ -1,32 +1,33 @@
 ---
 title: The Parasite
-description: Chrome extension that fights YouTube Shorts addiction with progressive lockdown mechanics.
+tagline: Fight the Shorts Addiction
+description: Chrome extension that fights YouTube Shorts doom-scrolling with progressive lockdown mechanics.
 category: Chrome Extension
 stack: [TypeScript, Chrome Extension API, esbuild, Manifest V3]
-github: https://github.com/jasonmoon/the-parasite
+github: https://github.com/Jason198341/the-parasite
 featured: true
-order: 4
+order: 5
 ---
 
-## What is The Parasite?
+## The Problem
 
-The Parasite is a Chrome extension designed to help you break the YouTube Shorts doom-scrolling habit. It counts your Shorts views and progressively locks you out with increasing penalties.
+YouTube Shorts is engineered to be addictive. Infinite scroll, autoplay, dopamine hits every 30 seconds. Blocking it entirely doesn't work — people just uninstall the blocker. You need something smarter.
 
-## Key Features
+## The Solution
+
+The Parasite doesn't block Shorts — it makes you **aware** of the habit and adds friction progressively. Like a parasite that fights back against the host's mindless behavior.
+
+## How It Works
 
 - **Shorts counter** — Tracks every YouTube Short you watch
 - **Progressive lockdown** — Every 10 Shorts triggers a lockout
-- **Escalating penalties** — 30s → doubles each time → 100 Shorts means 4 hours locked
-- **Privacy-first** — All data stays local, no server, no tracking
-- **Minimal footprint** — Zero external dependencies
+- **Escalating penalties** — 30s → doubles each time → 100 Shorts = 4 hours locked
+- **No escape** — Can't just disable it mid-lockout
 
-## Technical Highlights
+## Design Philosophy
 
-- Manifest V3 Chrome Extension
-- TypeScript with esbuild for fast builds
-- Content script injection using inline styles + `documentElement.appendChild`
-- Efficient DOM observation for Shorts detection
+Privacy-first. Zero external dependencies. No server, no tracking, no account. All data stays on your machine. The extension is tiny — just TypeScript compiled with esbuild into a Manifest V3 Chrome Extension.
 
 ## Why I Built This
 
-YouTube Shorts was eating hours of my family's time. Instead of just blocking it entirely (which gets circumvented), I built something that makes you *aware* of the habit and adds friction progressively — like a parasite that fights back against mindless scrolling.
+YouTube Shorts was eating hours of my family's time. Instead of blocking it (which gets circumvented), I built something that adds friction progressively — painful enough to break the habit, not painful enough to uninstall.

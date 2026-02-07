@@ -1,22 +1,19 @@
 ---
 title: Smart Memo
-description: AI-powered memo app with intelligent categorization and search for Android.
+tagline: AI-Enhanced Note Taking
+description: AI-powered memo app with intelligent categorization and clipboard analysis for Android.
 category: Mobile App
 stack: [Kotlin, Android SDK, Room DB, Material Design]
-order: 5
+order: 6
 ---
 
-## What is Smart Memo?
+## What It Does
 
-Smart Memo is an Android memo application enhanced with AI capabilities for intelligent categorization, search, and organization of your notes.
+Smart Memo is an Android memo application enhanced with AI for intelligent categorization and smart search. It understands the *content* of your notes, not just keywords.
 
 ## Key Features
 
 - **AI categorization** — Automatically categorizes memos based on content
 - **Smart search** — Find memos by meaning, not just keywords
 - **Clean UI** — Material Design with intuitive navigation
-- **Local storage** — Room database for reliable offline-first storage
-
-## Why I Built This
-
-The default memo apps on Android felt too basic. I wanted something that could understand the *content* of my notes and help me find them later, even when I couldn't remember the exact words I used.
+- **Offline-first** — Room database for reliable local storage
