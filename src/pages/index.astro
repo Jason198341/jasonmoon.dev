@@ -8,7 +8,7 @@ const flagships = allProjects.filter(p => p.data.flagship).sort((a, b) => a.data
 const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Jason Moon — Engineer × Builder">
+<Base title="Jason Moon — Engineer, Father, Builder">
 
   <!-- Hero -->
   <section class="py-24 sm:py-32">
@@ -18,13 +18,13 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
         Jason Moon
       </h1>
       <p class="text-lg sm:text-xl text-text max-w-2xl leading-relaxed mb-2">
-        I solve problems twice: once in steel, once in code.
+        I build tools for the people I care about.
       </p>
-      <p class="font-mono text-sm text-accent/80 mb-6">복잡함을 명확함으로.</p>
+      <p class="font-mono text-sm text-accent/80 mb-6">복잡함을 명확함으로. 없으면 만든다.</p>
       <p class="text-base text-text-muted max-w-2xl leading-relaxed mb-8">
-        Automotive engineer by profession. Builder by compulsion.
-        Every project here started as a real problem — for my family, my students, or myself.
-        <span class="text-text font-medium">7 products. 2 with custom domains. All built solo, from scratch.</span>
+        Automotive engineer and father of two.
+        I build apps for my kids' education, my family's habits, and my own growth — then ship them for everyone.
+        <span class="text-text font-medium">7 products. 2 with custom domains. All built solo.</span>
       </p>
       <div class="flex flex-wrap gap-3">
         <a
@@ -65,10 +65,10 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
                 {project.data.domain && (
                   <div class="flex items-center gap-2 mb-4">
                     <span class="relative flex h-2.5 w-2.5">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                     </span>
-                    <span class="font-mono text-sm text-emerald-400">{project.data.domain}</span>
+                    <span class="font-mono text-sm text-emerald-600">{project.data.domain}</span>
                   </div>
                 )}
                 <h3 class="text-2xl sm:text-3xl font-bold mb-2 group-hover:text-accent transition-colors">

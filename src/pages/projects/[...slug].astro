@@ -15,9 +15,9 @@ const { Content } = await render(project);
 const { title, tagline, description, category, stack, github, live, domain, image, images } = project.data;
 
 const categoryColors: Record<string, string> = {
-  'Web App': 'text-indigo-400 bg-indigo-400/10',
-  'Mobile App': 'text-emerald-400 bg-emerald-400/10',
-  'Chrome Extension': 'text-amber-400 bg-amber-400/10',
+  'Web App': 'text-indigo-700 bg-indigo-50',
+  'Mobile App': 'text-emerald-700 bg-emerald-50',
+  'Chrome Extension': 'text-amber-700 bg-amber-50',
 };
 ---
 
@@ -52,10 +52,10 @@ const categoryColors: Record<string, string> = {
             {category}
           </span>
           {domain && (
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono text-emerald-400 bg-emerald-400/10">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono text-emerald-700 bg-emerald-50">
               <span class="relative flex h-1.5 w-1.5">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400"></span>
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
               </span>
               {domain}
             </span>

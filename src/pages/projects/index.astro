@@ -8,9 +8,9 @@ const projects = allProjects.sort((a, b) => a.data.order - b.data.order);
 const categories = ['All', 'Web App', 'Mobile App', 'Chrome Extension'] as const;
 
 const categoryColors: Record<string, string> = {
-  'Web App': 'text-indigo-400 bg-indigo-400/10',
-  'Mobile App': 'text-emerald-400 bg-emerald-400/10',
-  'Chrome Extension': 'text-amber-400 bg-amber-400/10',
+  'Web App': 'text-indigo-700 bg-indigo-50',
+  'Mobile App': 'text-emerald-700 bg-emerald-50',
+  'Chrome Extension': 'text-amber-700 bg-amber-50',
 };
 ---
 
@@ -63,16 +63,18 @@ const categoryColors: Record<string, string> = {
                       {project.data.category}
                     </span>
                     {project.data.domain && (
-                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono text-emerald-400 bg-emerald-400/10">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono text-emerald-700 bg-emerald-50">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         {project.data.domain}
                       </span>
                     )}
                   </div>
                   <h3 class="text-lg font-semibold mb-1 group-hover:text-accent transition-colors">
                     {project.data.title}
-                    {project.data.tagline && <span class="text-sm font-normal text-text-muted ml-2">— {project.data.tagline}</span>}
                   </h3>
+                  {project.data.tagline && (
+                    <p class="text-sm text-text-muted italic mb-2">{project.data.tagline}</p>
+                  )}
                   <p class="text-sm text-text-muted leading-relaxed mb-4">
                     {project.data.description}
                   </p>
