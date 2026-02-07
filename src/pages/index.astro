@@ -192,7 +192,7 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
       </div>
 
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {others.map((project) => (
+        {others.slice(0, 3).map((project) => (
           <ProjectCard
             title={project.data.title}
             description={project.data.description}
@@ -209,20 +209,6 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
           View all projects
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats strip -->
-  <section class="pb-24">
-    <div class="mx-auto max-w-5xl px-6">
-      <div class="rounded-2xl border border-border bg-surface p-8 sm:p-10 text-center">
-        <p class="text-lg sm:text-xl text-text-muted leading-relaxed">
-          <span class="text-text font-semibold">7 products.</span>
-          <span class="text-text font-semibold">2 live with custom domains.</span>
-          Web, Mobile, and Chrome Extension.
-        </p>
-        <p class="text-sm text-accent font-medium mt-3">Every project solves a problem I actually had.</p>
       </div>
     </div>
   </section>

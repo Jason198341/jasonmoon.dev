@@ -50,11 +50,16 @@ const categoryColors: Record<string, string> = {
     </p>
 
     <div class="flex flex-wrap gap-1.5">
-      {stack.map((tech) => (
+      {stack.slice(0, 5).map((tech) => (
         <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
           {tech}
         </span>
       ))}
+      {stack.length > 5 && (
+        <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
+          +{stack.length - 5}
+        </span>
+      )}
     </div>
   </div>
 </a>
