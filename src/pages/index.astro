@@ -11,35 +11,89 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
 <Base title="Jason Moon — Engineer, Father, Builder">
 
   <!-- Hero -->
-  <section class="py-24 sm:py-32">
+  <section class="py-16 sm:py-24">
     <div class="mx-auto max-w-5xl px-6">
-      <p class="font-mono text-sm text-accent mb-4">Hi, I'm</p>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-        Jason Moon
-      </h1>
-      <p class="text-lg sm:text-xl text-text max-w-2xl leading-relaxed mb-2">
-        I build tools for the people I care about.
-      </p>
-      <p class="font-mono text-sm text-accent/80 mb-6">복잡함을 명확함으로. 없으면 만든다.</p>
-      <p class="text-base text-text-muted max-w-2xl leading-relaxed mb-8">
-        Automotive engineer and father of two.
-        I build apps for my kids' education, my family's habits, and my own growth — then ship them for everyone.
-        <span class="text-text font-medium">7 products. 2 with custom domains. All built solo.</span>
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a
-          href="/projects"
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
-        >
-          View All Projects
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-        <a
-          href="/about"
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-text-muted font-medium text-sm hover:text-text hover:border-text-muted transition-colors"
-        >
-          How I Think
-        </a>
+      <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+        <!-- Text side -->
+        <div>
+          <p class="font-mono text-sm text-accent mb-4">Hi, I'm</p>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            Jason Moon
+          </h1>
+          <p class="text-lg sm:text-xl text-text leading-relaxed mb-2">
+            I build tools for the people I care about.
+          </p>
+          <p class="font-mono text-sm text-accent/80 mb-6">복잡함을 명확함으로. 없으면 만든다.</p>
+          <p class="text-base text-text-muted leading-relaxed mb-8">
+            Automotive engineer and father of two.
+            I build apps for my kids' education, my family's habits, and my own growth — then ship them for everyone.
+            <span class="text-text font-medium">7 products. 2 with custom domains. All built solo.</span>
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="/projects"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
+            >
+              View All Projects
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+            <a
+              href="/about"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-text-muted font-medium text-sm hover:text-text hover:border-text-muted transition-colors"
+            >
+              How I Think
+            </a>
+          </div>
+        </div>
+
+        <!-- Bento grid of project screenshots -->
+        <div class="hidden lg:block">
+          <div class="grid grid-cols-3 grid-rows-3 gap-3 h-[420px]">
+            <a href="/projects/prompt-garden" class="group col-span-2 row-span-2 rounded-2xl overflow-hidden border border-border bg-surface relative">
+              <img src="/projects/prompt-garden.png" alt="Prompt Garden" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="eager" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-3 left-4 flex items-center gap-2">
+                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span></span>
+                <span class="text-white text-sm font-semibold">Prompt Garden</span>
+              </div>
+            </a>
+            <a href="/projects/engreading" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
+              <img src="/projects/engreading.png" alt="EngReading" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="eager" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-2 left-3">
+                <span class="text-white text-xs font-semibold">EngReading</span>
+              </div>
+            </a>
+            <a href="/projects/sat-crusher" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
+              <img src="/projects/sat-crusher.png" alt="SAT Crusher" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-2 left-3">
+                <span class="text-white text-xs font-semibold">SAT Crusher</span>
+              </div>
+            </a>
+            <a href="/projects/family-graph" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
+              <img src="/projects/family-graph.png" alt="Family Graph" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-2 left-3">
+                <span class="text-white text-xs font-semibold">Family Graph</span>
+              </div>
+            </a>
+            <a href="/projects/the-parasite" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
+              <img src="/projects/the-parasite.png" alt="The Parasite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-2 left-3">
+                <span class="text-white text-xs font-semibold">The Parasite</span>
+              </div>
+            </a>
+            <a href="/projects/smart-memo" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
+              <img src="/projects/smart-memo.png" alt="Smart Memo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-2 left-3">
+                <span class="text-white text-xs font-semibold">Smart Memo</span>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -145,6 +199,7 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
             slug={project.id}
             category={project.data.category}
             stack={project.data.stack}
+            image={project.data.image}
           />
         ))}
       </div>

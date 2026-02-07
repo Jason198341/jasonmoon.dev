@@ -6,6 +6,7 @@ category: Web App
 stack: [Next.js, TypeScript, AI/LLM, Tailwind CSS, Vercel]
 live: https://www.engreading.com
 domain: engreading.com
+image: /projects/engreading.png
 flagship: true
 featured: true
 order: 2

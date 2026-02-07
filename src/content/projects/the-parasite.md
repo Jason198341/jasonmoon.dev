@@ -5,6 +5,7 @@ description: Chrome extension that fights YouTube Shorts doom-scrolling with pro
 category: Chrome Extension
 stack: [TypeScript, Chrome Extension API, esbuild, Manifest V3]
 github: https://github.com/Jason198341/the-parasite
+image: /projects/the-parasite.png
 featured: true
 order: 5
 ---
