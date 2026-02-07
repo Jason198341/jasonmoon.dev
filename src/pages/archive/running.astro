@@ -1,13 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro';
 
-const runs = [
-  { month: '2026-02', distance: 12.5, sessions: 4, pace: '6:30', note: 'Building back up after a cold break.' },
-  { month: '2026-01', distance: 28.3, sessions: 9, pace: '6:15', note: 'Good start to the year. Averaging ~3km per run.' },
-];
+// Data synced from Obsidian: C:\obsidian\04_학습\러닝 트래커.md
+// Run "sync archive" to update from Obsidian
 
-const totalDistance = runs.reduce((sum, r) => sum + r.distance, 0);
-const totalSessions = runs.reduce((sum, r) => sum + r.sessions, 0);
+const stats = {
+  totalRuns: 0,
+  totalDistance: 0,
+  consecutiveWeeks: 0,
+};
+
+const quote = '기록은 남기되, 성과는 쫓지 않는다. 달리면서 올라오는 생각을 본다.';
+
+// Monthly data — populated when Obsidian tracker has entries
+const months: { month: string; runs: { date: string; distance: string; time: string; musicOff: boolean; thought: string }[]; reflection?: string }[] = [
+  // { month: '2026년 2월', runs: [...], reflection: '...' },
+];
 ---
 
 <Base title="Running — Archive — Jason Moon">
@@ -18,49 +26,68 @@ const totalSessions = runs.reduce((sum, r) => sum + r.sessions, 0);
         Archive
       </a>
 
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🏃 Running</h1>
-      <p class="text-text-muted mb-10">
-        Monthly running log. Building consistency over speed.
-      </p>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">Running</h1>
+
+      <blockquote class="text-text-muted italic border-l-2 border-accent pl-3 mb-10">
+        {quote}
+      </blockquote>
 
       <!-- Stats -->
       <div class="grid grid-cols-3 gap-4 mb-10">
         <div class="rounded-xl border border-border bg-surface p-4 text-center">
-          <p class="text-2xl font-bold text-accent">{totalDistance.toFixed(1)}</p>
+          <p class="text-2xl font-bold text-accent">{stats.totalRuns}</p>
+          <p class="text-xs text-text-muted mt-1">Total Runs</p>
+        </div>
+        <div class="rounded-xl border border-border bg-surface p-4 text-center">
+          <p class="text-2xl font-bold text-accent">{stats.totalDistance}</p>
           <p class="text-xs text-text-muted mt-1">Total km</p>
         </div>
         <div class="rounded-xl border border-border bg-surface p-4 text-center">
-          <p class="text-2xl font-bold text-accent">{totalSessions}</p>
-          <p class="text-xs text-text-muted mt-1">Sessions</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-4 text-center">
-          <p class="text-2xl font-bold text-accent">{runs.length}</p>
-          <p class="text-xs text-text-muted mt-1">Months</p>
+          <p class="text-2xl font-bold text-accent">{stats.consecutiveWeeks}</p>
+          <p class="text-xs text-text-muted mt-1">Weeks</p>
         </div>
       </div>
 
-      <!-- Monthly log -->
-      <div class="space-y-4">
-        {runs.map((run) => (
-          <div class="rounded-xl border border-border bg-surface p-5">
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="font-mono font-semibold text-accent">{run.month}</h3>
-              <span class="text-sm text-text-muted">{run.sessions} runs</span>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mb-3">
-              <div>
-                <p class="text-xs text-text-muted">Distance</p>
-                <p class="text-lg font-semibold">{run.distance} km</p>
+      {months.length > 0 ? (
+        <div class="space-y-4">
+          {months.map((m) => (
+            <div class="rounded-xl border border-border bg-surface p-5">
+              <h3 class="font-mono font-semibold text-accent mb-3">{m.month}</h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="text-text-muted text-xs border-b border-border">
+                      <th class="text-left py-2 pr-3">Date</th>
+                      <th class="text-left py-2 pr-3">Distance</th>
+                      <th class="text-left py-2 pr-3">Time</th>
+                      <th class="text-left py-2">Thoughts</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {m.runs.map((r) => (
+                      <tr class="border-b border-border/50">
+                        <td class="py-2 pr-3 font-mono text-xs">{r.date}</td>
+                        <td class="py-2 pr-3">{r.distance}</td>
+                        <td class="py-2 pr-3">{r.time}</td>
+                        <td class="py-2 text-text-muted">{r.thought}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-              <div>
-                <p class="text-xs text-text-muted">Avg Pace</p>
-                <p class="text-lg font-semibold">{run.pace} /km</p>
-              </div>
+              {m.reflection && (
+                <p class="text-sm text-text-muted mt-3 pt-3 border-t border-border">{m.reflection}</p>
+              )}
             </div>
-            <p class="text-sm text-text-muted">{run.note}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-xl border border-border bg-surface p-8 text-center">
+          <p class="text-4xl mb-3">🏃</p>
+          <p class="text-text-muted">No runs logged yet. The journey begins with one step.</p>
+          <p class="text-sm text-text-muted mt-2">Data syncs from Obsidian running tracker.</p>
+        </div>
+      )}
     </div>
   </section>
 </Base>
