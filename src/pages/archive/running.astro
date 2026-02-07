@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const runs = [
+  { month: '2026-02', distance: 12.5, sessions: 4, pace: '6:30', note: 'Building back up after a cold break.' },
+  { month: '2026-01', distance: 28.3, sessions: 9, pace: '6:15', note: 'Good start to the year. Averaging ~3km per run.' },
+];
+
+const totalDistance = runs.reduce((sum, r) => sum + r.distance, 0);
+const totalSessions = runs.reduce((sum, r) => sum + r.sessions, 0);
+---
+
+<Base title="Running — Archive — Jason Moon">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <a href="/archive" class="inline-flex items-center gap-1 text-sm text-text-muted hover:text-accent transition-colors mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Archive
+      </a>
+
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🏃 Running</h1>
+      <p class="text-text-muted mb-10">
+        Monthly running log. Building consistency over speed.
+      </p>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-4 mb-10">
+        <div class="rounded-xl border border-border bg-surface p-4 text-center">
+          <p class="text-2xl font-bold text-accent">{totalDistance.toFixed(1)}</p>
+          <p class="text-xs text-text-muted mt-1">Total km</p>
+        </div>
+        <div class="rounded-xl border border-border bg-surface p-4 text-center">
+          <p class="text-2xl font-bold text-accent">{totalSessions}</p>
+          <p class="text-xs text-text-muted mt-1">Sessions</p>
+        </div>
+        <div class="rounded-xl border border-border bg-surface p-4 text-center">
+          <p class="text-2xl font-bold text-accent">{runs.length}</p>
+          <p class="text-xs text-text-muted mt-1">Months</p>
+        </div>
+      </div>
+
+      <!-- Monthly log -->
+      <div class="space-y-4">
+        {runs.map((run) => (
+          <div class="rounded-xl border border-border bg-surface p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-mono font-semibold text-accent">{run.month}</h3>
+              <span class="text-sm text-text-muted">{run.sessions} runs</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-3">
+              <div>
+                <p class="text-xs text-text-muted">Distance</p>
+                <p class="text-lg font-semibold">{run.distance} km</p>
+              </div>
+              <div>
+                <p class="text-xs text-text-muted">Avg Pace</p>
+                <p class="text-lg font-semibold">{run.pace} /km</p>
+              </div>
+            </div>
+            <p class="text-sm text-text-muted">{run.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

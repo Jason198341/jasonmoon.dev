@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const featured = [
+  {
+    title: 'Prompt Garden',
+    description: 'Visual prompt engineering workspace. Build, connect, and test AI prompts with a node-based editor.',
+    slug: 'prompt-garden',
+    category: 'Web App',
+    stack: ['React', 'TypeScript', 'xyflow', 'Tailwind'],
+  },
+  {
+    title: 'SAT Crusher',
+    description: 'Adaptive SAT prep with AI tutoring, spaced repetition, and wrong-answer DNA analysis.',
+    slug: 'sat-crusher',
+    category: 'Web App',
+    stack: ['React', 'Supabase', 'Fireworks AI', 'KaTeX'],
+  },
+  {
+    title: 'Family Graph',
+    description: 'Knowledge graph for family growth tracking. Map interests, values, and goals visually.',
+    slug: 'family-graph',
+    category: 'Web App',
+    stack: ['React', 'xyflow', 'Zustand', 'Fireworks AI'],
+  },
+  {
+    title: 'The Parasite',
+    description: 'Chrome extension that fights YouTube Shorts addiction with progressive lockdown mechanics.',
+    slug: 'the-parasite',
+    category: 'Chrome Extension',
+    stack: ['TypeScript', 'Chrome API', 'esbuild'],
+  },
+];
+---
+
+<Base title="Jason Moon — Automotive Engineer × Builder">
+  <Hero />
+
+  <!-- Featured Projects -->
+  <section class="pb-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-2xl font-bold">Featured Projects</h2>
+        <a href="/projects" class="text-sm text-text-muted hover:text-accent transition-colors">
+          View all &rarr;
+        </a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {featured.map((project) => (
+          <ProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Activity -->
+  <section class="pb-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <h2 class="text-2xl font-bold mb-8">Archive</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <a href="/archive/reading" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-2xl">📚</span>
+            <h3 class="font-semibold group-hover:text-accent transition-colors">Reading</h3>
+          </div>
+          <p class="text-sm text-text-muted">Book notes, highlights, and reading progress.</p>
+        </a>
+        <a href="/archive/running" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-2xl">🏃</span>
+            <h3 class="font-semibold group-hover:text-accent transition-colors">Running</h3>
+          </div>
+          <p class="text-sm text-text-muted">Monthly running logs and cumulative stats.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="pb-24">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="rounded-xl border border-border bg-surface p-8 sm:p-12 text-center">
+        <h2 class="text-2xl font-bold mb-3">Let's Connect</h2>
+        <p class="text-text-muted mb-6 max-w-md mx-auto">
+          Have a project idea or just want to say hi? I'd love to hear from you.
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
+        >
+          Get in Touch
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

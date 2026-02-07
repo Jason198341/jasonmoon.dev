@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const books = [
+  {
+    title: '자존감 수업',
+    author: '윤홍균',
+    status: 'reading' as const,
+    progress: 40,
+    sessions: [
+      { date: '2026-02-01', chapter: '1장 — 자존감의 의미', note: '자존감은 자신을 있는 그대로 인정하고 사랑하는 것. 타인의 평가에 흔들리지 않는 내면의 힘.' },
+      { date: '2026-02-03', chapter: '2장 — 자존감이 낮은 사람의 특징', note: '비교 습관, 완벽주의, 거절에 대한 두려움이 자존감을 갉아먹는다.' },
+      { date: '2026-02-06', chapter: '3장 — 자존감을 높이는 습관', note: '작은 성취를 인정하기, 부정적 자기대화 멈추기, 경계 설정하기.' },
+    ],
+  },
+];
+
+const statusLabel = {
+  reading: { text: 'Reading', class: 'text-emerald-400 bg-emerald-400/10' },
+  completed: { text: 'Completed', class: 'text-accent bg-accent-dim' },
+  planned: { text: 'Planned', class: 'text-text-muted bg-surface' },
+};
+---
+
+<Base title="Reading — Archive — Jason Moon">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <a href="/archive" class="inline-flex items-center gap-1 text-sm text-text-muted hover:text-accent transition-colors mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Archive
+      </a>
+
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📚 Reading</h1>
+      <p class="text-text-muted mb-10">
+        Books I'm reading, with chapter notes and highlights.
+      </p>
+
+      {books.map((book) => (
+        <div class="rounded-xl border border-border bg-surface p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <h2 class="text-xl font-semibold mb-1">{book.title}</h2>
+              <p class="text-sm text-text-muted">{book.author}</p>
+            </div>
+            <span class={`px-2.5 py-1 rounded text-xs font-medium ${statusLabel[book.status].class}`}>
+              {statusLabel[book.status].text}
+            </span>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="mb-6">
+            <div class="flex justify-between text-xs text-text-muted mb-1">
+              <span>Progress</span>
+              <span>{book.progress}%</span>
+            </div>
+            <div class="h-2 rounded-full bg-bg overflow-hidden">
+              <div class="h-full rounded-full bg-accent transition-all" style={`width: ${book.progress}%`} />
+            </div>
+          </div>
+
+          <!-- Sessions -->
+          <h3 class="text-sm font-semibold text-text-muted mb-3">Reading Sessions</h3>
+          <div class="space-y-4">
+            {book.sessions.map((s) => (
+              <div class="pl-4 border-l-2 border-border">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xs font-mono text-accent">{s.date}</span>
+                  <span class="text-xs text-text-muted">·</span>
+                  <span class="text-sm font-medium">{s.chapter}</span>
+                </div>
+                <p class="text-sm text-text-muted">{s.note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

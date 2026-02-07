@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+
+const skills = [
+  { category: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Astro', 'Next.js'] },
+  { category: 'State & Data', items: ['Zustand', 'Supabase', 'localStorage', 'Room DB'] },
+  { category: 'AI & APIs', items: ['Fireworks AI', 'OpenAI', 'Chrome Extension API'] },
+  { category: 'Tools', items: ['Vite', 'esbuild', 'Git', 'Vercel', 'Figma'] },
+  { category: 'Languages', items: ['TypeScript', 'Kotlin', 'Python', 'SQL'] },
+  { category: 'Other', items: ['@xyflow/react', 'Recharts', 'KaTeX', 'react-markdown'] },
+];
+
+const timeline = [
+  {
+    year: '2025–Present',
+    title: 'Independent Builder',
+    desc: 'Building web apps, mobile apps, and browser extensions — from SAT prep tools to knowledge graphs.',
+  },
+  {
+    year: '2010s–Present',
+    title: 'Automotive Engineer',
+    desc: 'Designing and analyzing vehicle systems — body, interior, closures, electronics, and more.',
+  },
+];
+---
+
+<Base title="About — Jason Moon">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-6">About</h1>
+
+      <div class="prose mb-16">
+        <p>
+          I'm Jason Moon — an automotive engineer by profession and a builder by passion.
+          By day, I work on vehicle system design and cost analysis.
+          By night (and weekends), I build tools that solve real problems for my family and myself.
+        </p>
+        <p>
+          I believe the best way to learn is to build. Every project on this site started as a personal itch —
+          whether it was helping my kids prep for the SAT, fighting YouTube Shorts addiction,
+          or mapping our family's growth as a knowledge graph.
+        </p>
+        <p>
+          I'm particularly interested in the intersection of AI and everyday tools —
+          making smart software that's simple to use and respects your privacy.
+        </p>
+      </div>
+
+      <!-- Tech Stack -->
+      <h2 class="text-2xl font-bold mb-6">Tech Stack</h2>
+      <div class="grid gap-4 sm:grid-cols-2 mb-16">
+        {skills.map(({ category, items }) => (
+          <div class="rounded-xl border border-border bg-surface p-5">
+            <h3 class="text-sm font-semibold text-accent mb-3">{category}</h3>
+            <div class="flex flex-wrap gap-1.5">
+              {items.map((item) => (
+                <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Timeline -->
+      <h2 class="text-2xl font-bold mb-6">Timeline</h2>
+      <div class="space-y-8">
+        {timeline.map(({ year, title, desc }) => (
+          <div class="relative pl-8 border-l-2 border-border">
+            <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-accent border-4 border-bg" />
+            <p class="text-sm font-mono text-accent mb-1">{year}</p>
+            <h3 class="text-lg font-semibold mb-1">{title}</h3>
+            <p class="text-sm text-text-muted">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
