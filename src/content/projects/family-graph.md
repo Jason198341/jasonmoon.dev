@@ -1,6 +1,6 @@
 ---
 title: Family Graph
-tagline: Knowledge Graph for Family Growth
+tagline: I wanted to see our family's journey as a living, connected map.
 description: Interactive knowledge graph that maps your family's interests, values, goals, and growth — all connected visually.
 category: Web App
 stack: [React 19, TypeScript, xyflow, Zustand 5, Fireworks AI, Tailwind CSS v4]

@@ -1,6 +1,6 @@
 ---
 title: EngReading
-tagline: Write Your English Story, One Line at a Time
+tagline: English learning apps are everywhere — but none let you create something real.
 description: AI-powered English learning platform. Write one sentence daily, get AI corrections, and build your own story over 100 sentences.
 category: Web App
 stack: [Next.js, TypeScript, AI/LLM, Tailwind CSS, Vercel]

@@ -8,7 +8,7 @@ const flagships = allProjects.filter(p => p.data.flagship).sort((a, b) => a.data
 const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Jason Moon — Automotive Engineer × Builder">
+<Base title="Jason Moon — Engineer × Builder">
 
   <!-- Hero -->
   <section class="py-24 sm:py-32">
@@ -17,12 +17,14 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
         Jason Moon
       </h1>
-      <p class="text-lg sm:text-xl text-text-muted max-w-2xl leading-relaxed mb-4">
-        Automotive Engineer by day, Builder by night.
+      <p class="text-lg sm:text-xl text-text max-w-2xl leading-relaxed mb-2">
+        I solve problems twice: once in steel, once in code.
       </p>
+      <p class="font-mono text-sm text-accent/80 mb-6">복잡함을 명확함으로.</p>
       <p class="text-base text-text-muted max-w-2xl leading-relaxed mb-8">
-        I build tools and apps that solve real problems — from AI-powered English learning platforms to Chrome extensions that fight doomscrolling.
-        <span class="text-text font-medium">7 projects shipped. 2 with custom domains. All built from scratch.</span>
+        Automotive engineer by profession. Builder by compulsion.
+        Every project here started as a real problem — for my family, my students, or myself.
+        <span class="text-text font-medium">7 products. 2 with custom domains. All built solo, from scratch.</span>
       </p>
       <div class="flex flex-wrap gap-3">
         <a
@@ -36,7 +38,7 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
           href="/about"
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-text-muted font-medium text-sm hover:text-text hover:border-text-muted transition-colors"
         >
-          About Me
+          How I Think
         </a>
       </div>
     </div>
@@ -159,45 +161,40 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
   <!-- Stats strip -->
   <section class="pb-24">
     <div class="mx-auto max-w-5xl px-6">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="rounded-xl border border-border bg-surface p-5 text-center">
-          <p class="text-3xl font-bold text-accent">7</p>
-          <p class="text-xs text-text-muted mt-1">Projects Shipped</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-5 text-center">
-          <p class="text-3xl font-bold text-accent">2</p>
-          <p class="text-xs text-text-muted mt-1">Custom Domains</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-5 text-center">
-          <p class="text-3xl font-bold text-accent">3</p>
-          <p class="text-xs text-text-muted mt-1">Platforms</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-5 text-center">
-          <p class="text-3xl font-bold text-accent">1</p>
-          <p class="text-xs text-text-muted mt-1">Builder</p>
-        </div>
+      <div class="rounded-2xl border border-border bg-surface p-8 sm:p-10 text-center">
+        <p class="text-lg sm:text-xl text-text-muted leading-relaxed">
+          <span class="text-text font-semibold">7 products.</span>
+          <span class="text-text font-semibold">2 live with custom domains.</span>
+          Web, Mobile, and Chrome Extension.
+        </p>
+        <p class="text-sm text-accent font-medium mt-3">Every project solves a problem I actually had.</p>
       </div>
     </div>
   </section>
 
-  <!-- Archive -->
+  <!-- Beyond Code -->
   <section class="pb-20">
     <div class="mx-auto max-w-5xl px-6">
-      <h2 class="text-2xl font-bold mb-8">Archive</h2>
+      <div class="flex items-center gap-3 mb-3">
+        <div class="h-px flex-1 bg-border"></div>
+        <h2 class="text-sm font-mono text-accent uppercase tracking-widest">Beyond Code</h2>
+        <div class="h-px flex-1 bg-border"></div>
+      </div>
+      <p class="text-center text-text-muted text-sm mb-8">Software is where I build. Reading and running are where I think.</p>
       <div class="grid gap-4 sm:grid-cols-2">
         <a href="/archive/reading" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">📚</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Reading</h3>
           </div>
-          <p class="text-sm text-text-muted">자존감 수업 100회 읽기 프로젝트. 3/100 completed.</p>
+          <p class="text-sm text-text-muted">100회 읽기 프로젝트 — depth over breadth. <span class="text-text">3/100 completed.</span></p>
         </a>
         <a href="/archive/running" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">🏃</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Running</h3>
           </div>
-          <p class="text-sm text-text-muted">기록은 남기되, 성과는 쫓지 않는다.</p>
+          <p class="text-sm text-text-muted">기록은 남기되, 성과는 쫓지 않는다. <span class="text-text">Process over results.</span></p>
         </a>
       </div>
     </div>
@@ -207,9 +204,9 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
   <section class="pb-24">
     <div class="mx-auto max-w-5xl px-6">
       <div class="rounded-2xl border border-border bg-surface p-8 sm:p-12 text-center">
-        <h2 class="text-2xl font-bold mb-3">Let's Connect</h2>
+        <h2 class="text-2xl font-bold mb-3">Let's Build Something</h2>
         <p class="text-text-muted mb-6 max-w-md mx-auto">
-          Have a project idea, feedback, or just want to say hi?
+          Have a complex problem that needs clarity? Let's talk.
         </p>
         <a
           href="/contact"

@@ -1,6 +1,6 @@
 ---
 title: SAT Crusher
-tagline: Adaptive SAT Prep with AI Tutoring
+tagline: My kids needed SAT prep that actually adapts to why they get things wrong.
 description: Adaptive SAT prep platform with 8 AI tutor modes, spaced repetition, and wrong-answer DNA analysis.
 category: Web App
 stack: [React 19, TypeScript, Supabase, Fireworks AI, React Router v7, Recharts, KaTeX, Zustand 5]

@@ -1,6 +1,27 @@
 ---
 import Base from '../layouts/Base.astro';
 
+const principles = [
+  {
+    korean: '복잡함을 명확함으로',
+    english: 'Complexity to clarity',
+    evidence: 'Prompt Garden turns messy prompting into visual components. Family Graph maps relationships into interactive nodes.',
+    link: '/projects/prompt-garden',
+  },
+  {
+    korean: '사람을 바꾸지 않는다. 환경을 만든다.',
+    english: "Don't change people. Build better environments.",
+    evidence: "The Parasite doesn't lecture about screen time — it adds friction until the habit breaks itself.",
+    link: '/projects/the-parasite',
+  },
+  {
+    korean: '보람은 정의되는 순간부터 작동한다',
+    english: 'Fulfillment activates the moment you define it',
+    evidence: 'Reading a book 100 times isn\'t obsessive when you define fulfillment as noticing new sentences each time.',
+    link: '/archive/reading',
+  },
+];
+
 const skills = [
   { category: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Astro', 'Next.js'] },
   { category: 'State & Data', items: ['Zustand', 'Supabase', 'localStorage', 'Room DB'] },
@@ -31,19 +52,31 @@ const timeline = [
 
       <div class="prose mb-16">
         <p>
-          I'm Jason Moon — an automotive engineer by profession and a builder by passion.
-          By day, I work on vehicle system design and cost analysis.
-          By night (and weekends), I build tools that solve real problems for my family and myself.
+          I'm Jason Moon — an automotive engineer who builds software to reduce friction.
+          By day, I design vehicle systems. Nights and weekends, I build tools
+          that solve real problems for my family, my students, and myself.
         </p>
         <p>
-          I believe the best way to learn is to build. Every project on this site started as a personal itch —
-          whether it was helping my kids prep for the SAT, fighting YouTube Shorts addiction,
-          or mapping our family's growth as a knowledge graph.
+          I've learned that the best tools are built from personal friction.
+          Every project here started as a problem in my own life — and clarity comes from
+          building the solution, not theorizing about it.
         </p>
-        <p>
-          I'm particularly interested in the intersection of AI and everyday tools —
-          making smart software that's simple to use and respects your privacy.
-        </p>
+      </div>
+
+      <!-- What I Optimize For -->
+      <h2 class="text-2xl font-bold mb-6">What I Optimize For</h2>
+      <div class="space-y-4 mb-16">
+        {principles.map(({ korean, english, evidence, link }) => (
+          <a href={link} class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
+            <p class="font-semibold text-accent mb-1">{korean}</p>
+            <p class="text-sm text-text font-medium mb-3">{english}</p>
+            <p class="text-sm text-text-muted leading-relaxed">{evidence}</p>
+            <span class="inline-flex items-center gap-1 text-xs text-accent mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              See project
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </span>
+          </a>
+        ))}
       </div>
 
       <!-- Tech Stack -->

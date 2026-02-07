@@ -1,6 +1,6 @@
 ---
 title: Word Master Pro
-tagline: Clipboard-Powered Vocabulary
+tagline: I needed vocabulary from content I actually read, not random word lists.
 description: Vocabulary learning app with clipboard analysis and spaced repetition for Android.
 category: Mobile App
 stack: [Kotlin, Android SDK, Clipboard API, Material Design]

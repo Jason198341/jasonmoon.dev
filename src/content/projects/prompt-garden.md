@@ -1,6 +1,6 @@
 ---
 title: Prompt Garden
-tagline: AI Thinking Visualizer
+tagline: Prompt engineering felt like writing in the dark. I needed a visual way to think.
 description: Visual prompt engineering workspace. Build, connect, and test AI prompts with a node-based editor.
 category: Web App
 stack: [React 19, TypeScript, xyflow, Zustand, Tailwind CSS v4, Vite 7]

@@ -1,6 +1,6 @@
 ---
 title: The Parasite
-tagline: Fight the Shorts Addiction
+tagline: YouTube Shorts was stealing hours from my family. Blocking doesn't work — friction does.
 description: Chrome extension that fights YouTube Shorts doom-scrolling with progressive lockdown mechanics.
 category: Chrome Extension
 stack: [TypeScript, Chrome Extension API, esbuild, Manifest V3]

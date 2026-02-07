@@ -1,6 +1,6 @@
 ---
 title: Smart Memo
-tagline: AI-Enhanced Note Taking
+tagline: I wanted a memo app that understands what you're writing about.
 description: AI-powered memo app with intelligent categorization and clipboard analysis for Android.
 category: Mobile App
 stack: [Kotlin, Android SDK, Room DB, Material Design]
