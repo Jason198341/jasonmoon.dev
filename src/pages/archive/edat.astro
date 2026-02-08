@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import EDATDemo from '../../components/EDATDemo';
+---
+
+<Base title="EDAT — Enterprise Decision Agent Team — Jason Moon">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-4xl px-6">
+      <a href="/archive" class="inline-flex items-center gap-1 text-sm text-text-muted hover:text-accent transition-colors mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Archive
+      </a>
+
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Enterprise Decision Agent Team</h1>
+      <p class="text-text-muted mb-2">기업 의사결정 에이전트 팀 시뮬레이터</p>
+      <p class="text-sm text-text-muted mb-10 max-w-2xl">
+        서로 다른 KPI를 가진 AI 부서원들이 분석 → 토론 → 합의 과정을 거쳐
+        최적의 의사결정을 도출합니다. 단일 AI의 답변이 아닌, 이해관계의 충돌과 조율 과정을 시각화합니다.
+      </p>
+
+      <EDATDemo client:load />
+
+      <!-- CTA -->
+      <div class="mt-20 rounded-2xl border border-accent/20 bg-surface p-8 sm:p-10 text-center">
+        <p class="text-3xl mb-4">🏛️</p>
+        <h3 class="text-xl sm:text-2xl font-bold mb-3">기업 의사결정에 AI 팀을 도입하고 싶으신가요?</h3>
+        <p class="text-text-muted text-sm sm:text-base max-w-lg mx-auto mb-2">
+          이 프레임워크는 모든 산업의 다부서 의사결정에 적용 가능합니다 &mdash;
+          신규 부품 도입, 공정 변경, 투자 결정, 인력 배치 등.
+        </p>
+        <p class="text-text-muted text-sm max-w-lg mx-auto mb-6">
+          시나리오와 에이전트 구성을 커스터마이즈하여 실제 조직에 맞는 시뮬레이션을 구축합니다.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-medium text-white hover:bg-accent-hover transition-colors"
+          >
+            Let's Talk
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a
+            href="/projects/edat"
+            class="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-2.5 text-sm font-medium text-text-muted hover:text-text hover:border-accent/50 transition-colors"
+          >
+            프로젝트 상세 보기
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
