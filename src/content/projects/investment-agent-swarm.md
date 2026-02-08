@@ -7,6 +7,7 @@ stack: [React 19, TypeScript, Fireworks AI, Zustand 5, lightweight-charts, FastA
 github: https://github.com/Jason198341/investment-agent-swarm
 live: https://investment-agent-swarm.vercel.app
 image: /projects/investment-agent-swarm.png
+images: [/projects/investment-agent-swarm.png, /projects/ias-board.png, /projects/ias-chart.png, /projects/ias-trading.png, /projects/ias-watchlist.png, /projects/ias-briefing.png, /projects/ias-cross-market.png]
 featured: true
 order: 8
 ---
