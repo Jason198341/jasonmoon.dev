@@ -1,24 +1,23 @@
 ---
 title: EngReading
-tagline: English learning apps are everywhere — but none let you create something real.
-description: AI-powered English learning platform. Write one sentence daily, get AI corrections, and build your own story over 100 sentences.
+tagline: The client wanted to flip English learning — write a story, not study grammar. After 100 sentences, you hold a book.
+description: AI-powered English learning platform. Write one sentence daily, get AI corrections, and build your own story over 100 sentences. Shipped with custom domain.
 category: Web App
 stack: [Next.js, TypeScript, AI/LLM, Tailwind CSS, Vercel]
 live: https://www.engreading.com
 domain: engreading.com
 image: /projects/engreading.png
+projectType: Client
 flagship: true
 featured: true
 order: 2
 ---
 
-## The Problem
+## The Backstory
 
-Korean English learners struggle with writing. Traditional methods focus on grammar drills and vocabulary memorization, but never give you the experience of actually *creating* something in English. Writing feels intimidating, and there's no structured path from "I can barely write a sentence" to "I wrote an entire story."
+The client had a bold idea: what if English learning wasn't about studying, but about *creating*? Instead of grammar drills and vocabulary lists, you write a real story — one sentence per day. AI gives you two corrections: a minimal edit (fixing just the errors) and a native rewrite (how a fluent speaker would say it). After 100 sentences, you don't just "know more English" — you have a finished story you can hold in your hands.
 
-## The Solution
-
-EngReading flips English learning on its head. Instead of studying English, you **write a story** in English — one sentence per day. Every sentence gets AI-powered corrections in two styles: a minimal edit (fixing just the errors) and a complete rewrite (showing how a native speaker would say it).
+I brought the technical vision: dual-correction AI pipeline, genre selection (novels, essays, fairy tales), a mission system that unlocks free story slots, and the architecture to ship it as a production platform with custom domain.
 
 ## Key Features
 
@@ -30,6 +29,10 @@ EngReading flips English learning on its head. Instead of studying English, you 
 - **Publish your story** — Convert finished stories into PDF or printed books
 - **Free tier** — 2 story slots free, complete missions to unlock more
 
-## The Vision
+## What I Added Beyond the Brief
 
-After 100 sentences, you don't just "know more English" — you have a **tangible artifact**: a story you wrote, in English, that you can hold in your hands. That's the difference between studying a language and *using* it.
+- **Dual correction engine** — Both minimal edit and native rewrite for every sentence
+- **Learning components** — Chunk expressions, grammar points, nuance explanations, quizzes
+- **Story publishing** — Convert finished 100-sentence stories into PDF or printed books
+- **Freemium model** — 2 free story slots, complete missions to unlock more
+- **Shipped to custom domain** — engreading.com, live in production

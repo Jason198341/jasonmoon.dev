@@ -1,6 +1,6 @@
 ---
 title: Investment Agent Swarm
-tagline: Four AI agents analyzing the same stock, each from a different angle.
+tagline: The client wanted 4 AI analysts debating the same stock in real-time. I built the boardroom.
 description: Multi-agent investment analysis platform where 4 specialized AI agents collaborate to provide comprehensive stock analysis across US and Korean markets.
 category: Web App
 stack: [React 19, TypeScript, Fireworks AI, Zustand 5, lightweight-charts, FastAPI, Tailwind CSS v4]
@@ -8,17 +8,16 @@ github: https://github.com/Jason198341/investment-agent-swarm
 live: https://investment-agent-swarm.vercel.app
 image: /projects/investment-agent-swarm.png
 images: [/projects/investment-agent-swarm.png, /projects/ias-board.png, /projects/ias-chart.png, /projects/ias-trading.png, /projects/ias-watchlist.png, /projects/ias-briefing.png, /projects/ias-cross-market.png]
+projectType: Client
 featured: true
 order: 8
 ---
 
-## The Problem
+## The Backstory
 
-Stock analysis tools give you one perspective — usually technical charts or fundamental data, but rarely both. And none of them simulate the experience of having multiple expert analysts debate and synthesize a unified view.
+The brief was ambitious: build a virtual boardroom where 4 AI analysts — a macro economist, a fundamental analyst, a chart technician, and a sentiment reader — all look at the same stock and debate their views in real-time. Then a consensus engine synthesizes everything into a unified investment thesis with a confidence score.
 
-## The Solution
-
-Investment Agent Swarm deploys 4 specialized AI agents — Macro, Fundamental, Technical, and Sentiment — that analyze the same stock simultaneously, each from their domain expertise. They stream their analysis in real-time, then a consensus engine synthesizes their views into a unified investment thesis.
+I went beyond the brief: added mock trading with P&L tracking, TradingView-quality charts, daily AI briefings with text-to-speech, cross-market Korea-US correlation analysis, and watchlists with condition-based alerts. The result is less "stock screener" and more "AI investment team in your browser."
 
 ## Key Features
 
@@ -36,6 +35,10 @@ Investment Agent Swarm deploys 4 specialized AI agents — Macro, Fundamental, T
 
 React 19 SPA with Zustand 5 stores and lazy-loaded pages. Python FastAPI backend for local development (yfinance + FinanceDataReader), mirrored by TypeScript Edge Functions on Vercel for production. Fireworks AI (deepseek-v3p1) powers all 4 agents via streaming completion. lightweight-charts for TradingView-quality charting, Recharts for dashboard analytics.
 
-## Why I Built This
+## What I Added Beyond the Brief
 
-I wanted to simulate having a team of analysts looking at the same investment from completely different angles — macro trends, balance sheets, chart patterns, and market sentiment — then watching them converge (or disagree) in real time.
+- **Mock trading system** — Paper trading with portfolio P&L visualization
+- **TTS briefings** — Daily AI market briefing with text-to-speech playback
+- **Cross-market analysis** — US-Korea correlation and supply chain mapping
+- **Dual backend** — Python FastAPI for local dev, TypeScript Edge Functions for production
+- **7 distinct pages** — Board, Dashboard, Chart, Trading, Watchlist, Briefing, Cross-Market

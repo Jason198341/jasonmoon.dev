@@ -14,6 +14,7 @@ const projects = defineCollection({
     domain: z.string().optional(),
     image: z.string().optional(),
     images: z.array(z.string()).optional(),
+    projectType: z.enum(['Personal', 'Client']).optional(),
     flagship: z.boolean().default(false),
     featured: z.boolean().default(false),
     order: z.number().default(0),

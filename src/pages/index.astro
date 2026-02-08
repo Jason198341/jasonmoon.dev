@@ -7,9 +7,17 @@ const allProjects = await getCollection('projects');
 const flagships = allProjects.filter(p => p.data.flagship).sort((a, b) => a.data.order - b.data.order);
 const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort((a, b) => a.data.order - b.data.order);
 const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a, b) => a.data.order - b.data.order);
+
+const personalCount = allProjects.filter(p => p.data.projectType === 'Personal').length;
+const clientCount = allProjects.filter(p => p.data.projectType === 'Client' && p.data.category !== 'Concept').length;
+
+const typeColors: Record<string, string> = {
+  Personal: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+  Client: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+};
 ---
 
-<Base title="Jason Moon — Engineer, Father, Builder">
+<Base title="Jason Moon — Automotive Engineer, Father, Fullstack Builder">
 
   <!-- Hero -->
   <section class="py-16 sm:py-24">
@@ -17,18 +25,27 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
       <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
         <!-- Text side -->
         <div>
-          <p class="font-mono text-sm text-accent mb-4">Hi, I'm</p>
+          <p class="font-mono text-sm text-accent mb-4">Automotive Engineer by Day</p>
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            Jason Moon
+            Fullstack Builder<br/>by Night
           </h1>
-          <p class="text-lg sm:text-xl text-text leading-relaxed mb-2">
-            I build tools for the people I care about.
+          <p class="text-lg sm:text-xl text-text leading-relaxed mb-4">
+            I design vehicle systems for a living.<br class="hidden sm:block"/>
+            Nights and weekends, I build the tools my family actually needs — then ship them for everyone.
           </p>
-          <p class="font-mono text-sm text-accent/80 mb-6">복잡함을 명확함으로. 없으면 만든다.</p>
-          <p class="text-base text-text-muted leading-relaxed mb-8">
-            Automotive engineer and father of two.
-            I build apps for my kids' education, my family's habits, and my own growth — then ship them for everyone.
-            <span class="text-text font-medium">7 products. 2 with custom domains. All built solo.</span>
+          <div class="flex flex-wrap gap-3 mb-6">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border text-amber-400 bg-amber-400/10 border-amber-400/20">
+              {personalCount} Personal Projects
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border text-emerald-400 bg-emerald-400/10 border-emerald-400/20">
+              {clientCount} Client Projects
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border text-teal-400 bg-teal-400/10 border-teal-400/20">
+              {concepts.length} In Development
+            </span>
+          </div>
+          <p class="text-sm text-text-muted leading-relaxed mb-8">
+            <span class="text-text font-medium">2 products live with custom domains.</span> From AI learning platforms and Chrome extensions to multi-agent investment tools — I turn complex problems into shipped products.
           </p>
           <div class="flex flex-wrap gap-3">
             <a
@@ -42,7 +59,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
               href="/about"
               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-text-muted font-medium text-sm hover:text-text hover:border-text-muted transition-colors"
             >
-              How I Think
+              My Story
             </a>
           </div>
         </div>
@@ -56,6 +73,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
               <div class="absolute bottom-3 left-4 flex items-center gap-2">
                 <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span></span>
                 <span class="text-white text-sm font-semibold">Prompt Garden</span>
+                <span class="text-xs px-1.5 py-0.5 rounded bg-emerald-400/20 text-emerald-300 font-medium">Client</span>
               </div>
             </a>
             <a href="/projects/engreading" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
@@ -68,8 +86,9 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
             <a href="/projects/sat-crusher" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
               <img src="/projects/sat-crusher.png" alt="SAT Crusher" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-2 left-3">
+              <div class="absolute bottom-2 left-3 flex items-center gap-1.5">
                 <span class="text-white text-xs font-semibold">SAT Crusher</span>
+                <span class="text-[10px] px-1 py-0.5 rounded bg-amber-400/20 text-amber-300 font-medium">Personal</span>
               </div>
             </a>
             <a href="/projects/family-graph" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
@@ -82,8 +101,9 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
             <a href="/projects/the-parasite" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
               <img src="/projects/the-parasite.png" alt="The Parasite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-2 left-3">
+              <div class="absolute bottom-2 left-3 flex items-center gap-1.5">
                 <span class="text-white text-xs font-semibold">The Parasite</span>
+                <span class="text-[10px] px-1 py-0.5 rounded bg-amber-400/20 text-amber-300 font-medium">Personal</span>
               </div>
             </a>
             <a href="/projects/smart-memo" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
@@ -104,7 +124,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
     <div class="mx-auto max-w-5xl px-6">
       <div class="flex items-center gap-3 mb-10">
         <div class="h-px flex-1 bg-border"></div>
-        <h2 class="text-sm font-mono text-accent uppercase tracking-widest">Live Products</h2>
+        <h2 class="text-sm font-mono text-accent uppercase tracking-widest">Shipped Products</h2>
         <div class="h-px flex-1 bg-border"></div>
       </div>
 
@@ -117,20 +137,27 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
             <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
               <!-- Text side -->
               <div class="p-8 sm:p-10 flex flex-col justify-center">
-                {project.data.domain && (
-                  <div class="flex items-center gap-2 mb-4">
-                    <span class="relative flex h-2.5 w-2.5">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  {project.data.domain && (
+                    <span class="inline-flex items-center gap-1.5">
+                      <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                      </span>
+                      <span class="font-mono text-sm text-emerald-600">{project.data.domain}</span>
                     </span>
-                    <span class="font-mono text-sm text-emerald-600">{project.data.domain}</span>
-                  </div>
-                )}
+                  )}
+                  {project.data.projectType && (
+                    <span class={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border ${typeColors[project.data.projectType] || ''}`}>
+                      {project.data.projectType === 'Client' ? 'Client Project' : 'Personal Project'}
+                    </span>
+                  )}
+                </div>
                 <h3 class="text-2xl sm:text-3xl font-bold mb-2 group-hover:text-accent transition-colors">
                   {project.data.title}
                 </h3>
                 {project.data.tagline && (
-                  <p class="text-sm font-medium text-accent mb-3">{project.data.tagline}</p>
+                  <p class="text-sm text-text-muted italic mb-3">{project.data.tagline}</p>
                 )}
                 <p class="text-text-muted leading-relaxed mb-6">
                   {project.data.description}
@@ -183,16 +210,18 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
     </div>
   </section>
 
-  <!-- Currently Designing -->
+  <!-- Currently Building -->
   {concepts.length > 0 && (
     <section class="pb-24">
       <div class="mx-auto max-w-5xl px-6">
-        <div class="flex items-center gap-3 mb-10">
+        <div class="flex items-center gap-3 mb-3">
           <div class="h-px flex-1 bg-border"></div>
-          <h2 class="text-sm font-mono text-teal-400 uppercase tracking-widest">Currently Designing</h2>
+          <h2 class="text-sm font-mono text-teal-400 uppercase tracking-widest">Currently Building</h2>
           <div class="h-px flex-1 bg-border"></div>
         </div>
+        <p class="text-center text-text-muted text-sm mb-10">Active client projects in development. Working demos available.</p>
 
+        <div class="space-y-6">
         {concepts.map((project) => (
           <a
             href={`/projects/${project.id}`}
@@ -200,18 +229,23 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
           >
             <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
               <div class="p-8 sm:p-10 flex flex-col justify-center">
-                <div class="flex items-center gap-2 mb-4">
-                  <span class="relative flex h-2.5 w-2.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-400"></span>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="relative flex h-2.5 w-2.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-400"></span>
+                    </span>
+                    <span class="font-mono text-sm text-teal-400">In Development</span>
                   </span>
-                  <span class="font-mono text-sm text-teal-400">Concept — Looking for partners</span>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border text-emerald-400 bg-emerald-400/10 border-emerald-400/20">
+                    Client Project
+                  </span>
                 </div>
                 <h3 class="text-2xl sm:text-3xl font-bold mb-2 group-hover:text-teal-400 transition-colors">
                   {project.data.title}
                 </h3>
                 {project.data.tagline && (
-                  <p class="text-sm font-medium text-teal-400/80 mb-3">{project.data.tagline}</p>
+                  <p class="text-sm text-text-muted italic mb-3">{project.data.tagline}</p>
                 )}
                 <p class="text-text-muted leading-relaxed mb-6">
                   {project.data.description}
@@ -230,7 +264,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
                 </div>
                 <div class="flex items-center gap-3">
                   <span class="inline-flex items-center gap-1.5 text-sm font-medium text-teal-400">
-                    View Proof of Concept
+                    View Working Demo
                     <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                   </span>
                 </div>
@@ -249,6 +283,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
             </div>
           </a>
         ))}
+        </div>
       </div>
     </section>
   )}
@@ -271,6 +306,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
             category={project.data.category}
             stack={project.data.stack}
             image={project.data.image}
+            projectType={project.data.projectType}
           />
         ))}
       </div>
@@ -289,7 +325,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
     <div class="mx-auto max-w-5xl px-6">
       <div class="flex items-center gap-3 mb-3">
         <div class="h-px flex-1 bg-border"></div>
-        <h2 class="text-sm font-mono text-accent uppercase tracking-widest">Beyond Code</h2>
+        <h2 class="text-sm font-mono text-accent uppercase tracking-widest">Off the Clock</h2>
         <div class="h-px flex-1 bg-border"></div>
       </div>
       <p class="text-center text-text-muted text-sm mb-8">Software is where I build. Reading and running are where I think.</p>
@@ -299,14 +335,14 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
             <span class="text-2xl">📚</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Reading</h3>
           </div>
-          <p class="text-sm text-text-muted">100회 읽기 프로젝트 — depth over breadth. <span class="text-text">3/100 completed.</span></p>
+          <p class="text-sm text-text-muted">One book, 100 times. Depth over breadth. <span class="text-text">3/100 completed.</span></p>
         </a>
         <a href="/archive/running" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">🏃</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Running</h3>
           </div>
-          <p class="text-sm text-text-muted">기록은 남기되, 성과는 쫓지 않는다. <span class="text-text">Process over results.</span></p>
+          <p class="text-sm text-text-muted">173 runs across 6 countries. 1,200+ km tracked. <span class="text-text">Strava-connected analytics.</span></p>
         </a>
       </div>
     </div>
@@ -316,15 +352,19 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
   <section class="pb-24">
     <div class="mx-auto max-w-5xl px-6">
       <div class="rounded-2xl border border-border bg-surface p-8 sm:p-12 text-center">
-        <h2 class="text-2xl font-bold mb-3">Let's Build Something</h2>
-        <p class="text-text-muted mb-6 max-w-md mx-auto">
-          Have a complex problem that needs clarity? Let's talk.
+        <h2 class="text-2xl font-bold mb-3">Have a Product Idea?</h2>
+        <p class="text-text-muted mb-2 max-w-lg mx-auto">
+          I turn complex problems into shipped products — from AI-powered platforms to browser extensions.
+        </p>
+        <p class="text-text-muted text-sm mb-6 max-w-lg mx-auto">
+          Whether you need a working prototype, a production app, or a proof of concept to pitch investors.
         </p>
         <a
           href="/contact"
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
         >
-          Get in Touch
+          Let's Talk
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
       </div>
     </div>

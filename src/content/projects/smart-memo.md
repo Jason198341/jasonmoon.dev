@@ -1,16 +1,17 @@
 ---
 title: Smart Memo
-tagline: I wanted a memo app that understands what you're writing about.
+tagline: My kids' study notes were scattered across notebooks, phones, and sticky notes. AI should organize this.
 description: AI-powered memo app with intelligent categorization and clipboard analysis for Android.
 category: Mobile App
 stack: [Kotlin, Android SDK, Room DB, Material Design]
 image: /projects/smart-memo.png
+projectType: Personal
 order: 6
 ---
 
-## What It Does
+## The Backstory
 
-Smart Memo is an Android memo application enhanced with AI for intelligent categorization and smart search. It understands the *content* of your notes, not just keywords.
+My kids' study notes were everywhere — math in a notebook, science on the phone, English vocab on sticky notes stuck to the monitor. I wanted a single place where they dump everything, and AI figures out what it's about and organizes it. No folders, no tagging — just write and the app understands.
 
 ## Key Features
 

@@ -1,23 +1,24 @@
 ---
 title: The Parasite
-tagline: YouTube Shorts was stealing hours from my family. Blocking doesn't work — friction does.
+tagline: My kids watched 200+ YouTube Shorts a day. Every blocking app failed. So dad built a parasite.
 description: Chrome extension that fights YouTube Shorts doom-scrolling with tamagotchi evolution, achievements, and progressive lockdown mechanics.
 category: Chrome Extension
 stack: [TypeScript, Chrome Extension API, esbuild, Manifest V3]
 github: https://github.com/Jason198341/the-parasite
 image: /projects/the-parasite.png
 images: [/projects/the-parasite.png, /projects/the-parasite-popup.png, /projects/the-parasite-achievements.png]
+projectType: Personal
 featured: true
 order: 5
 ---
 
-## The Problem
+## The Backstory
 
-YouTube Shorts is engineered to be addictive. Infinite scroll, autoplay, dopamine hits every 30 seconds. Blocking it entirely doesn't work — people just uninstall the blocker. You need something smarter.
+My kids were watching 200+ YouTube Shorts a day. I tried every blocking app on the market — all paid, all easily circumvented. Turn off the blocker, open an incognito tab, done. So I decided to build something myself.
 
-## The Solution
+The idea: don't block Shorts. Make the habit **visible** and add friction that gets worse the more you scroll. Every 10 Shorts triggers a lockout that doubles each time — 30 seconds, then a minute, then two, all the way up to 4 hours at 100 Shorts. I added a tamagotchi that evolves when you watch less and devolves when you binge — because nobody wants to watch their dragon turn back into an egg.
 
-The Parasite doesn't block Shorts — it makes you **aware** of the habit and adds friction progressively. Like a parasite that fights back against the host's mindless behavior. Watch less, and it evolves into something powerful. Binge, and it devolves back to an egg.
+I named it "The Parasite" because that's exactly what it does: it latches onto the browser and fights back against mindless scrolling.
 
 ## Key Features
 

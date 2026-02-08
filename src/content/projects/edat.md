@@ -1,11 +1,12 @@
 ---
 title: Enterprise Decision Agent Team
-tagline: When AI departments debate, better decisions emerge.
+tagline: Building for a client — AI departments that debate enterprise decisions so humans don't have to go in circles.
 description: Multi-agent decision simulation where AI agents with conflicting KPIs debate enterprise decisions through structured analysis, cross-critique, and consensus. Live demo with automotive industry scenario.
 category: Concept
 stack: [Astro, React 19, TypeScript, Multi-Agent AI, Tailwind CSS v4]
 live: https://jasonmoon.dev/archive/edat
 image: /projects/edat.png
+projectType: Client
 featured: false
 order: 3
 ---

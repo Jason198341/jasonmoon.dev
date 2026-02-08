@@ -1,16 +1,17 @@
 ---
 title: Word Master Pro
-tagline: I needed vocabulary from content I actually read, not random word lists.
+tagline: The client wanted vocabulary from real reading, not random word lists. Clipboard captures + spaced repetition.
 description: Vocabulary learning app with clipboard analysis and spaced repetition for Android.
 category: Mobile App
 stack: [Kotlin, Android SDK, Clipboard API, Material Design]
 image: /projects/word-master-pro.png
+projectType: Client
 order: 7
 ---
 
-## What It Does
+## The Backstory
 
-Word Master Pro captures words from your clipboard and turns them into flashcards with spaced repetition. Learn vocabulary from the content you actually read, not random word lists.
+The client was frustrated with vocabulary apps that give you random word lists. They wanted to learn from what they actually read — articles, books, web pages. I built an app that watches your clipboard: copy any text, and it detects unfamiliar words, generates flashcards with definitions and examples, and schedules reviews using spaced repetition for long-term retention.
 
 ## Key Features
 

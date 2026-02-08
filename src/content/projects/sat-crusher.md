@@ -1,6 +1,6 @@
 ---
 title: SAT Crusher
-tagline: My kids needed SAT prep that actually adapts to why they get things wrong.
+tagline: My kids needed SAT prep. Every app tracked right/wrong — none asked why. So I built an AI tutor that does.
 description: Adaptive SAT prep platform with 8 AI tutor modes, spaced repetition, and wrong-answer DNA analysis.
 category: Web App
 stack: [React 19, TypeScript, Supabase, Fireworks AI, React Router v7, Recharts, KaTeX, Zustand 5]
@@ -8,17 +8,16 @@ github: https://github.com/Jason198341/sat-crusher
 live: https://sat-crusher.vercel.app
 image: /projects/sat-crusher.png
 images: [/projects/sat-crusher.png, /projects/sat-crusher-tutor.png]
+projectType: Personal
 featured: true
 order: 3
 ---
 
-## The Problem
+## The Backstory
 
-SAT prep tools are either too generic (random questions with no adaptation) or too expensive ($50+/month). None of them truly understand *why* a student gets things wrong — they just track right vs. wrong.
+My kids' SAT prep was driving me crazy. Every app out there gives random questions and says "you got 7 out of 10." Great, but *why* did you miss those 3? Was it a vocabulary gap? A logic trap? Misreading the passage? No tool answered that question.
 
-## The Solution
-
-SAT Crusher adapts to each student's weakness patterns. It combines adaptive testing, AI tutoring (벼락 깨달음 system), and data-driven wrong-answer analysis to create a personalized prep experience.
+So I built one. SAT Crusher has an AI tutor with 8 different teaching modes — from "lightning insight" (벼락 깨달음) that flips your understanding in one moment, to "wrong-answer DNA tracking" that identifies your specific thinking traps across 10 categories. It's not just practice — it's a personal diagnosis of how your brain makes mistakes.
 
 ## Key Features
 

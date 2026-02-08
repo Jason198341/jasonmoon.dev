@@ -1,11 +1,12 @@
 ---
 title: Running Club Analytics
-tagline: The individual engine is live. The club version is ready to build.
+tagline: Building the club version — individual engine is live with 170+ runs of real data. Partner needed for scale.
 description: Strava-connected club analytics platform — member rankings, group pace optimization, injury prevention monitoring, and GPS-based meetup recommendations. Proof of concept running with real data.
 category: Concept
 stack: [Astro SSR, React 19, TypeScript, Supabase, Strava API, PostGIS, Tailwind CSS v4]
 live: https://jasonmoon.dev/archive/running-intelligence
 image: /projects/running-club-analytics.png
+projectType: Client
 featured: false
 order: 2
 ---

@@ -20,7 +20,7 @@ const categoryColors: Record<string, string> = {
     <div class="mx-auto max-w-5xl px-6">
       <h1 class="text-3xl sm:text-4xl font-bold mb-4">Projects</h1>
       <p class="text-text-muted mb-10 max-w-2xl">
-        Everything I've built — from AI-powered learning platforms with custom domains to Chrome extensions and Android apps.
+        Personal projects built for my family, client projects shipped to production — from AI-powered learning platforms to Chrome extensions and multi-agent systems.
       </p>
 
       <!-- Category filter -->
@@ -59,10 +59,15 @@ const categoryColors: Record<string, string> = {
                   </div>
                 )}
                 <div class="p-6 flex-1">
-                  <div class="flex items-center gap-2 mb-3">
+                  <div class="flex items-center gap-2 mb-3 flex-wrap">
                     <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${categoryColors[project.data.category] || 'text-text-muted bg-surface'}`}>
                       {project.data.category}
                     </span>
+                    {project.data.projectType && (
+                      <span class={`inline-block px-2 py-0.5 rounded-full text-[10px] font-medium ${project.data.projectType === 'Personal' ? 'text-amber-600 bg-amber-50' : 'text-emerald-600 bg-emerald-50'}`}>
+                        {project.data.projectType}
+                      </span>
+                    )}
                     {project.data.domain && (
                       <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono text-emerald-700 bg-emerald-50">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
