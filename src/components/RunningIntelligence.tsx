@@ -228,7 +228,7 @@ function YearChart({ years }: { years: IntelligenceData['yearComparison'] }) {
               fill={color}
               dominantBaseline="middle"
             >
-              {yr.year}
+              {String(yr.year).slice(-2)}
             </text>
           </g>
         );
@@ -706,7 +706,7 @@ export default function RunningIntelligence({ data }: Props) {
             <div className="flex flex-wrap gap-4 mt-3 justify-center">
               {data.yearComparison.map(yr => (
                 <div key={yr.year} className="text-center text-xs">
-                  <span className="font-semibold">{yr.year}</span>
+                  <span className="font-semibold">'{String(yr.year).slice(-2)}</span>
                   <span className="text-[var(--color-text-muted)] ml-1">{yr.totalKm} km · {yr.totalRuns} runs</span>
                 </div>
               ))}
