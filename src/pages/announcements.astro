@@ -1,0 +1,13 @@
+---
+export const prerender = false;
+import Base from '../layouts/Base.astro';
+import AnnouncementBoard from '../components/AnnouncementBoard';
+---
+
+<Base title="Announcements — Jason Moon">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <AnnouncementBoard client:load />
+    </div>
+  </section>
+</Base>
