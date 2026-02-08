@@ -6,9 +6,9 @@ const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.d
 const guidesKo = (await getCollection('guidesKo')).sort((a, b) => a.data.order - b.data.order);
 
 const difficultyColors: Record<string, string> = {
-  'beginner': 'text-green-700 bg-green-50',
-  'easy': 'text-blue-700 bg-blue-50',
-  'intermediate': 'text-amber-700 bg-amber-50',
+  'beginner': 'text-green-400 bg-green-500/10',
+  'easy': 'text-blue-400 bg-blue-500/10',
+  'intermediate': 'text-amber-400 bg-amber-500/10',
 };
 
 const difficultyLabels: Record<string, { en: string; ko: string }> = {

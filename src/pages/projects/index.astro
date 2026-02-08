@@ -8,10 +8,10 @@ const projects = allProjects.sort((a, b) => a.data.order - b.data.order);
 const categories = ['All', 'Web App', 'Mobile App', 'Chrome Extension', 'Concept'] as const;
 
 const categoryColors: Record<string, string> = {
-  'Web App': 'text-indigo-700 bg-indigo-50',
-  'Mobile App': 'text-emerald-700 bg-emerald-50',
-  'Chrome Extension': 'text-amber-700 bg-amber-50',
-  'Concept': 'text-teal-700 bg-teal-50',
+  'Web App': 'text-indigo-400 bg-indigo-500/10',
+  'Mobile App': 'text-emerald-400 bg-emerald-500/10',
+  'Chrome Extension': 'text-amber-400 bg-amber-500/10',
+  'Concept': 'text-teal-400 bg-teal-500/10',
 };
 ---
 
@@ -23,13 +23,13 @@ const categoryColors: Record<string, string> = {
         Personal projects built for my family, client projects shipped to production — from AI-powered learning platforms to Chrome extensions and multi-agent systems.
       </p>
 
-      <!-- Category filter -->
+      <!-- Category filter (pill tabs) -->
       <div class="flex flex-wrap gap-2 mb-8" id="filters">
         {categories.map((cat) => (
           <button
             data-category={cat}
             class:list={[
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border',
+              'px-4 py-1.5 rounded-full text-sm font-medium transition-colors border',
               cat === 'All'
                 ? 'border-accent text-accent bg-accent-dim'
                 : 'border-border text-text-muted hover:text-text hover:border-text-muted',
@@ -40,62 +40,60 @@ const categoryColors: Record<string, string> = {
         ))}
       </div>
 
-      <div class="space-y-4" id="project-grid">
+      <div class="grid gap-4 sm:grid-cols-2" id="project-grid">
         {projects.map((project) => (
           <div data-cat={project.data.category}>
             <a
               href={`/projects/${project.id}`}
-              class="group block rounded-xl border border-border bg-surface overflow-hidden hover:border-accent/40 transition-all duration-200"
+              class="group block rounded-xl border border-border bg-surface overflow-hidden hover:border-accent/40 transition-all duration-200 glow-hover h-full"
             >
-              <div class:list={['flex flex-col', project.data.image ? 'sm:flex-row' : '']}>
-                {project.data.image && (
-                  <div class="sm:w-64 shrink-0 bg-bg/50 overflow-hidden">
-                    <img
-                      src={project.data.image}
-                      alt={project.data.title}
-                      class="w-full h-40 sm:h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-                <div class="p-6 flex-1">
-                  <div class="flex items-center gap-2 mb-3 flex-wrap">
-                    <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${categoryColors[project.data.category] || 'text-text-muted bg-surface'}`}>
-                      {project.data.category}
+              {project.data.image && (
+                <div class="h-40 overflow-hidden bg-bg/50">
+                  <img
+                    src={project.data.image}
+                    alt={project.data.title}
+                    class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="p-6">
+                <div class="flex items-center gap-2 mb-3 flex-wrap">
+                  <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${categoryColors[project.data.category] || 'text-text-muted bg-surface'}`}>
+                    {project.data.category}
+                  </span>
+                  {project.data.projectType && (
+                    <span class={`inline-block px-2 py-0.5 rounded-full text-[10px] font-medium ${project.data.projectType === 'Personal' ? 'text-amber-400 bg-amber-400/10' : 'text-emerald-400 bg-emerald-400/10'}`}>
+                      {project.data.projectType}
                     </span>
-                    {project.data.projectType && (
-                      <span class={`inline-block px-2 py-0.5 rounded-full text-[10px] font-medium ${project.data.projectType === 'Personal' ? 'text-amber-600 bg-amber-50' : 'text-emerald-600 bg-emerald-50'}`}>
-                        {project.data.projectType}
-                      </span>
-                    )}
-                    {project.data.domain && (
-                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono text-emerald-700 bg-emerald-50">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                        {project.data.domain}
-                      </span>
-                    )}
-                  </div>
-                  <h3 class="text-lg font-semibold mb-1 group-hover:text-accent transition-colors">
-                    {project.data.title}
-                  </h3>
-                  {project.data.tagline && (
-                    <p class="text-sm text-text-muted italic mb-2">{project.data.tagline}</p>
                   )}
-                  <p class="text-sm text-text-muted leading-relaxed mb-4">
-                    {project.data.description}
-                  </p>
-                  <div class="flex flex-wrap gap-1.5">
-                    {project.data.stack.slice(0, 5).map((tech) => (
-                      <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
-                        {tech}
-                      </span>
-                    ))}
-                    {project.data.stack.length > 5 && (
-                      <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
-                        +{project.data.stack.length - 5}
-                      </span>
-                    )}
-                  </div>
+                  {project.data.domain && (
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono text-emerald-400 bg-emerald-500/10">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                      {project.data.domain}
+                    </span>
+                  )}
+                </div>
+                <h3 class="text-lg font-semibold mb-1 group-hover:text-accent transition-colors">
+                  {project.data.title}
+                </h3>
+                {project.data.tagline && (
+                  <p class="text-sm text-text-muted italic mb-2">{project.data.tagline}</p>
+                )}
+                <p class="text-sm text-text-muted leading-relaxed mb-4">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-1.5">
+                  {project.data.stack.slice(0, 5).map((tech) => (
+                    <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
+                      {tech}
+                    </span>
+                  ))}
+                  {project.data.stack.length > 5 && (
+                    <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
+                      +{project.data.stack.length - 5}
+                    </span>
+                  )}
                 </div>
               </div>
             </a>
@@ -115,9 +113,9 @@ const categoryColors: Record<string, string> = {
       const cat = btn.getAttribute('data-category');
 
       buttons.forEach((b) => {
-        b.className = 'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border border-border text-text-muted hover:text-text hover:border-text-muted';
+        b.className = 'px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-border text-text-muted hover:text-text hover:border-text-muted';
       });
-      btn.className = 'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border border-accent text-accent bg-accent-dim';
+      btn.className = 'px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-accent text-accent bg-accent-dim';
 
       cards.forEach((card) => {
         const el = card as HTMLElement;

@@ -76,7 +76,7 @@ const timeline = [
       <h2 class="text-2xl font-bold mb-6">What I Optimize For</h2>
       <div class="space-y-4 mb-16">
         {principles.map(({ title, evidence, link }) => (
-          <a href={link} class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
+          <a href={link} class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all glow-hover">
             <p class="font-semibold text-accent mb-3">{title}</p>
             <p class="text-sm text-text-muted leading-relaxed">{evidence}</p>
             <span class="inline-flex items-center gap-1 text-xs text-accent mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -106,15 +106,23 @@ const timeline = [
 
       <!-- Timeline -->
       <h2 class="text-2xl font-bold mb-6">Timeline</h2>
-      <div class="space-y-8">
+      <div class="space-y-8 mb-16">
         {timeline.map(({ year, title, desc }) => (
-          <div class="relative pl-8 border-l-2 border-border">
+          <div class="relative pl-8 border-l-2 border-accent/30">
             <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-accent border-4 border-bg" />
             <p class="text-sm font-mono text-accent mb-1">{year}</p>
             <h3 class="text-lg font-semibold mb-1">{title}</h3>
             <p class="text-sm text-text-muted">{desc}</p>
           </div>
         ))}
+      </div>
+
+      <!-- Philosophy Quote -->
+      <div class="rounded-xl border border-accent/20 bg-accent/5 p-8 text-center">
+        <blockquote class="text-lg sm:text-xl font-medium text-text italic leading-relaxed mb-3">
+          "The leap from good developer to great one isn't about learning more tools — it's about thinking in systems."
+        </blockquote>
+        <p class="text-sm text-text-muted">— Jason Moon</p>
       </div>
     </div>
   </section>

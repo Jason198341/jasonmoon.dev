@@ -32,9 +32,9 @@ const prevKo = currentIndex > 0 ? allGuidesKoSorted[currentIndex - 1] : null;
 const nextKo = currentIndex < allGuidesKoSorted.length - 1 ? allGuidesKoSorted[currentIndex + 1] : null;
 
 const difficultyColors: Record<string, string> = {
-  'beginner': 'text-green-700 bg-green-50',
-  'easy': 'text-blue-700 bg-blue-50',
-  'intermediate': 'text-amber-700 bg-amber-50',
+  'beginner': 'text-green-400 bg-green-500/10',
+  'easy': 'text-blue-400 bg-blue-500/10',
+  'intermediate': 'text-amber-400 bg-amber-500/10',
 };
 
 const difficultyLabels: Record<string, { en: string; ko: string }> = {

@@ -4,12 +4,9 @@ const pathname = Astro.url.pathname;
 const links = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
-  { href: '/devguide', label: '개발가이드' },
   { href: '/about', label: 'About' },
-  { href: '/archive', label: 'Beyond Code' },
-  { href: '/announcements', label: 'Announcements' },
+  { href: '/archive', label: 'Archive' },
   { href: '/contact', label: 'Contact' },
-  { href: '/board', label: 'Board' },
 ];
 
 function isActive(href: string): boolean {
@@ -18,7 +15,7 @@ function isActive(href: string): boolean {
 }
 ---
 
-<header class="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
+<header class="sticky top-0 z-50 border-b border-border/50 bg-surface/60 backdrop-blur-xl">
   <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
     <a href="/" class="flex items-center gap-2 font-mono text-lg font-bold tracking-tight text-text hover:text-accent transition-colors">
       <img src="/logo.png" alt="" class="w-7 h-7 rounded" />
@@ -57,7 +54,7 @@ function isActive(href: string): boolean {
   </nav>
 
   <!-- Mobile nav -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-border">
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border/50">
     <ul class="px-6 py-4 space-y-1">
       {links.map(({ href, label }) => (
         <li>

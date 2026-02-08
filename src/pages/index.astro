@@ -15,106 +15,59 @@ const typeColors: Record<string, string> = {
   Personal: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
   Client: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
 };
+
+const stats = [
+  { value: allProjects.length + '+', label: 'Projects Built' },
+  { value: '2', label: 'Live Products' },
+  { value: clientCount.toString(), label: 'Client Projects' },
+  { value: '15+', label: 'Tech Stack' },
+];
 ---
 
 <Base title="Jason Moon — Automotive Engineer, Systems Designer, Fullstack Builder">
 
   <!-- Hero -->
-  <section class="py-16 sm:py-24">
-    <div class="mx-auto max-w-5xl px-6">
-      <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-        <!-- Text side -->
-        <div>
-          <p class="font-mono text-sm text-accent mb-4">Automotive Engineer by Day</p>
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            Systems Designer<br/>by Night
-          </h1>
-          <p class="text-lg sm:text-xl text-text leading-relaxed mb-4">
-            I design vehicle systems for a living.<br class="hidden sm:block"/>
-            Nights and weekends, I don't just use tools — I architect the systems behind them. Then I ship them for everyone.
-          </p>
-          <div class="flex flex-wrap gap-3 mb-6">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border text-amber-400 bg-amber-400/10 border-amber-400/20">
-              {personalCount} Personal Projects
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border text-emerald-400 bg-emerald-400/10 border-emerald-400/20">
-              {clientCount} Client Projects
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border text-teal-400 bg-teal-400/10 border-teal-400/20">
-              {concepts.length} In Development
-            </span>
-          </div>
-          <p class="text-sm text-text-muted leading-relaxed mb-8">
-            <span class="text-text font-medium">2 products live with custom domains.</span> From AI learning platforms and Chrome extensions to multi-agent investment tools — I design complete systems, not just apps.
-          </p>
-          <div class="flex flex-wrap gap-3">
-            <a
-              href="/projects"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
-            >
-              View All Projects
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-            <a
-              href="/about"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-text-muted font-medium text-sm hover:text-text hover:border-text-muted transition-colors"
-            >
-              My Story
-            </a>
-          </div>
-        </div>
+  <section class="relative py-24 sm:py-32 overflow-hidden">
+    <!-- Indigo orb glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/20 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <!-- Bento grid of project screenshots -->
-        <div class="hidden lg:block">
-          <div class="grid grid-cols-3 grid-rows-3 gap-3 h-[420px]">
-            <a href="/projects/prompt-garden" class="group col-span-2 row-span-2 rounded-2xl overflow-hidden border border-border bg-surface relative">
-              <img src="/projects/prompt-garden.png" alt="Prompt Garden" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="eager" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-3 left-4 flex items-center gap-2">
-                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span></span>
-                <span class="text-white text-sm font-semibold">Prompt Garden</span>
-                <span class="text-xs px-1.5 py-0.5 rounded bg-emerald-400/20 text-emerald-300 font-medium">Client</span>
-              </div>
-            </a>
-            <a href="/projects/engreading" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
-              <img src="/projects/engreading.png" alt="EngReading" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="eager" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-2 left-3">
-                <span class="text-white text-xs font-semibold">EngReading</span>
-              </div>
-            </a>
-            <a href="/projects/sat-crusher" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
-              <img src="/projects/sat-crusher.png" alt="SAT Crusher" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-2 left-3 flex items-center gap-1.5">
-                <span class="text-white text-xs font-semibold">SAT Crusher</span>
-                <span class="text-[10px] px-1 py-0.5 rounded bg-amber-400/20 text-amber-300 font-medium">Personal</span>
-              </div>
-            </a>
-            <a href="/projects/family-graph" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
-              <img src="/projects/family-graph.png" alt="Family Graph" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-2 left-3">
-                <span class="text-white text-xs font-semibold">Family Graph</span>
-              </div>
-            </a>
-            <a href="/projects/the-parasite" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
-              <img src="/projects/the-parasite.png" alt="The Parasite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-2 left-3 flex items-center gap-1.5">
-                <span class="text-white text-xs font-semibold">The Parasite</span>
-                <span class="text-[10px] px-1 py-0.5 rounded bg-amber-400/20 text-amber-300 font-medium">Personal</span>
-              </div>
-            </a>
-            <a href="/projects/smart-memo" class="group rounded-2xl overflow-hidden border border-border bg-surface relative">
-              <img src="/projects/smart-memo.png" alt="Smart Memo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div class="absolute bottom-2 left-3">
-                <span class="text-white text-xs font-semibold">Smart Memo</span>
-              </div>
-            </a>
+    <div class="relative mx-auto max-w-5xl px-6 text-center">
+      <p class="font-mono text-sm text-accent mb-6 tracking-wider uppercase">Automotive Engineer &middot; Systems Designer &middot; Fullstack Builder</p>
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+        I Build<br/>
+        <span class="text-gradient">Systems, Not Apps</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-text-muted leading-relaxed max-w-2xl mx-auto mb-10">
+        I design vehicle systems by day. Nights and weekends, I architect complete digital systems — from AI learning platforms to multi-agent frameworks — then ship them for everyone.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a
+          href="/projects"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
+        >
+          View Projects
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-text-muted font-medium text-sm hover:text-text hover:border-text-muted transition-colors"
+        >
+          My Story
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Row -->
+  <section class="pb-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {stats.map(({ value, label }) => (
+          <div class="rounded-xl border border-border bg-surface p-5 text-center">
+            <p class="text-2xl sm:text-3xl font-bold text-accent">{value}</p>
+            <p class="text-xs text-text-muted mt-1 font-medium uppercase tracking-wider">{label}</p>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
@@ -132,7 +85,7 @@ const typeColors: Record<string, string> = {
         {flagships.map((project, i) => (
           <a
             href={`/projects/${project.id}`}
-            class="group block rounded-2xl border border-border bg-surface overflow-hidden hover:border-accent/50 transition-all duration-300"
+            class="group block rounded-2xl border border-border bg-surface overflow-hidden hover:border-accent/50 transition-all duration-300 glow-hover"
           >
             <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
               <!-- Text side -->
@@ -144,7 +97,7 @@ const typeColors: Record<string, string> = {
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                       </span>
-                      <span class="font-mono text-sm text-emerald-600">{project.data.domain}</span>
+                      <span class="font-mono text-sm text-emerald-400">{project.data.domain}</span>
                     </span>
                   )}
                   {project.data.projectType && (
@@ -225,7 +178,7 @@ const typeColors: Record<string, string> = {
         {concepts.map((project) => (
           <a
             href={`/projects/${project.id}`}
-            class="group block rounded-2xl border border-teal-500/20 bg-surface overflow-hidden hover:border-teal-500/40 transition-all duration-300"
+            class="group block rounded-2xl border border-teal-500/20 bg-surface overflow-hidden hover:border-teal-500/40 transition-all duration-300 glow-hover"
           >
             <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
               <div class="p-8 sm:p-10 flex flex-col justify-center">
@@ -330,14 +283,14 @@ const typeColors: Record<string, string> = {
       </div>
       <p class="text-center text-text-muted text-sm mb-8">Software is where I build. Reading and running are where I think.</p>
       <div class="grid gap-4 sm:grid-cols-2">
-        <a href="/archive/reading" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
+        <a href="/archive/reading" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all glow-hover">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">📚</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Reading</h3>
           </div>
           <p class="text-sm text-text-muted">One book, 100 times. Depth over breadth. <span class="text-text">3/100 completed.</span></p>
         </a>
-        <a href="/archive/running" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
+        <a href="/archive/running" class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all glow-hover">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">🏃</span>
             <h3 class="font-semibold group-hover:text-accent transition-colors">Running</h3>
@@ -351,21 +304,25 @@ const typeColors: Record<string, string> = {
   <!-- CTA -->
   <section class="pb-24">
     <div class="mx-auto max-w-5xl px-6">
-      <div class="rounded-2xl border border-border bg-surface p-8 sm:p-12 text-center">
-        <h2 class="text-2xl font-bold mb-3">Need a System, Not Just an App?</h2>
-        <p class="text-text-muted mb-2 max-w-lg mx-auto">
-          I design systems that solve real problems — from AI architectures and multi-agent frameworks to data pipelines and browser extensions.
-        </p>
-        <p class="text-text-muted text-sm mb-6 max-w-lg mx-auto">
-          Whether you need a working prototype, a production system, or a proof of concept to pitch investors.
-        </p>
-        <a
-          href="/contact"
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
-        >
-          Let's Talk
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
+      <div class="relative rounded-2xl border border-border bg-surface p-8 sm:p-12 text-center overflow-hidden">
+        <!-- Glow background -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="relative">
+          <h2 class="text-2xl sm:text-3xl font-bold mb-3">Need a System, Not Just an App?</h2>
+          <p class="text-text-muted mb-2 max-w-lg mx-auto">
+            I design systems that solve real problems — from AI architectures and multi-agent frameworks to data pipelines and browser extensions.
+          </p>
+          <p class="text-text-muted text-sm mb-6 max-w-lg mx-auto">
+            Whether you need a working prototype, a production system, or a proof of concept to pitch investors.
+          </p>
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-white font-medium text-sm hover:bg-accent-hover transition-colors"
+          >
+            Let's Talk
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
