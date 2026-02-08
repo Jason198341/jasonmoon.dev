@@ -5,6 +5,7 @@ description: Multi-agent decision simulation where AI agents with conflicting KP
 category: Concept
 stack: [Astro, React 19, TypeScript, Multi-Agent AI, Tailwind CSS v4]
 live: https://jasonmoon.dev/archive/edat
+image: /projects/edat.png
 featured: false
 order: 3
 ---
