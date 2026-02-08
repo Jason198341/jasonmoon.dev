@@ -5,8 +5,9 @@ description: Strava-connected club analytics platform — member rankings, group
 category: Concept
 stack: [Astro SSR, React 19, TypeScript, Supabase, Strava API, PostGIS, Tailwind CSS v4]
 live: https://jasonmoon.dev/archive/running-intelligence
+image: /projects/running-club-analytics.png
 featured: false
-order: 9
+order: 2
 ---
 
 ## The Problem

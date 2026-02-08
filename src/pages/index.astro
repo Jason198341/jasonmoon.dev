@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 const allProjects = await getCollection('projects');
 const flagships = allProjects.filter(p => p.data.flagship).sort((a, b) => a.data.order - b.data.order);
 const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort((a, b) => a.data.order - b.data.order);
+const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Base title="Jason Moon — Engineer, Father, Builder">
@@ -181,6 +182,76 @@ const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort
       </div>
     </div>
   </section>
+
+  <!-- Currently Designing -->
+  {concepts.length > 0 && (
+    <section class="pb-24">
+      <div class="mx-auto max-w-5xl px-6">
+        <div class="flex items-center gap-3 mb-10">
+          <div class="h-px flex-1 bg-border"></div>
+          <h2 class="text-sm font-mono text-teal-400 uppercase tracking-widest">Currently Designing</h2>
+          <div class="h-px flex-1 bg-border"></div>
+        </div>
+
+        {concepts.map((project) => (
+          <a
+            href={`/projects/${project.id}`}
+            class="group block rounded-2xl border border-teal-500/20 bg-surface overflow-hidden hover:border-teal-500/40 transition-all duration-300"
+          >
+            <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
+              <div class="p-8 sm:p-10 flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-4">
+                  <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-400"></span>
+                  </span>
+                  <span class="font-mono text-sm text-teal-400">Concept — Looking for partners</span>
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold mb-2 group-hover:text-teal-400 transition-colors">
+                  {project.data.title}
+                </h3>
+                {project.data.tagline && (
+                  <p class="text-sm font-medium text-teal-400/80 mb-3">{project.data.tagline}</p>
+                )}
+                <p class="text-text-muted leading-relaxed mb-6">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-6">
+                  {project.data.stack.slice(0, 5).map((tech) => (
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono text-text-muted bg-bg border border-border">
+                      {tech}
+                    </span>
+                  ))}
+                  {project.data.stack.length > 5 && (
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono text-text-muted bg-bg border border-border">
+                      +{project.data.stack.length - 5}
+                    </span>
+                  )}
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex items-center gap-1.5 text-sm font-medium text-teal-400">
+                    View Proof of Concept
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                  </span>
+                </div>
+              </div>
+              {project.data.image && (
+                <div class="relative bg-bg/50 overflow-hidden">
+                  <img
+                    src={project.data.image}
+                    alt={`${project.data.title} screenshot`}
+                    class="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-surface/60 lg:via-transparent lg:to-transparent"></div>
+                </div>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <!-- Other Featured Projects -->
   <section class="pb-24">
