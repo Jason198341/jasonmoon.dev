@@ -8,7 +8,9 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://jasonmoon.dev',
   output: 'static',
-  adapter: vercel(),
+  adapter: vercel({
+    isr: { expiration: 60 * 60 },  // 1-hour ISR cache for SSR pages
+  }),
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

@@ -1,0 +1,66 @@
+---
+export const prerender = false;
+
+import Base from '../../layouts/Base.astro';
+import { fetchEnrichedRunData } from '../../lib/strava';
+import { computeIntelligence } from '../../lib/strava-analytics';
+import RunningIntelligence from '../../components/RunningIntelligence';
+
+let intelligence = null;
+let error = false;
+
+try {
+  const enriched = await fetchEnrichedRunData();
+  intelligence = computeIntelligence(enriched.runs, parseFloat(enriched.stats.totalDistance));
+} catch (e: any) {
+  console.error('Running Intelligence error:', e?.message ?? e);
+  error = true;
+}
+---
+
+<Base title="Running Intelligence — Jason Moon">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <a href="/archive/running" class="inline-flex items-center gap-1 text-sm text-text-muted hover:text-accent transition-colors mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Running
+      </a>
+
+      <div class="flex items-baseline gap-3 mb-2">
+        <h1 class="text-3xl sm:text-4xl font-bold">Running Intelligence</h1>
+      </div>
+
+      {intelligence && (
+        <p class="text-sm text-text-muted mb-10">
+          {intelligence.totalRuns} runs · {intelligence.totalKm.toFixed(0)} km · {intelligence.dateRange}
+        </p>
+      )}
+
+      {error && (
+        <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 mb-6 text-sm text-amber-200">
+          Could not load running analytics. Please try again later.
+        </div>
+      )}
+
+      {intelligence ? (
+        <RunningIntelligence client:load data={intelligence} />
+      ) : !error ? (
+        <div class="rounded-xl border border-border bg-surface p-8 text-center">
+          <p class="text-4xl mb-3">📊</p>
+          <p class="text-text-muted">No running data available for analysis.</p>
+        </div>
+      ) : null}
+
+      <!-- Strava Attribution -->
+      <div class="mt-16 flex items-center justify-center gap-2 text-xs text-text-muted">
+        <span>Powered by</span>
+        <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-[#FC4C02] transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+          </svg>
+          <span class="font-semibold">Strava</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

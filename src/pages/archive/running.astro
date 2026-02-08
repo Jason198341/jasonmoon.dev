@@ -1,21 +1,22 @@
 ---
+export const prerender = false;
+
 import Base from '../../layouts/Base.astro';
+import { fetchEnrichedRunData } from '../../lib/strava';
+import type { EnrichedRunData } from '../../lib/strava';
+import RunningDashboard from '../../components/RunningDashboard';
 
-// Data synced from Obsidian: C:\obsidian\04_학습\러닝 트래커.md
-// Run "sync archive" to update from Obsidian
+let data: EnrichedRunData | null = null;
+let error = false;
 
-const stats = {
-  totalRuns: 0,
-  totalDistance: 0,
-  consecutiveWeeks: 0,
-};
+try {
+  data = await fetchEnrichedRunData();
+} catch (e: any) {
+  console.error('Strava fetch error:', e?.message ?? e);
+  error = true;
+}
 
 const quote = '기록은 남기되, 성과는 쫓지 않는다. 달리면서 올라오는 생각을 본다.';
-
-// Monthly data — populated when Obsidian tracker has entries
-const months: { month: string; runs: { date: string; distance: string; time: string; musicOff: boolean; thought: string }[]; reflection?: string }[] = [
-  // { month: '2026년 2월', runs: [...], reflection: '...' },
-];
 ---
 
 <Base title="Running — Archive — Jason Moon">
@@ -28,66 +29,45 @@ const months: { month: string; runs: { date: string; distance: string; time: str
 
       <h1 class="text-3xl sm:text-4xl font-bold mb-4">Running</h1>
 
-      <blockquote class="text-text-muted italic border-l-2 border-accent pl-3 mb-10">
+      <blockquote class="text-text-muted italic border-l-2 border-accent pl-3 mb-6">
         {quote}
       </blockquote>
 
-      <!-- Stats -->
-      <div class="grid grid-cols-3 gap-4 mb-10">
-        <div class="rounded-xl border border-border bg-surface p-4 text-center">
-          <p class="text-2xl font-bold text-accent">{stats.totalRuns}</p>
-          <p class="text-xs text-text-muted mt-1">Total Runs</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-4 text-center">
-          <p class="text-2xl font-bold text-accent">{stats.totalDistance}</p>
-          <p class="text-xs text-text-muted mt-1">Total km</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-4 text-center">
-          <p class="text-2xl font-bold text-accent">{stats.consecutiveWeeks}</p>
-          <p class="text-xs text-text-muted mt-1">Weeks</p>
-        </div>
-      </div>
+      <a
+        href="/archive/running-intelligence"
+        class="inline-flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-4 py-2 text-sm font-medium text-accent hover:bg-accent/10 transition-colors mb-10"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        Running Intelligence — Deep Analytics
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
 
-      {months.length > 0 ? (
-        <div class="space-y-4">
-          {months.map((m) => (
-            <div class="rounded-xl border border-border bg-surface p-5">
-              <h3 class="font-mono font-semibold text-accent mb-3">{m.month}</h3>
-              <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                  <thead>
-                    <tr class="text-text-muted text-xs border-b border-border">
-                      <th class="text-left py-2 pr-3">Date</th>
-                      <th class="text-left py-2 pr-3">Distance</th>
-                      <th class="text-left py-2 pr-3">Time</th>
-                      <th class="text-left py-2">Thoughts</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {m.runs.map((r) => (
-                      <tr class="border-b border-border/50">
-                        <td class="py-2 pr-3 font-mono text-xs">{r.date}</td>
-                        <td class="py-2 pr-3">{r.distance}</td>
-                        <td class="py-2 pr-3">{r.time}</td>
-                        <td class="py-2 text-text-muted">{r.thought}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              {m.reflection && (
-                <p class="text-sm text-text-muted mt-3 pt-3 border-t border-border">{m.reflection}</p>
-              )}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div class="rounded-xl border border-border bg-surface p-8 text-center">
-          <p class="text-4xl mb-3">🏃</p>
-          <p class="text-text-muted">No runs logged yet. The journey begins with one step.</p>
-          <p class="text-sm text-text-muted mt-2">Data syncs from Obsidian running tracker.</p>
+      {error && (
+        <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 mb-6 text-sm text-amber-200">
+          Could not load Strava data. Showing cached or empty results.
         </div>
       )}
+
+      {data ? (
+        <RunningDashboard client:load data={data} />
+      ) : !error ? (
+        <div class="rounded-xl border border-border bg-surface p-8 text-center">
+          <p class="text-4xl mb-3">🏃</p>
+          <p class="text-text-muted">No runs recorded on Strava yet.</p>
+          <p class="text-sm text-text-muted mt-2">Start running and activities will appear here automatically.</p>
+        </div>
+      ) : null}
+
+      <!-- Strava Attribution (required by API terms) -->
+      <div class="mt-12 flex items-center justify-center gap-2 text-xs text-text-muted">
+        <span>Powered by</span>
+        <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-[#FC4C02] transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+          </svg>
+          <span class="font-semibold">Strava</span>
+        </a>
+      </div>
     </div>
   </section>
 </Base>
