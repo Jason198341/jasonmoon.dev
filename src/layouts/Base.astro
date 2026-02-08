@@ -8,7 +8,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'I build tools for the people I care about. Engineer, father, builder.' } = Astro.props;
+const { title, description = 'Automotive engineer by day, fullstack builder by night. I build the tools my family actually needs — then ship them for everyone.' } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -19,6 +19,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
