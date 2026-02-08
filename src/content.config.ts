@@ -7,7 +7,7 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     tagline: z.string().optional(),
-    category: z.enum(['Web App', 'Mobile App', 'Chrome Extension']),
+    category: z.enum(['Web App', 'Mobile App', 'Chrome Extension', 'Concept']),
     stack: z.array(z.string()),
     github: z.string().url().optional(),
     live: z.string().url().optional(),

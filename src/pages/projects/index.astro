@@ -5,12 +5,13 @@ import { getCollection } from 'astro:content';
 const allProjects = await getCollection('projects');
 const projects = allProjects.sort((a, b) => a.data.order - b.data.order);
 
-const categories = ['All', 'Web App', 'Mobile App', 'Chrome Extension'] as const;
+const categories = ['All', 'Web App', 'Mobile App', 'Chrome Extension', 'Concept'] as const;
 
 const categoryColors: Record<string, string> = {
   'Web App': 'text-indigo-700 bg-indigo-50',
   'Mobile App': 'text-emerald-700 bg-emerald-50',
   'Chrome Extension': 'text-amber-700 bg-amber-50',
+  'Concept': 'text-teal-700 bg-teal-50',
 };
 ---
 
