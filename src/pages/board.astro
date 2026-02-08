@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+import Base from '../layouts/Base.astro';
+import CollaborationBoard from '../components/CollaborationBoard';
+---
+
+<Base title="Board — Jason Moon">
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <div class="mb-2">
+        <a href="/contact" class="text-sm text-text-muted hover:text-accent transition-colors flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Contact
+        </a>
+      </div>
+
+      <CollaborationBoard client:load />
+    </div>
+  </section>
+</Base>
