@@ -17,12 +17,12 @@ order: 3
 
 My kids' SAT prep was driving me crazy. Every app out there gives random questions and says "you got 7 out of 10." Great, but *why* did you miss those 3? Was it a vocabulary gap? A logic trap? Misreading the passage? No tool answered that question.
 
-So I built one. SAT Crusher has an AI tutor with 8 different teaching modes — from "lightning insight" (벼락 깨달음) that flips your understanding in one moment, to "wrong-answer DNA tracking" that identifies your specific thinking traps across 10 categories. It's not just practice — it's a personal diagnosis of how your brain makes mistakes.
+So I built one. SAT Crusher has an AI tutor with 8 different teaching modes — from "lightning insight" that flips your understanding in one moment, to "wrong-answer DNA tracking" that identifies your specific thinking traps across 10 categories. It's not just practice — it's a personal diagnosis of how your brain makes mistakes.
 
 ## Key Features
 
 - **Adaptive testing** — Module 1 performance (60% threshold) determines Hard or Easy Module 2
-- **8 AI tutor modes** — Free, 벼락 깨달음, DNA Guide, Passage Strategy, Speed Run, Analysis Run, Weakness Run, Vocabulary
+- **8 AI tutor modes** — Free, Lightning Insight, DNA Guide, Passage Strategy, Speed Run, Analysis Run, Weakness Run, Vocabulary
 - **Wrong-Answer DNA** — Tracks 10 trap types to build a personal weakness profile
 - **Spaced repetition** — SM-2 algorithm for optimal review scheduling
 - **Bilingual** — Full English/Korean i18n support

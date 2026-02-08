@@ -261,7 +261,7 @@ export default function EDATDemo() {
               </div>
               <p className="text-xs text-text-muted leading-snug">{agent.kpi}</p>
               <p className="text-[10px] text-text-muted/60 mt-1">
-                제약: {agent.constraint}
+                Constraint: {agent.constraint}
               </p>
             </div>
           );
@@ -305,7 +305,7 @@ export default function EDATDemo() {
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
-            시뮬레이션 시작
+            Start Simulation
           </button>
         )}
         {state === 'running' && (
@@ -314,7 +314,7 @@ export default function EDATDemo() {
               onClick={skipToEnd}
               className="px-4 py-2 rounded-lg border border-border text-text-muted text-sm hover:text-text transition-colors"
             >
-              결과 보기 &rarr;
+              Skip to Result &rarr;
             </button>
             <div className="flex items-center gap-1 ml-auto">
               {[1, 2, 3].map((s) => (
@@ -346,7 +346,7 @@ export default function EDATDemo() {
                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
               />
             </svg>
-            다시 시작
+            Restart
           </button>
         )}
       </div>
@@ -356,8 +356,8 @@ export default function EDATDemo() {
         <div className="rounded-xl border border-border bg-surface/50 p-8 text-center">
           <p className="text-3xl mb-3">🏛️</p>
           <p className="text-sm text-text-muted">
-            시뮬레이션을 시작하면 4개 부서 에이전트가<br />
-            실시간으로 분석 → 토론 → 합의를 진행합니다.
+            Start the simulation to watch 4 department agents<br />
+            debate in real-time: Analysis → Discussion → Consensus.
           </p>
         </div>
       )}
@@ -448,7 +448,7 @@ export default function EDATDemo() {
               <span style={{ color: AGENT_MAP[activeAgent]?.color }}>
                 {AGENT_MAP[activeAgent]?.titleKo}
               </span>
-              <span className="text-text-muted">분석 중</span>
+              <span className="text-text-muted">analyzing</span>
               <ThinkingDots />
             </div>
           )}
@@ -466,7 +466,7 @@ export default function EDATDemo() {
               Final Decision
             </p>
             <h3 className="text-xl font-bold mb-2">
-              최종 권고: {finalReport.recommendationKo}
+              Recommendation: {finalReport.recommendationKo}
             </h3>
             <span
               className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
@@ -485,7 +485,7 @@ export default function EDATDemo() {
                       : '#ef4444',
               }}
             >
-              리스크: {finalReport.riskLabel}
+              Risk: {finalReport.riskLabel}
             </span>
           </div>
 
@@ -521,7 +521,7 @@ export default function EDATDemo() {
 
           {/* Conditions */}
           <div>
-            <p className="text-sm font-medium mb-3">승인 조건</p>
+            <p className="text-sm font-medium mb-3">Approval Conditions</p>
             <ol className="space-y-2">
               {finalReport.conditions.map((c, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-sm text-text-muted">

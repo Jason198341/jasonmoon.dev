@@ -3,26 +3,22 @@ import Base from '../layouts/Base.astro';
 
 const principles = [
   {
-    korean: '도구를 넘어 시스템으로',
-    english: 'Beyond tools — think in systems',
+    title: 'Beyond Tools — Think in Systems',
     evidence: 'SAT Crusher isn\'t a quiz app — it\'s a spaced repetition engine with trap detection. Investment Agent Swarm isn\'t a stock screener — it\'s four AI agents debating in a boardroom.',
     link: '/projects/sat-crusher',
   },
   {
-    korean: '복잡함을 명확함으로',
-    english: 'Complexity to clarity',
+    title: 'Complexity to Clarity',
     evidence: 'Prompt Garden turns messy prompting into visual components. Family Graph maps relationships into interactive nodes.',
     link: '/projects/prompt-garden',
   },
   {
-    korean: '사람을 바꾸지 않는다. 환경을 만든다.',
-    english: "Don't change people. Build better environments.",
+    title: "Don't Change People. Build Better Environments.",
     evidence: "The Parasite doesn't lecture about screen time — it adds friction until the habit breaks itself.",
     link: '/projects/the-parasite',
   },
   {
-    korean: '보람은 정의되는 순간부터 작동한다',
-    english: 'Fulfillment activates the moment you define it',
+    title: 'Fulfillment Activates the Moment You Define It',
     evidence: 'Reading a book 100 times isn\'t obsessive when you define fulfillment as noticing new sentences each time.',
     link: '/archive/reading',
   },
@@ -79,10 +75,9 @@ const timeline = [
       <!-- What I Optimize For -->
       <h2 class="text-2xl font-bold mb-6">What I Optimize For</h2>
       <div class="space-y-4 mb-16">
-        {principles.map(({ korean, english, evidence, link }) => (
+        {principles.map(({ title, evidence, link }) => (
           <a href={link} class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all">
-            <p class="font-semibold text-accent mb-1">{korean}</p>
-            <p class="text-sm text-text font-medium mb-3">{english}</p>
+            <p class="font-semibold text-accent mb-3">{title}</p>
             <p class="text-sm text-text-muted leading-relaxed">{evidence}</p>
             <span class="inline-flex items-center gap-1 text-xs text-accent mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
               See project

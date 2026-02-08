@@ -1,48 +1,48 @@
 ---
-title: 데이터베이스가 뭔데? Supabase 시작하기
-description: 사용자가 입력한 데이터를 저장하고 꺼내쓰는 법. Supabase로 5분 만에 데이터베이스 만들기.
+title: "What's a Database? Getting Started with Supabase"
+description: "Save user data so it doesn't disappear when the browser closes. Set up a real database with Supabase in 5 minutes."
 emoji: "\U0001F5C4\uFE0F"
-category: 데이터베이스
-difficulty: 초급
+category: database
+difficulty: easy
 order: 6
 ---
 
-## 왜 데이터베이스가 필요해?
+## Why Do You Need a Database?
 
-지금까지 만든 앱은 브라우저를 닫으면 **데이터가 사라진다.**
+Everything you've built so far disappears when the browser closes.
 
-localStorage를 쓰면 내 브라우저에는 남지만, 다른 기기에서 접속하면 없다. 다른 사용자의 데이터는 당연히 볼 수 없다.
+Sure, `localStorage` keeps data in *your* browser, but open a different device and it's gone. Other users' data? Totally inaccessible.
 
-**데이터베이스**는 모든 사용자의 데이터를 **중앙 서버에 저장**하는 것이다.
+A **database** stores everyone's data on a **central server**.
 
-비유: localStorage는 **내 서랍**, 데이터베이스는 **공용 도서관**. 서랍은 나만 열 수 있지만, 도서관은 누구든 와서 자기 책을 빌리고 반납할 수 있다.
+Analogy: localStorage is your **desk drawer** — only you can open it. A database is a **library** — organized, shared, and accessible from anywhere.
 
-## Supabase가 뭐야?
+## What's Supabase?
 
-**무료 데이터베이스 서비스.** 개발자 버전의 엑셀 시트라고 생각하면 된다.
+A **free database service**. Think of it as a developer's spreadsheet in the cloud.
 
-| 엑셀 | Supabase |
-|------|----------|
-| 시트 | 테이블 |
-| 행 | 레코드 (데이터 한 줄) |
-| 열 | 컬럼 (이름, 이메일 같은 항목) |
-| 파일 저장 | 클라우드에 자동 저장 |
+| Spreadsheet | Supabase |
+|------------|----------|
+| Sheet | Table |
+| Row | Record (one entry) |
+| Column | Column (name, email, etc.) |
+| Saved locally | Saved in the cloud |
 
-차이점? 엑셀은 네 컴퓨터에 있고, Supabase는 **인터넷에 있어서** 앱에서 바로 데이터를 읽고 쓸 수 있다.
+The difference? A spreadsheet lives on your computer. Supabase is **on the internet**, so your app can read and write data in real time.
 
-## 실전: 5분 만에 시작
+## Hands-On: 5-Minute Setup
 
-### Step 1: 가입
-[supabase.com](https://supabase.com)에서 GitHub 계정으로 로그인. 무료.
+### Step 1: Sign Up
+[supabase.com](https://supabase.com) → log in with GitHub. Free.
 
-### Step 2: 프로젝트 만들기
-"New Project" → 이름 입력 → 비밀번호 설정 → 지역 선택 (Northeast Asia 추천) → Create
+### Step 2: Create a Project
+"New Project" → name it → set a password → pick a region (choose the closest one) → Create.
 
-2분 정도 기다리면 프로젝트가 만들어진다.
+Wait about 2 minutes for it to spin up.
 
-### Step 3: 테이블 만들기
+### Step 3: Create a Table
 
-예를 들어 "할 일 목록" 앱을 만든다면:
+Let's say you're building a to-do app:
 
 ```sql
 CREATE TABLE todos (
@@ -53,92 +53,90 @@ CREATE TABLE todos (
 );
 ```
 
-이게 무슨 뜻이냐면:
-- `id`: 각 할 일의 고유 번호 (자동 생성)
-- `title`: 할 일 내용 ("수학 숙제")
-- `done`: 완료 여부 (true/false)
-- `created_at`: 만든 시간 (자동 기록)
+Translation:
+- `id`: Unique identifier for each to-do (auto-generated)
+- `title`: The task content ("Do math homework")
+- `done`: Completed or not (true/false)
+- `created_at`: When it was created (auto-recorded)
 
-Supabase 대시보드에서 "SQL Editor"에 붙여넣고 Run 하면 끝.
+Paste this in Supabase's "SQL Editor" and hit Run. Table created.
 
-### Step 4: 앱에서 연결
+### Step 4: Connect from Your App
 
 ```javascript
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
-  'https://xxx.supabase.co',  // 프로젝트 URL
-  'eyJhbGciOi...'             // 공개 키 (anon key)
+  'https://xxx.supabase.co',  // Project URL
+  'eyJhbGciOi...'             // Public key (anon key)
 )
 ```
 
-이 두 값은 Supabase 대시보드 → Settings → API에서 복사할 수 있다.
+Find both values in Supabase dashboard → Settings → API.
 
-### Step 5: 데이터 읽고 쓰기
+### Step 5: Read and Write Data
 
 ```javascript
-// 할 일 추가
-await supabase.from('todos').insert({ title: '수학 숙제' })
+// Add a to-do
+await supabase.from('todos').insert({ title: 'Do homework' })
 
-// 전체 목록 가져오기
+// Get all to-dos
 const { data } = await supabase.from('todos').select('*')
 
-// 완료 표시
+// Mark as done
 await supabase.from('todos').update({ done: true }).eq('id', '...')
 
-// 삭제
+// Delete
 await supabase.from('todos').delete().eq('id', '...')
 ```
 
-영어로 읽으면 거의 문장이다:
-- "todos에서 insert해라 title이 수학 숙제인 것을"
-- "todos에서 select해라 전부(*)"
+It reads like English:
+- "From todos, insert a row with title 'Do homework'"
+- "From todos, select everything"
 
-## RLS: 보안 설정
+## RLS: Row Level Security
 
-**RLS (Row Level Security)** = 누가 어떤 데이터를 볼 수 있는지 규칙을 정하는 것.
+**RLS** = rules for who can see what data.
 
-예: "자기가 만든 할 일만 볼 수 있다"
+Example: "Users can only see their own to-dos"
 
 ```sql
 ALTER TABLE todos ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "자기 할일만 보기" ON todos
+CREATE POLICY "users see own todos" ON todos
   FOR SELECT USING (auth.uid() = user_id);
 ```
 
-이렇게 하면 A 사용자가 B 사용자의 데이터를 절대 볼 수 없다. **데이터베이스 레벨에서 차단**하니까 해킹으로도 못 뚫는다.
+With this, User A can never see User B's data. It's enforced **at the database level** — even a hacker can't bypass it.
 
-## 무료 한도
+## Free Tier Limits
 
-Supabase 무료 티어:
+| Item | Limit |
+|------|-------|
+| Database storage | 500 MB |
+| File storage | 1 GB |
+| API requests | Unlimited |
+| Projects | 2 |
 
-| 항목 | 한도 |
-|------|------|
-| 데이터베이스 | 500MB |
-| 파일 저장소 | 1GB |
-| API 호출 | 무제한 |
-| 프로젝트 수 | 2개 |
+More than enough for personal projects.
 
-개인 프로젝트에는 충분하고도 남는다.
+## When to Use What
 
-## 정리: 언제 뭘 쓰나?
+| Situation | Choice |
+|-----------|--------|
+| Solo app, small data | localStorage |
+| Multi-device, multi-user | Supabase |
+| User login needed | Supabase Auth |
+| File uploads (images, etc.) | Supabase Storage |
 
-| 상황 | 선택 |
-|------|------|
-| 나만 쓰는 앱, 데이터 소량 | localStorage |
-| 여러 기기에서 접속, 다른 사용자 | Supabase |
-| 사용자 로그인이 필요 | Supabase Auth |
-| 파일 업로드 (이미지 등) | Supabase Storage |
+## What's Next?
 
-## 다음은?
+These 6 guides cover the fundamentals:
+1. AI can build your app
+2. Git for saving your work
+3. Vercel for deployment
+4. Custom domains
+5. Security basics
+6. Databases with Supabase
 
-이 6편의 가이드로 기본기는 충분하다:
-1. AI로 앱 만들기
-2. Git으로 코드 관리
-3. Vercel로 배포
-4. 도메인 연결
-5. 보안 기본기
-6. 데이터베이스
-
-**이제 네가 만들고 싶은 걸 만들어봐.** 막히면 AI한테 물어보고, 이 가이드를 다시 읽으면 된다. 처음에 다 이해 안 돼도 괜찮다. 만들면서 이해하는 거다.
+**Now go build something.** When you get stuck, ask your AI and revisit these guides. You don't need to understand everything upfront — you learn by building.

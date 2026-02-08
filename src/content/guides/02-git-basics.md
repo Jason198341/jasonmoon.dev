@@ -1,103 +1,99 @@
 ---
-title: Git이 뭔데? 커밋, 푸쉬, 이게 다 뭐야
-description: 코드를 안전하게 저장하고, 되돌리고, 인터넷에 올리는 마법의 도구. 게임 세이브 포인트랑 같은 거다.
+title: "Git Explained: Commits, Pushes, and Why You Need Them"
+description: Git is a save system for your code. Like game checkpoints — mess up, and you can always go back. Here's the 4 concepts you need.
 emoji: "\U0001F4BE"
-category: 개발도구
-difficulty: 입문
+category: dev-tools
+difficulty: beginner
 order: 2
 ---
 
-## Git = 게임 세이브
+## Git = Game Save Points
 
-게임할 때 보스전 앞에서 세이브하잖아. 져도 세이브 포인트에서 다시 시작할 수 있으니까.
+You know how you save before a boss fight? If you die, you restart from the save point.
 
-Git이 바로 그거다. **코드의 세이브 포인트.**
+Git is exactly that. **Save points for your code.**
 
-"아 방금 뭔가 바꿨는데 다 망가졌어" → Git이 있으면 3초 만에 되돌린다.
+"I changed something and everything broke" → With Git, you revert in 3 seconds.
 
-## 핵심 용어 4개만 알면 된다
+## 4 Concepts. That's All.
 
-### 1. Repository (저장소)
-네 프로젝트 폴더. "이 폴더를 Git으로 관리할게요"라고 선언하면 repository가 된다.
+### 1. Repository (Repo)
+Your project folder. When you tell Git "track this folder," it becomes a repository.
 
-줄여서 **repo**라고 부른다.
-
-### 2. Commit (커밋)
-세이브 포인트를 만드는 행위. "여기까지 잘 됐으니까 저장!"
+### 2. Commit
+Creating a save point. "Everything works, let me save this."
 
 ```bash
 git add .
-git commit -m "로그인 페이지 완성"
+git commit -m "Login page complete"
 ```
 
-`-m` 뒤에 오는 건 **세이브 파일 이름**이라고 생각해. "로그인 페이지 완성", "버그 수정", "색깔 변경" 같이 뭘 했는지 적는 거다.
+The message after `-m` is your save file name. "Login page complete", "Fixed bug", "Changed colors" — describe what you did.
 
-### 3. Push (푸쉬)
-내 컴퓨터에만 있는 세이브를 **인터넷(GitHub)에 올리는 것**.
+### 3. Push
+Uploading your local save to the **internet (GitHub)**.
 
 ```bash
 git push
 ```
 
-왜 올려? 두 가지 이유:
-- **백업**: 컴퓨터가 고장나도 코드가 살아있다
-- **공유**: 다른 사람이 네 코드를 볼 수 있다 (포트폴리오!)
+Why? Two reasons:
+- **Backup**: If your laptop dies, your code survives
+- **Portfolio**: Others can see what you've built
 
-### 4. Pull (풀)
-반대로, 인터넷에 있는 최신 코드를 **내 컴퓨터로 가져오는 것**.
+### 4. Pull
+The reverse — downloading the latest code from the internet **to your computer**.
 
 ```bash
 git pull
 ```
 
-## 실전: 처음부터 해보기
+## Hands-On: From Zero
 
-### Step 1: Git 설치
-[git-scm.com](https://git-scm.com)에서 다운로드. 설치할 때 다 기본값으로 Next 누르면 된다.
+### Step 1: Install Git
+[git-scm.com](https://git-scm.com) → download → install with all defaults.
 
-### Step 2: GitHub 가입
-[github.com](https://github.com)에서 계정 만들기. 무료다.
+### Step 2: Create a GitHub Account
+[github.com](https://github.com) → sign up. Free.
 
-GitHub은 Git으로 관리하는 코드를 올려두는 **클라우드 저장소**다. 개발자의 인스타그램 같은 거라고 생각해 — 네가 만든 걸 보여주는 곳.
+GitHub is cloud storage for Git-managed code. Think of it as **Instagram for developers** — a place to showcase what you've built.
 
-### Step 3: 첫 커밋
+### Step 3: Your First Commit
 
-터미널(Claude Code에서는 자동으로 해줌)에서:
+In the terminal:
 
 ```bash
-git init                          # 이 폴더를 Git으로 관리 시작
-git add .                         # 모든 파일을 세이브 목록에 추가
-git commit -m "첫 번째 세이브"      # 세이브!
+git init                        # Start tracking this folder
+git add .                       # Add all files to the save list
+git commit -m "First save"      # Save!
 ```
 
-### Step 4: GitHub에 올리기
+### Step 4: Push to GitHub
 
 ```bash
-git remote add origin https://github.com/네아이디/프로젝트이름.git
+git remote add origin https://github.com/yourusername/yourproject.git
 git push -u origin main
 ```
 
-이거 외울 필요 없다. Claude Code한테 **"GitHub에 올려줘"**라고 하면 알아서 해준다.
+You don't need to memorize this. Tell Claude Code **"push this to GitHub"** and it handles everything.
 
-## Claude Code에서는 이렇게 된다
-
-Claude Code를 쓰면 사실 Git 명령어를 직접 칠 일이 거의 없다:
+## With Claude Code, It's Even Easier
 
 ```
-너: "지금까지 만든 거 GitHub에 올려줘"
-Claude: (자동으로 commit → push → 완료)
-너: "아 방금 바꾼 거 되돌려"
-Claude: (자동으로 이전 커밋으로 복원)
+You: "Push everything to GitHub"
+Claude: (auto commits → pushes → done)
+You: "Undo my last change"
+Claude: (reverts to previous commit)
 ```
 
-## 자주 하는 실수
+## Common Mistakes
 
-**"git push가 안 돼요!"**
-→ 99%는 GitHub 로그인이 안 된 것. 처음 한 번만 인증하면 그다음부터는 자동이다.
+**"git push isn't working!"**
+→ 99% of the time you're not logged into GitHub. Authenticate once, then it's automatic.
 
-**"뭔가 꼬였어요..."**
-→ 당황하지 마. `git status`를 치면 현재 상태를 알려준다. 그걸 AI한테 보여주면 해결해준다.
+**"Something's messed up..."**
+→ Don't panic. Run `git status` to see what's going on. Show the output to your AI and it'll fix it.
 
-**기억해야 할 건 하나**: Git은 너의 코드를 지켜주는 안전망이다. 자주 커밋할수록 안전하다.
+**Remember this**: Git is your safety net. The more often you commit, the safer you are.
 
-다음 글에서는 만든 앱을 인터넷에 올려서 누구나 접속할 수 있게 만드는 법(배포)을 알려줄게.
+Next: How to put your app on the internet so anyone can access it.

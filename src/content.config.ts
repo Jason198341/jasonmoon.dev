@@ -27,8 +27,8 @@ const guides = defineCollection({
     title: z.string(),
     description: z.string(),
     emoji: z.string(),
-    category: z.enum(['시작하기', '개발도구', '배포', '보안', '데이터베이스', '실전']),
-    difficulty: z.enum(['입문', '초급', '중급']),
+    category: z.enum(['getting-started', 'dev-tools', 'deploy', 'security', 'database', 'practical']),
+    difficulty: z.enum(['beginner', 'easy', 'intermediate']),
     order: z.number().default(0),
   }),
 });

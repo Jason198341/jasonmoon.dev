@@ -1,76 +1,76 @@
 ---
-title: AI한테 시키면 진짜 앱이 만들어진다
-description: 코딩을 몰라도 AI와 대화하면서 웹앱을 만들 수 있는 시대. 어떻게 가능한지, 뭐부터 시작하면 되는지.
+title: "Yes, AI Can Actually Build Your App"
+description: You don't need to know how to code. Talk to an AI, describe what you want, and watch it build a real web app. Here's how to start.
 emoji: "\U0001F680"
-category: 시작하기
-difficulty: 입문
+category: getting-started
+difficulty: beginner
 order: 1
 ---
 
-## 잠깐, 이게 진짜 되는 거야?
+## Wait, This Actually Works?
 
-된다. 진짜로.
+Yes. For real.
 
-이 사이트(jasonmoon.dev)에 있는 프로젝트들 — SAT 공부 앱, 주식 분석 플랫폼, 유튜브 중독 방지 크롬 확장 — 전부 AI와 대화하면서 만들었다. 코딩 학원을 다닌 게 아니라, **"이런 거 만들어줘"**라고 AI한테 말한 거다.
+Every project on this site — SAT prep platform, stock analysis with 4 AI agents, a YouTube addiction blocker — was built by talking to AI. Not by attending a bootcamp. Not by grinding LeetCode. By saying **"build me this"** and iterating.
 
-## 필요한 건 딱 3개
+## You Need Exactly 3 Things
 
-1. **컴퓨터** — 윈도우든 맥이든 상관없다
-2. **아이디어** — "이런 게 있으면 좋겠는데..." 하는 생각
-3. **AI 도구** — Claude Code, Cursor, GitHub Copilot 같은 것
+1. **A computer** — Windows or Mac, doesn't matter
+2. **An idea** — "I wish this existed..." is enough
+3. **An AI tool** — Claude Code, Cursor, or GitHub Copilot
 
-코딩 실력? 0이어도 된다. 진짜로.
+Coding skill? Zero is fine. Literally.
 
-## 어떻게 작동하는 건데?
+## How Does This Even Work?
 
-생각해봐. 너가 영어를 못하는데, 옆에 영어 원어민 친구가 있어. 네가 한국어로 "이메일 써줘"라고 하면 친구가 영어로 써주잖아. AI 코딩도 똑같아.
+Think of it like having a bilingual friend. You speak your language, they translate to code.
 
 ```
-너: "로그인 페이지 만들어줘. 이메일이랑 비밀번호 입력하는 거"
-AI: (코드를 뚝딱 만들어줌)
-너: "비밀번호 8자 이상이어야 한다고 알려줘"
-AI: (코드 수정해줌)
+You: "Make me a login page with email and password"
+AI: (writes the code)
+You: "Add a rule that password must be 8+ characters"
+AI: (updates the code)
 ```
 
-이게 2025년 현실이다.
+That's 2025 reality.
 
-## 구체적으로 뭘 설치하면 돼?
+## What to Install
 
-### Step 1: Node.js 설치
-Node.js는 자바스크립트를 실행시켜주는 엔진이다. 브라우저 밖에서도 코드를 돌릴 수 있게 해준다.
+### Step 1: Node.js
+Node.js is the engine that runs JavaScript outside a browser. It's the backbone of modern web development.
 
-[nodejs.org](https://nodejs.org)에서 LTS 버전 다운로드 → 설치 → 끝.
+Download the LTS version from [nodejs.org](https://nodejs.org) → install → done.
 
-### Step 2: VS Code 설치
-코드를 보고 편집하는 프로그램. 메모장의 프로 버전이라고 생각하면 된다.
+### Step 2: VS Code
+A program for viewing and editing code. Think of it as Notepad's pro cousin.
 
-[code.visualstudio.com](https://code.visualstudio.com)에서 다운로드.
+Download from [code.visualstudio.com](https://code.visualstudio.com).
 
-### Step 3: AI 도구 선택
+### Step 3: Pick Your AI Tool
 
-| 도구 | 특징 | 가격 |
-|------|------|------|
-| **Claude Code** | 터미널에서 AI와 대화하며 코딩. 파일을 직접 만들고 수정 | 구독 필요 |
-| **Cursor** | VS Code랑 비슷한데 AI가 내장됨 | 무료 티어 있음 |
-| **ChatGPT** | 코드를 복붙하는 방식 | 무료 |
+| Tool | How It Works | Price |
+|------|-------------|-------|
+| **Claude Code** | Chat with AI in terminal. It creates files, runs commands, fixes errors directly | Subscription |
+| **Cursor** | VS Code clone with built-in AI | Free tier available |
+| **ChatGPT** | Copy-paste code approach | Free |
 
-추천은 **Claude Code**. 왜냐면 AI가 직접 파일을 만들고, 터미널 명령을 실행하고, 에러를 고쳐주기 때문이다. 네가 할 일이 제일 적다.
+Recommendation: **Claude Code**. It doesn't just suggest code — it writes files, runs your app, and fixes errors on its own. Minimum effort from you.
 
-## 첫 번째 프로젝트: 뭘 만들면 좋을까?
+## Your First Project: What Should You Build?
 
-**너한테 필요한 걸 만들어라.**
+**Build something you actually need.**
 
-- 학교 시간표 앱
-- 용돈 기록 앱
-- 단어 외우기 앱
-- 일기장 웹사이트
+- A schedule tracker
+- An expense logger
+- A vocabulary flashcard app
+- A personal journal website
 
-"다 있는 거 아냐?"라고 생각할 수 있다. 맞다, 있다. 근데 **네 취향대로 된 건 없다.** 그래서 직접 만드는 거다.
+"Those already exist." True. But none of them are built **exactly the way you want**. That's why you build your own.
 
-## 무서워하지 마
+## Don't Be Scared
 
-코드가 깨져도 컴퓨터가 폭발하지 않는다. 최악의 경우 화면에 빨간 에러 메시지가 뜨는 거다. 그걸 AI한테 복붙하면 AI가 고쳐준다.
+If your code breaks, your computer won't explode. Worst case: a red error message appears on screen. Copy-paste it to the AI and it fixes it.
 
-**실패해도 아무 일도 안 일어난다.** 그게 코딩의 가장 좋은 점이다.
+**Nothing bad happens when you fail.** That's the best thing about coding.
 
-다음 글에서는 Git이 뭔지 — 네가 만든 코드를 안전하게 저장하고 관리하는 법을 알려줄게.
+Next up: Git — how to safely save and manage everything you build.
