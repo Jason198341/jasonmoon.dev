@@ -58,6 +58,19 @@ const quote = '기록은 남기되, 성과는 쫓지 않는다. 달리면서 올
         </div>
       ) : null}
 
+      <!-- Club Version CTA (subtle) -->
+      {data && (
+        <div class="mt-14 rounded-xl border border-border bg-surface p-6 text-center">
+          <p class="text-sm text-text-muted mb-2">
+            Built with Strava API, ACWR analytics, and custom SVG visualizations.
+          </p>
+          <p class="text-sm">
+            <span class="text-text-muted">Interested in a team/club version?</span>{' '}
+            <a href="/contact" class="text-accent hover:underline font-medium">Let's talk</a>
+          </p>
+        </div>
+      )}
+
       <!-- Strava Attribution (required by API terms) -->
       <div class="mt-12 flex items-center justify-center gap-2 text-xs text-text-muted">
         <span>Powered by</span>
