@@ -33,4 +33,16 @@ const guides = defineCollection({
   }),
 });
 
-export const collections = { projects, guides };
+const guidesKo = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/guides-ko' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    emoji: z.string(),
+    category: z.string(),
+    difficulty: z.string(),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { projects, guides, guidesKo };
