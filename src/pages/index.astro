@@ -10,6 +10,7 @@ const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a,
 
 const personalCount = allProjects.filter(p => p.data.projectType === 'Personal').length;
 const clientCount = allProjects.filter(p => p.data.projectType === 'Client' && p.data.category !== 'Concept').length;
+const liveCount = allProjects.filter(p => p.data.live).length;
 
 const typeColors: Record<string, string> = {
   Personal: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
@@ -18,7 +19,7 @@ const typeColors: Record<string, string> = {
 
 const stats = [
   { value: allProjects.length + '+', label: 'Projects Built' },
-  { value: '2', label: 'Live Products' },
+  { value: liveCount.toString(), label: 'Live Products' },
   { value: clientCount.toString(), label: 'Client Projects' },
   { value: '15+', label: 'Tech Stack' },
 ];
