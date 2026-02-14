@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import PromptGallery from '../components/PromptGallery';
+import { getCollection } from 'astro:content';
+
+const allPrompts = await getCollection('prompts');
+
+const promptData = allPrompts.map((p) => ({
+  id: p.id,
+  title: p.data.title,
+  titleEn: p.data.titleEn,
+  description: p.data.description,
+  category: p.data.category,
+  tags: p.data.tags,
+  platforms: p.data.platforms,
+  body: p.body ?? '',
+}));
+---
+
+<Base title="AI Prompts — Jason Moon">
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-4xl px-6">
+      <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4 animate-fade-in-up delay-1">
+        AI Prompts
+      </h1>
+      <p class="text-text-muted mb-4 max-w-2xl leading-relaxed animate-fade-in-up delay-2">
+        Production-ready system prompts for GPTs, Claude Projects, and Gemini Gems.
+        Copy any prompt and paste it directly into your AI platform.
+      </p>
+      <p class="text-xs text-text-muted mb-10 animate-fade-in-up delay-3">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          {allPrompts.length} prompts available
+        </span>
+        <span class="mx-2 opacity-30">|</span>
+        Built & tested by Jason Moon
+      </p>
+
+      <div class="animate-fade-in-up delay-4">
+        <PromptGallery client:load prompts={promptData} />
+      </div>
+
+      <!-- How to use guide -->
+      <div class="mt-16 rounded-xl border border-border bg-surface p-6 animate-fade-in-up delay-5">
+        <h2 class="text-lg font-semibold mb-4">How to Use</h2>
+        <div class="grid sm:grid-cols-3 gap-4 text-sm">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-bg text-text-muted border border-border text-xs font-bold">G</span>
+              <span class="font-medium">ChatGPT / GPTs</span>
+            </div>
+            <p class="text-text-muted text-xs leading-relaxed">
+              Create a new GPT &rarr; Paste into "Instructions" field &rarr; Save &amp; share
+            </p>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-bg text-text-muted border border-border text-xs font-bold">C</span>
+              <span class="font-medium">Claude Projects</span>
+            </div>
+            <p class="text-text-muted text-xs leading-relaxed">
+              Create a Project &rarr; Paste into "Project instructions" &rarr; Start chatting
+            </p>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-bg text-text-muted border border-border text-xs font-bold">&starf;</span>
+              <span class="font-medium">Gemini Gems</span>
+            </div>
+            <p class="text-text-muted text-xs leading-relaxed">
+              Create a Gem &rarr; Paste into system instructions &rarr; Save &amp; use
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

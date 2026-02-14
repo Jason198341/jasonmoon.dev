@@ -22,6 +22,8 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "dotenv": "^17.2.4"
+    "dotenv": "^17.2.4",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
   }
 }
