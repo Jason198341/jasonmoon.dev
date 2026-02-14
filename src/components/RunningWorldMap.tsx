@@ -145,7 +145,10 @@ export default function RunningWorldMap({ runs }: Props) {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-3">Running World Map</h2>
-      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 overflow-hidden">
+      <div
+        className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 sm:p-4 overflow-hidden"
+        style={isMobile ? { maxHeight: 180 } : undefined}
+      >
         <style>{`
           /* Route line animation */
           .world-map-route {
@@ -196,7 +199,9 @@ export default function RunningWorldMap({ runs }: Props) {
           ref={svgRef}
           width="100%"
           viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+          preserveAspectRatio="xMidYMid meet"
           className="block"
+          style={isMobile ? { maxHeight: 150 } : undefined}
         >
           {/* Grid lines */}
           {latLines.map((l) => (
