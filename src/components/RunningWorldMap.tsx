@@ -145,10 +145,7 @@ export default function RunningWorldMap({ runs }: Props) {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-3">Running World Map</h2>
-      <div
-        className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 sm:p-4 overflow-hidden"
-        style={isMobile ? { maxHeight: 180 } : undefined}
-      >
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 sm:p-4">
         <style>{`
           /* Route line animation */
           .world-map-route {
