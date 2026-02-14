@@ -46,7 +46,7 @@ const stats = [
     </div>
 
     <!-- Gradient overlay for readability -->
-    <div class="absolute inset-0 bg-gradient-to-b from-bg/40 via-transparent to-bg pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-bg/60 via-bg/30 to-bg pointer-events-none"></div>
 
     <!-- Floating particles (CSS only) -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -64,7 +64,7 @@ const stats = [
         Automotive Engineer &middot; Systems Designer &middot; Fullstack Builder
       </p>
 
-      <h1 class="font-display text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tight mb-4 sm:mb-6 animate-fade-in-up delay-2">
+      <h1 class="font-display text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight mb-4 sm:mb-6 animate-fade-in-up delay-2">
         I Build<br/>
         <span class="text-gradient">Systems, Not Apps</span>
       </h1>
@@ -152,7 +152,7 @@ const stats = [
 
             <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
               <!-- Text side -->
-              <div class="relative p-8 sm:p-10 flex flex-col justify-center">
+              <div class="relative p-5 sm:p-10 flex flex-col justify-center">
                 <div class="flex items-center gap-2.5 mb-5 flex-wrap">
                   {project.data.domain && (
                     <span class="inline-flex items-center gap-1.5">
@@ -251,7 +251,7 @@ const stats = [
             style={`transition-delay: ${i * 150}ms;`}
           >
             <div class:list={['grid gap-0', project.data.image ? 'lg:grid-cols-2' : '']}>
-              <div class="p-8 sm:p-10 flex flex-col justify-center">
+              <div class="p-5 sm:p-10 flex flex-col justify-center">
                 <div class="flex items-center gap-2.5 mb-5 flex-wrap">
                   <span class="inline-flex items-center gap-1.5">
                     <span class="relative flex h-2 w-2">

@@ -131,9 +131,15 @@ function isActive(href: string): boolean {
     const scrollingDown = scrollY > lastScrollY && scrollY > 80;
 
     if (scrollY > 50) {
-      header.classList.add('bg-surface/80', 'backdrop-blur-xl', 'border-b', 'border-border/30');
+      header.style.backgroundColor = 'rgba(17,17,22,0.85)';
+      header.style.backdropFilter = 'blur(16px)';
+      header.style.webkitBackdropFilter = 'blur(16px)';
+      header.style.borderBottom = '1px solid rgba(34,34,48,0.4)';
     } else {
-      header.classList.remove('bg-surface/80', 'backdrop-blur-xl', 'border-b', 'border-border/30');
+      header.style.backgroundColor = '';
+      header.style.backdropFilter = '';
+      header.style.webkitBackdropFilter = '';
+      header.style.borderBottom = '';
     }
 
     if (scrollingDown && !isOpen) {

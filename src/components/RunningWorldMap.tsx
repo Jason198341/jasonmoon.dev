@@ -63,6 +63,7 @@ function pathLength(d: string): number {
 export default function RunningWorldMap({ runs }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const hasAnimated = useRef(false);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
 
   // Aggregate runs by city
   const cityStats = useMemo(() => {
@@ -217,8 +218,8 @@ export default function RunningWorldMap({ runs }: Props) {
           <path
             d={WORLD_LAND_PATH}
             fill="rgba(255,255,255,0.04)"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth={0.8}
+            stroke="rgba(255,255,255,0.12)"
+            strokeWidth={isMobile ? 1.5 : 0.8}
             strokeLinejoin="round"
           />
 
@@ -228,10 +229,10 @@ export default function RunningWorldMap({ runs }: Props) {
               d={routePath}
               fill="none"
               stroke="rgba(99, 102, 241, 0.3)"
-              strokeWidth={6}
+              strokeWidth={isMobile ? 10 : 6}
               strokeLinecap="round"
               className="world-map-glow"
-              style={{ filter: 'blur(4px)' }}
+              style={{ filter: `blur(${isMobile ? 6 : 4}px)` }}
             />
           )}
 
@@ -240,8 +241,8 @@ export default function RunningWorldMap({ runs }: Props) {
             <path
               d={routePath}
               fill="none"
-              stroke="#6366f1"
-              strokeWidth={2.5}
+              stroke="#818cf8"
+              strokeWidth={isMobile ? 4 : 2.5}
               strokeLinecap="round"
               className="world-map-route"
             />
@@ -254,13 +255,18 @@ export default function RunningWorldMap({ runs }: Props) {
             const delay = `${i * 0.2}s`;
             // Label positioning: above by default, below for high-latitude cities near others
             const labelAbove = city.name !== 'Porto'; // Porto goes below to avoid overlap with Lisbon
+            const markerR = isMobile ? 10 : 6;
+            const nameSize = isMobile ? 26 : 15;
+            const statsSize = isMobile ? 20 : 12;
+            const nameOffset = isMobile ? 22 : 14;
+            const statsGap = isMobile ? 24 : 16;
 
             return (
               <g key={city.name}>
                 {/* Marker dot */}
                 <circle
-                  cx={cx} cy={cy} r={6}
-                  fill="#6366f1" stroke="white" strokeWidth={2}
+                  cx={cx} cy={cy} r={markerR}
+                  fill="#818cf8" stroke="white" strokeWidth={isMobile ? 3 : 2}
                   className="city-marker"
                   style={{ transitionDelay: delay }}
                 />
@@ -268,10 +274,10 @@ export default function RunningWorldMap({ runs }: Props) {
                 {/* City name */}
                 <text
                   x={cx}
-                  y={labelAbove ? cy - 14 : cy + 24}
+                  y={labelAbove ? cy - nameOffset : cy + nameOffset + markerR}
                   textAnchor="middle"
                   fill="white"
-                  fontSize={15}
+                  fontSize={nameSize}
                   fontWeight={600}
                   fontFamily="'Pretendard', 'Inter', sans-serif"
                   className="city-label"
@@ -284,15 +290,15 @@ export default function RunningWorldMap({ runs }: Props) {
                 {stats && (
                   <text
                     x={cx}
-                    y={labelAbove ? cy - 14 + 16 : cy + 24 + 16}
+                    y={labelAbove ? cy - nameOffset + statsGap : cy + nameOffset + markerR + statsGap}
                     textAnchor="middle"
-                    fill="rgba(255,255,255,0.5)"
-                    fontSize={12}
+                    fill="rgba(255,255,255,0.6)"
+                    fontSize={statsSize}
                     fontFamily="'SF Mono', 'Consolas', monospace"
                     className="city-label"
                     style={{ transitionDelay: `${i * 0.2 + 0.2}s` }}
                   >
-                    {stats.count} runs · {stats.totalKm.toFixed(1)}km
+                    {stats.count} runs · {stats.totalKm.toFixed(0)}km
                   </text>
                 )}
               </g>
