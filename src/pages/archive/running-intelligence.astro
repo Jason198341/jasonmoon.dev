@@ -1,21 +1,6 @@
 ---
-export const prerender = false;
-
 import Base from '../../layouts/Base.astro';
-import { fetchEnrichedRunData } from '../../lib/strava';
-import { computeIntelligence } from '../../lib/strava-analytics';
-import RunningIntelligence from '../../components/RunningIntelligence';
-
-let intelligence = null;
-let error = false;
-
-try {
-  const enriched = await fetchEnrichedRunData();
-  intelligence = computeIntelligence(enriched.runs, parseFloat(enriched.stats.totalDistance));
-} catch (e: any) {
-  console.error('Running Intelligence error:', e?.message ?? e);
-  error = true;
-}
+import IntelligencePageLoader from '../../components/IntelligencePageLoader';
 ---
 
 <Base title="Running Intelligence — Jason Moon">
@@ -30,31 +15,13 @@ try {
         <h1 class="text-3xl sm:text-4xl font-bold">Running Intelligence</h1>
       </div>
 
-      {intelligence && (
-        <p class="text-sm text-text-muted mb-10">
-          {intelligence.totalRuns} runs · {intelligence.totalKm.toFixed(0)} km · {intelligence.dateRange}
-        </p>
-      )}
+      <IntelligencePageLoader client:load />
 
-      {error && (
-        <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 mb-6 text-sm text-amber-200">
-          Could not load running analytics. Please try again later.
-        </div>
-      )}
-
-      {intelligence ? (
-        <RunningIntelligence client:load data={intelligence} />
-      ) : !error ? (
-        <div class="rounded-xl border border-border bg-surface p-8 text-center">
-          <p class="text-4xl mb-3">📊</p>
-          <p class="text-text-muted">No running data available for analysis.</p>
-        </div>
-      ) : null}
-
-      <!-- Club Analytics CTA -->
-      {intelligence && (
+      <!-- Footer: shown after data loads -->
+      <div id="intel-footer" class="hidden">
+        <!-- Club Analytics CTA -->
         <div class="mt-20 rounded-2xl border border-accent/20 bg-surface p-8 sm:p-10 text-center">
-          <p class="text-3xl mb-4">🏃‍♂️🏃‍♀️</p>
+          <p class="text-3xl mb-4">&#x1F3C3;&#x200D;&#x2642;&#xFE0F;&#x1F3C3;&#x200D;&#x2640;&#xFE0F;</p>
           <h3 class="text-xl sm:text-2xl font-bold mb-3">Want this for your running club?</h3>
           <p class="text-text-muted text-sm sm:text-base max-w-lg mx-auto mb-2">
             This analytics engine can be extended to teams —
@@ -84,18 +51,30 @@ try {
             </a>
           </div>
         </div>
-      )}
 
-      <!-- Strava Attribution -->
-      <div class="mt-12 flex items-center justify-center gap-2 text-xs text-text-muted">
-        <span>Powered by</span>
-        <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-[#FC4C02] transition-colors">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
-          </svg>
-          <span class="font-semibold">Strava</span>
-        </a>
+        <!-- Strava Attribution -->
+        <div class="mt-12 flex items-center justify-center gap-2 text-xs text-text-muted">
+          <span>Powered by</span>
+          <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-[#FC4C02] transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+            </svg>
+            <span class="font-semibold">Strava</span>
+          </a>
+        </div>
       </div>
+
+      <script>
+        const observer = new MutationObserver(() => {
+          // RunningIntelligence renders sections with grid layouts
+          const sections = document.querySelectorAll('[class*="grid"]');
+          if (sections.length > 2) {
+            document.getElementById('intel-footer')?.classList.remove('hidden');
+            observer.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      </script>
     </div>
   </section>
 </Base>
