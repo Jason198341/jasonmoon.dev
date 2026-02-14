@@ -303,6 +303,9 @@ export default function RunningDashboard({ data }: Props) {
   return (
     <div className="space-y-8">
 
+      {/* ── World Map ── */}
+      <RunningWorldMap runs={filtered} />
+
       {/* ── Period Filter + Date Range ── */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-1.5">
@@ -431,9 +434,6 @@ export default function RunningDashboard({ data }: Props) {
           </div>
         </div>
       )}
-
-      {/* ── World Map ── */}
-      <RunningWorldMap runs={filtered} />
 
       {/* ── Training Frequency Heatmap ── */}
       <div>
