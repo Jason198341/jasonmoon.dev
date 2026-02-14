@@ -11,36 +11,43 @@ interface Props {
 
 const { title, description, slug, category, stack, image, projectType } = Astro.props;
 
-const categoryColors: Record<string, string> = {
-  'Web App': 'text-indigo-400 bg-indigo-500/10',
-  'Mobile App': 'text-emerald-400 bg-emerald-500/10',
-  'Chrome Extension': 'text-amber-400 bg-amber-500/10',
+const categoryConfig: Record<string, { color: string; dot: string }> = {
+  'Web App': { color: 'text-indigo-400 bg-indigo-500/10', dot: 'bg-indigo-400' },
+  'Mobile App': { color: 'text-emerald-400 bg-emerald-500/10', dot: 'bg-emerald-400' },
+  'Chrome Extension': { color: 'text-amber-400 bg-amber-500/10', dot: 'bg-amber-400' },
 };
 
 const typeColors: Record<string, string> = {
   Personal: 'text-amber-400 bg-amber-400/10 border border-amber-400/20',
   Client: 'text-emerald-400 bg-emerald-400/10 border border-emerald-400/20',
 };
+
+const catCfg = categoryConfig[category] || { color: 'text-text-muted bg-surface', dot: 'bg-text-muted' };
 ---
 
 <a
   href={`/projects/${slug}`}
-  class="group block rounded-xl border border-border bg-surface overflow-hidden hover:border-accent/40 hover:bg-surface-hover transition-all duration-200 glow-hover"
+  class="group block rounded-2xl border border-border/60 bg-surface/40 backdrop-blur-sm overflow-hidden hover:border-accent/30 transition-all duration-300"
+  style="perspective: 800px;"
 >
   {image && (
-    <div class="h-36 overflow-hidden bg-bg/50">
+    <div class="h-40 overflow-hidden bg-bg/30 relative">
       <img
         src={image}
         alt={title}
-        class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+        class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700 ease-out"
         loading="lazy"
       />
+      <!-- Overlay on hover -->
+      <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-300"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
     </div>
   )}
   <div class="p-6">
     <div class="flex items-start justify-between mb-3">
       <div class="flex items-center gap-2 flex-wrap">
-        <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${categoryColors[category] || 'text-text-muted bg-surface'}`}>
+        <span class={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium ${catCfg.color}`}>
+          <span class={`w-1.5 h-1.5 rounded-full ${catCfg.dot}`}></span>
           {category}
         </span>
         {projectType && (
@@ -49,28 +56,28 @@ const typeColors: Record<string, string> = {
           </span>
         )}
       </div>
-      <svg class="w-4 h-4 text-text-muted group-hover:text-accent transition-colors -translate-x-1 group-hover:translate-x-0 duration-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-4 h-4 text-text-muted/50 group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7v10"/>
       </svg>
     </div>
 
-    <h3 class="text-lg font-semibold mb-2 group-hover:text-accent transition-colors">
+    <h3 class="font-display text-lg font-bold mb-2 group-hover:text-accent transition-colors duration-300">
       {title}
     </h3>
 
-    <p class="text-sm text-text-muted leading-relaxed mb-4">
+    <p class="text-sm text-text-muted leading-relaxed mb-4 line-clamp-2">
       {description}
     </p>
 
     <div class="flex flex-wrap gap-1.5">
-      {stack.slice(0, 5).map((tech) => (
-        <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
+      {stack.slice(0, 4).map((tech) => (
+        <span class="px-2 py-0.5 rounded-md text-[11px] font-mono text-text-muted/70 bg-bg/60 border border-border/50">
           {tech}
         </span>
       ))}
-      {stack.length > 5 && (
-        <span class="px-2 py-0.5 rounded text-xs font-mono text-text-muted bg-bg border border-border">
-          +{stack.length - 5}
+      {stack.length > 4 && (
+        <span class="px-2 py-0.5 rounded-md text-[11px] font-mono text-text-muted/50 bg-bg/60 border border-border/50">
+          +{stack.length - 4}
         </span>
       )}
     </div>

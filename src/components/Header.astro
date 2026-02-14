@@ -15,11 +15,17 @@ function isActive(href: string): boolean {
 }
 ---
 
-<header class="sticky top-0 z-50 border-b border-border/50 bg-surface/60 backdrop-blur-xl">
-  <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-    <a href="/" class="flex items-center gap-2 font-mono text-lg font-bold tracking-tight text-text hover:text-accent transition-colors">
-      <img src="/logo.png" alt="" class="w-7 h-7 rounded" />
-      jasonmoon<span class="text-accent">.dev</span>
+<header
+  id="site-header"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+  <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 transition-all duration-300">
+    <a href="/" class="group flex items-center gap-2.5 font-mono text-lg font-bold tracking-tight text-text transition-colors">
+      <span class="relative">
+        <img src="/logo.png" alt="" class="w-7 h-7 rounded transition-transform duration-300 group-hover:scale-110" />
+        <span class="absolute inset-0 rounded bg-accent/0 group-hover:bg-accent/20 blur-md transition-all duration-300"></span>
+      </span>
+      <span>jasonmoon<span class="text-accent">.dev</span></span>
     </a>
 
     <!-- Desktop nav -->
@@ -29,13 +35,16 @@ function isActive(href: string): boolean {
           <a
             href={href}
             class:list={[
-              'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+              'relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
               isActive(href)
-                ? 'text-accent bg-accent-dim'
-                : 'text-text-muted hover:text-text hover:bg-surface',
+                ? 'text-accent'
+                : 'text-text-muted hover:text-text',
             ]}
           >
             {label}
+            {isActive(href) && (
+              <span class="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-accent"></span>
+            )}
           </a>
         </li>
       ))}
@@ -44,41 +53,103 @@ function isActive(href: string): boolean {
     <!-- Mobile menu button -->
     <button
       id="menu-toggle"
-      class="md:hidden p-2 text-text-muted hover:text-text transition-colors"
+      class="md:hidden relative w-10 h-10 flex items-center justify-center text-text-muted hover:text-text transition-colors rounded-lg"
       aria-label="Toggle menu"
+      aria-expanded="false"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        <g id="hamburger-icon" class="transition-all duration-300 origin-center">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16" />
+        </g>
       </svg>
     </button>
   </nav>
 
   <!-- Mobile nav -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-border/50">
-    <ul class="px-6 py-4 space-y-1">
-      {links.map(({ href, label }) => (
-        <li>
-          <a
-            href={href}
-            class:list={[
-              'block px-3 py-2 rounded-lg text-sm font-medium transition-colors',
-              isActive(href)
-                ? 'text-accent bg-accent-dim'
-                : 'text-text-muted hover:text-text hover:bg-surface',
-            ]}
+  <div
+    id="mobile-menu"
+    class="md:hidden overflow-hidden transition-all duration-300 ease-out"
+    style="max-height: 0; opacity: 0;"
+  >
+    <div class="border-t border-border/30 bg-surface/80 backdrop-blur-xl">
+      <ul class="px-6 py-4 space-y-1">
+        {links.map(({ href, label }, i) => (
+          <li
+            class="mobile-menu-item"
+            style={`transition-delay: ${i * 50}ms;`}
           >
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
+            <a
+              href={href}
+              class:list={[
+                'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                isActive(href)
+                  ? 'text-accent bg-accent/10'
+                  : 'text-text-muted hover:text-text hover:bg-surface-hover',
+              ]}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </header>
 
+<!-- Spacer to offset fixed header -->
+<div class="h-16"></div>
+
 <script>
+  const header = document.getElementById('site-header');
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
+  let isOpen = false;
+  let lastScrollY = 0;
+  let ticking = false;
+
+  // Mobile menu toggle
   toggle?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
+    isOpen = !isOpen;
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    if (menu) {
+      if (isOpen) {
+        menu.style.maxHeight = menu.scrollHeight + 'px';
+        menu.style.opacity = '1';
+      } else {
+        menu.style.maxHeight = '0';
+        menu.style.opacity = '0';
+      }
+    }
   });
+
+  // Scroll-aware header
+  function onScroll() {
+    if (!header) return;
+    const scrollY = window.scrollY;
+    const scrollingDown = scrollY > lastScrollY && scrollY > 80;
+
+    if (scrollY > 50) {
+      header.classList.add('bg-surface/80', 'backdrop-blur-xl', 'border-b', 'border-border/30');
+    } else {
+      header.classList.remove('bg-surface/80', 'backdrop-blur-xl', 'border-b', 'border-border/30');
+    }
+
+    if (scrollingDown && !isOpen) {
+      header.style.transform = 'translateY(-100%)';
+    } else {
+      header.style.transform = 'translateY(0)';
+    }
+
+    lastScrollY = scrollY;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
 </script>
