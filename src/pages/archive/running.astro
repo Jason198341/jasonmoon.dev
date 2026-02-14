@@ -1,20 +1,6 @@
 ---
-export const prerender = false;
-
 import Base from '../../layouts/Base.astro';
-import { fetchEnrichedRunData } from '../../lib/strava';
-import type { EnrichedRunData } from '../../lib/strava';
-import RunningDashboard from '../../components/RunningDashboard';
-
-let data: EnrichedRunData | null = null;
-let error = false;
-
-try {
-  data = await fetchEnrichedRunData();
-} catch (e: any) {
-  console.error('Strava fetch error:', e?.message ?? e);
-  error = true;
-}
+import RunningPageLoader from '../../components/RunningPageLoader';
 
 const quote = 'Keep the records, but don\u0027t chase the results. Watch the thoughts that rise while running.';
 ---
@@ -42,24 +28,10 @@ const quote = 'Keep the records, but don\u0027t chase the results. Watch the tho
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
       </a>
 
-      {error && (
-        <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 mb-6 text-sm text-amber-200">
-          Could not load Strava data. Showing cached or empty results.
-        </div>
-      )}
+      <RunningPageLoader client:load />
 
-      {data ? (
-        <RunningDashboard client:load data={data} />
-      ) : !error ? (
-        <div class="rounded-xl border border-border bg-surface p-8 text-center">
-          <p class="text-4xl mb-3">🏃</p>
-          <p class="text-text-muted">No runs recorded on Strava yet.</p>
-          <p class="text-sm text-text-muted mt-2">Start running and activities will appear here automatically.</p>
-        </div>
-      ) : null}
-
-      <!-- Club Version CTA (subtle) -->
-      {data && (
+      <!-- Club Version CTA + Strava Attribution rendered after data loads via component -->
+      <div id="running-footer" class="hidden">
         <div class="mt-14 rounded-xl border border-border bg-surface p-6 text-center">
           <p class="text-sm text-text-muted mb-2">
             Built with Strava API, ACWR analytics, and custom SVG visualizations.
@@ -69,18 +41,29 @@ const quote = 'Keep the records, but don\u0027t chase the results. Watch the tho
             <a href="/contact" class="text-accent hover:underline font-medium">Let's talk</a>
           </p>
         </div>
-      )}
 
-      <!-- Strava Attribution (required by API terms) -->
-      <div class="mt-12 flex items-center justify-center gap-2 text-xs text-text-muted">
-        <span>Powered by</span>
-        <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-[#FC4C02] transition-colors">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
-          </svg>
-          <span class="font-semibold">Strava</span>
-        </a>
+        <div class="mt-12 flex items-center justify-center gap-2 text-xs text-text-muted">
+          <span>Powered by</span>
+          <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-[#FC4C02] transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+            </svg>
+            <span class="font-semibold">Strava</span>
+          </a>
+        </div>
       </div>
+
+      <script>
+        // Show footer once data is loaded (RunningDashboard renders)
+        const observer = new MutationObserver(() => {
+          const dashboard = document.querySelector('[class*="space-y-8"]');
+          if (dashboard) {
+            document.getElementById('running-footer')?.classList.remove('hidden');
+            observer.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      </script>
     </div>
   </section>
 </Base>
