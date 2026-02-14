@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import type { EnrichedRunData, RunEntry } from '../lib/strava';
 import { computeTodaysPlan } from '../lib/strava-analytics';
+import RunningWorldMap from './RunningWorldMap';
 
 interface Props {
   data: EnrichedRunData;
@@ -430,6 +431,9 @@ export default function RunningDashboard({ data }: Props) {
           </div>
         </div>
       )}
+
+      {/* ── World Map ── */}
+      <RunningWorldMap runs={filtered} />
 
       {/* ── Training Frequency Heatmap ── */}
       <div>
