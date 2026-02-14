@@ -51,7 +51,7 @@ const prompts = defineCollection({
     title: z.string(),
     titleEn: z.string(),
     description: z.string(),
-    category: z.enum(['meta', 'business', 'writing', 'education', 'wellness', 'professional', 'finance', 'media', 'content', 'fun']),
+    category: z.enum(['meta', 'business', 'writing', 'education', 'wellness', 'professional', 'finance', 'media', 'content', 'fun', 'tech', 'marketing', 'design', 'data', 'career', 'lifestyle', 'parenting', 'legal', 'productivity', 'social']),
     tags: z.array(z.string()),
     platforms: z.array(z.string()),
   }),

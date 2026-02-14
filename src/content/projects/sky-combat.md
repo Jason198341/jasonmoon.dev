@@ -6,6 +6,7 @@ category: Web App
 stack: [React, TypeScript, Three.js, React Three Fiber, Zustand, Tailwind CSS, Vite]
 github: https://github.com/Jason198341/sky-combat
 image: /projects/sky-combat.png
+images: [/projects/sky-combat.png, /projects/sky-combat-gameplay.png]
 projectType: Personal
 featured: true
 order: 11
