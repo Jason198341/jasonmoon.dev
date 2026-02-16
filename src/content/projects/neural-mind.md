@@ -5,6 +5,7 @@ description: ML-powered mind mapping app that visualizes thought flow and concep
 category: Mobile App
 stack: [Kotlin, Jetpack Compose, Material Design 3, Machine Learning, Room DB]
 live: https://play.google.com/store/apps/details?id=com.jason.neuralmind
+domain: Google Play
 image: /projects/neural-mind.png
 images:
   - /projects/neural-mind-mindmap.png
