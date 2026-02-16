@@ -3,8 +3,13 @@ import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import HeroWorldMap from '../components/HeroWorldMap';
 import { getCollection } from 'astro:content';
+import { getTotalCount as getCatalogCount } from '../data/video-catalog';
 
 const allProjects = await getCollection('projects');
+const allPrompts = await getCollection('prompts');
+const promptCount = allPrompts.length;
+const catalogCount = getCatalogCount();
+const templateCount = 8; // live Remotion templates on /templates
 const flagships = allProjects.filter(p => p.data.flagship).sort((a, b) => a.data.order - b.data.order);
 const others = allProjects.filter(p => !p.data.flagship && p.data.featured).sort((a, b) => a.data.order - b.data.order);
 const concepts = allProjects.filter(p => p.data.category === 'Concept').sort((a, b) => a.data.order - b.data.order);
@@ -125,6 +130,49 @@ const stats = [
             </div>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ RESOURCES ═══════════════ -->
+  <section class="pb-20 -mt-8">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="grid grid-cols-3 gap-3 sm:gap-4">
+        <a
+          href="/templates"
+          class="reveal group relative rounded-xl border border-border/60 bg-surface/50 backdrop-blur-sm p-4 sm:p-5 text-center overflow-hidden hover:border-accent/40 transition-all duration-300"
+        >
+          <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-300 rounded-xl"></div>
+          <div class="relative">
+            <span class="text-lg mb-1.5 block">🎬</span>
+            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={templateCount} data-count-suffix="">0</p>
+            <p class="text-[10px] sm:text-xs text-text-muted mt-1 font-medium uppercase tracking-wider">Live Templates</p>
+          </div>
+        </a>
+        <a
+          href="/video-catalog"
+          class="reveal group relative rounded-xl border border-border/60 bg-surface/50 backdrop-blur-sm p-4 sm:p-5 text-center overflow-hidden hover:border-accent/40 transition-all duration-300"
+          style="transition-delay: 100ms;"
+        >
+          <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-300 rounded-xl"></div>
+          <div class="relative">
+            <span class="text-lg mb-1.5 block">📋</span>
+            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={catalogCount} data-count-suffix="">0</p>
+            <p class="text-[10px] sm:text-xs text-text-muted mt-1 font-medium uppercase tracking-wider">Video Recipes</p>
+          </div>
+        </a>
+        <a
+          href="/prompts"
+          class="reveal group relative rounded-xl border border-border/60 bg-surface/50 backdrop-blur-sm p-4 sm:p-5 text-center overflow-hidden hover:border-accent/40 transition-all duration-300"
+          style="transition-delay: 200ms;"
+        >
+          <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-300 rounded-xl"></div>
+          <div class="relative">
+            <span class="text-lg mb-1.5 block">💡</span>
+            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={promptCount} data-count-suffix="">0</p>
+            <p class="text-[10px] sm:text-xs text-text-muted mt-1 font-medium uppercase tracking-wider">AI Prompts</p>
+          </div>
+        </a>
       </div>
     </div>
   </section>
