@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getSystemPrompt } from '../../lib/memory';
+import { getSystemPrompt, getFocusedPrompt, routeQuestion } from '../../lib/memory';
 
 export const prerender = false;
 
@@ -22,6 +22,11 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
+  // Server-side routing: pick the relevant memory section from the last user message
+  const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content ?? '';
+  const section = routeQuestion(lastUserMsg);
+  const systemContent = section ? getFocusedPrompt(section) : getSystemPrompt();
+
   const upstream = await fetch('https://api.fireworks.ai/inference/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -32,7 +37,7 @@ export const POST: APIRoute = async ({ request }) => {
       model: 'accounts/fireworks/models/kimi-k2-instruct-0905',
       max_tokens: 1024,
       messages: [
-        { role: 'system', content: getSystemPrompt() },
+        { role: 'system', content: systemContent },
         ...messages,
       ],
     }),

@@ -9,6 +9,46 @@ function stripComments(md: string): string {
   return md.replace(/<!--[\s\S]*?-->/g, '').trim();
 }
 
+// Keyword → section [태그] routing table
+const KEYWORD_ROUTES: { keywords: string[]; tag: string }[] = [
+  { keywords: ['마라톤', '체나이', '32km', '완주했을', 'chennai', 'marathon'], tag: '[체나이 마라톤]' },
+  { keywords: ['달리기', '러닝', '런닝', '음악 없이', '달릴 때', 'running'], tag: '[달리기]' },
+  { keywords: ['인도', '주재원', '체육대회', '사랑한다고', '팀원', 'india'], tag: '[인도 주재원]' },
+  { keywords: ['보람', '의미있', '결과 없어도'], tag: '[보람]' },
+  { keywords: ['자존감 수업', '100회', '이호선', '숫자 목표', '백 번'], tag: '[자존감 수업]' },
+  { keywords: ['성과 중독', '아웃풋 강박', '존재 증명', '관찰자'], tag: '[성과 패턴]' },
+  { keywords: ['성과', '체계화', '인정받지'], tag: '[성과 패턴]' },
+  { keywords: ['톨스토이', '필사'], tag: '[톨스토이]' },
+  { keywords: ['삶 철학', '삶 자체로', '인생 철학'], tag: '[톨스토이]' },
+  { keywords: ['고통'], tag: '[고통]' },
+  { keywords: ['관계 어떻게', '사람을 바꾸', '조직 문화', '사람과 관계'], tag: '[사람과 관계]' },
+  { keywords: ['어떤 사람이고 싶어', '리더십', '영감 어디서', '정체성'], tag: '[정체성]' },
+  { keywords: ['전통', '규칙 따르', '남 눈치'], tag: '[전통과 규칙]' },
+];
+
+/** Extract a single section from family.md by [태그]. */
+function extractSection(tag: string): string {
+  const start = familyMd.indexOf(`## ${tag}`);
+  if (start === -1) return '';
+  const next = familyMd.indexOf('\n## [', start + 1);
+  return (next === -1 ? familyMd.slice(start) : familyMd.slice(start, next)).trim();
+}
+
+/**
+ * Given the user's question, return the single most relevant memory section.
+ * Returns empty string if no keyword matches (caller falls back to full prompt).
+ */
+export function routeQuestion(question: string): string {
+  const lower = question.toLowerCase();
+  for (const route of KEYWORD_ROUTES) {
+    if (route.keywords.some(k => lower.includes(k))) {
+      return extractSection(route.tag);
+    }
+  }
+  return '';
+}
+
+/** Full system prompt used when server-side routing finds no match. */
 export function getSystemPrompt(): string {
   const core = [personaMd, philosophyMd, interestsMd].join('\n\n');
 
@@ -17,19 +57,28 @@ export function getSystemPrompt(): string {
     .filter(Boolean);
   const memories = memoryParts.join('\n\n');
 
+  return buildPrompt(core, memories ? `# 기억들\n\n${memories}` : '');
+}
+
+/** Focused prompt with only one relevant memory section. */
+export function getFocusedPrompt(section: string): string {
+  const core = [personaMd, philosophyMd, interestsMd].join('\n\n');
+  return buildPrompt(core, `# 관련 기억\n\n${section}`);
+}
+
+function buildPrompt(core: string, memoriesBlock: string): string {
   return `You are Jason. Rules:
-1. Respond in Korean 반말 only (no ~해요, no ~입니다, no ~죠).
+1. Respond in Korean 반말 only (no ~해요, no ~입니다).
 2. Never greet or introduce yourself.
-3. Each memory section has a [태그] header and a _Q유형_ line listing the kinds of questions it covers. Find the section whose Q유형 best matches the incoming question. Answer using ONLY that section's content.
-4. Answer in 2~4 sentences maximum.
+3. Answer in 2~4 sentences using ONLY the content in 관련 기억 or 기억들.
 
 ---
 
 ${core}
 
-${memories ? `---\n\n# 기억들\n각 섹션의 [태그]와 _Q유형_ 힌트를 보고 질문에 맞는 섹션을 찾아서 그 내용으로만 답해.\n\n${memories}` : ''}
+${memoriesBlock ? `---\n\n${memoriesBlock}` : ''}
 
 ---
 
-반말만. 자기소개 금지. 질문에 해당하는 섹션 하나만 사용할 것.`;
+반말만. 자기소개 금지. 주어진 기억 내용으로만 답할 것.`;
 }
