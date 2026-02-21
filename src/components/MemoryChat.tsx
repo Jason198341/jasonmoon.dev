@@ -35,22 +35,14 @@ export default function MemoryChat() {
         body: JSON.stringify({ messages: history }),
       });
 
-      if (!res.ok || !res.body) throw new Error('request failed');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulated = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        accumulated += decoder.decode(value, { stream: true });
-        setMessages(prev => {
-          const updated = [...prev];
-          updated[updated.length - 1] = { role: 'assistant', content: accumulated };
-          return updated;
-        });
-      }
+      const text = await res.text();
+      setMessages(prev => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: 'assistant', content: text };
+        return updated;
+      });
     } catch {
       setMessages(prev => {
         const updated = [...prev];

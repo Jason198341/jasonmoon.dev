@@ -1,51 +1,12 @@
 ---
+export const prerender = false;
 import Base from '../../layouts/Base.astro';
-
-const books = [
-  {
-    title: 'Lessons in Self-Esteem',
-    subtitle: '100-Read Project',
-    author: 'Yoon Honggyun',
-    status: 'reading' as const,
-    current: 3,
-    goal: 100,
-    quote: 'The goal isn\'t the number of reads — it\'s discovering sentences that hit differently each time.',
-    sessions: [
-      {
-        round: 1,
-        date: '1/23',
-        sentence: 'Grow the voice that supports you, not the one that torments you.',
-        change: 'An old drawer opened — facing emotions I\'d been avoiding',
-        note: 'A book my wife casually handed me sent unexpected ripples through my daily life. With each page, it felt like opening old drawers one by one. The anxiety that had always lived inside me came into sharp focus. The author said I should be the one cheering on the version of me that struggles with low self-esteem. This isn\'t a book you read once — I decided to read it at least 100 times.',
-      },
-      {
-        round: 2,
-        date: '1/28',
-        sentence: 'The entire "Me, Here, Now" chapter',
-        change: 'Nights of self-punishment → ending the day with self-love',
-        note: 'I used to spend all day living as someone with low self-esteem, then come home to an empty heart and punish myself. But now I end each day in conversation with the part of me that fully loves my imperfect self. I smile at myself, walk with confidence, and whisper words of encouragement — ending the day as if I were someone overflowing with self-worth.',
-      },
-      {
-        round: 3,
-        date: '2/5',
-        sentence: '(I hugged the book)',
-        change: 'Knowledge in my head started becoming action in my life',
-        note: 'After the third read, knowledge stopped staying in my head and started showing up as natural behavioral changes. I offered heartfelt words to a struggling colleague. When my son asked me something, I immediately washed my hands and headed to the living room. My wife says my irritability has noticeably decreased.',
-      },
-    ],
-  },
-];
-
-const statusLabel = {
-  reading: { text: 'Reading', class: 'text-emerald-400 bg-emerald-400/10' },
-  completed: { text: 'Completed', class: 'text-accent bg-accent-dim' },
-  planned: { text: 'Planned', class: 'text-text-muted bg-surface' },
-};
+import BookLibrary from '../../components/BookLibrary';
 ---
 
 <Base title="Reading — Archive — Jason Moon">
   <section class="py-16 sm:py-20">
-    <div class="mx-auto max-w-3xl px-6">
+    <div class="mx-auto max-w-4xl px-6">
       <a href="/archive" class="inline-flex items-center gap-1 text-sm text-text-muted hover:text-accent transition-colors mb-8">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         Archive
@@ -56,52 +17,7 @@ const statusLabel = {
         Books I'm reading — not just once, but deeply. Tracking what sticks and what changes.
       </p>
 
-      {books.map((book) => (
-        <div class="rounded-xl border border-border bg-surface p-6 mb-6">
-          <div class="flex items-start justify-between mb-2">
-            <div>
-              <h2 class="text-xl font-semibold">{book.title}</h2>
-              <p class="text-sm text-text-muted">{book.author} · {book.subtitle}</p>
-            </div>
-            <span class={`px-2.5 py-1 rounded text-xs font-medium shrink-0 ${statusLabel[book.status].class}`}>
-              {statusLabel[book.status].text}
-            </span>
-          </div>
-
-          <blockquote class="text-sm text-text-muted italic border-l-2 border-accent pl-3 my-4">
-            {book.quote}
-          </blockquote>
-
-          <!-- Progress bar -->
-          <div class="mb-6">
-            <div class="flex justify-between text-xs text-text-muted mb-1">
-              <span>Progress</span>
-              <span class="font-mono">{book.current} / {book.goal}</span>
-            </div>
-            <div class="h-2 rounded-full bg-bg overflow-hidden">
-              <div class="h-full rounded-full bg-accent transition-all" style={`width: ${(book.current / book.goal) * 100}%`} />
-            </div>
-          </div>
-
-          <!-- Sessions -->
-          <h3 class="text-sm font-semibold text-text-muted mb-4">Reading Sessions</h3>
-          <div class="space-y-6">
-            {book.sessions.map((s) => (
-              <div class="pl-4 border-l-2 border-border">
-                <div class="flex items-center gap-2 mb-2">
-                  <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent text-white text-xs font-bold">{s.round}</span>
-                  <span class="text-xs font-mono text-accent">{s.date}</span>
-                </div>
-                <div class="rounded-lg bg-bg p-3 mb-2">
-                  <p class="text-sm font-medium text-text mb-1">"{s.sentence}"</p>
-                  <p class="text-xs text-accent">{s.change}</p>
-                </div>
-                <p class="text-sm text-text-muted leading-relaxed">{s.note}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      <BookLibrary client:load />
     </div>
   </section>
 </Base>
