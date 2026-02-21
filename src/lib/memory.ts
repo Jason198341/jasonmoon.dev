@@ -39,12 +39,17 @@ function extractSection(tag: string): string {
  * Returns empty string if no keyword matches (caller falls back to full prompt).
  */
 export function routeQuestion(question: string): string {
-  const lower = question.toLowerCase();
+  const lower = question.toLowerCase().normalize('NFC');
   for (const route of KEYWORD_ROUTES) {
-    if (route.keywords.some(k => lower.includes(k))) {
-      return extractSection(route.tag);
+    const matched = route.keywords.find(k => lower.includes(k.normalize('NFC')));
+    if (matched) {
+      console.log('[routeQuestion] matched keyword:', JSON.stringify(matched), '→ tag:', route.tag);
+      const sec = extractSection(route.tag);
+      console.log('[routeQuestion] section length:', sec.length);
+      return sec;
     }
   }
+  console.log('[routeQuestion] no match for:', JSON.stringify(lower.slice(0, 40)));
   return '';
 }
 

@@ -25,6 +25,7 @@ export const POST: APIRoute = async ({ request }) => {
   // Server-side routing: pick the relevant memory section from the last user message
   const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content ?? '';
   const section = routeQuestion(lastUserMsg);
+  console.log('[routing] q=', JSON.stringify(lastUserMsg.slice(0, 40)), 'section_len=', section.length);
   const systemContent = section ? getFocusedPrompt(section) : getSystemPrompt();
 
   const upstream = await fetch('https://api.fireworks.ai/inference/v1/chat/completions', {
