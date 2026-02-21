@@ -18,6 +18,10 @@ export default function MemoryChat() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    if (!isStreaming) inputRef.current?.focus();
+  }, [messages, isStreaming]);
+
   async function send() {
     const text = input.trim();
     if (!text || isStreaming) return;

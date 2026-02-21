@@ -51,6 +51,9 @@ export const POST: APIRoute = async ({ request }) => {
   const text = data.choices?.[0]?.message?.content ?? '';
 
   return new Response(text, {
-    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+    },
   });
 };

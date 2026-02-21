@@ -9,7 +9,7 @@ export default defineConfig({
   site: 'https://jasonmoon.dev',
   output: 'static',
   adapter: vercel({
-    isr: { expiration: 60 * 60 },  // 1-hour ISR cache for SSR pages
+    isr: { expiration: 60 * 60, exclude: ['/api/chat'] },  // 1-hour ISR cache, exclude chat API
   }),
   integrations: [react(), sitemap()],
   vite: {
