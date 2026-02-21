@@ -38,19 +38,18 @@ function extractSection(tag: string): string {
  * Given the user's question, return the single most relevant memory section.
  * Returns empty string if no keyword matches (caller falls back to full prompt).
  */
-export function routeQuestion(question: string): string {
+export function routeQuestion(question: string): { section: string; debug: string } {
   const lower = question.toLowerCase().normalize('NFC');
   for (const route of KEYWORD_ROUTES) {
     const matched = route.keywords.find(k => lower.includes(k.normalize('NFC')));
     if (matched) {
-      console.log('[routeQuestion] matched keyword:', JSON.stringify(matched), '→ tag:', route.tag);
       const sec = extractSection(route.tag);
-      console.log('[routeQuestion] section length:', sec.length);
-      return sec;
+      return { section: sec, debug: `matched:${matched}|tag:${route.tag}|secLen:${sec.length}` };
     }
   }
-  console.log('[routeQuestion] no match for:', JSON.stringify(lower.slice(0, 40)));
-  return '';
+  // Show first 3 chars of lower for encoding debug
+  const chars = [...lower.slice(0, 6)].map(c => c.codePointAt(0)?.toString(16)).join(',');
+  return { section: '', debug: `no-match|chars:${chars}` };
 }
 
 /** Full system prompt used when server-side routing finds no match. */

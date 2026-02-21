@@ -24,8 +24,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   // Server-side routing: pick the relevant memory section from the last user message
   const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content ?? '';
-  const section = routeQuestion(lastUserMsg);
-  console.log('[routing] q=', JSON.stringify(lastUserMsg.slice(0, 40)), 'section_len=', section.length);
+  const { section, debug: routeDebug } = routeQuestion(lastUserMsg);
   const systemContent = section ? getFocusedPrompt(section) : getSystemPrompt();
 
   const upstream = await fetch('https://api.fireworks.ai/inference/v1/chat/completions', {
@@ -60,7 +59,7 @@ export const POST: APIRoute = async ({ request }) => {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Cache-Control': 'no-store, no-cache, must-revalidate',
-      'X-Memory-Route': section ? section.split('\n')[0] : 'full-fallback',
+      'X-Memory-Route': routeDebug,
     },
   });
 };
