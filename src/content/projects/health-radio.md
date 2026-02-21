@@ -4,7 +4,7 @@ tagline: 환자의 "화끈해요"를 의사가 읽는 언어로 바꾼다.
 description: 의사-환자 정보 불균형 문제를 푸는 헬스케어 도구. 환자가 증상 부위·성격·악화 완화 패턴을 4단계 위저드로 입력하면, 3가지 가능성 분석(근골격계·신경·유방)과 진료 시 바로 보여줄 1페이지 리포트를 생성한다.
 category: Web App
 stack: [HTML, Vanilla JS, Tailwind CSS CDN, Vercel]
-live: https://health-radio.vercel.app
+live: https://health-radio-tool.vercel.app
 image: /projects/health-radio.png
 projectType: Personal
 featured: false
