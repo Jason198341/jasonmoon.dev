@@ -3,23 +3,31 @@ import Base from '../layouts/Base.astro';
 
 const principles = [
   {
-    title: 'Beyond Tools — Think in Systems',
-    evidence: 'SAT Crusher isn\'t a quiz app — it\'s a spaced repetition engine with trap detection. Investment Agent Swarm isn\'t a stock screener — it\'s four AI agents debating in a boardroom.',
-    link: '/projects/sat-crusher',
+    title: '내가 없어도 잘 돌아가게',
+    titleEn: 'Build Systems That Outlive You',
+    evidence: '인도 주재원 시절, 내 역할은 팀을 직접 이끄는 게 아니라 팀이 스스로 굴러가게 만드는 거였다. 체육대회 하나로 회의실에서 못 만든 관계가 생겼다.',
+    evidenceEn: 'As an expat in Chennai, I learned leadership isn\'t about being present — it\'s about making yourself unnecessary.',
+    link: '/archive',
   },
   {
-    title: 'Complexity to Clarity',
-    evidence: 'Prompt Garden turns messy prompting into visual components. Family Reading Race turns scattered reading habits into a shared family competition.',
-    link: '/projects/prompt-garden',
+    title: '기록은 남기되, 성과는 쫓지 않는다',
+    titleEn: 'Track Without Chasing',
+    evidence: '달리기할 때 음악을 안 든다. 숫자를 재지 않으려 한다. 달리기가 성과가 되는 순간 또 다른 불안이 된다. 지금 이 몸의 감각에 있는 것. 그게 진짜다.',
+    evidenceEn: 'I run without music. The moment running becomes performance, it becomes another source of anxiety.',
+    link: '/archive/running',
   },
   {
-    title: "Don't Change People. Build Better Environments.",
-    evidence: "The Parasite doesn't lecture about screen time — it adds friction until the habit breaks itself.",
-    link: '/projects/the-parasite',
+    title: '맞는 도구가 없으면 만든다',
+    titleEn: 'If the Tool Doesn\'t Exist, Build It',
+    evidence: '아이들 SAT 공부, 유튜브 중독, 영어 학습 — 필요한 도구가 없어서 직접 만들기 시작했다. 코딩은 목적이 아니라 수단이었다.',
+    evidenceEn: 'SAT prep, screen time, English learning — I started coding because the right tool didn\'t exist. Code is a means, not an end.',
+    link: '/projects',
   },
   {
-    title: 'Fulfillment Activates the Moment You Define It',
-    evidence: 'Reading a book 100 times isn\'t obsessive when you define fulfillment as noticing new sentences each time.',
+    title: '보람은 정의하는 순간부터 시작된다',
+    titleEn: 'Fulfillment Starts When You Define It',
+    evidence: '"나중에 돌아보면 보람 있었겠지"라고 살면 삶이 판결 대기 상태가 된다. 지금 이 상황을 내가 어떤 의미로 살겠다고 정의하는 순간, 이미 시작된다.',
+    evidenceEn: 'Waiting for fulfillment to arrive is living in a permanent holding pattern. Define it now, and it starts now.',
     link: '/archive/reading',
   },
 ];
@@ -27,22 +35,30 @@ const principles = [
 const skills = [
   { category: 'Frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'Astro', 'Next.js'] },
   { category: 'State & Data', items: ['Zustand', 'Supabase', 'localStorage', 'Room DB'] },
-  { category: 'AI & APIs', items: ['Fireworks AI', 'OpenAI', 'Chrome Extension API'] },
-  { category: 'Tools', items: ['Vite', 'esbuild', 'Git', 'Vercel', 'Figma'] },
+  { category: 'AI & APIs', items: ['Fireworks AI', 'Claude API', 'Chrome Extension API'] },
+  { category: 'Tools', items: ['Vite', 'esbuild', 'Git', 'Vercel', 'Remotion'] },
   { category: 'Languages', items: ['TypeScript', 'Kotlin', 'Python', 'SQL'] },
-  { category: 'Other', items: ['Remotion', 'ffmpeg', 'Recharts', 'KaTeX'] },
+  { category: 'Domain', items: ['Vehicle Systems', 'Body & Interior', 'Closures', 'Electronics'] },
 ];
 
 const timeline = [
   {
-    year: '2025–Present',
-    title: 'Independent Builder',
-    desc: 'Building web apps, mobile apps, and browser extensions — from SAT prep tools to knowledge graphs.',
+    year: '2024–Present',
+    title: 'Independent Builder / 독립 개발자',
+    desc: '필요한 도구가 없으면 만든다. 웹앱, 모바일 앱, 브라우저 확장 — SAT 학습 도구부터 가족 지식 그래프까지.',
+    descEn: 'Building the tools my family needs. Web apps, mobile apps, browser extensions.',
   },
   {
     year: '2010s–Present',
-    title: 'Automotive Engineer',
-    desc: 'Designing and analyzing vehicle systems — body, interior, closures, electronics, and more.',
+    title: 'Automotive Engineer / 자동차 엔지니어',
+    desc: '차량 시스템 설계 및 분석. 바디, 인테리어, 클로저, 전장. 낮에는 차를 설계하고 밤에는 코드를 짠다.',
+    descEn: 'Designing vehicle systems by day. Writing code by night.',
+  },
+  {
+    year: 'India / 인도 체나이',
+    title: 'Expat Engineer / 주재원',
+    desc: '인도 체나이에서 주재원으로 근무. 팀원들과 체육대회를 만들었고, 체나이 마라톤을 완주했다. 32km 지점에서 "이 고통 따위에 무너질 사람이 아니다"를 배웠다.',
+    descEn: 'Chennai. Built a sports day from scratch. Finished the Chennai Marathon. Learned what identity-based motivation actually feels like at km 32.',
   },
 ];
 ---
@@ -52,35 +68,54 @@ const timeline = [
     <div class="mx-auto max-w-3xl px-6">
       <h1 class="text-3xl sm:text-4xl font-bold mb-6">About</h1>
 
-      <div class="prose mb-16">
-        <p>
-          I'm Jason Moon — an automotive engineer, father of two, and systems thinker.
-          By day, I design vehicle systems. Nights and weekends, I don't just write code — I design
-          complete systems for my family's education, daily life, and growth.
-        </p>
-        <p>
-          Most of my projects started at the dinner table — my kids struggling with SAT prep,
-          my family losing hours to YouTube Shorts, or my own desire to learn English better.
-          When the right tool doesn't exist, I build it.
-        </p>
-        <p>
-          I believe the leap from good developer to great one isn't about learning more tools — it's about
-          thinking in systems. Every project I build is an architecture, not just an app.
-          SAT Crusher isn't a quiz — it's a spaced repetition engine with trap detection.
-          The Parasite isn't a blocker — it's a behavioral friction system.
-          That shift in perspective is what I bring to every build.
-        </p>
+      <!-- Bio -->
+      <div class="space-y-6 mb-16">
+        <div class="rounded-xl border border-border bg-surface p-6">
+          <p class="text-text leading-relaxed mb-3">
+            자동차 엔지니어이자 두 아이의 아빠, 달리기를 좋아하는 사람입니다.
+            낮에는 차량 시스템을 설계하고, 밤과 주말에는 가족에게 필요한 도구를 만듭니다.
+            코딩은 목적이 아니라 수단입니다 — 맞는 도구가 없으면 만드는 편입니다.
+          </p>
+          <p class="text-sm text-text-muted italic">
+            Automotive engineer, father of two, occasional marathon runner. I design vehicle systems by day, and build tools my family actually needs by night.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-border bg-surface p-6">
+          <p class="text-text leading-relaxed mb-3">
+            인도 체나이에서 주재원으로 일하며 팀을 이끌었습니다.
+            회의실보다 같이 땀 흘리는 자리에서 관계가 만들어진다는 걸 배웠습니다.
+            체육대회를 제안하고 직접 만들었고, 체나이 마라톤을 완주했습니다.
+            32km 지점에서 무언가 바뀌었습니다.
+          </p>
+          <p class="text-sm text-text-muted italic">
+            Spent years as an expat in Chennai, India. Real teams aren't built in conference rooms. Finished the Chennai Marathon — something shifted at km 32.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-border bg-surface p-6">
+          <p class="text-text leading-relaxed mb-3">
+            달리기할 때 음악을 틀지 않습니다. 생각이 올라오는 걸 쫓는 게 아니라 그냥 알아채는 연습을 합니다.
+            성과를 쌓고 싶은 충동이 올 때 "이건 불안에서 온 거다"를 알아채는 것.
+            그게 지금 제가 하는 연습입니다.
+          </p>
+          <p class="text-sm text-text-muted italic">
+            I run without music. Not to clear my head — to watch what's in it. The practice of noticing is the practice.
+          </p>
+        </div>
       </div>
 
-      <!-- What I Optimize For -->
-      <h2 class="text-2xl font-bold mb-6">What I Optimize For</h2>
+      <!-- Principles -->
+      <h2 class="text-2xl font-bold mb-6">What I've Learned</h2>
       <div class="space-y-4 mb-16">
-        {principles.map(({ title, evidence, link }) => (
+        {principles.map(({ title, titleEn, evidence, evidenceEn, link }) => (
           <a href={link} class="group block rounded-xl border border-border bg-surface p-6 hover:border-accent/40 transition-all glow-hover">
-            <p class="font-semibold text-accent mb-3">{title}</p>
-            <p class="text-sm text-text-muted leading-relaxed">{evidence}</p>
+            <p class="font-semibold text-accent mb-0.5">{title}</p>
+            <p class="text-xs text-text-muted mb-3">{titleEn}</p>
+            <p class="text-sm text-text leading-relaxed mb-1">{evidence}</p>
+            <p class="text-xs text-text-muted italic leading-relaxed">{evidenceEn}</p>
             <span class="inline-flex items-center gap-1 text-xs text-accent mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              See project
+              더 보기
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </span>
           </a>
@@ -107,22 +142,26 @@ const timeline = [
       <!-- Timeline -->
       <h2 class="text-2xl font-bold mb-6">Timeline</h2>
       <div class="space-y-8 mb-16">
-        {timeline.map(({ year, title, desc }) => (
+        {timeline.map(({ year, title, desc, descEn }) => (
           <div class="relative pl-8 border-l-2 border-accent/30">
             <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-accent border-4 border-bg" />
             <p class="text-sm font-mono text-accent mb-1">{year}</p>
             <h3 class="text-lg font-semibold mb-1">{title}</h3>
-            <p class="text-sm text-text-muted">{desc}</p>
+            <p class="text-sm text-text leading-relaxed mb-1">{desc}</p>
+            <p class="text-xs text-text-muted italic">{descEn}</p>
           </div>
         ))}
       </div>
 
-      <!-- Philosophy Quote -->
+      <!-- Quote -->
       <div class="rounded-xl border border-accent/20 bg-accent/5 p-8 text-center">
-        <blockquote class="text-lg sm:text-xl font-medium text-text italic leading-relaxed mb-3">
-          "The leap from good developer to great one isn't about learning more tools — it's about thinking in systems."
+        <blockquote class="text-lg sm:text-xl font-medium text-text italic leading-relaxed mb-2">
+          "보람은 누가 주는 게 아니야. 지금 이 상황을 내가 어떤 의미로 살겠다고 정의하는 순간, 이미 시작된다."
         </blockquote>
-        <p class="text-sm text-text-muted">— Jason Moon</p>
+        <p class="text-sm text-text-muted italic mb-4">
+          "Fulfillment isn't given. It starts the moment you define what this moment means."
+        </p>
+        <p class="text-xs text-text-muted">— Jason Moon</p>
       </div>
     </div>
   </section>
