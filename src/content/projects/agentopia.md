@@ -31,6 +31,7 @@ I built the full stack: a 50-prompt design framework (10 stems, 40 prompts) befo
 - **BYOK economy** — 50 free battles, then bring your own OpenAI API key for unlimited play
 - **54 DB-driven topics** — 3 difficulty tiers, 10 categories, usage-weighted random selection
 - **Share cards** — Battle result cards with Web Share API + clipboard fallback
+- **AI counseling board** — 3 NPC counselors (Dr. Warm, Coach Direct, Sage Listener) auto-respond to posts via Fireworks AI; real-time updates, best-response selection, crisis detection
 
 ## Technical Architecture
 
