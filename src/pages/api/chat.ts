@@ -4,7 +4,7 @@ import { getSystemPrompt } from '../../lib/memory';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
-  const apiKey = import.meta.env.ANTHROPIC_API_KEY;
+  const apiKey = import.meta.env.FIREWORKS_API_KEY;
   if (!apiKey) {
     return new Response(JSON.stringify({ error: 'API key missing' }), {
       status: 500,
@@ -22,24 +22,25 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+  const upstream = await fetch('https://api.fireworks.ai/inference/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
+      model: 'accounts/fireworks/models/deepseek-v3p1',
       max_tokens: 1024,
-      system: getSystemPrompt(),
-      messages,
+      messages: [
+        { role: 'system', content: getSystemPrompt() },
+        ...messages,
+      ],
     }),
   });
 
   if (!upstream.ok) {
     const errText = await upstream.text();
-    console.error('Anthropic error:', upstream.status, errText);
+    console.error('Fireworks error:', upstream.status, errText);
     return new Response(JSON.stringify({ error: 'Upstream failed', detail: errText }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
@@ -47,7 +48,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const data = await upstream.json();
-  const text = data.content?.[0]?.text ?? '';
+  const text = data.choices?.[0]?.message?.content ?? '';
 
   return new Response(text, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
