@@ -29,7 +29,7 @@ export const POST: APIRoute = async ({ request }) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'accounts/fireworks/models/qwen2p5-72b-instruct',
+      model: 'accounts/fireworks/models/kimi-k2-instruct-0905',
       max_tokens: 1024,
       messages: [
         { role: 'system', content: getSystemPrompt() },
