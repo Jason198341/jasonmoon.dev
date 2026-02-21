@@ -1,0 +1,332 @@
+---
+import Base from '../layouts/Base.astro';
+
+const ideas = [
+  {
+    id: 'label-decoder',
+    number: '01',
+    status: 'Exploring',
+    statusColor: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+    accent: '#818cf8',
+    accentDim: 'rgba(129,140,248,0.08)',
+    accentBorder: 'rgba(129,140,248,0.2)',
+    name: 'AI 라벨 해독 서비스',
+    nameEn: 'Label Decoder',
+    tagline: 'AI가 당신에게 붙인 라벨을 해체한다',
+    category: 'Meta-AI · B2C',
+    thesis: 'AI는 당신을 분석하고 설명한다. 하지만 그 설명이 당신을 가두기 시작한다.',
+    problem: [
+      '"ADHD 성향", "회피형 애착", "번아웃 3단계" — 정확한 라벨이 가능성을 닫는다.',
+      'AI 진단은 인상이지 전부가 아니다. 하지만 대부분의 사람은 그것을 자신의 정의로 받아들인다.',
+      'AI가 준 설명을 받아들이는 사람들은 많지만, 그 한계를 보는 사람은 드물다.',
+    ],
+    insight: 'AI의 분석을 입력하면, AI가 놓치고 있는 당신의 가능성을 보여준다. 라벨을 지우는 게 아니라 — 라벨 너머를 보여준다.',
+    mechanic: 'AI 진단 텍스트 붙여넣기 → "이 설명이 담지 못한 당신의 5가지 가능성" + "이 라벨이 닫은 문들" + "당신만의 반론"',
+    target: 'AI 코칭·상담·자기계발 앱을 많이 쓰는 사람들. 설명받는 것에 익숙해졌지만 뭔가 빠진 느낌인 사람들.',
+    whyNow: 'ChatGPT, AI 코치, AI 상담 앱이 폭발적으로 늘었다. AI 라벨을 받아들이는 사람만큼 그 한계를 느끼는 사람도 늘고 있다.',
+  },
+  {
+    id: 'judgment-free',
+    number: '02',
+    status: 'Thinking',
+    statusColor: 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
+    accent: '#22d3ee',
+    accentDim: 'rgba(34,211,238,0.06)',
+    accentBorder: 'rgba(34,211,238,0.18)',
+    name: '판단 없는 듣기',
+    nameEn: 'Judgment-Free Listening',
+    tagline: '조언 없이, 판단 없이 — 그냥 들어준다',
+    category: 'Human Connection · B2C',
+    thesis: '조언은 넘치고 경청은 없다. 아무도 그냥 들어주지 않는다.',
+    problem: [
+      'AI는 분석해주고, 친구는 해결책을 주고, 상담사는 진단을 내린다.',
+      '"판단 없이 들려지는 경험" — 가장 근본적인 인간 욕구 중 하나가 사라지고 있다.',
+      '사람들은 해결책이 필요한 게 아니라 들려야 할 때가 있다. 그 자리가 비어있다.',
+    ],
+    insight: '"조언 금지, 판단 금지, 그냥 들어주기" 규칙 하나로 운영되는 1:1 대화 매칭. AI가 아닌 인간에게 들리는 경험을 복원한다.',
+    mechanic: '"지금 말하고 싶어요" 버튼 → 규칙 동의한 리스너와 20분 연결 → 듣는 사람은 끄덕임과 "계속해요"만 가능 → 연결 종료 후 서로 별점 없이 감사 메시지만.',
+    target: '설명받는 게 피곤한 사람들. 판단 없이 말하고 싶은 순간이 있는 모든 사람. 리스너로 참여하는 공감 능력 높은 사람들.',
+    whyNow: '번아웃, 고립감, 연결 결핍이 팬데믹 이후 더 심화됐다. 동시에 AI 챗봇 상담이 늘수록 "인간에게 들려지는 경험"의 가치는 역설적으로 올라간다.',
+  },
+  {
+    id: 'mirror-literacy',
+    number: '03',
+    status: 'Thinking',
+    statusColor: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+    accent: '#34d399',
+    accentDim: 'rgba(52,211,153,0.06)',
+    accentBorder: 'rgba(52,211,153,0.18)',
+    name: '미러링 리터러시',
+    nameEn: 'Mirroring Literacy',
+    tagline: 'AI에 뺏긴 역할을 인간이 되찾는다',
+    category: 'Education · B2B2C',
+    thesis: 'AI가 사람을 설명해주는 자리를 차지했다. 하지만 주변 사람에게 제대로 이해받고 싶다는 욕구는 없어지지 않는다.',
+    problem: [
+      '리더는 팀원을 평가하지만 그 사람의 존재를 설명해주지 않는다.',
+      '부모는 자식을 걱정하지만 자식이 원하는 방식으로 봐주지 않는다.',
+      '파트너는 상대를 사랑하지만 상대가 느끼는 방식으로 이해해주지 못한다.',
+    ],
+    insight: '"상대의 존재를 잘 설명해주는 법" — 미러링의 기술을 훈련한다. AI가 채우고 있는 빈자리를 인간 관계가 되찾게 한다.',
+    mechanic: '상황 시뮬레이션 제시 → 사용자가 미러링 응답 입력 → AI가 상대 입장에서 피드백 → 점수 + 개선 방향 + 다음 단계 훈련. 4주 커리큘럼, 리더/부모/파트너 트랙 분리.',
+    target: '리더, 관리자, 부모, 커플. "관계에서 영향력을 높이고 싶다"는 사람들. 기업 교육 시장 (팀 리더십 트레이닝).',
+    whyNow: 'EQ, 심리적 안전감, 코칭 리더십이 기업의 핵심 역량으로 부상했다. AI가 설명해주는 시대에 역설적으로 "인간이 설명해주는 능력"의 프리미엄이 올라간다.',
+  },
+];
+
+const shipped = [
+  {
+    name: 'PostSpark',
+    desc: '배경 → LinkedIn 콘텐츠 10개',
+    url: 'https://postspark-ai.vercel.app',
+    tag: 'Live',
+  },
+  {
+    name: 'IdeaForge',
+    desc: '불편함 → 사업 아이디어 10개',
+    url: 'https://ideaforge-tool.vercel.app',
+    tag: 'Live',
+  },
+  {
+    name: '증상 구조화 도구',
+    desc: '환자 언어 → 의사 언어',
+    url: 'https://health-radio-tool.vercel.app',
+    tag: 'Live',
+  },
+];
+---
+
+<Base
+  title="Ideas — Jason Moon"
+  description="Business ideas I can't stop thinking about. A running record of concepts, theses, and the systems behind them."
+>
+  <main id="main-content" class="max-w-4xl mx-auto px-6 pb-32">
+
+    <!-- ═══ HERO ═══ -->
+    <section class="pt-16 pb-20 relative">
+      <!-- Background glow -->
+      <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
+        style="background: radial-gradient(ellipse, rgba(129,140,248,0.06) 0%, transparent 70%);">
+      </div>
+
+      <div class="relative">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent/70 bg-accent/5 border border-accent/15 px-3 py-1.5 rounded-full tracking-widest uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent/60 animate-pulse"></span>
+            Idea Lab
+          </span>
+        </div>
+
+        <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-black leading-[1.0] tracking-tight mb-6">
+          <span class="text-gradient">생각이 멈추지<br/>않는 아이디어들.</span>
+        </h1>
+
+        <p class="text-xl text-text-muted max-w-2xl leading-relaxed mb-4">
+          빌드하기 전에 먼저 생각한다. 이 페이지는 내가 지금 가장 깊이 생각하고 있는 비즈니스 아이디어들의 기록이다.
+        </p>
+        <p class="text-base text-text-muted/60 max-w-xl leading-relaxed">
+          만들어진 이유가 있고, 타이밍이 있고, 누가 필요로 하는지 알고 있는 것들만.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ THESIS ═══ -->
+    <section class="mb-24">
+      <div class="border border-border/50 rounded-2xl p-8 md:p-10 relative overflow-hidden"
+        style="background: linear-gradient(135deg, rgba(129,140,248,0.04) 0%, rgba(6,6,10,0) 60%);">
+        <!-- Decorative quote mark -->
+        <div class="absolute top-6 right-8 font-display text-[120px] leading-none text-accent/5 select-none pointer-events-none font-black">"</div>
+
+        <div class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-5">Current Thesis</div>
+        <blockquote class="font-display text-2xl md:text-3xl font-bold text-text leading-snug mb-6 max-w-2xl">
+          "AI가 사람을 설명하는 자리를<br/>차지했다.<br/>
+          <span class="text-accent">그 자리를 되찾는다.</span>"
+        </blockquote>
+        <p class="text-text-muted leading-relaxed max-w-2xl text-[15px]">
+          AI 코치는 당신을 분석한다. AI 상담봇은 당신 말을 듣는다. AI 진단 앱은 당신을 설명한다.
+          효율적이고 정확하다 — 하지만 뭔가 빠진 느낌이 든다면, 그 빠진 것이 바로 이 세 아이디어의 출발점이다.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ FEATURED IDEAS ═══ -->
+    <section class="mb-24">
+      <div class="flex items-center justify-between mb-10">
+        <h2 class="font-display text-2xl font-bold text-text">Featured Ideas</h2>
+        <span class="text-xs text-text-muted/50 font-mono">3 concepts</span>
+      </div>
+
+      <div class="space-y-8">
+        {ideas.map((idea) => (
+          <article
+            class="group relative rounded-2xl border overflow-hidden transition-all duration-300 hover:border-opacity-60"
+            style={`border-color: ${idea.accentBorder}; background: ${idea.accentDim};`}
+          >
+            <!-- Top accent line -->
+            <div class="absolute top-0 left-0 right-0 h-px" style={`background: linear-gradient(90deg, transparent, ${idea.accent}60, transparent);`}></div>
+
+            <div class="p-8 md:p-10">
+              <!-- Header row -->
+              <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                <div class="flex items-center gap-4">
+                  <span class="font-mono text-xs font-bold" style={`color: ${idea.accent}80`}>{idea.number}</span>
+                  <span class={`text-xs font-semibold px-2.5 py-1 rounded-full border ${idea.statusColor}`}>
+                    {idea.status}
+                  </span>
+                  <span class="text-xs text-text-muted/50 font-mono">{idea.category}</span>
+                </div>
+              </div>
+
+              <!-- Title -->
+              <div class="mb-1">
+                <h3 class="font-display text-3xl md:text-4xl font-black text-text mb-1">{idea.name}</h3>
+                <p class="text-sm font-mono" style={`color: ${idea.accent}90`}>{idea.nameEn}</p>
+              </div>
+
+              <p class="text-lg text-text-muted mt-3 mb-8 font-medium">{idea.tagline}</p>
+
+              <!-- Two-column content -->
+              <div class="grid md:grid-cols-2 gap-8">
+                <!-- Left: Problem + Thesis -->
+                <div class="space-y-6">
+                  <div>
+                    <div class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-3">Thesis</div>
+                    <p class="text-text font-semibold leading-relaxed">{idea.thesis}</p>
+                  </div>
+
+                  <div>
+                    <div class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-3">Problem</div>
+                    <ul class="space-y-2">
+                      {idea.problem.map((p) => (
+                        <li class="flex gap-2.5 text-sm text-text-muted leading-relaxed">
+                          <span class="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={`background: ${idea.accent}`}></span>
+                          {p}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Right: Insight + Mechanic -->
+                <div class="space-y-6">
+                  <div>
+                    <div class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-3">Core Insight</div>
+                    <p class="text-sm text-text-muted leading-relaxed">{idea.insight}</p>
+                  </div>
+
+                  <div>
+                    <div class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-3">How It Works</div>
+                    <p class="text-sm text-text-muted leading-relaxed">{idea.mechanic}</p>
+                  </div>
+
+                  <div>
+                    <div class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-3">Why Now</div>
+                    <p class="text-sm text-text-muted leading-relaxed">{idea.whyNow}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Target users -->
+              <div class="mt-8 pt-6 border-t border-border/30">
+                <span class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mr-3">Target</span>
+                <span class="text-sm text-text-muted">{idea.target}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- ═══ MORE IN PIPELINE ═══ -->
+    <section class="mb-24">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-display text-2xl font-bold text-text">더 많은 아이디어들</h2>
+        <span class="text-xs text-text-muted/50 font-mono">always growing</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          { name: '런닝 코치 OS', desc: '훈련 로그·부상·심리 상태를 하나의 흐름으로 연결하는 솔로 러너 운영 시스템', tag: 'B2C · Sports' },
+          { name: '자동차 부품 원가 AI', desc: '10년 설계 경험 + LLM으로 개발 초기 단계 원가를 즉시 추정', tag: 'B2B · Automotive' },
+          { name: '부모-자녀 영어 대화 앱', desc: '부모가 영어 선생님이 되는 앱. 함께 하는 미션, 진도, 발음 피드백', tag: 'B2C · EdTech' },
+          { name: 'KPI 캐스케이드 엔진', desc: '전략 목표가 팀원 개인 할 일까지 자동으로 분해되는 OKR 실행 도구', tag: 'B2B · SaaS' },
+          { name: '아이디어 생존 테스트', desc: '창업 아이디어를 72시간 안에 실제 수요로 검증하는 자동화 프레임워크', tag: 'B2C · Tools' },
+          { name: '감정 번역기', desc: '내가 느끼는 걸 상대가 이해하는 언어로 바꿔주는 관계 커뮤니케이션 도구', tag: 'B2C · Wellness' },
+        ].map((item) => (
+          <div class="card p-5 group">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <h3 class="font-semibold text-text group-hover:text-accent transition-colors text-[15px]">{item.name}</h3>
+              <span class="text-[10px] font-mono text-text-muted/50 whitespace-nowrap border border-border/50 px-2 py-0.5 rounded-full flex-shrink-0">{item.tag}</span>
+            </div>
+            <p class="text-sm text-text-muted leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ═══ ALREADY SHIPPED ═══ -->
+    <section class="mb-16">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-display text-2xl font-bold text-text">이미 만든 것들</h2>
+        <span class="text-xs text-text-muted/50 font-mono">shipped · live</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {shipped.map((tool) => (
+          <a
+            href={tool.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card p-5 group flex items-start justify-between gap-3 hover:border-accent/30 transition-colors"
+          >
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2 py-0.5 rounded-full">{tool.tag}</span>
+              </div>
+              <h3 class="font-semibold text-text group-hover:text-accent transition-colors text-[15px] mb-1">{tool.name}</h3>
+              <p class="text-xs text-text-muted">{tool.desc}</p>
+            </div>
+            <svg class="w-4 h-4 text-text-muted/30 group-hover:text-accent/60 transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- ═══ CTA ═══ -->
+    <section>
+      <div class="rounded-2xl border border-border/50 p-8 text-center relative overflow-hidden"
+        style="background: linear-gradient(135deg, rgba(129,140,248,0.04), rgba(6,6,10,0));">
+        <div class="absolute inset-0 pointer-events-none"
+          style="background: radial-gradient(ellipse at 50% 0%, rgba(129,140,248,0.08) 0%, transparent 60%);">
+        </div>
+        <div class="relative">
+          <p class="font-display text-xl font-bold text-text mb-2">이 아이디어 중 하나에 관심 있으신가요?</p>
+          <p class="text-text-muted text-sm mb-6">같이 만들거나, 자금을 대거나, 피드백을 주거나 — 어떤 방식이든 환영합니다.</p>
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 text-accent px-6 py-2.5 rounded-xl text-sm font-semibold transition-all"
+          >
+            이야기하러 오기
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</Base>
+
+<style>
+  .card {
+    background: rgba(17,17,22,0.8);
+    border: 1px solid rgba(34,34,48,0.8);
+    border-radius: 16px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .card:hover {
+    background: rgba(26,26,34,0.9);
+  }
+</style>
