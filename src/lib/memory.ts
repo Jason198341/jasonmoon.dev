@@ -9,65 +9,34 @@ function stripComments(md: string): string {
   return md.replace(/<!--[\s\S]*?-->/g, '').trim();
 }
 
-// Keyword → section [태그] routing table
-const KEYWORD_ROUTES: { keywords: string[]; tag: string }[] = [
-  { keywords: ['마라톤', '체나이', '32km', '완주했을', 'chennai', 'marathon'], tag: '[체나이 마라톤]' },
-  { keywords: ['달리기', '러닝', '런닝', '음악 없이', '달릴 때', 'running'], tag: '[달리기]' },
-  { keywords: ['인도', '주재원', '체육대회', '사랑한다고', '팀원', 'india'], tag: '[인도 주재원]' },
-  { keywords: ['보람', '의미있', '결과 없어도'], tag: '[보람]' },
-  { keywords: ['자존감 수업', '100회', '이호선', '숫자 목표', '백 번'], tag: '[자존감 수업]' },
-  { keywords: ['성과 중독', '아웃풋 강박', '존재 증명', '관찰자'], tag: '[성과 패턴]' },
-  { keywords: ['성과', '체계화', '인정받지'], tag: '[성과 패턴]' },
-  { keywords: ['톨스토이', '필사'], tag: '[톨스토이]' },
-  { keywords: ['삶 철학', '삶 자체로', '인생 철학'], tag: '[톨스토이]' },
-  { keywords: ['고통'], tag: '[고통]' },
-  { keywords: ['관계 어떻게', '사람을 바꾸', '조직 문화', '사람과 관계'], tag: '[사람과 관계]' },
-  { keywords: ['어떤 사람이고 싶어', '리더십', '영감 어디서', '정체성'], tag: '[정체성]' },
-  { keywords: ['전통', '규칙 따르', '남 눈치'], tag: '[전통과 규칙]' },
-];
+// ASCII tag → section header in family.md
+// Tags are sent by the client (browser) where Korean text is always correct.
+const ASCII_TAG_MAP: Record<string, string> = {
+  marathon:     '[체나이 마라톤]',
+  running:      '[달리기]',
+  india:        '[인도 주재원]',
+  meaning:      '[보람]',
+  reading:      '[자존감 수업]',
+  achievement:  '[성과 패턴]',
+  tolstoy:      '[톨스토이]',
+  pain:         '[고통]',
+  relationship: '[사람과 관계]',
+  identity:     '[정체성]',
+  tradition:    '[전통과 규칙]',
+};
 
-/** Extract a single section from family.md by [태그]. */
-function extractSection(tag: string): string {
-  const start = familyMd.indexOf(`## ${tag}`);
+function extractSection(sectionTag: string): string {
+  const start = familyMd.indexOf(`## ${sectionTag}`);
   if (start === -1) return '';
   const next = familyMd.indexOf('\n## [', start + 1);
   return (next === -1 ? familyMd.slice(start) : familyMd.slice(start, next)).trim();
 }
 
-/**
- * Given the user's question, return the single most relevant memory section.
- * Returns empty string if no keyword matches (caller falls back to full prompt).
- */
-export function routeQuestion(question: string): { section: string; debug: string } {
-  const lower = question.toLowerCase().normalize('NFC');
-  for (const route of KEYWORD_ROUTES) {
-    const matched = route.keywords.find(k => lower.includes(k.normalize('NFC')));
-    if (matched) {
-      const sec = extractSection(route.tag);
-      return { section: sec, debug: `matched:${matched}|tag:${route.tag}|secLen:${sec.length}` };
-    }
-  }
-  // Show first 3 chars of lower for encoding debug
-  const chars = [...lower.slice(0, 6)].map(c => c.codePointAt(0)?.toString(16)).join(',');
-  return { section: '', debug: `no-match|chars:${chars}` };
-}
-
-/** Full system prompt used when server-side routing finds no match. */
-export function getSystemPrompt(): string {
-  const core = [personaMd, philosophyMd, interestsMd].join('\n\n');
-
-  const memoryParts = [familyMd, childhoodMd]
-    .map(stripComments)
-    .filter(Boolean);
-  const memories = memoryParts.join('\n\n');
-
-  return buildPrompt(core, memories ? `# 기억들\n\n${memories}` : '');
-}
-
-/** Focused prompt with only one relevant memory section. */
-export function getFocusedPrompt(section: string): string {
-  const core = [personaMd, philosophyMd, interestsMd].join('\n\n');
-  return buildPrompt(core, `# 관련 기억\n\n${section}`);
+/** Returns focused memory section by ASCII route tag, or '' if not found. */
+export function getSectionByTag(tag: string): string {
+  const sectionTag = ASCII_TAG_MAP[tag];
+  if (!sectionTag) return '';
+  return extractSection(sectionTag);
 }
 
 function buildPrompt(core: string, memoriesBlock: string): string {
@@ -85,4 +54,18 @@ ${memoriesBlock ? `---\n\n${memoriesBlock}` : ''}
 ---
 
 반말만. 자기소개 금지. 주어진 기억 내용으로만 답할 것.`;
+}
+
+/** Focused system prompt with only one relevant memory section. */
+export function getFocusedPrompt(section: string): string {
+  const core = [personaMd, philosophyMd, interestsMd].join('\n\n');
+  return buildPrompt(core, `# 관련 기억\n\n${section}`);
+}
+
+/** Full system prompt used when client sends no route tag. */
+export function getSystemPrompt(): string {
+  const core = [personaMd, philosophyMd, interestsMd].join('\n\n');
+  const memoryParts = [familyMd, childhoodMd].map(stripComments).filter(Boolean);
+  const memories = memoryParts.join('\n\n');
+  return buildPrompt(core, memories ? `# 기억들\n\n${memories}` : '');
 }

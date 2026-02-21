@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getSystemPrompt, getFocusedPrompt, routeQuestion } from '../../lib/memory';
+import { getSystemPrompt, getFocusedPrompt, getSectionByTag } from '../../lib/memory';
 
 export const prerender = false;
 
@@ -13,8 +13,9 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   let messages: { role: string; content: string }[];
+  let route: string = '';
   try {
-    ({ messages } = await request.json());
+    ({ messages, route = '' } = await request.json());
   } catch {
     return new Response(JSON.stringify({ error: 'Invalid request body' }), {
       status: 400,
@@ -22,9 +23,9 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // Server-side routing: pick the relevant memory section from the last user message
-  const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content ?? '';
-  const { section, debug: routeDebug } = routeQuestion(lastUserMsg);
+  // Client sends an ASCII route tag; server selects the matching memory section.
+  // This avoids server-side Korean text processing which has encoding issues on Vercel.
+  const section = route ? getSectionByTag(route) : '';
   const systemContent = section ? getFocusedPrompt(section) : getSystemPrompt();
 
   const upstream = await fetch('https://api.fireworks.ai/inference/v1/chat/completions', {
@@ -59,7 +60,7 @@ export const POST: APIRoute = async ({ request }) => {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Cache-Control': 'no-store, no-cache, must-revalidate',
-      'X-Memory-Route': routeDebug,
+      'X-Memory-Route': route || 'full-fallback',
     },
   });
 };

@@ -7,6 +7,31 @@ const GREETING: Message = {
   content: '어서 와. 오랜만이야. 뭐가 궁금해?',
 };
 
+// Client-side keyword routing — runs in browser where Korean text is always correct.
+// Returns an ASCII tag that the server uses to select the right memory section.
+const CLIENT_ROUTES: { keywords: string[]; tag: string }[] = [
+  { keywords: ['마라톤', '체나이', '32km', '완주', 'marathon', 'chennai'], tag: 'marathon' },
+  { keywords: ['달리기', '러닝', '런닝', '음악 없이', '달릴', 'running'], tag: 'running' },
+  { keywords: ['인도', '주재원', '체육대회', '사랑한다', '팀원'], tag: 'india' },
+  { keywords: ['보람', '의미있'], tag: 'meaning' },
+  { keywords: ['자존감 수업', '100회', '이호선', '숫자 목표'], tag: 'reading' },
+  { keywords: ['성과 중독', '아웃풋 강박', '존재 증명', '관찰자'], tag: 'achievement' },
+  { keywords: ['성과', '체계화', '인정받지'], tag: 'achievement' },
+  { keywords: ['톨스토이', '필사', '삶 철학', '인생 철학'], tag: 'tolstoy' },
+  { keywords: ['고통'], tag: 'pain' },
+  { keywords: ['사람을 바꾸', '조직 문화', '관계 어떻게'], tag: 'relationship' },
+  { keywords: ['어떤 사람이고 싶어', '리더십', '영감'], tag: 'identity' },
+  { keywords: ['전통', '규칙', '눈치'], tag: 'tradition' },
+];
+
+function getRouteTag(question: string): string {
+  const lower = question.toLowerCase();
+  for (const route of CLIENT_ROUTES) {
+    if (route.keywords.some(k => lower.includes(k))) return route.tag;
+  }
+  return '';
+}
+
 export default function MemoryChat() {
   const [messages, setMessages] = useState<Message[]>([GREETING]);
   const [input, setInput] = useState('');
@@ -35,12 +60,13 @@ export default function MemoryChat() {
     // Strip UI-only greeting (first assistant message) before sending to API.
     // Fireworks requires conversations to start with a user message.
     const apiMessages = history.filter((_, i) => !(i === 0 && history[0].role === 'assistant'));
+    const route = getRouteTag(text);
 
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiMessages }),
+        body: JSON.stringify({ messages: apiMessages, route }),
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
