@@ -124,7 +124,7 @@ const stats = [
                 data-count-target={value}
                 data-count-suffix={suffix}
               >
-                0{suffix}
+                {value}{suffix}
               </p>
               <p class="text-[10px] sm:text-xs text-text-muted mt-1.5 font-medium uppercase tracking-wider">{label}</p>
             </div>
@@ -145,7 +145,7 @@ const stats = [
           <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-300 rounded-xl"></div>
           <div class="relative">
             <span class="text-lg mb-1.5 block">🎬</span>
-            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={templateCount} data-count-suffix="">0</p>
+            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={templateCount} data-count-suffix="">{templateCount}</p>
             <p class="text-[10px] sm:text-xs text-text-muted mt-1 font-medium uppercase tracking-wider">Live Templates</p>
           </div>
         </a>
@@ -157,7 +157,7 @@ const stats = [
           <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-300 rounded-xl"></div>
           <div class="relative">
             <span class="text-lg mb-1.5 block">📋</span>
-            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={catalogCount} data-count-suffix="">0</p>
+            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={catalogCount} data-count-suffix="">{catalogCount}</p>
             <p class="text-[10px] sm:text-xs text-text-muted mt-1 font-medium uppercase tracking-wider">Video Recipes</p>
           </div>
         </a>
@@ -169,7 +169,7 @@ const stats = [
           <div class="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-300 rounded-xl"></div>
           <div class="relative">
             <span class="text-lg mb-1.5 block">💡</span>
-            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={promptCount} data-count-suffix="">0</p>
+            <p class="text-xl sm:text-2xl font-display font-bold text-accent" data-count-target={promptCount} data-count-suffix="">{promptCount}</p>
             <p class="text-[10px] sm:text-xs text-text-muted mt-1 font-medium uppercase tracking-wider">AI Prompts</p>
           </div>
         </a>
