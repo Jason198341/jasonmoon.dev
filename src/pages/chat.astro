@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import MemoryChat from '../components/MemoryChat';
+---
+
+<Base
+  title="Jason — 기억의 방"
+  description="Jason의 기억, 생각, 철학이 담긴 공간. 언제든 와서 이야기해."
+>
+  <div class="mx-auto max-w-2xl px-4 pt-10 pb-2">
+    <!-- Profile header -->
+    <div class="flex items-center gap-4 mb-8">
+      <div class="relative">
+        <div class="w-14 h-14 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center">
+          <span class="text-2xl font-mono font-bold text-accent">J</span>
+        </div>
+        <!-- Online indicator -->
+        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-bg"></span>
+      </div>
+      <div>
+        <h1 class="text-lg font-semibold leading-tight">Jason</h1>
+        <p class="text-sm text-text-muted">항상 여기 있어.</p>
+      </div>
+    </div>
+  </div>
+
+  <MemoryChat client:load />
+</Base>
