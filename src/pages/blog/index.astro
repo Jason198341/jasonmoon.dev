@@ -1,0 +1,121 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const categories = ['All', 'dev', 'ai', 'essay', 'tutorial'] as const;
+
+const categoryConfig: Record<string, { label: string; color: string; dot: string }> = {
+  dev: { label: 'Dev', color: 'text-indigo-400 bg-indigo-500/10', dot: 'bg-indigo-400' },
+  ai: { label: 'AI', color: 'text-emerald-400 bg-emerald-500/10', dot: 'bg-emerald-400' },
+  essay: { label: 'Essay', color: 'text-amber-400 bg-amber-500/10', dot: 'bg-amber-400' },
+  tutorial: { label: 'Tutorial', color: 'text-teal-400 bg-teal-500/10', dot: 'bg-teal-400' },
+};
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric', month: 'short', day: 'numeric',
+  });
+}
+---
+
+<Base title="Blog — Jason Moon" description="Thoughts on building, AI, and engineering — from an automotive engineer who codes at night.">
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-3xl px-6">
+      <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4 animate-fade-in-up delay-1">Blog</h1>
+      <p class="text-text-muted mb-12 max-w-2xl leading-relaxed animate-fade-in-up delay-2">
+        Notes on building, learning, and shipping — from dev deep-dives to broader reflections.
+      </p>
+
+      <!-- Category filter pills -->
+      <div class="flex flex-wrap gap-2 mb-10 animate-fade-in-up delay-3" id="filters">
+        {categories.map((cat) => (
+          <button
+            data-category={cat}
+            class:list={[
+              'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border',
+              cat === 'All'
+                ? 'border-accent text-accent bg-accent/10'
+                : 'border-border/60 text-text-muted hover:text-text hover:border-accent/30',
+            ]}
+          >
+            {cat === 'All' ? 'All' : categoryConfig[cat]?.label || cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Post list -->
+      <div class="space-y-4" id="post-list">
+        {posts.map((post, i) => {
+          const cfg = categoryConfig[post.data.category] || { label: post.data.category, color: 'text-text-muted bg-surface', dot: 'bg-text-muted' };
+          return (
+            <div data-cat={post.data.category} class="reveal" style={`transition-delay: ${Math.min(i * 60, 400)}ms;`}>
+              <a
+                href={`/blog/${post.id}`}
+                class="group block p-5 rounded-xl border border-border/60 bg-surface/40 hover:bg-surface hover:border-accent/30 transition-all duration-300"
+              >
+                <div class="flex items-center gap-3 mb-2 text-xs">
+                  <time class="text-text-muted font-mono">{formatDate(post.data.date)}</time>
+                  <span class={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md font-medium ${cfg.color}`}>
+                    <span class={`w-1.5 h-1.5 rounded-full ${cfg.dot}`}></span>
+                    {cfg.label}
+                  </span>
+                </div>
+                <h2 class="text-lg font-bold group-hover:text-accent transition-colors duration-200 mb-1">
+                  {post.data.title}
+                </h2>
+                <p class="text-sm text-text-muted leading-relaxed line-clamp-2 mb-3">
+                  {post.data.description}
+                </p>
+                {post.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5">
+                    {post.data.tags.map((tag) => (
+                      <span class="px-2 py-0.5 rounded-md text-[11px] font-mono text-text-muted/70 bg-bg/60 border border-border/50">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </a>
+            </div>
+          );
+        })}
+      </div>
+
+      {posts.length === 0 && (
+        <div class="text-center py-16 text-text-muted">
+          <p class="text-lg mb-2">No posts yet.</p>
+          <p class="text-sm">Check back soon.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll('#filters button');
+  const cards = document.querySelectorAll('#post-list [data-cat]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-category');
+
+      buttons.forEach((b) => {
+        b.className = 'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border border-border/60 text-text-muted hover:text-text hover:border-accent/30';
+      });
+      btn.className = 'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border border-accent text-accent bg-accent/10';
+
+      cards.forEach((card) => {
+        const el = card as HTMLElement;
+        if (cat === 'All' || el.dataset.cat === cat) {
+          el.style.display = '';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

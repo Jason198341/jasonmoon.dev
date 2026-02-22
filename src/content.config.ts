@@ -45,6 +45,19 @@ const guidesKo = defineCollection({
   }),
 });
 
+const blog = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.string(),
+    category: z.enum(['dev', 'ai', 'essay', 'tutorial']),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    image: z.string().optional(),
+  }),
+});
+
 const prompts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/prompts' }),
   schema: z.object({
@@ -57,4 +70,4 @@ const prompts = defineCollection({
   }),
 });
 
-export const collections = { projects, guides, guidesKo, prompts };
+export const collections = { projects, guides, guidesKo, prompts, blog };
