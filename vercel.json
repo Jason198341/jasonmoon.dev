@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/:path((?!blog).*)",
+      "has": [{ "type": "host", "value": "blog.jasonmoon.dev" }],
+      "destination": "https://jasonmoon.dev/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:path*",
+      "has": [{ "type": "host", "value": "blog.jasonmoon.dev" }],
+      "destination": "https://jasonmoon.dev/blog/:path*",
+      "permanent": true
+    }
+  ]
+}
