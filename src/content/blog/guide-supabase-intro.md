@@ -1,10 +1,10 @@
 ---
 title: "What's a Database? Getting Started with Supabase"
 description: "Save user data so it doesn't disappear when the browser closes. Set up a real database with Supabase in 5 minutes."
-emoji: "\U0001F5C4\uFE0F"
-category: database
-difficulty: easy
-order: 6
+date: "2026-02-22"
+category: tutorial
+tags: ["easy", "database"]
+featured: false
 ---
 
 ## Why Do You Need a Database?

@@ -1,10 +1,10 @@
 ---
 title: "Never Put Passwords in Your Code"
 description: "API keys, passwords, and secrets in your source code are a ticking time bomb. Here's why it's dangerous and how to do it safely."
-emoji: "\U0001F512"
-category: security
-difficulty: easy
-order: 5
+date: "2026-02-22"
+category: tutorial
+tags: ["easy", "security"]
+featured: false
 ---
 
 ## Ever Seen Code Like This?

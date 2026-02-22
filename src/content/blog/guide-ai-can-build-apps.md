@@ -1,10 +1,10 @@
 ---
 title: "Yes, AI Can Actually Build Your App"
 description: You don't need to know how to code. Talk to an AI, describe what you want, and watch it build a real web app. Here's how to start.
-emoji: "\U0001F680"
-category: getting-started
-difficulty: beginner
-order: 1
+date: "2026-02-22"
+category: tutorial
+tags: ["beginner", "getting-started"]
+featured: false
 ---
 
 ## Wait, This Actually Works?

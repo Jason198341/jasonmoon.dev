@@ -1,10 +1,10 @@
 ---
 title: "Git Explained: Commits, Pushes, and Why You Need Them"
 description: Git is a save system for your code. Like game checkpoints — mess up, and you can always go back. Here's the 4 concepts you need.
-emoji: "\U0001F4BE"
-category: dev-tools
-difficulty: beginner
-order: 2
+date: "2026-02-22"
+category: tutorial
+tags: ["beginner", "dev-tools"]
+featured: false
 ---
 
 ## Git = Game Save Points

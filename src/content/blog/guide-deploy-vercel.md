@@ -1,10 +1,10 @@
 ---
 title: "Putting Your App on the Internet (Vercel Deploy)"
 description: "Your app only works on localhost? Here's how to give it a real URL that anyone in the world can visit. Takes 5 minutes."
-emoji: "\U0001F310"
-category: deploy
-difficulty: easy
-order: 3
+date: "2026-02-22"
+category: tutorial
+tags: ["easy", "deploy"]
+featured: false
 ---
 
 ## Escaping localhost

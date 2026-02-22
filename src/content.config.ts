@@ -21,30 +21,6 @@ const projects = defineCollection({
   }),
 });
 
-const guides = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    emoji: z.string(),
-    category: z.enum(['getting-started', 'dev-tools', 'deploy', 'security', 'database', 'practical']),
-    difficulty: z.enum(['beginner', 'easy', 'intermediate']),
-    order: z.number().default(0),
-  }),
-});
-
-const guidesKo = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/guides-ko' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    emoji: z.string(),
-    category: z.string(),
-    difficulty: z.string(),
-    order: z.number().default(0),
-  }),
-});
-
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
@@ -70,4 +46,4 @@ const prompts = defineCollection({
   }),
 });
 
-export const collections = { projects, guides, guidesKo, prompts, blog };
+export const collections = { projects, prompts, blog };

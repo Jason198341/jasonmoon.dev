@@ -1,10 +1,10 @@
 ---
 title: "Buying a Domain and Connecting It"
 description: "Replace myapp.vercel.app with myapp.com. Buy a domain on Namecheap, set up DNS, and point it to Vercel."
-emoji: "\U0001F3F7\uFE0F"
-category: deploy
-difficulty: easy
-order: 4
+date: "2026-02-22"
+category: tutorial
+tags: ["easy", "deploy"]
+featured: false
 ---
 
 ## What's a Domain?
