@@ -1,23 +1,51 @@
 ---
 const pathname = Astro.url.pathname;
 
-const links = [
+interface NavLink {
+  href?: string;
+  label: string;
+  children?: { href: string; label: string }[];
+}
+
+const links: NavLink[] = [
   { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/ideas', label: 'Ideas' },
-  { href: '/templates', label: 'Templates' },
-  { href: '/video-catalog', label: 'Catalog' },
-  { href: '/prompts', label: 'Prompts' },
+  { href: '/projects', label: 'Work' },
+  {
+    label: 'Showcase',
+    children: [
+      { href: '/templates', label: 'Templates' },
+      { href: '/prompts', label: 'Prompts' },
+      { href: '/video-catalog', label: 'Videos' },
+      { href: '/guides', label: 'Learn' },
+    ],
+  },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
-  { href: '/archive', label: 'Archive' },
   { href: '/contact', label: 'Contact' },
-  { href: '/chat', label: '💬 Talk' },
 ];
 
-function isActive(href: string): boolean {
-  if (href === '/') return pathname === '/';
-  return pathname.startsWith(href);
+function isActive(link: NavLink): boolean {
+  if (link.href) {
+    if (link.href === '/') return pathname === '/';
+    return pathname.startsWith(link.href);
+  }
+  // Parent with children: active if any child is active
+  return link.children?.some((c) => pathname.startsWith(c.href)) ?? false;
+}
+
+// Flatten for mobile menu
+const mobileLinks: { href: string; label: string; indent?: boolean }[] = [];
+let mobileIdx = 0;
+for (const link of links) {
+  if (link.children) {
+    // Showcase header (non-clickable)
+    mobileLinks.push({ href: '', label: link.label });
+    for (const child of link.children) {
+      mobileLinks.push({ href: child.href, label: child.label, indent: true });
+    }
+  } else {
+    mobileLinks.push({ href: link.href!, label: link.label });
+  }
 }
 ---
 
@@ -36,24 +64,64 @@ function isActive(href: string): boolean {
 
     <!-- Desktop nav -->
     <ul class="hidden md:flex items-center gap-1">
-      {links.map(({ href, label }) => (
-        <li>
-          <a
-            href={href}
-            class:list={[
-              'relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-              isActive(href)
-                ? 'text-accent'
-                : 'text-text-muted hover:text-text',
-            ]}
-          >
-            {label}
-            {isActive(href) && (
-              <span class="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-accent"></span>
-            )}
-          </a>
-        </li>
-      ))}
+      {links.map((link) =>
+        link.children ? (
+          <li class="relative" id="showcase-dropdown">
+            <button
+              class:list={[
+                'relative flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                isActive(link) ? 'text-accent' : 'text-text-muted hover:text-text',
+              ]}
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {link.label}
+              <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200" id="showcase-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+              {isActive(link) && (
+                <span class="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-accent"></span>
+              )}
+            </button>
+            {/* Dropdown panel */}
+            <div
+              id="showcase-panel"
+              class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-44 rounded-xl border border-border/50 bg-surface/95 backdrop-blur-xl shadow-2xl opacity-0 invisible translate-y-1 transition-all duration-200 pointer-events-none"
+            >
+              <div class="p-2">
+                {link.children.map((child) => (
+                  <a
+                    href={child.href}
+                    class:list={[
+                      'block px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                      pathname.startsWith(child.href)
+                        ? 'text-accent bg-accent/10'
+                        : 'text-text-muted hover:text-text hover:bg-surface-hover',
+                    ]}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </li>
+        ) : (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                'relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                isActive(link) ? 'text-accent' : 'text-text-muted hover:text-text',
+              ]}
+            >
+              {link.label}
+              {isActive(link) && (
+                <span class="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-accent"></span>
+              )}
+            </a>
+          </li>
+        )
+      )}
     </ul>
 
     <!-- Mobile menu button -->
@@ -81,24 +149,33 @@ function isActive(href: string): boolean {
   >
     <div class="border-t border-border/30 bg-surface/80 backdrop-blur-xl">
       <ul class="px-6 py-4 space-y-1">
-        {links.map(({ href, label }, i) => (
-          <li
-            class="mobile-menu-item"
-            style={`transition-delay: ${i * 50}ms;`}
-          >
-            <a
-              href={href}
-              class:list={[
-                'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
-                isActive(href)
-                  ? 'text-accent bg-accent/10'
-                  : 'text-text-muted hover:text-text hover:bg-surface-hover',
-              ]}
-            >
-              {label}
-            </a>
-          </li>
-        ))}
+        {mobileLinks.map((item, i) =>
+          item.href === '' ? (
+            // Showcase section header (non-clickable)
+            <li class="mobile-menu-item" style={`transition-delay: ${i * 50}ms;`}>
+              <span class="block px-4 py-2 text-xs font-mono uppercase tracking-widest text-text-muted/50">
+                {item.label}
+              </span>
+            </li>
+          ) : (
+            <li class="mobile-menu-item" style={`transition-delay: ${i * 50}ms;`}>
+              <a
+                href={item.href}
+                class:list={[
+                  'block rounded-lg text-sm font-medium transition-colors',
+                  item.indent ? 'pl-8 pr-4 py-2' : 'px-4 py-2.5',
+                  pathname.startsWith(item.href) && item.href !== '/'
+                    ? 'text-accent bg-accent/10'
+                    : item.href === '/' && pathname === '/'
+                      ? 'text-accent bg-accent/10'
+                      : 'text-text-muted hover:text-text hover:bg-surface-hover',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          )
+        )}
       </ul>
     </div>
   </div>
@@ -127,6 +204,53 @@ function isActive(href: string): boolean {
         menu.style.maxHeight = '0';
         menu.style.opacity = '0';
       }
+    }
+  });
+
+  // Desktop dropdown with 200ms hover delay
+  const dropdown = document.getElementById('showcase-dropdown');
+  const panel = document.getElementById('showcase-panel');
+  const chevron = document.getElementById('showcase-chevron');
+  let hoverTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  function showDropdown() {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    hoverTimeout = setTimeout(() => {
+      if (panel) {
+        panel.classList.remove('opacity-0', 'invisible', 'translate-y-1', 'pointer-events-none');
+        panel.classList.add('opacity-100', 'visible', 'translate-y-0', 'pointer-events-auto');
+      }
+      if (chevron) chevron.style.transform = 'rotate(180deg)';
+      dropdown?.querySelector('button')?.setAttribute('aria-expanded', 'true');
+    }, 100);
+  }
+
+  function hideDropdown() {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    hoverTimeout = setTimeout(() => {
+      if (panel) {
+        panel.classList.add('opacity-0', 'invisible', 'translate-y-1', 'pointer-events-none');
+        panel.classList.remove('opacity-100', 'visible', 'translate-y-0', 'pointer-events-auto');
+      }
+      if (chevron) chevron.style.transform = '';
+      dropdown?.querySelector('button')?.setAttribute('aria-expanded', 'false');
+    }, 200);
+  }
+
+  dropdown?.addEventListener('mouseenter', showDropdown);
+  dropdown?.addEventListener('mouseleave', hideDropdown);
+
+  // Also handle keyboard: toggle on click/enter
+  dropdown?.querySelector('button')?.addEventListener('click', () => {
+    const expanded = panel?.classList.contains('opacity-100');
+    if (expanded) hideDropdown();
+    else showDropdown();
+  });
+
+  // Close dropdown on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel?.classList.contains('opacity-100')) {
+      hideDropdown();
     }
   });
 
