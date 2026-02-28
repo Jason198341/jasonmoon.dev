@@ -1,7 +1,7 @@
 ---
 title: SentenceFlow
-tagline: "외웠는데 왜 안 나오지?" — 한국인 영어 학습자의 가장 깊은 고통을 과학적으로 해결한다.
-description: Progressive Chunking Recall 학습 엔진으로 영어 문장을 청크 분해 → 빈칸 채우기 → 완전 회상의 4단계로 체화하는 웹 서비스. SM-2 간격 반복, 3단계 힌트, 기억 강도 대시보드 포함.
+tagline: The pain every Korean English learner knows — you memorized it, but your mouth freezes. Science fixes this.
+description: English sentence memorization engine using Progressive Chunking Recall with SM-2 spaced repetition, 3-level hints, and memory strength dashboard.
 category: Web App
 stack: [React 18, Tailwind CSS, LocalStorage, SM-2 Algorithm, Web Speech API]
 github: https://github.com/Jason198341/sentence-flow
