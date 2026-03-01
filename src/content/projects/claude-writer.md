@@ -54,3 +54,16 @@ The plugin bridges Obsidian and Claude Code CLI via `child_process.spawn`. No AP
 Most AI plugins for note-taking apps are chat interfaces. You type a prompt, get a response, copy-paste it somewhere. Claude Writer is a *surgical tool* — it operates on your selected text, considers the surrounding context, and gives you precise control over how the result enters your document.
 
 The Explain mode turns any concept into a depth-appropriate lesson. Select a technical term in your notes, pick Level 1, and get an elementary-school explanation with analogies. Pick Level 4, and get expert analysis with trade-offs and English terminology. Same text, four different depths of understanding.
+
+## Install Now via BRAT
+
+Claude Writer is available today through [BRAT](https://github.com/TfTHacker/obsidian42-brat) (Beta Reviewers Auto-update Tester):
+
+1. Install the BRAT plugin in Obsidian
+2. Open BRAT settings → "Add Beta Plugin"
+3. Enter: `Jason198341/obsidian-claude-writer`
+4. Enable Claude Writer in Community Plugins
+
+Requires [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated (`claude auth login`).
+
+Community plugin marketplace submission is also pending review.
