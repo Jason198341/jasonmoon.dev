@@ -18,6 +18,8 @@ const personalCount = allProjects.filter(p => p.data.projectType === 'Personal')
 const clientCount = allProjects.filter(p => p.data.projectType === 'Client' && p.data.category !== 'Concept').length;
 const liveCount = allProjects.filter(p => p.data.live).length;
 
+const buildTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+
 const typeColors: Record<string, string> = {
   Personal: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
   Client: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
@@ -32,6 +34,18 @@ const stats = [
 ---
 
 <Base title="Jason Moon — Automotive Engineer, Systems Designer, Fullstack Builder">
+
+  <!-- ═══════════════ DEPLOY BADGE ═══════════════ -->
+  <div class="w-full bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/10 border-b border-orange-500/20">
+    <div class="mx-auto max-w-5xl px-6 py-2 flex items-center justify-center gap-3 text-xs font-mono">
+      <span class="inline-flex items-center gap-1.5 text-orange-400">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5088 16.8447C16.5088 16.8447 17.2176 15.6223 17.4052 15.2447C18.5611 15.4564 19.4187 15.2635 19.7523 14.7094C20.2658 13.8565 19.5399 12.5 17.8193 11.2329C16.7852 10.4635 15.5458 9.84706 14.387 9.48235L13.2 13.1506L13.1952 13.1647L12.0047 16.8447H16.5088ZM13.6 3C7.26 3 3.48 7.02353 3.48 7.02353L6.67058 8.70588C6.67058 8.70588 6.87529 8.44706 7.20235 8.07059C7.95294 7.21412 9.37411 5.95294 11.5694 5.35059L10.8 7.72941L9.60471 11.4188L8.4 15.1129L7.49647 17.9129C7.36941 18.3035 7.49647 18.7318 7.82824 18.9671C8.11765 19.1741 8.49882 19.2 8.81647 19.0365L10.8 17.9906L12.7835 19.0365C12.9829 19.1412 13.2 19.1459 13.4041 19.0835L15.2376 19.9671C15.5694 20.1306 15.9647 20.0894 16.2541 19.8588C16.5482 19.6282 16.6612 19.2424 16.5341 18.8894L15.6 16.8447H16.5088H20.2682C20.7247 16.8447 21.1247 16.5412 21.2471 16.1035C21.3694 15.6612 21.1835 15.1906 20.7882 14.9553L19.0165 13.9C19.4306 12.2694 18.9317 10.7059 17.0823 9.36C15.7623 8.39294 14.1529 7.61647 12.5647 7.14706L13.6 3Z"/></svg>
+        Cloudflare Pages
+      </span>
+      <span class="text-text-muted/60">|</span>
+      <span class="text-text-muted/80">Last updated: {buildTime} KST</span>
+    </div>
+  </div>
 
   <!-- ═══════════════ HERO ═══════════════ -->
   <section class="relative min-h-[60vh] sm:min-h-dvh flex items-center justify-center overflow-hidden">
