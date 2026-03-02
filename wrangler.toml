@@ -1,0 +1,19 @@
+name = "jasonmoon-dev"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "./dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jasonmoon-db"
+database_id = "9d469d2a-2f5b-4f26-b6f3-25386b6e1a76"
+
+[vars]
+# Non-secret env vars here
+
+# Secrets (set via: wrangler secret put FIREWORKS_API_KEY)
+# FIREWORKS_API_KEY
+# STRAVA_CLIENT_ID
+# STRAVA_CLIENT_SECRET
+# STRAVA_REFRESH_TOKEN
+# ADMIN_PASSWORD_HASH
+# BOOK_ADMIN_PASSWORD_HASH

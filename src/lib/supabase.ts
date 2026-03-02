@@ -1,6 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
+// Supabase has been replaced by Cloudflare D1
+// All database operations now go through /api/db/* endpoints
+// See: src/pages/api/db/announcements.ts, inquiries.ts, books.ts
+// And: src/lib/d1.ts for D1 utility functions
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export {};

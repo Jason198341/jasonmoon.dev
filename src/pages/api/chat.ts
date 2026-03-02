@@ -3,8 +3,8 @@ import { getSystemPrompt, getFocusedPrompt, getSectionByTag } from '../../lib/me
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
-  const apiKey = import.meta.env.FIREWORKS_API_KEY;
+export const POST: APIRoute = async ({ request, locals }) => {
+  const apiKey = import.meta.env.FIREWORKS_API_KEY || (locals as any)?.runtime?.env?.FIREWORKS_API_KEY;
   if (!apiKey) {
     return new Response(JSON.stringify({ error: 'API key missing' }), {
       status: 500,

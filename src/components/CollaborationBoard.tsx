@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react';
-import { supabase } from '../lib/supabase';
 
 interface InquiryListItem {
   id: string;
@@ -71,10 +70,11 @@ export default function CollaborationBoard() {
 
   async function loadInquiries() {
     setLoading(true);
-    const { data, error } = await supabase.rpc('list_inquiries');
-    if (!error && data) {
-      setInquiries(data);
-    }
+    try {
+      const res = await fetch('/api/db/inquiries');
+      const data = await res.json();
+      if (Array.isArray(data)) setInquiries(data);
+    } catch {}
     setLoading(false);
   }
 
@@ -91,29 +91,31 @@ export default function CollaborationBoard() {
     e.preventDefault();
     if (!selectedId || !passwordInput) return;
 
-    const { data, error } = await supabase.rpc('verify_inquiry', {
-      p_id: selectedId,
-      p_password: passwordInput,
+    const res = await fetch('/api/db/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'verify', id: selectedId, password: passwordInput }),
     });
 
-    if (error || !data || data.length === 0) {
+    if (!res.ok) {
       setPasswordError(true);
       return;
     }
 
-    setDetail(data[0]);
+    const data = await res.json();
+    setDetail(data);
     setUnlockedPassword(passwordInput);
     setShowPasswordDialog(false);
     setView('detail');
 
     // Load comments
-    const { data: commentsData } = await supabase.rpc('get_inquiry_comments', {
-      p_inquiry_id: selectedId,
-      p_password: passwordInput,
+    const commentsRes = await fetch('/api/db/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'get_comments', inquiry_id: selectedId, password: passwordInput }),
     });
-    if (commentsData) {
-      setComments(commentsData);
-    }
+    const commentsData = await commentsRes.json();
+    if (Array.isArray(commentsData)) setComments(commentsData);
   }
 
   async function handleCommentSubmit(e: React.FormEvent) {
@@ -121,20 +123,26 @@ export default function CollaborationBoard() {
     if (!selectedId || !commentAuthor.trim() || !commentContent.trim()) return;
 
     setCommentSubmitting(true);
-    const { data } = await supabase.rpc('add_inquiry_comment', {
-      p_inquiry_id: selectedId,
-      p_password: unlockedPassword,
-      p_author: commentAuthor.trim(),
-      p_content: commentContent.trim(),
+    const res = await fetch('/api/db/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'add_comment',
+        inquiry_id: selectedId,
+        password: unlockedPassword,
+        author: commentAuthor.trim(),
+        content: commentContent.trim(),
+      }),
     });
 
-    if (data) {
-      // Reload comments
-      const { data: commentsData } = await supabase.rpc('get_inquiry_comments', {
-        p_inquiry_id: selectedId,
-        p_password: unlockedPassword,
+    if (res.ok) {
+      const commentsRes = await fetch('/api/db/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get_comments', inquiry_id: selectedId, password: unlockedPassword }),
       });
-      if (commentsData) setComments(commentsData);
+      const commentsData = await commentsRes.json();
+      if (Array.isArray(commentsData)) setComments(commentsData);
       setCommentContent('');
     }
     setCommentSubmitting(false);
@@ -146,16 +154,21 @@ export default function CollaborationBoard() {
     if (!form.title.trim() || !form.name.trim() || !form.content.trim() || !form.password) return;
 
     setSubmitting(true);
-    const { data, error } = await supabase.rpc('create_inquiry', {
-      p_title: form.title.trim(),
-      p_name: form.name.trim(),
-      p_email: form.email.trim() || null,
-      p_phone: form.phone.trim() || null,
-      p_content: form.content.trim(),
-      p_password: form.password,
+    const res = await fetch('/api/db/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'create',
+        title: form.title.trim(),
+        name: form.name.trim(),
+        email: form.email.trim() || null,
+        phone: form.phone.trim() || null,
+        content: form.content.trim(),
+        password: form.password,
+      }),
     });
 
-    if (!error && data) {
+    if (res.ok) {
       setSubmitSuccess(true);
       setForm({ title: '', name: '', email: '', phone: '', content: '', password: '', passwordConfirm: '' });
       await loadInquiries();

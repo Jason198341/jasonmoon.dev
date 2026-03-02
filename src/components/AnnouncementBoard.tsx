@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
 
 interface Announcement {
   id: string;
@@ -40,8 +39,11 @@ export default function AnnouncementBoard() {
 
   async function fetchAnnouncements() {
     setLoading(true);
-    const { data, error } = await supabase.rpc('list_announcements');
-    if (!error && data) setAnnouncements(data);
+    try {
+      const res = await fetch('/api/db/announcements');
+      const data = await res.json();
+      if (Array.isArray(data)) setAnnouncements(data);
+    } catch {}
     setLoading(false);
   }
 
@@ -62,14 +64,19 @@ export default function AnnouncementBoard() {
   async function handleCreate() {
     if (!newTitle.trim() || !newContent.trim()) return;
     setSubmitting(true);
-    const { error } = await supabase.rpc('create_announcement', {
-      p_password: adminPassword,
-      p_title: newTitle.trim(),
-      p_content: newContent.trim(),
-      p_category: newCategory,
+    const res = await fetch('/api/db/announcements', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'create',
+        password: adminPassword,
+        title: newTitle.trim(),
+        content: newContent.trim(),
+        category: newCategory,
+      }),
     });
-    if (error) {
-      alert(error.message?.includes('Invalid admin') ? 'Wrong admin password.' : 'Failed to create announcement.');
+    if (!res.ok) {
+      alert('Wrong admin password or failed to create.');
       setAdminVerified(false);
       setSubmitting(false);
       return;
@@ -84,11 +91,12 @@ export default function AnnouncementBoard() {
 
   async function handleDelete(id: string) {
     if (!confirm('Delete this announcement?')) return;
-    const { error } = await supabase.rpc('delete_announcement', {
-      p_password: adminPassword,
-      p_id: id,
+    const res = await fetch('/api/db/announcements', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'delete', password: adminPassword, id }),
     });
-    if (error) {
+    if (!res.ok) {
       alert('Failed to delete. Check admin password.');
       setAdminVerified(false);
       return;

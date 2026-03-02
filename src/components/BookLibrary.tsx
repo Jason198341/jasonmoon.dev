@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
 
 // ── Types ──────────────────────────────────────
 
@@ -154,14 +153,22 @@ export default function BookLibrary() {
 
   async function loadBooks() {
     setLoading(true);
-    const { data, error } = await supabase.rpc('list_books');
-    if (!error && data) setBooks(data);
+    try {
+      const res = await fetch('/api/db/books');
+      const data = await res.json();
+      if (Array.isArray(data)) setBooks(data);
+    } catch {}
     setLoading(false);
   }
 
   async function handleAdminLogin(e: React.FormEvent) {
     e.preventDefault();
-    const { data } = await supabase.rpc('verify_book_admin', { p_password: adminPassword });
+    const res = await fetch('/api/db/books', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'verify_admin', password: adminPassword }),
+    });
+    const data = await res.json();
     if (data === true) {
       setAdminVerified(true);
       setShowAdminInput(false);
@@ -174,12 +181,14 @@ export default function BookLibrary() {
   async function openDetail(id: string) {
     setDetailLoading(true);
     setView('detail');
-    const [{ data: bookData }, { data: commentData }] = await Promise.all([
-      supabase.rpc('get_book_detail', { p_id: id }),
-      supabase.rpc('list_book_comments', { p_book_id: id }),
+    const [bookRes, commentRes] = await Promise.all([
+      fetch(`/api/db/books?id=${id}`),
+      fetch(`/api/db/books?book_id=${id}`),
     ]);
-    if (bookData?.[0]) setDetail(bookData[0]);
-    if (commentData) setComments(commentData);
+    const bookData = await bookRes.json();
+    const commentData = await commentRes.json();
+    if (bookData) setDetail(bookData);
+    if (Array.isArray(commentData)) setComments(commentData);
     setDetailLoading(false);
   }
 
@@ -188,14 +197,20 @@ export default function BookLibrary() {
     if (honeypot || !detail || !commentAuthor.trim() || !commentContent.trim()) return;
 
     setCommentSubmitting(true);
-    const { data } = await supabase.rpc('add_book_comment', {
-      p_book_id: detail.id,
-      p_author: commentAuthor.trim(),
-      p_content: commentContent.trim(),
+    const res = await fetch('/api/db/books', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'add_comment',
+        book_id: detail.id,
+        author: commentAuthor.trim(),
+        content: commentContent.trim(),
+      }),
     });
-    if (data) {
-      const { data: fresh } = await supabase.rpc('list_book_comments', { p_book_id: detail.id });
-      if (fresh) setComments(fresh);
+    if (res.ok) {
+      const freshRes = await fetch(`/api/db/books?book_id=${detail.id}`);
+      const fresh = await freshRes.json();
+      if (Array.isArray(fresh)) setComments(fresh);
       setCommentContent('');
     }
     setCommentSubmitting(false);
@@ -261,14 +276,54 @@ export default function BookLibrary() {
     };
 
     if (view === 'create') {
-      const { data } = await supabase.rpc('create_book_note', params);
-      if (data) {
+      const res = await fetch('/api/db/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'create',
+          password: adminPassword,
+          title: params.p_title,
+          author: params.p_author,
+          year: params.p_year,
+          reading_period: params.p_reading_period,
+          cover_color: params.p_cover_color,
+          cover_emoji: params.p_cover_emoji,
+          status: params.p_status,
+          rating: params.p_rating,
+          quote: params.p_quote,
+          sq3r: params.p_sq3r,
+          permanent_notes: params.p_permanent_notes,
+          sort_order: params.p_sort_order,
+        }),
+      });
+      const data = await res.json();
+      if (data?.id) {
         await loadBooks();
-        openDetail(data);
+        openDetail(data.id);
       }
     } else if (view === 'edit' && detail) {
-      const { data } = await supabase.rpc('update_book_note', { ...params, p_id: detail.id });
-      if (data) {
+      const res = await fetch('/api/db/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update',
+          password: adminPassword,
+          id: detail.id,
+          title: params.p_title,
+          author: params.p_author,
+          year: params.p_year,
+          reading_period: params.p_reading_period,
+          cover_color: params.p_cover_color,
+          cover_emoji: params.p_cover_emoji,
+          status: params.p_status,
+          rating: params.p_rating,
+          quote: params.p_quote,
+          sq3r: params.p_sq3r,
+          permanent_notes: params.p_permanent_notes,
+          sort_order: params.p_sort_order,
+        }),
+      });
+      if (res.ok) {
         await loadBooks();
         openDetail(detail.id);
       }
