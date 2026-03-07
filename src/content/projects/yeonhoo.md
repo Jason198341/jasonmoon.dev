@@ -2,7 +2,7 @@
 title: Yeonhoo Terminal
 tagline: I spent more time fighting my terminal than writing code. So I built one that actually understands Claude Code.
 description: Claude Code-optimized terminal emulator built with Tauri 2 + Rust + React. Split panes, smart paste, session restore, and native Claude Code process detection.
-category: Desktop App
+category: Web App
 stack: [Tauri 2, Rust, React 19, TypeScript, xterm.js, Zustand, SQLite]
 github: https://github.com/Jason198341/yeonhoo
 image: /projects/yeonhoo.png
