@@ -1,0 +1,649 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>정밀 인테리어 — 시공 품질관리 매뉴얼</title>
+  <meta name="description" content="정밀 인테리어 — 주거·상업·사무 인테리어 시공. 경기 성남시. 현장실측부터 검수까지 공정으로 증명하는 품질관리. 1990년대 제조 QC 매뉴얼 양식." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Saira:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --paper: #e9ecee;
+      --paper-deep: #e0e4e7;
+      --paper-edge: #cfd6da;
+      --panel: #f4f6f7;
+      --panel-line: #c4ccd1;
+      --ink: #1d2733;
+      --ink-soft: #38444f;
+      --ink-faint: #66727c;
+      --blue: #1763a6;
+      --blue-deep: #114d82;
+      --blue-faint: #dce8f2;
+      --teal: #1d6b6b;
+      --pass: #1d7a4d;
+      --warn: #b8531c;
+      --seal: #b3402f;
+      --hair: #b6bfc5;
+      --grid: rgba(29, 39, 51, 0.045);
+      --shadow: rgba(29, 39, 51, 0.16);
+      --head: 'Archivo', 'Saira', sans-serif;
+      --sub: 'Saira', 'Archivo', sans-serif;
+      --body: 'IBM Plex Sans KR', 'Archivo', sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    }
+
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(0deg, var(--grid) 1px, transparent 1px) 0 0 / 100% 28px,
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 28px 100%,
+        var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      font-weight: 400;
+      line-height: 1.75;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono { font-family: var(--mono); }
+    .doc { max-width: 1040px; margin: 0 auto; padding: 0 clamp(14px, 4vw, 40px) 120px; }
+
+    /* ── 공통 문서 머릿단 (ISO header) ───────────── */
+    .dochead {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      border: 1.5px solid var(--ink);
+      background: var(--panel);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+    }
+    .dochead > div { padding: 7px 12px; border-right: 1px solid var(--panel-line); }
+    .dochead > div:last-child { border-right: none; }
+    .dochead .k { display: block; color: var(--ink-faint); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+    .dochead .v { color: var(--ink); font-weight: 600; }
+    .dochead .iso { color: var(--blue); font-weight: 700; }
+
+    /* ── 섹션 골격 ─────────────────────────────── */
+    section { margin-top: 40px; }
+    .sec-label {
+      display: flex; align-items: baseline; gap: 12px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 8px; margin-bottom: 22px;
+    }
+    .sec-no {
+      font-family: var(--mono); font-weight: 700; font-size: 12px;
+      color: #fff; background: var(--blue);
+      padding: 3px 9px; letter-spacing: 0.06em; white-space: nowrap;
+    }
+    .sec-title { font-family: var(--head); font-weight: 800; font-size: clamp(18px, 3vw, 25px); letter-spacing: -0.01em; line-height: 1.15; }
+    .sec-en { font-family: var(--sub); font-weight: 500; font-size: 11px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; margin-left: auto; align-self: center; }
+
+    /* ── 표지 히어로 ──────────────────────────── */
+    .cover {
+      margin-top: 22px;
+      border: 1.5px solid var(--ink);
+      background: var(--panel);
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-top {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      flex-wrap: wrap;
+      padding: 9px 16px;
+      background: var(--ink); color: #cdd7df;
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em;
+    }
+    .cover-top .iso { color: #6fb0e6; font-weight: 700; }
+    .cover-body { padding: clamp(26px, 6vw, 60px) clamp(18px, 5vw, 56px); position: relative; }
+    .cover-grade {
+      position: absolute; top: clamp(22px, 5vw, 48px); right: clamp(16px, 5vw, 48px);
+      width: clamp(86px, 16vw, 130px); height: clamp(86px, 16vw, 130px);
+    }
+    .cover-cls { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--blue); font-weight: 700; }
+    .cover-name {
+      font-family: var(--head); font-weight: 900;
+      font-size: clamp(38px, 11vw, 92px); line-height: 0.96; letter-spacing: -0.03em;
+      margin: 10px 0 4px; max-width: 8.5em;
+    }
+    .cover-sub { font-family: var(--sub); font-weight: 600; font-size: clamp(13px, 2.5vw, 19px); letter-spacing: 0.04em; color: var(--blue-deep); }
+    .cover-tag { font-size: clamp(13px, 2.4vw, 16px); color: var(--ink-soft); max-width: 30em; margin-top: 18px; line-height: 1.7; }
+    .cover-meta {
+      display: flex; flex-wrap: wrap; gap: 0;
+      margin-top: 30px; border: 1px solid var(--panel-line); background: #fff;
+    }
+    .cover-meta > div { flex: 1 1 140px; padding: 10px 14px; border-right: 1px solid var(--panel-line); }
+    .cover-meta > div:last-child { border-right: none; }
+    .cover-meta .k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; color: var(--ink-faint); text-transform: uppercase; }
+    .cover-meta .v { font-family: var(--sub); font-weight: 600; font-size: 14px; color: var(--ink); }
+
+    /* ── 합격 도장 ────────────────────────────── */
+    .stamp { display: inline-block; }
+    .stamp svg { display: block; }
+
+    /* ── 규격표 (spec tables) ─────────────────── */
+    .spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .spec-card { border: 1px solid var(--ink); background: var(--panel); }
+    .spec-card h3 {
+      margin: 0; padding: 9px 14px;
+      background: var(--blue); color: #fff;
+      font-family: var(--head); font-weight: 700; font-size: 15px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .spec-card h3 .code { font-family: var(--mono); font-size: 10px; font-weight: 500; opacity: 0.85; }
+    .spec-card table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .spec-card td { padding: 6px 14px; border-bottom: 1px solid var(--panel-line); vertical-align: top; }
+    .spec-card tr:last-child td { border-bottom: none; }
+    .spec-card td.lab { color: var(--ink-faint); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.03em; width: 38%; }
+    .spec-card td.val { color: var(--ink); font-weight: 500; }
+
+    /* ── 플로우차트 / 관리도 캔버스 ───────────── */
+    .figure {
+      border: 1px solid var(--ink); background: var(--panel);
+      padding: 18px; overflow-x: auto;
+    }
+    .figure-cap {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      color: var(--ink-faint); text-transform: uppercase;
+      border-bottom: 1px dashed var(--hair); padding-bottom: 8px; margin-bottom: 16px;
+      display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    }
+    .figure svg { display: block; width: 100%; height: auto; max-width: 100%; }
+
+    /* ── 검사 체크리스트 ──────────────────────── */
+    .qc-wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 16px; align-items: start; }
+    .checklist { border: 1px solid var(--ink); background: var(--panel); }
+    .checklist .ch-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 14px; background: var(--ink); color: #cdd7df;
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em;
+    }
+    .checklist ul { list-style: none; margin: 0; padding: 4px 0; }
+    .checklist li {
+      display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px;
+      padding: 8px 14px; border-bottom: 1px solid var(--panel-line); font-size: 13px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist .box {
+      width: 18px; height: 18px; border: 1.5px solid var(--ink); background: #fff;
+      display: grid; place-items: center; color: var(--pass);
+    }
+    .checklist .box svg { width: 13px; height: 13px; display: block; }
+    .checklist .res { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; color: var(--pass); font-weight: 600; }
+    .checklist .lab { color: var(--ink); }
+    .checklist .lab small { display: block; color: var(--ink-faint); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.04em; }
+
+    /* ── 단가표 ───────────────────────────────── */
+    .price-table { width: 100%; border-collapse: collapse; border: 1.5px solid var(--ink); background: var(--panel); font-size: 13.5px; }
+    .price-table thead th {
+      background: var(--ink); color: #e3eaef; text-align: left;
+      font-family: var(--sub); font-weight: 600; font-size: 12px; letter-spacing: 0.05em;
+      padding: 10px 14px;
+    }
+    .price-table thead th.num { text-align: right; font-family: var(--mono); }
+    .price-table td { padding: 9px 14px; border-bottom: 1px solid var(--panel-line); }
+    .price-table tbody tr:nth-child(even) { background: #fff; }
+    .price-table td.num { text-align: right; font-family: var(--mono); font-weight: 600; color: var(--blue-deep); }
+    .price-table td.item { font-weight: 600; }
+    .price-table td.item small { display: block; font-weight: 400; color: var(--ink-faint); font-size: 11px; }
+    .price-note { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); margin-top: 8px; letter-spacing: 0.02em; }
+
+    /* ── 개정이력 ─────────────────────────────── */
+    .rev-table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 11px; border: 1px solid var(--hair); background: var(--panel); }
+    .rev-table th { text-align: left; padding: 7px 12px; background: var(--paper-deep); color: var(--ink-soft); letter-spacing: 0.06em; font-weight: 600; border-bottom: 1px solid var(--hair); }
+    .rev-table td { padding: 7px 12px; border-bottom: 1px solid var(--panel-line); color: var(--ink-soft); }
+    .rev-table tr:last-child td { border-bottom: none; }
+
+    /* ── CTA / 연락 ───────────────────────────── */
+    .cta {
+      margin-top: 44px; border: 1.5px solid var(--ink); background: var(--panel);
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+    }
+    .cta-l { padding: clamp(24px, 4vw, 40px); border-right: 1.5px solid var(--ink); }
+    .cta-l h2 { font-family: var(--head); font-weight: 900; font-size: clamp(22px, 4vw, 34px); margin: 8px 0 12px; letter-spacing: -0.02em; }
+    .cta-l p { color: var(--ink-soft); margin: 0 0 22px; max-width: 26em; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--blue); color: #fff; text-decoration: none;
+      font-family: var(--sub); font-weight: 700; font-size: 15px; letter-spacing: 0.03em;
+      padding: 13px 26px; border: 1.5px solid var(--blue-deep);
+      transition: background .15s ease, transform .15s ease;
+    }
+    .cta-btn:hover { background: var(--blue-deep); transform: translateY(-1px); }
+    .cta-r { padding: clamp(24px, 4vw, 40px); background: #fff; }
+    .contact-row { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--panel-line); }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-faint); text-transform: uppercase; width: 84px; flex: none; padding-top: 3px; }
+    .contact-row .v { font-weight: 500; color: var(--ink); }
+    .contact-row .v small { display: block; color: var(--ink-faint); font-weight: 400; font-size: 12px; }
+
+    /* ── 본문 푸터 ────────────────────────────── */
+    .footer {
+      margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--hair);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; color: var(--ink-faint);
+    }
+
+    .lead {
+      font-size: 14.5px; color: var(--ink-soft); max-width: 56em; margin: 0 0 22px;
+      border-left: 3px solid var(--blue); padding-left: 16px; line-height: 1.8;
+    }
+
+    /* ── 반응형 ───────────────────────────────── */
+    @media (max-width: 820px) {
+      .dochead { grid-template-columns: 1fr 1fr; }
+      .dochead > div:nth-child(1) { grid-column: 1 / -1; border-right: none; border-bottom: 1px solid var(--panel-line); }
+      .spec-grid { grid-template-columns: 1fr; }
+      .qc-wrap { grid-template-columns: 1fr; }
+      .cta { grid-template-columns: 1fr; }
+      .cta-l { border-right: none; border-bottom: 1.5px solid var(--ink); }
+      .cover-grade { position: static; margin: 0 0 16px; }
+      .sec-en { display: none; }
+    }
+    @media (max-width: 520px) {
+      .dochead { grid-template-columns: 1fr; }
+      .dochead > div { border-right: none; border-bottom: 1px solid var(--panel-line); }
+      .dochead > div:last-child { border-bottom: none; }
+      .cover-meta > div { flex: 1 1 100%; border-right: none; border-bottom: 1px solid var(--panel-line); }
+      .cover-meta > div:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+    <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+    <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 10 · 정밀 인테리어 — 1990년대 제조 품질관리(QC) 매뉴얼 스타일</span>
+    <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+  </div>
+  <div style="height:40px;"></div>
+
+  <div class="doc">
+
+    <!-- 공통 ISO 머릿단 -->
+    <div class="dochead">
+      <div>
+        <span class="k">Document Title</span>
+        <span class="v">시공 품질관리 매뉴얼 · CONSTRUCTION QUALITY MANUAL</span>
+      </div>
+      <div>
+        <span class="k">Document No.</span>
+        <span class="v">DOC. QM-1993</span>
+      </div>
+      <div>
+        <span class="k">Conforms To</span>
+        <span class="iso">ISO 9001 : 1994</span>
+      </div>
+    </div>
+
+    <!-- ① 매뉴얼 표지식 히어로 -->
+    <div class="cover">
+      <div class="cover-top">
+        <span>FILE / QM-1993 · REV. 4.2 · CONTROLLED COPY №<span class="iso">017</span></span>
+        <span>ISSUED <span class="iso">1993-03-02</span> · UPDATED 2026-06</span>
+      </div>
+      <div class="cover-body">
+        <div class="stamp cover-grade" aria-label="합격 도장">
+          <svg viewBox="0 0 130 130" role="img">
+            <circle cx="65" cy="65" r="60" fill="none" stroke="#b3402f" stroke-width="3"/>
+            <circle cx="65" cy="65" r="50" fill="none" stroke="#b3402f" stroke-width="1.5"/>
+            <text x="65" y="50" text-anchor="middle" font-family="Archivo, sans-serif" font-size="28" font-weight="900" fill="#b3402f" letter-spacing="2">PASS</text>
+            <text x="65" y="70" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="10" fill="#b3402f" letter-spacing="3">QC APPROVED</text>
+            <text x="65" y="86" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#b3402f" letter-spacing="1">검수 합격 / 정밀</text>
+            <path d="M28 100 H102" stroke="#b3402f" stroke-width="1.2"/>
+            <text x="65" y="112" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="7.5" fill="#b3402f" letter-spacing="1.5">INSP-2026-0627</text>
+          </svg>
+        </div>
+        <div class="cover-cls">CLASS A · 종합 인테리어 시공 / FIT-OUT</div>
+        <h1 class="cover-name">정밀<br/>인테리어</h1>
+        <div class="cover-sub">JEONGMIL INTERIOR — Precision Fit-out Works</div>
+        <p class="cover-tag">시공을 감(感)이 아니라 공정(工程)으로 증명합니다. 현장실측부터 검수까지 28개 검사 항목, 관리한계선 안의 품질로 납품합니다.</p>
+        <div class="cover-meta">
+          <div><div class="k">Scope</div><div class="v">주거 · 상업 · 사무</div></div>
+          <div><div class="k">Region</div><div class="v">경기 성남시 일원</div></div>
+          <div><div class="k">Defect Rate</div><div class="v">0.8% (12M)</div></div>
+          <div><div class="k">Lead Time</div><div class="v">실측 후 D+3 견적</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 시공 범위 — 규격표 -->
+    <section id="scope">
+      <div class="sec-label">
+        <span class="sec-no">§ 2.0</span>
+        <span class="sec-title">시공 범위 규격</span>
+        <span class="sec-en">Scope of Supply</span>
+      </div>
+      <p class="lead">현장 용도별로 적용 규격·자재 등급·보증 기준을 분리 관리합니다. 모든 시공은 아래 규격표에 명시된 공차(Tolerance) 안에서 수행되며, 항목별 검사 성적서가 발행됩니다.</p>
+      <div class="spec-grid">
+
+        <div class="spec-card">
+          <h3>주거 RESIDENTIAL <span class="code">SPC-R</span></h3>
+          <table>
+            <tr><td class="lab">적용 대상</td><td class="val">아파트 · 빌라 · 단독주택</td></tr>
+            <tr><td class="lab">주요 공정</td><td class="val">철거 · 목공 · 도배 · 바닥 · 욕실</td></tr>
+            <tr><td class="lab">자재 등급</td><td class="val">친환경 E0 / SE0 등급</td></tr>
+            <tr><td class="lab">수평 공차</td><td class="val">± 2 mm / 3 m</td></tr>
+            <tr><td class="lab">하자보증</td><td class="val">시공일 기준 2 년</td></tr>
+            <tr><td class="lab">표준 공기</td><td class="val">25 평 기준 14 일</td></tr>
+          </table>
+        </div>
+
+        <div class="spec-card">
+          <h3>상업 COMMERCIAL <span class="code">SPC-C</span></h3>
+          <table>
+            <tr><td class="lab">적용 대상</td><td class="val">카페 · 음식점 · 매장</td></tr>
+            <tr><td class="lab">주요 공정</td><td class="val">설비 · 전기증설 · 주방 · 사인</td></tr>
+            <tr><td class="lab">자재 등급</td><td class="val">불연 · 준불연 인증재</td></tr>
+            <tr><td class="lab">전기 용량</td><td class="val">증설 단상/삼상 협의</td></tr>
+            <tr><td class="lab">하자보증</td><td class="val">시공일 기준 1.5 년</td></tr>
+            <tr><td class="lab">표준 공기</td><td class="val">20 평 기준 18 일</td></tr>
+          </table>
+        </div>
+
+        <div class="spec-card">
+          <h3>사무 OFFICE <span class="code">SPC-O</span></h3>
+          <table>
+            <tr><td class="lab">적용 대상</td><td class="val">사무실 · 클리닉 · 스튜디오</td></tr>
+            <tr><td class="lab">주요 공정</td><td class="val">파티션 · 시스템천장 · 네트워크</td></tr>
+            <tr><td class="lab">자재 등급</td><td class="val">KS 인증 시스템 가구</td></tr>
+            <tr><td class="lab">차음 성능</td><td class="val">회의실 35 dB 이상</td></tr>
+            <tr><td class="lab">하자보증</td><td class="val">시공일 기준 1.5 년</td></tr>
+            <tr><td class="lab">표준 공기</td><td class="val">30 평 기준 16 일</td></tr>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ③ 시공 공정 — SVG 플로우차트 -->
+    <section id="process">
+      <div class="sec-label">
+        <span class="sec-no">§ 3.0</span>
+        <span class="sec-title">시공 공정 흐름도</span>
+        <span class="sec-en">Process Flow Chart</span>
+      </div>
+      <p class="lead">전 공정은 판정 게이트(◇)를 통과해야 다음 단계로 진행됩니다. 부적합(NG) 판정 시 해당 공정으로 되돌려 시정(Rework) 후 재검사합니다 — 합격 없이 다음 공정 착수 금지.</p>
+      <div class="figure">
+        <div class="figure-cap"><span>FIG. 3-1 · 표준 시공 공정 (현장실측 → 설계 → 시공 → 검수)</span><span class="mono">QM-1993 / §3.0</span></div>
+        <svg viewBox="0 0 920 360" role="img" aria-label="시공 공정 플로우차트">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#1d2733"/>
+            </marker>
+            <style>
+              .nbox { fill:#fff; stroke:#1d2733; stroke-width:1.6; }
+              .ndia { fill:#dce8f2; stroke:#1763a6; stroke-width:1.6; }
+              .nterm { fill:#1d2733; }
+              .nt { font-family:'IBM Plex Sans KR', sans-serif; font-size:14px; font-weight:600; fill:#1d2733; }
+              .ntw { font-family:'IBM Plex Sans KR', sans-serif; font-size:14px; font-weight:700; fill:#fff; }
+              .ntd { font-family:'IBM Plex Sans KR', sans-serif; font-size:12.5px; font-weight:600; fill:#114d82; }
+              .nc { font-family:'IBM Plex Mono', monospace; font-size:9px; fill:#66727c; letter-spacing:1px; }
+              .edge { stroke:#1d2733; stroke-width:1.5; fill:none; }
+              .elab { font-family:'IBM Plex Mono', monospace; font-size:9.5px; font-weight:600; }
+            </style>
+          </defs>
+
+          <!-- START -->
+          <rect class="nterm" x="20" y="36" rx="22" ry="22" width="120" height="44"/>
+          <text class="ntw" x="80" y="63" text-anchor="middle">접수 / 상담</text>
+
+          <!-- 1 현장실측 -->
+          <rect class="nbox" x="180" y="30" width="150" height="56"/>
+          <text class="nc" x="190" y="46">OP-01</text>
+          <text class="nt" x="255" y="64" text-anchor="middle">현장 실측</text>
+
+          <!-- 2 설계 -->
+          <rect class="nbox" x="380" y="30" width="150" height="56"/>
+          <text class="nc" x="390" y="46">OP-02</text>
+          <text class="nt" x="455" y="64" text-anchor="middle">설계 · 도면</text>
+
+          <!-- 판정 1 : 도면 승인 -->
+          <polygon class="ndia" points="650,28 730,58 650,88 570,58"/>
+          <text class="ntd" x="650" y="54" text-anchor="middle">도면</text>
+          <text class="ntd" x="650" y="70" text-anchor="middle">승인?</text>
+
+          <!-- 3 시공 -->
+          <rect class="nbox" x="595" y="150" width="150" height="56"/>
+          <text class="nc" x="605" y="166">OP-03</text>
+          <text class="nt" x="670" y="184" text-anchor="middle">시공 · 자재투입</text>
+
+          <!-- 공정중 검사 (판정 2) -->
+          <polygon class="ndia" points="385,150 470,178 385,206 300,178"/>
+          <text class="ntd" x="385" y="174" text-anchor="middle">공정중</text>
+          <text class="ntd" x="385" y="190" text-anchor="middle">검사 OK?</text>
+
+          <!-- 4 검수 -->
+          <rect class="nbox" x="120" y="150" width="150" height="56"/>
+          <text class="nc" x="130" y="166">OP-04</text>
+          <text class="nt" x="195" y="184" text-anchor="middle">준공 검수</text>
+
+          <!-- 최종 판정 -->
+          <polygon class="ndia" points="195,266 280,296 195,326 110,296"/>
+          <text class="ntd" x="195" y="292" text-anchor="middle">최종</text>
+          <text class="ntd" x="195" y="308" text-anchor="middle">합격?</text>
+
+          <!-- END -->
+          <rect class="nterm" x="560" y="274" rx="22" ry="22" width="160" height="44"/>
+          <text class="ntw" x="640" y="301" text-anchor="middle">인도 / 하자보증</text>
+
+          <!-- edges -->
+          <path class="edge" d="M140 58 H180" marker-end="url(#arr)"/>
+          <path class="edge" d="M330 58 H380" marker-end="url(#arr)"/>
+          <path class="edge" d="M530 58 H570" marker-end="url(#arr)"/>
+          <!-- 도면승인 YES -> 시공 (down) -->
+          <path class="edge" d="M670 88 V150" marker-end="url(#arr)"/>
+          <text class="elab" x="678" y="122" fill="#1d7a4d">YES</text>
+          <!-- 도면승인 NO -> 설계 (loop back up) -->
+          <path class="edge" d="M650 88 V112 H455 V86" marker-end="url(#arr)"/>
+          <text class="elab" x="540" y="106" fill="#b8531c">NO · 수정</text>
+          <!-- 시공 -> 공정중검사 -->
+          <path class="edge" d="M595 178 H470" marker-end="url(#arr)"/>
+          <!-- 공정중검사 OK -> 검수 -->
+          <path class="edge" d="M300 178 H270" marker-end="url(#arr)"/>
+          <text class="elab" x="276" y="170" fill="#1d7a4d">OK</text>
+          <!-- 공정중검사 NG -> 시공 rework (down-around) -->
+          <path class="edge" d="M385 206 V232 H670 V206" marker-end="url(#arr)"/>
+          <text class="elab" x="500" y="226" fill="#b8531c">NG · 재시공</text>
+          <!-- 검수 -> 최종판정 -->
+          <path class="edge" d="M195 206 V266" marker-end="url(#arr)"/>
+          <!-- 최종 합격 -> END -->
+          <path class="edge" d="M280 296 H560" marker-end="url(#arr)"/>
+          <text class="elab" x="400" y="288" fill="#1d7a4d">합격 PASS</text>
+          <!-- 최종 NO -> 검수 loop -->
+          <path class="edge" d="M110 296 H60 V178 H120" marker-end="url(#arr)"/>
+          <text class="elab" x="24" y="240" fill="#b8531c">보완</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ④ 품질 보증 — 체크리스트 + 관리도 -->
+    <section id="qc">
+      <div class="sec-label">
+        <span class="sec-no">§ 4.0</span>
+        <span class="sec-title">품질 보증 · 검사 기록</span>
+        <span class="sec-en">Quality Assurance</span>
+      </div>
+      <p class="lead">검수는 담당 시공자 외 별도 검사자가 28개 항목을 교차 확인합니다. 측정값은 관리도(X̄ Chart)로 추적하며, 상·하한 관리한계선(UCL/LCL)을 벗어난 공정은 자동 정지 후 원인 분석합니다.</p>
+      <div class="qc-wrap">
+
+        <div class="checklist">
+          <div class="ch-head"><span>CHECKLIST QC-04 · 준공 검사 항목 (발췌 8/28)</span><span>INSPECTOR ②</span></div>
+          <ul>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">바닥 수평도 ± 2 mm 이내 <small>LEVEL · laser 3-point</small></span>
+              <span class="res">PASS</span>
+            </li>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">도배 들뜸 · 이음매 단차 <small>SURFACE · 육안 + 촉지</small></span>
+              <span class="res">PASS</span>
+            </li>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">전기 회로 절연저항 측정 <small>ELEC · 0.4 MΩ 이상</small></span>
+              <span class="res">PASS</span>
+            </li>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">급·배수 누수 24h 시험 <small>PLUMB · 가압 유지</small></span>
+              <span class="res">PASS</span>
+            </li>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">실내 TVOC · 폼알데하이드 <small>AIR · 베이크아웃 후</small></span>
+              <span class="res">PASS</span>
+            </li>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">문·창호 개폐 토크 · 단열 <small>JOINERY · 3회 반복</small></span>
+              <span class="res">PASS</span>
+            </li>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">실리콘 코킹 연속성 · 마감 <small>SEAL · 전 구간</small></span>
+              <span class="res">PASS</span>
+            </li>
+            <li>
+              <span class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6.2 13 L14 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="lab">현장 청소 · 폐기물 반출 <small>CLEAN · 인도 전</small></span>
+              <span class="res">PASS</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="figure">
+          <div class="figure-cap"><span>FIG. 4-1 · 시공 정밀도 관리도 X̄</span><span class="mono">UCL/LCL</span></div>
+          <svg viewBox="0 0 440 300" role="img" aria-label="품질 관리도">
+            <defs>
+              <style>
+                .axis { stroke:#66727c; stroke-width:1; }
+                .ucl { stroke:#b3402f; stroke-width:1.4; stroke-dasharray:6 4; }
+                .lcl { stroke:#b3402f; stroke-width:1.4; stroke-dasharray:6 4; }
+                .cl { stroke:#1763a6; stroke-width:1.4; }
+                .glab { font-family:'IBM Plex Mono', monospace; font-size:10px; fill:#66727c; }
+                .glabr { font-family:'IBM Plex Mono', monospace; font-size:10px; }
+                .data { fill:none; stroke:#1d2733; stroke-width:1.8; }
+              </style>
+            </defs>
+            <!-- plot frame -->
+            <rect x="44" y="20" width="356" height="220" fill="#fff" stroke="#c4ccd1"/>
+            <!-- grid faint -->
+            <line class="axis" x1="44" y1="76" x2="400" y2="76" stroke="#eef1f3"/>
+            <line class="axis" x1="44" y1="132" x2="400" y2="132" stroke="#eef1f3"/>
+            <line class="axis" x1="44" y1="184" x2="400" y2="184" stroke="#eef1f3"/>
+            <!-- UCL -->
+            <line class="ucl" x1="44" y1="52" x2="400" y2="52"/>
+            <text class="glabr" x="396" y="46" text-anchor="end" fill="#b3402f">UCL +2.0mm</text>
+            <!-- CL -->
+            <line class="cl" x1="44" y1="130" x2="400" y2="130"/>
+            <text class="glabr" x="396" y="124" text-anchor="end" fill="#1763a6">CL 0.0mm</text>
+            <!-- LCL -->
+            <line class="lcl" x1="44" y1="208" x2="400" y2="208"/>
+            <text class="glabr" x="396" y="222" text-anchor="end" fill="#b3402f">LCL −2.0mm</text>
+            <!-- data line (within limits) -->
+            <polyline class="data" points="70,142 108,118 146,135 184,108 222,126 260,114 298,132 336,120 374,128"/>
+            <!-- data points -->
+            <g fill="#1763a6">
+              <circle cx="70" cy="142" r="3.6"/><circle cx="108" cy="118" r="3.6"/><circle cx="146" cy="135" r="3.6"/>
+              <circle cx="184" cy="108" r="3.6"/><circle cx="222" cy="126" r="3.6"/><circle cx="260" cy="114" r="3.6"/>
+              <circle cx="298" cy="132" r="3.6"/><circle cx="336" cy="120" r="3.6"/><circle cx="374" cy="128" r="3.6"/>
+            </g>
+            <!-- x axis labels -->
+            <g class="glab" text-anchor="middle">
+              <text x="70" y="258">#1</text><text x="146" y="258">#3</text><text x="222" y="258">#5</text>
+              <text x="298" y="258">#7</text><text x="374" y="258">#9</text>
+            </g>
+            <text class="glab" x="222" y="284" text-anchor="middle">검사 로트 (Inspection Lot)</text>
+            <text class="glab" x="16" y="134" transform="rotate(-90 16 134)" text-anchor="middle">편차 (mm)</text>
+          </svg>
+          <p class="price-note" style="margin-top:10px;">전 측정값 관리한계선 이내 · 공정능력지수 Cpk ≈ 1.42 (목표 ≥ 1.33)</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑤ 시공 단가표 -->
+    <section id="price">
+      <div class="sec-label">
+        <span class="sec-no">§ 5.0</span>
+        <span class="sec-title">시공 단가 규격표</span>
+        <span class="sec-en">Price Specification</span>
+      </div>
+      <p class="lead">아래는 표준 자재·일반 현장 기준 평당 단가입니다. 실측 후 도면·자재 등급·현장 여건에 따라 ±15% 범위에서 확정 견적이 발행됩니다 (DOC. EST 양식).</p>
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>코드</th>
+            <th>시공 항목 / ITEM</th>
+            <th>규격 · 비고</th>
+            <th class="num">평당 단가 (₩)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">PR-R1</td><td class="item">주거 부분시공 <small>도배 · 바닥 · 조명 교체</small></td><td>친환경 자재 기준</td><td class="num">350,000~</td></tr>
+          <tr><td class="mono">PR-R2</td><td class="item">주거 전체 리모델링 <small>철거~준공 일괄</small></td><td>욕실·주방 포함</td><td class="num">1,250,000~</td></tr>
+          <tr><td class="mono">PR-C1</td><td class="item">상업 매장 인테리어 <small>카페 · 음식점</small></td><td>설비·전기증설 별도</td><td class="num">1,600,000~</td></tr>
+          <tr><td class="mono">PR-O1</td><td class="item">사무공간 시공 <small>파티션 · 시스템천장</small></td><td>네트워크 배선 포함</td><td class="num">980,000~</td></tr>
+          <tr><td class="mono">PR-S1</td><td class="item">부분 보수 · 하자 시공 <small>국소 단위</small></td><td>현장 산정</td><td class="num">별도 견적</td></tr>
+        </tbody>
+      </table>
+      <p class="price-note">※ VAT 별도 · 단가는 2026년 6월 기준 표준값 · 폐기물 처리/양중비 현장별 가산 가능 · 관급/특수자재 시 협의</p>
+    </section>
+
+    <!-- 규격 개정 이력 -->
+    <section id="rev">
+      <div class="sec-label">
+        <span class="sec-no">§ 6.0</span>
+        <span class="sec-title">개정 이력</span>
+        <span class="sec-en">Revision History</span>
+      </div>
+      <table class="rev-table">
+        <thead>
+          <tr><th>REV</th><th>DATE</th><th>CHANGE / 변경 내용</th><th>APPR.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1.0</td><td>1993-03-02</td><td>최초 제정 — QC 검사 항목 18종 등록</td><td>QM·정</td></tr>
+          <tr><td>2.0</td><td>2001-11-15</td><td>친환경 자재 등급(E0/SE0) 기준 추가</td><td>QM·정</td></tr>
+          <tr><td>3.1</td><td>2014-06-20</td><td>공정중 검사 게이트 신설 · 관리도 도입</td><td>QM·정</td></tr>
+          <tr><td>4.2</td><td>2026-06-27</td><td>검사 항목 28종 확대 · Cpk 목표 1.33 상향</td><td>QM·정</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ⑥ 견적 CTA + 연락/위치 -->
+    <section id="contact" style="margin-top:0;">
+      <div class="cta">
+        <div class="cta-l">
+          <div class="cover-cls" style="color:var(--blue);">DOC. EST · 견적 의뢰서 발행</div>
+          <h2>현장 실측 후<br/>D+3 확정 견적</h2>
+          <p>전화 또는 방문 상담으로 접수하시면, 무료 현장 실측 후 3영업일 내 도면과 항목별 확정 견적서(QC 규격 포함)를 발행해 드립니다.</p>
+          <a class="cta-btn" href="/contact">견적 의뢰 접수 →</a>
+        </div>
+        <div class="cta-r">
+          <div class="contact-row"><span class="k">Tel</span><span class="v">031-9XX-XXXX<small>평일 09:00–18:00 / 토 09:00–14:00</small></span></div>
+          <div class="contact-row"><span class="k">Office</span><span class="v">경기 성남시 분당구 정밀로 12<small>정밀 인테리어 쇼룸 · 자재 전시</small></span></div>
+          <div class="contact-row"><span class="k">Hours</span><span class="v">연중무휴 상담 예약제<small>일요일·공휴일 휴무</small></span></div>
+          <div class="contact-row"><span class="k">Cert</span><span class="v">실내건축공사업 면허 보유<small>4대보험 가입 직영팀 시공</small></span></div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>JEONGMIL INTERIOR · DOC. QM-1993 REV.4.2 · CONTROLLED COPY</span>
+        <span>ISO 9001 CONFORMING · PAGE 1 / 1 · ⓒ 2026 정밀 인테리어</span>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

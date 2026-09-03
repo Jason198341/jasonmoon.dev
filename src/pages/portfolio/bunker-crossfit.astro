@@ -1,0 +1,590 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>벙커 크로스핏 — CLASSIFIED // OPERATION BUNKER</title>
+<meta name="description" content="벙커 크로스핏 · 1940년대 군사 작전 브리핑 스타일 데모 — 마포구 비밀 벙커에서 진행되는 12주 강화 작전." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Saira+Stencil+One&family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#1c2118;
+    --bg-deep:#141810;
+    --panel:#232a1e;
+    --panel-2:#2b3325;
+    --lime:#c4d44a;
+    --lime-dim:#9aa83b;
+    --sand:#d8cda6;
+    --sand-dim:#a89c78;
+    --line:#4a5538;
+    --line-soft:#3a432d;
+    --stamp:#b23a2e;
+    --warn:#ffb000;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--sand);
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    line-height:1.6;
+    overflow-x:hidden;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.035) 0 2px, transparent 2px 4px),
+      radial-gradient(120% 90% at 50% 0%, rgba(196,212,74,0.05), transparent 60%);
+  }
+  ::selection{background:var(--lime);color:#11150c}
+  a{color:inherit}
+  h1,h2,h3,.stencil{font-family:'Saira Stencil One',sans-serif;letter-spacing:.04em;text-transform:uppercase}
+  .blackops{font-family:'Black Ops One',sans-serif}
+  .label{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-weight:600}
+  .mono{font-family:'IBM Plex Mono',monospace}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+  /* ===== classified header strip ===== */
+  .classbar{
+    background:repeating-linear-gradient(45deg,#11150c 0 14px,#1c2118 14px 28px);
+    border-top:2px solid var(--lime);
+    border-bottom:2px solid var(--lime);
+    color:var(--lime);
+    font-family:'Oswald',sans-serif;font-weight:700;
+    letter-spacing:.34em;text-transform:uppercase;font-size:12px;
+    padding:7px 0;white-space:nowrap;overflow:hidden;
+  }
+  .classbar .run{display:inline-block;padding-left:100%;animation:march 22s linear infinite}
+  .classbar .run span{margin:0 26px;text-shadow:0 0 1px #000}
+  @keyframes march{to{transform:translateX(-100%)}}
+
+  /* ===== generic stamp / corner ticks ===== */
+  .stamp{
+    display:inline-flex;align-items:center;justify-content:center;
+    border:3px solid var(--stamp);color:var(--stamp);
+    font-family:'Black Ops One',sans-serif;letter-spacing:.08em;
+    padding:8px 16px;transform:rotate(-9deg);
+    text-transform:uppercase;border-radius:3px;opacity:.92;
+    box-shadow:inset 0 0 0 2px rgba(178,58,46,.25);
+  }
+  .corner{position:relative}
+  .corner::before,.corner::after{
+    content:"";position:absolute;width:14px;height:14px;border:2px solid var(--lime-dim);
+  }
+  .corner::before{top:8px;left:8px;border-right:0;border-bottom:0}
+  .corner::after{bottom:8px;right:8px;border-left:0;border-top:0}
+
+  /* ===== HERO ===== */
+  .hero{position:relative;padding:54px 0 70px;border-bottom:1px dashed var(--line)}
+  .hero .doc{
+    border:2px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--bg-deep));
+    padding:34px clamp(20px,4vw,52px) 40px;position:relative;
+  }
+  .docmeta{
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;
+    font-size:11px;color:var(--sand-dim);letter-spacing:.16em;
+    border-bottom:1px solid var(--line-soft);padding-bottom:12px;margin-bottom:26px;
+  }
+  .docmeta b{color:var(--lime)}
+  .hero h1{
+    font-size:clamp(2.6rem,9vw,6.2rem);line-height:.92;color:var(--sand);
+    text-shadow:3px 3px 0 #11150c;margin:8px 0 6px;
+  }
+  .hero h1 .op{display:block;color:var(--lime);font-size:clamp(1rem,3.2vw,1.7rem);letter-spacing:.3em;margin-bottom:14px;font-family:'Oswald',sans-serif;font-weight:700}
+  .hero .tag{font-size:clamp(.95rem,2.2vw,1.15rem);color:var(--sand-dim);max-width:640px;margin-top:18px;letter-spacing:.02em}
+  .hero .tag b{color:var(--lime)}
+  .hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:30px}
+  .btn{
+    display:inline-block;font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;text-decoration:none;padding:14px 30px;font-size:14px;border-radius:2px;
+    border:2px solid var(--lime);transition:.18s;
+  }
+  .btn-primary{background:var(--lime);color:#11150c}
+  .btn-primary:hover{background:#d6e85c;box-shadow:0 0 0 3px rgba(196,212,74,.25)}
+  .btn-ghost{color:var(--lime);background:transparent}
+  .btn-ghost:hover{background:rgba(196,212,74,.12)}
+  .hero .stamp{position:absolute;top:18px;right:18px;font-size:15px}
+  .barcode{height:30px;width:160px;background:repeating-linear-gradient(90deg,var(--sand) 0 2px,transparent 2px 4px,var(--sand) 4px 7px,transparent 7px 9px);opacity:.55}
+
+  /* ===== section heads ===== */
+  section{padding:64px 0;border-bottom:1px dashed var(--line);position:relative}
+  .shead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:34px}
+  .shead .sect-no{font-family:'Black Ops One',sans-serif;color:var(--lime);font-size:1rem;border:2px solid var(--lime-dim);padding:3px 10px;border-radius:3px}
+  .shead h2{font-size:clamp(1.6rem,5vw,2.8rem);color:var(--sand)}
+  .shead .en{font-family:'Oswald',sans-serif;letter-spacing:.26em;color:var(--sand-dim);font-size:12px;margin-left:auto;text-transform:uppercase}
+
+  /* ===== operation cards (programs) ===== */
+  .opgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+  .opcard{
+    border:2px solid var(--line);background:var(--panel);padding:22px 20px 24px;position:relative;
+    transition:.2s;overflow:hidden;
+  }
+  .opcard::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(196,212,74,.04) 0 8px,transparent 8px 16px);pointer-events:none}
+  .opcard:hover{border-color:var(--lime);transform:translateY(-4px);background:var(--panel-2)}
+  .opcard .code{font-family:'Black Ops One',sans-serif;color:var(--lime);font-size:.8rem;letter-spacing:.1em}
+  .opcard h3{font-size:1.5rem;margin:10px 0 4px;color:var(--sand)}
+  .opcard .sub{font-family:'Oswald',sans-serif;letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--sand-dim)}
+  .opcard p{font-size:12.5px;color:var(--sand-dim);margin:14px 0 16px;min-height:60px}
+  .opcard .meta{display:flex;justify-content:space-between;border-top:1px solid var(--line-soft);padding-top:12px;font-size:11px;letter-spacing:.1em;color:var(--lime-dim)}
+  .opcard .meta b{color:var(--lime)}
+  .diff{display:inline-block;margin-top:14px;height:6px;width:100%;background:var(--line-soft);position:relative;border-radius:3px}
+  .diff i{position:absolute;left:0;top:0;bottom:0;background:var(--lime);border-radius:3px}
+
+  /* ===== PHASE timeline ===== */
+  .phases{position:relative;display:grid;gap:0}
+  .phase{
+    display:grid;grid-template-columns:120px 1fr;gap:0;border-left:3px solid var(--line);
+    position:relative;padding-bottom:8px;
+  }
+  .phase .pnum{
+    position:relative;padding:18px 14px 28px 0;
+  }
+  .phase .pnum::before{
+    content:"";position:absolute;left:-9px;top:24px;width:15px;height:15px;border-radius:50%;
+    background:var(--bg);border:3px solid var(--lime);
+  }
+  .phase .pnum .big{font-family:'Black Ops One',sans-serif;color:var(--lime);font-size:1.5rem;line-height:1}
+  .phase .pnum .wk{font-size:10.5px;color:var(--sand-dim);letter-spacing:.14em;margin-top:6px}
+  .phase .pbody{padding:18px 0 28px 26px}
+  .phase .pbody h3{font-size:1.3rem;color:var(--sand);margin-bottom:6px}
+  .phase .pbody .obj{font-family:'Oswald',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--lime-dim);font-size:11px;margin-bottom:12px}
+  .phase .pbody p{font-size:12.5px;color:var(--sand-dim);max-width:620px}
+  .phase .pbody .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .phase .pbody .chips span{font-size:10.5px;letter-spacing:.1em;border:1px solid var(--line);padding:4px 9px;color:var(--sand-dim);border-radius:2px}
+  .phase:last-child{border-left-color:transparent}
+
+  /* ===== map / AO ===== */
+  .aogrid{display:grid;grid-template-columns:1.4fr 1fr;gap:26px;align-items:stretch}
+  .mapbox{border:2px solid var(--line);background:var(--bg-deep);position:relative;overflow:hidden;min-height:340px}
+  .maptag{position:absolute;top:10px;left:12px;font-size:10.5px;letter-spacing:.2em;color:var(--lime);font-family:'Oswald',sans-serif;z-index:2}
+  .maptag-r{position:absolute;bottom:10px;right:12px;font-size:10.5px;letter-spacing:.16em;color:var(--sand-dim);font-family:'IBM Plex Mono',monospace;z-index:2}
+  .intel{border:2px solid var(--line);background:var(--panel);padding:24px 22px}
+  .intel h3{font-size:1.2rem;color:var(--sand);margin-bottom:14px}
+  .intel dl{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:12.5px}
+  .intel dt{color:var(--lime-dim);letter-spacing:.1em;font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:11px}
+  .intel dd{color:var(--sand);text-align:right}
+  .intel .note{margin-top:18px;border-top:1px dashed var(--line);padding-top:14px;font-size:11px;color:var(--sand-dim);letter-spacing:.04em}
+
+  /* dashed flow */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:0;margin-top:34px;justify-content:center}
+  .flow .node{border:2px dashed var(--line);padding:12px 18px;font-family:'Oswald',sans-serif;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--sand);background:var(--panel)}
+  .flow .node b{color:var(--lime)}
+  .flow .arr{color:var(--lime);font-size:1.3rem;padding:0 12px}
+
+  /* ===== pricing / membership ===== */
+  .pricegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .price{border:2px solid var(--line);background:var(--panel);padding:26px 22px;position:relative}
+  .price.featured{border-color:var(--lime);background:var(--panel-2)}
+  .price.featured .rib{position:absolute;top:-2px;right:-2px;background:var(--lime);color:#11150c;font-family:'Oswald',sans-serif;font-weight:700;font-size:10px;letter-spacing:.16em;padding:4px 12px}
+  .price .rank{font-family:'Oswald',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--lime-dim);font-size:11px}
+  .price h3{font-size:1.5rem;color:var(--sand);margin:6px 0 14px}
+  .price .num{font-family:'Black Ops One',sans-serif;color:var(--lime);font-size:2.2rem;line-height:1}
+  .price .num small{font-size:.85rem;color:var(--sand-dim);font-family:'IBM Plex Mono',monospace;letter-spacing:.04em}
+  .price ul{list-style:none;margin:18px 0 22px;font-size:12.5px}
+  .price li{padding:7px 0;border-bottom:1px dashed var(--line-soft);color:var(--sand-dim)}
+  .price li::before{content:"▸ ";color:var(--lime)}
+  .price .btn{width:100%;text-align:center}
+
+  /* ===== ENLIST CTA ===== */
+  .enlist{background:linear-gradient(180deg,var(--bg-deep),var(--bg));text-align:center;position:relative}
+  .enlist .doc{border:2px solid var(--lime);background:var(--panel);max-width:760px;margin:0 auto;padding:44px 28px 40px;position:relative}
+  .enlist h2{font-size:clamp(2rem,7vw,3.6rem);color:var(--sand);text-shadow:3px 3px 0 #11150c}
+  .enlist h2 span{color:var(--lime)}
+  .enlist p{color:var(--sand-dim);max-width:520px;margin:16px auto 26px;font-size:13px}
+  .enlist .stamp{margin-top:10px;font-size:13px}
+  .tear{height:0;border-top:2px dashed var(--line);margin:34px 0;position:relative}
+  .tear::after{content:"✂ — — — — 절취선 — — — —";position:absolute;left:50%;top:-10px;transform:translateX(-50%);background:var(--bg);padding:0 12px;font-size:10px;letter-spacing:.16em;color:var(--sand-dim)}
+
+  /* ===== contact / footer ===== */
+  .contactgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:8px}
+  .cblock{border:1px solid var(--line);padding:18px;background:var(--panel)}
+  .cblock .label{color:var(--lime-dim);font-size:11px;display:block;margin-bottom:8px}
+  .cblock .v{color:var(--sand);font-size:14px;letter-spacing:.04em}
+  .cblock .v.big{font-family:'Saira Stencil One',sans-serif;font-size:1.1rem;color:var(--lime)}
+  footer{padding:40px 0 70px;text-align:center;color:var(--sand-dim);font-size:11px;letter-spacing:.12em}
+  footer .blackops{color:var(--sand);font-size:1.3rem;display:block;margin-bottom:10px;letter-spacing:.08em}
+
+  @media (max-width:720px){
+    .aogrid{grid-template-columns:1fr}
+    .phase{grid-template-columns:90px 1fr}
+    .intel dd{text-align:left}
+    .flow{flex-direction:column;gap:6px}
+    .flow .arr{transform:rotate(90deg);padding:6px 0}
+    .hero .stamp{position:static;display:inline-flex;margin-top:18px}
+  }
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+  <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+  <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 09 · 벙커 크로스핏 — 1940년대 군사 작전 브리핑 스타일</span>
+  <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+</div>
+<div style="height:40px;"></div>
+
+<!-- classified marquee -->
+<div class="classbar">
+  <div class="run">
+    <span>CLASSIFIED // OPERATION BUNKER</span><span>★ EYES ONLY ★</span><span>FILE NO. BNK-1947-CF</span><span>AUTHORIZATION: COMMAND</span><span>DO NOT DISTRIBUTE</span><span>CLASSIFIED // OPERATION BUNKER</span><span>★ EYES ONLY ★</span><span>FILE NO. BNK-1947-CF</span>
+  </div>
+</div>
+
+<!-- ===== HERO / BRIEFING COVER ===== -->
+<header class="hero corner">
+  <div class="wrap">
+    <div class="doc">
+      <div class="docmeta">
+        <span>문서등급 <b>1급기밀</b> · TOP SECRET</span>
+        <span>좌표 37°33′12″N 126°54′41″E</span>
+        <span>발효 <b>0600 HRS</b> / D-DAY</span>
+        <span>섹터 마포구 · ZONE-7</span>
+      </div>
+
+      <span class="label" style="color:var(--lime-dim);font-size:12px">▣ 작전 명령서 — 신병 강화 프로그램</span>
+      <h1>
+        <span class="op">OPERATION · BUNKER</span>
+        벙커<br>크로스핏
+      </h1>
+      <p class="tag">
+        편안함은 적이다. <b>마포구 지하 벙커</b>에 구축된 12주 강화 작전 시설.
+        WOD·근력·컨디셔닝을 <b>미션 단위</b>로 분해하고, 민간인을 작전 가능 상태로 재편성한다.
+        지원 자격: 변하기로 결심한 자.
+      </p>
+
+      <div class="hero-row">
+        <a href="#enlist" class="btn btn-primary">▸ ENLIST · 입대 신청</a>
+        <a href="#phases" class="btn btn-ghost">작전 개요 보기</a>
+        <div class="barcode" aria-hidden="true"></div>
+      </div>
+
+      <span class="stamp">CLASSIFIED</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== SECTION 1 · PROGRAMS AS OPERATIONS ===== -->
+<section id="ops">
+  <div class="wrap">
+    <div class="shead">
+      <span class="sect-no">SEC.01</span>
+      <h2>작전 분류 / 프로그램</h2>
+      <span class="en">// MISSION CATALOG</span>
+    </div>
+
+    <div class="opgrid">
+      <article class="opcard">
+        <div class="code">OP-A · DAILY</div>
+        <h3>WOD 돌격</h3>
+        <div class="sub">Workout Of the Day</div>
+        <p>매일 갱신되는 60분 합동 작전. 바벨·로잉·박스점프로 구성된 고강도 회로. 동료와 함께 전선을 돌파한다.</p>
+        <div class="diff"><i style="width:90%"></i></div>
+        <div class="meta"><span>강도 <b>HIGH</b></span><span>60 MIN</span></div>
+      </article>
+
+      <article class="opcard">
+        <div class="code">OP-B · STRENGTH</div>
+        <h3>근력 진지</h3>
+        <div class="sub">Strength Division</div>
+        <p>스쿼트·데드리프트·클린 중심의 5×5 화력 증강. 정확한 자세로 최대 중량을 안전하게 점령한다.</p>
+        <div class="diff"><i style="width:75%"></i></div>
+        <div class="meta"><span>강도 <b>MID-HIGH</b></span><span>50 MIN</span></div>
+      </article>
+
+      <article class="opcard">
+        <div class="code">OP-C · CONDITION</div>
+        <h3>컨디셔닝 기동</h3>
+        <div class="sub">Conditioning Maneuver</div>
+        <p>심폐 지구력 강화 작전. 인터벌·메트콘으로 체력 한계선을 후퇴시킨다. 땀은 평시 흘리는 피다.</p>
+        <div class="diff"><i style="width:82%"></i></div>
+        <div class="meta"><span>강도 <b>HIGH</b></span><span>45 MIN</span></div>
+      </article>
+
+      <article class="opcard">
+        <div class="code">OP-D · RECRUIT</div>
+        <h3>입문 신병교육</h3>
+        <div class="sub">Recruit Onboarding</div>
+        <p>장비 사용·기본 동작·안전 수칙을 4회에 걸쳐 습득하는 기초군사훈련. 경험 무관, 0부터 시작.</p>
+        <div class="diff"><i style="width:40%"></i></div>
+        <div class="meta"><span>강도 <b>ENTRY</b></span><span>40 MIN</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2 · 12-WEEK PHASES ===== -->
+<section id="phases">
+  <div class="wrap">
+    <div class="shead">
+      <span class="sect-no">SEC.02</span>
+      <h2>12주 강화 작전 / 단계</h2>
+      <span class="en">// PHASE TIMELINE</span>
+    </div>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="pnum"><div class="big">P1</div><div class="wk">WEEK 01–03</div></div>
+        <div class="pbody">
+          <h3>정찰 · 기초 침투</h3>
+          <div class="obj">OBJECTIVE — 지형 파악 · 동작 학습</div>
+          <p>신체 현황을 정밀 측정하고, 기본 7대 동작을 군더더기 없이 장착한다. 부상 없이 전선에 적응하는 것이 본 단계의 유일한 목표다.</p>
+          <div class="chips"><span>InBody 측정</span><span>기본 동작</span><span>가동성</span></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum"><div class="big">P2</div><div class="wk">WEEK 04–06</div></div>
+        <div class="pbody">
+          <h3>화력 증강 · 진지 구축</h3>
+          <div class="obj">OBJECTIVE — 근력 베이스 구축</div>
+          <p>주 3회 근력 진지 투입. 점진적 과부하로 기초 화력을 끌어올린다. 무게는 거짓말하지 않는다 — 기록이 전과(戰果)다.</p>
+          <div class="chips"><span>5×5 프로그램</span><span>중량 점증</span><span>회복 관리</span></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum"><div class="big">P3</div><div class="wk">WEEK 07–09</div></div>
+        <div class="pbody">
+          <h3>총력전 · 복합 기동</h3>
+          <div class="obj">OBJECTIVE — 근력 × 컨디셔닝 통합</div>
+          <p>WOD 돌격과 컨디셔닝 기동을 결합한 복합 작전. 심폐와 근력을 동시에 압박하며 체급을 재편한다. 한계는 협상 대상이 아니다.</p>
+          <div class="chips"><span>메트콘</span><span>인터벌</span><span>기록 갱신</span></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="pnum"><div class="big">P4</div><div class="wk">WEEK 10–12</div></div>
+        <div class="pbody">
+          <h3>점령 · 작전 종결</h3>
+          <div class="obj">OBJECTIVE — 성과 측정 · 전역 평가</div>
+          <p>최종 PR 테스트와 재측정으로 12주 전과를 확정한다. 입대 시점의 자신을 완전히 점령했음을 데이터로 증명하고, 다음 작전을 설계한다.</p>
+          <div class="chips"><span>PR 테스트</span><span>재측정</span><span>전역 브리핑</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3 · AREA OF OPERATIONS (MAP) ===== -->
+<section id="ao">
+  <div class="wrap">
+    <div class="shead">
+      <span class="sect-no">SEC.03</span>
+      <h2>작전 지역 / A.O.</h2>
+      <span class="en">// AREA OF OPERATIONS</span>
+    </div>
+
+    <div class="aogrid">
+      <!-- inline SVG tactical map -->
+      <div class="mapbox corner">
+        <span class="maptag">▣ TACTICAL MAP — ZONE 7 / MAPO</span>
+        <span class="maptag-r">SCALE 1:2400 · GRID BNK</span>
+        <svg viewBox="0 0 560 360" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" role="img" aria-label="작전 지역 전술 지도">
+          <defs>
+            <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+              <path d="M28 0H0V28" fill="none" stroke="#33402a" stroke-width="1"/>
+            </pattern>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L7,3 L0,6 Z" fill="#c4d44a"/>
+            </marker>
+          </defs>
+          <rect width="560" height="360" fill="#141810"/>
+          <rect width="560" height="360" fill="url(#grid)"/>
+
+          <!-- contour lines -->
+          <g fill="none" stroke="#4a5538" stroke-width="1.3" opacity="0.85">
+            <path d="M40,300 C120,250 200,280 280,230 C360,185 440,210 520,160"/>
+            <path d="M30,250 C110,205 190,235 280,185 C370,140 450,165 540,120"/>
+            <path d="M50,200 C130,160 200,190 280,140 C360,95 450,120 530,80"/>
+            <path d="M70,150 C150,115 210,140 290,100 C360,68 440,85 510,55"/>
+          </g>
+          <g fill="none" stroke="#9aa83b" stroke-width="1" opacity="0.4" stroke-dasharray="3 4">
+            <circle cx="300" cy="190" r="46"/>
+            <circle cx="300" cy="190" r="84"/>
+          </g>
+
+          <!-- routes with arrows -->
+          <path d="M70,320 L160,250 L250,265 L300,190" fill="none" stroke="#c4d44a" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+          <path d="M510,60 L430,120 L360,130 L300,190" fill="none" stroke="#c4d44a" stroke-width="2" stroke-dasharray="6 6" opacity="0.7" marker-end="url(#arrow)"/>
+
+          <!-- objective marker -->
+          <g>
+            <circle cx="300" cy="190" r="11" fill="#c4d44a"/>
+            <circle cx="300" cy="190" r="20" fill="none" stroke="#c4d44a" stroke-width="2"/>
+            <path d="M300,160 V220 M270,190 H330" stroke="#c4d44a" stroke-width="1.4"/>
+            <text x="318" y="178" fill="#d8cda6" font-family="monospace" font-size="13" font-weight="700">HQ · BUNKER</text>
+            <text x="318" y="206" fill="#a89c78" font-family="monospace" font-size="10">OBJ-ALPHA</text>
+          </g>
+
+          <!-- secondary markers -->
+          <g fill="#9aa83b" font-family="monospace" font-size="10">
+            <rect x="60" y="312" width="8" height="8" fill="#b23a2e"/>
+            <text x="74" y="320">ENTRY · 망원역 2번출구</text>
+            <rect x="503" y="53" width="8" height="8" fill="#b23a2e"/>
+            <text x="400" y="48">EXTRACT · 한강 보급로</text>
+          </g>
+
+          <!-- compass -->
+          <g transform="translate(515,310)">
+            <circle r="22" fill="none" stroke="#4a5538" stroke-width="1"/>
+            <path d="M0,-20 L5,4 L0,-2 L-5,4 Z" fill="#c4d44a"/>
+            <text x="-4" y="-26" fill="#d8cda6" font-family="monospace" font-size="11" font-weight="700">N</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- intel panel -->
+      <div class="intel">
+        <h3>▣ 위치 인텔리전스</h3>
+        <dl>
+          <dt>코드명</dt><dd>HQ · BUNKER</dd>
+          <dt>주소</dt><dd>서울 마포구 망원로 47 B1</dd>
+          <dt>좌표</dt><dd>37.5533°N 126.9114°E</dd>
+          <dt>침투로</dt><dd>망원역 2번출구 도보 4분</dd>
+          <dt>면적</dt><dd>330㎡ / 지하 1층</dd>
+          <dt>주차</dt><dd>건물 후방 6대</dd>
+          <dt>샤워시설</dt><dd>가동 · 24/7</dd>
+        </dl>
+        <div class="note">
+          ※ 본 시설은 군사 작전 컨셉의 가상 데모입니다. 모든 좌표·주소·연락처는 포트폴리오 시연용 허구 정보입니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- dashed flow chart -->
+    <div class="flow" aria-label="입대 절차 흐름도">
+      <div class="node"><b>01</b> 정찰<br>무료 상담</div>
+      <span class="arr">→</span>
+      <div class="node"><b>02</b> 측정<br>InBody·체력</div>
+      <span class="arr">→</span>
+      <div class="node"><b>03</b> 배치<br>작전 편성</div>
+      <span class="arr">→</span>
+      <div class="node"><b>04</b> 투입<br>12주 작전</div>
+      <span class="arr">→</span>
+      <div class="node"><b>05</b> 점령<br>전역·재측정</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4 · MEMBERSHIP / RATIONS ===== -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="shead">
+      <span class="sect-no">SEC.04</span>
+      <h2>보급 등급 / 회원권</h2>
+      <span class="en">// SUPPLY TIERS</span>
+    </div>
+
+    <div class="pricegrid">
+      <div class="price">
+        <div class="rank">RANK · PRIVATE</div>
+        <h3>신병 1개월</h3>
+        <div class="num">₩159,000<small> /월</small></div>
+        <ul>
+          <li>그룹 작전 무제한</li>
+          <li>입문 신병교육 포함</li>
+          <li>샤워·라커 사용</li>
+          <li>1회 무료 정찰 상담</li>
+        </ul>
+        <a href="#enlist" class="btn btn-ghost">선택</a>
+      </div>
+
+      <div class="price featured">
+        <span class="rib">▲ 추천 등급</span>
+        <div class="rank">RANK · SERGEANT</div>
+        <h3>분대장 3개월</h3>
+        <div class="num">₩129,000<small> /월</small></div>
+        <ul>
+          <li>그룹 작전 무제한</li>
+          <li>월 1회 PT 작전 코칭</li>
+          <li>InBody 격주 측정</li>
+          <li>식단 보급 가이드</li>
+          <li>12주 작전 정규 편성</li>
+        </ul>
+        <a href="#enlist" class="btn btn-primary">선택</a>
+      </div>
+
+      <div class="price">
+        <div class="rank">RANK · COMMANDER</div>
+        <h3>지휘관 12개월</h3>
+        <div class="num">₩99,000<small> /월</small></div>
+        <ul>
+          <li>그룹 작전 무제한</li>
+          <li>월 2회 PT 작전 코칭</li>
+          <li>전용 라커 배정</li>
+          <li>동반 1인 게스트 패스</li>
+          <li>분기 전과 평가 브리핑</li>
+        </ul>
+        <a href="#enlist" class="btn btn-ghost">선택</a>
+      </div>
+
+      <div class="price">
+        <div class="rank">RANK · SCOUT</div>
+        <h3>1일 정찰권</h3>
+        <div class="num">₩25,000<small> /1회</small></div>
+        <ul>
+          <li>그룹 작전 1회 체험</li>
+          <li>장비 사용 안내</li>
+          <li>샤워·라커 사용</li>
+          <li>등록 시 전액 차감</li>
+        </ul>
+        <a href="#enlist" class="btn btn-ghost">선택</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5 · ENLIST CTA ===== -->
+<section id="enlist" class="enlist">
+  <div class="wrap">
+    <div class="doc corner">
+      <span class="label" style="color:var(--lime-dim);font-size:12px">▣ 입대 명령서 — 서명란</span>
+      <h2>지금 <span>입대</span>하라</h2>
+      <p>편안함의 참호에서 나올 시간이다. 첫 무료 정찰 상담을 신청하면 작전 장교가 48시간 내 호출한다. 변명은 보급되지 않는다.</p>
+      <a href="/contact" class="btn btn-primary" style="font-size:16px;padding:16px 38px">▸ ENLIST NOW · 무료 정찰 신청</a>
+      <div class="tear"></div>
+      <span class="stamp">APPROVED</span>
+    </div>
+
+    <div class="contactgrid">
+      <div class="cblock">
+        <span class="label">▣ 통신 / HOTLINE</span>
+        <div class="v big">02-844-1947</div>
+        <div class="v" style="color:var(--sand-dim);font-size:12px;margin-top:6px">전시 직통 · 09:00–22:00</div>
+      </div>
+      <div class="cblock">
+        <span class="label">▣ 좌표 / LOCATION</span>
+        <div class="v">서울 마포구 망원로 47 B1</div>
+        <div class="v" style="color:var(--sand-dim);font-size:12px;margin-top:6px">망원역 2번출구 도보 4분</div>
+      </div>
+      <div class="cblock">
+        <span class="label">▣ 작전 시간 / HOURS</span>
+        <div class="v" style="font-size:12.5px;line-height:1.9">
+          평일 06:00 – 23:00<br>
+          토요일 08:00 – 18:00<br>
+          일요일·공휴일 휴전(휴무)
+        </div>
+      </div>
+      <div class="cblock">
+        <span class="label">▣ 보급 채널 / CHANNEL</span>
+        <div class="v">@bunker_crossfit</div>
+        <div class="v" style="color:var(--sand-dim);font-size:12px;margin-top:6px">DM으로 정찰 신청 접수</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <span class="blackops">BUNKER CROSSFIT</span>
+    OPERATION BUNKER · FILE BNK-1947-CF · 마포구 ZONE-7<br>
+    © 2026 벙커 크로스핏 (가상 데모) · 본 문서는 포트폴리오 시연용 기밀 브리핑 컨셉입니다.<br>
+    <span style="color:var(--lime-dim);letter-spacing:.24em">— END OF BRIEFING —</span>
+  </div>
+</footer>
+
+</body>
+</html>

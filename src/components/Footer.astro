@@ -1,41 +1,71 @@
 ---
 const year = new Date().getFullYear();
+const _now = new Date();
+const version = `v${_now.getFullYear()}.${String(_now.getMonth() + 1).padStart(2, '0')}`;
 
 const explore = [
-  { href: '/projects', label: 'Work' },
-  { href: '/templates', label: 'Templates' },
-  { href: '/prompts', label: 'Prompts' },
-  { href: '/video-catalog', label: 'Videos' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/archive', label: 'Archive' },
+  { href: '/portfolio', label: '포트폴리오', code: '01' },
+  { href: '/styles', label: '스타일 도감', code: '02' },
+  { href: '/guide', label: '제작·배포 안내', code: '03' },
+  { href: '/projects', label: 'Lab · Work', code: '04' },
+  { href: '/blog', label: 'Blog', code: '05' },
 ];
 
 const connect = [
-  { href: '/contact', label: 'Contact' },
-  { href: 'https://github.com/Jason198341', label: 'GitHub', external: true },
-  { href: 'https://youtube.com/@PeopleSky', label: 'YouTube', external: true },
-  { href: '/board', label: 'Board' },
+  { href: '/contact', label: '문의하기', code: '01' },
+  { href: 'https://invite.kakao.com/tc/EszOu7fY0i', label: '카톡 오픈채팅', code: '02', external: true },
+  { href: 'mailto:skypeople41@gmail.com', label: 'Email', code: '03', external: true },
+  { href: 'tel:+821075253511', label: '전화 상담', code: '04' },
 ];
 ---
 
-<footer class="relative border-t border-border/30">
-  <!-- Gradient border animation -->
-  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
+<footer class="relative border-t border-border-strong bg-surface/30 mt-12">
+  <!-- Tick ruler top edge -->
+  <div class="h-3 border-b border-border bg-bg/40" style="background-image: repeating-linear-gradient(to right, var(--color-border-strong) 0, var(--color-border-strong) 1px, transparent 1px, transparent 32px);"></div>
 
-  <div class="mx-auto max-w-5xl px-6 pt-12 pb-8">
+  <div class="mx-auto max-w-7xl px-6 pt-10 pb-6">
+
+    <!-- Identity row -->
+    <div class="flex flex-wrap items-start justify-between gap-6 mb-10 pb-8 border-b border-border">
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <span class="reg-mark text-accent"></span>
+          <span class="font-mono text-sm font-bold tracking-[0.2em] text-text">JASONMOON<span class="text-accent">.DEV</span></span>
+          <span class="hud-id">SYS-001</span>
+        </div>
+        <p class="font-mono text-[10px] text-text-faint tracking-[0.2em] uppercase leading-relaxed max-w-md">
+          홈페이지 제작 × 업무 자동화 윈도우 툴<br/>
+          AI로 만들고 · 파일까지 무료로 드립니다 · 2026
+        </p>
+      </div>
+
+      <!-- System readout -->
+      <div class="font-mono text-[10px] tracking-[0.15em] uppercase text-right leading-relaxed">
+        <div class="flex items-center justify-end gap-2 text-green mb-1">
+          <span class="hud-pip hud-pip--on" style="width:6px;height:6px;"></span>
+          <span>System Operational</span>
+        </div>
+        <p class="text-text-faint">Uptime <span class="text-accent">100%</span> · {version}</p>
+        <p class="text-text-faint">Build: <span class="text-text-muted">astro-5</span> · Cloudflare</p>
+      </div>
+    </div>
 
     <!-- Navigation grid -->
-    <div class="grid grid-cols-2 gap-8 sm:gap-16 mb-12">
+    <div class="grid grid-cols-2 gap-8 sm:gap-16 mb-10">
       <div>
-        <h3 class="text-xs font-mono uppercase tracking-widest text-text-muted/50 mb-4">Explore</h3>
-        <ul class="space-y-2.5">
+        <h3 class="font-mono text-[10px] tracking-[0.3em] uppercase text-accent mb-4 flex items-center gap-2">
+          <span class="h-px w-4 bg-accent"></span>
+          <span>Explore</span>
+        </h3>
+        <ul class="space-y-2">
           {explore.map((link) => (
             <li>
               <a
                 href={link.href}
-                class="text-sm text-text-muted hover:text-text transition-colors duration-200"
+                class="group flex items-center gap-3 font-mono text-xs text-text-muted hover:text-accent transition-colors duration-200"
               >
-                {link.label}
+                <span class="text-text-faint/60 group-hover:text-accent text-[9px] tracking-wider">{link.code}</span>
+                <span class="tracking-wider uppercase">{link.label}</span>
               </a>
             </li>
           ))}
@@ -43,16 +73,20 @@ const connect = [
       </div>
 
       <div>
-        <h3 class="text-xs font-mono uppercase tracking-widest text-text-muted/50 mb-4">Connect</h3>
-        <ul class="space-y-2.5">
+        <h3 class="font-mono text-[10px] tracking-[0.3em] uppercase text-accent mb-4 flex items-center gap-2">
+          <span class="h-px w-4 bg-accent"></span>
+          <span>Connect</span>
+        </h3>
+        <ul class="space-y-2">
           {connect.map((link) => (
             <li>
               <a
                 href={link.href}
-                class="text-sm text-text-muted hover:text-text transition-colors duration-200 inline-flex items-center gap-1.5"
+                class="group flex items-center gap-3 font-mono text-xs text-text-muted hover:text-accent transition-colors duration-200"
                 {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
               >
-                {link.label}
+                <span class="text-text-faint/60 group-hover:text-accent text-[9px] tracking-wider">{link.code}</span>
+                <span class="tracking-wider uppercase">{link.label}</span>
                 {link.external && (
                   <svg class="w-3 h-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -65,30 +99,34 @@ const connect = [
       </div>
     </div>
 
-    <!-- Divider -->
-    <div class="border-t border-border/20 mb-8"></div>
+    <!-- Broadcast quote -->
+    <div class="relative border-y border-border py-6 mb-6 hud-hatch-dim">
+      <div class="absolute top-0 left-0 px-2 -translate-y-1/2 bg-bg font-mono text-[9px] text-accent tracking-[0.3em] uppercase">▲ Broadcast</div>
+      <p class="font-mono text-center text-xs text-text-muted tracking-[0.1em] uppercase max-w-xl mx-auto">
+        "세상에 못 하는 것은 없다<span class="text-accent">.</span> 단지 안 해서 못 할 뿐"
+      </p>
+    </div>
 
-    <!-- Quote + Copyright -->
-    <p class="reveal text-center text-sm text-text-muted/60 italic mb-8 max-w-md mx-auto leading-relaxed">
-      "Fulfillment activates the moment you define it."
-    </p>
-
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-xs text-text-muted/50 font-mono">
-        &copy; {year} Jason Moon &middot; Built with Astro
+    <!-- Bottom row -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[10px] tracking-[0.2em] uppercase">
+      <p class="text-text-faint">
+        &copy; {year} <span class="text-text-muted">Jason Moon</span> · Built with Astro
+        <a href="/molten" class="ml-3 text-text-faint/50 hover:text-accent transition-colors" aria-label="융시 熔時">· 熔 MOLTEN</a>
+        <a href="/admin" class="ml-3 text-text-faint/50 hover:text-accent transition-colors" aria-label="Admin">· 🔒 ADMIN</a>
       </p>
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4 text-text-faint">
+        <span>LAT 37.5665° N</span>
+        <span class="text-accent">·</span>
+        <span>LON 126.9780° E</span>
         <a
           href="https://github.com/Jason198341"
           target="_blank"
           rel="noopener"
-          class="group relative text-text-muted/50 hover:text-text transition-colors duration-300"
+          class="ml-2 text-text-muted hover:text-accent transition-colors"
           aria-label="GitHub"
         >
-          <svg class="w-5 h-5 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-          <!-- Hover glow -->
-          <span class="absolute inset-0 rounded-full bg-accent/0 group-hover:bg-accent/10 blur-md transition-all duration-300"></span>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
         </a>
       </div>
     </div>

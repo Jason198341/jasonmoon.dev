@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="융시 熔時 — Molten Time" description="바늘은 없다. 열에 떠는 입자들이 있을 뿐이다. 온도로 시간을 녹이는 인터랙티브 작품.">
+  <!-- ════════════════ MOLTEN TIME INTRO (융시 熔時) ════════════════ -->
+  <div id="mt-intro" style="position:fixed;inset:0;z-index:9999;background:#060607;color:#b8b2a6;overflow:hidden;font-family:Georgia,'Noto Serif KR','Apple SD Gothic Neo',serif;display:flex;flex-direction:column;align-items:center;transition:opacity .7s ease;">
+    <div class="mt-art" style="position:relative;flex:1;width:100%;display:flex;align-items:center;justify-content:center;min-height:0;">
+      <canvas id="mt-cv" width="1100" height="1100" style="display:block;cursor:ns-resize;touch-action:none;"></canvas>
+      <div style="position:absolute;right:clamp(14px,4vw,54px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:.85;">
+        <div id="mt-tempRead" style="font-size:11px;color:#8a8172;font-variant-numeric:tabular-nums;">T 0.45</div>
+        <input type="range" id="mt-tS" min="0" max="1" step="0.005" value="0.45" style="-webkit-appearance:none;appearance:none;width:3px;height:min(30vh,240px);background:linear-gradient(to top,#2a4a66,#7a5a2e,#a33c22);border-radius:2px;outline:none;writing-mode:vertical-lr;direction:rtl;">
+        <div style="writing-mode:vertical-rl;font-size:11px;letter-spacing:.5em;color:#6e6759;">열 熱</div>
+      </div>
+    </div>
+    <div style="width:min(620px,92vw);border-top:1px solid #26241f;padding:16px 8px 22px;text-align:center;">
+      <div style="font-size:16.5px;color:#ddd3bd;letter-spacing:.06em;">「융시 熔時」 <i style="font-style:normal;color:#7d7466;font-size:13px;margin-left:10px;letter-spacing:.18em;">MOLTEN TIME · 2026</i></div>
+      <div style="font-size:13px;color:#98917f;margin-top:10px;line-height:1.8;">바늘은 없다. 열에 떠는 입자들이 있을 뿐이다.
+        식히면 시간은 결정이 되고, 데우면 흐르고, 끓이면 증발한다.<br>
+        그러나 어느 온도에서도 구름의 무게중심은 시각을 기억한다 —
+        개체의 요동은 온도의 것이고, 중심은 큰 수의 것이므로.</div>
+      <div style="margin-top:10px;font-size:12.5px;color:#7d7466;font-variant-numeric:tabular-nums;letter-spacing:.05em;">
+        상태 <span id="mt-stateW" style="color:#ddd3bd;">액체 液體</span> ·
+        퍼짐 <span id="mt-spread">±0분</span> ·
+        그럼에도 중심 <b id="mt-centerT" style="color:#cfa75a;font-weight:600;">--:--</b>
+      </div>
+      <button id="mt-enter" style="margin-top:16px;background:none;border:1px solid #3a372f;color:#b8b2a6;padding:9px 34px;font-family:inherit;font-size:13px;letter-spacing:.3em;cursor:pointer;transition:all .3s;">입 장 →</button>
+    </div>
+  </div>
+
+  <script is:inline>
+  (function(){
+  "use strict";
+  const intro=document.getElementById('mt-intro');
+  if(!intro) return;
+  let alive=true;
+  function leave(){
+    if(!alive) return; alive=false;
+    intro.style.opacity='0';
+    setTimeout(()=>{location.href='/';},700);
+  }
+  document.getElementById('mt-enter').addEventListener('click',leave);
+  addEventListener('keydown',e=>{if(e.key==='Escape')leave();});
+
+  const cv=document.getElementById('mt-cv'), ctx=cv.getContext('2d');
+  const S=1100, C=S/2, R=S*0.40;
+  function fit(){
+    const art=intro.querySelector('.mt-art'); if(!art)return;
+    const h=art.clientHeight, w=innerWidth;
+    const px=Math.min(h*0.96, w*0.9);
+    cv.style.width=cv.style.height=px+'px';
+  }
+  addEventListener('resize',fit); fit(); setTimeout(fit,50);
+
+  function gauss(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+
+  let T=0.45, lastTouch=-1e9, clock=0;
+  const tS=document.getElementById('mt-tS'), tempRead=document.getElementById('mt-tempRead');
+  tS.addEventListener('input',()=>{T=+tS.value; lastTouch=clock;});
+  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId); dragT(e);});
+  cv.addEventListener('pointermove',e=>{if(e.buttons)dragT(e);});
+  function dragT(e){
+    const r=cv.getBoundingClientRect();
+    T=Math.min(1,Math.max(0,1-(e.clientY-r.top)/r.height));
+    tS.value=T; lastTouch=clock;
+  }
+  intro.addEventListener('wheel',e=>{e.preventDefault();T=Math.min(1,Math.max(0,T-e.deltaY*0.0004)); tS.value=T; lastTouch=clock;},{passive:false});
+
+  function cloud(n,len,girth){
+    const a=[];
+    for(let i=0;i<n;i++){
+      const u=0.14+0.86*Math.sqrt(Math.random());
+      a.push({u, x:0.2*gauss(), r:len*u, girth,
+        size:0.9+Math.random()*1.6, warm:Math.random(), tw:Math.random()*7});
+    }
+    return a;
+  }
+  const minC=cloud(460,R*0.94,1.00), hourC=cloud(330,R*0.58,0.85), secC=cloud(120,R*1.00,0.42);
+
+  function angles(){
+    const d=new Date();
+    const ms=d.getMilliseconds()/1000, s=d.getSeconds()+ms, m=d.getMinutes()+s/60, h=(d.getHours()%12)+m/60;
+    return {h:h/12*2*Math.PI-Math.PI/2, m:m/60*2*Math.PI-Math.PI/2, s:s/60*2*Math.PI-Math.PI/2, d};
+  }
+  const sigma=t=>0.014+1.7*Math.pow(t,2.7);
+  function stepCloud(arr,dt){
+    const k=2.4, sg=sigma(T), s=sg*Math.sqrt(2*k);
+    for(const p of arr){
+      p.x += -k*p.x*dt + s*Math.sqrt(dt)*gauss();
+      p.tw += dt*(1.5+T*6);
+    }
+  }
+  function pal(t,warm){
+    const w=t+0.12*(warm-0.5); let r,g,b;
+    if(w<0.33){const q=w/0.33; r=150+q*95; g=205-q*35; b=255-q*135;}
+    else if(w<0.7){const q=(w-0.33)/0.37; r=245+q*10; g=170-q*55; b=120-q*75;}
+    else{const q=(w-0.7)/0.3; r=255; g=115-q*55; b=45-q*20;}
+    return [r|0,g|0,b|0];
+  }
+  function drawCloud(arr,base,inten){
+    const sg=sigma(T);
+    for(const p of arr){
+      const spread=p.girth*(0.35+0.85*p.u);
+      const a=base+p.x*spread;
+      const x=C+p.r*Math.cos(a), y=C+p.r*Math.sin(a);
+      const c=pal(T,p.warm), r=c[0], g=c[1], b=c[2];
+      const tw=0.75+0.25*Math.sin(p.tw);
+      const al=inten*tw*(0.10+0.55/(1+3*sg));
+      ctx.fillStyle='rgba('+r+','+g+','+b+','+(al*0.35)+')';
+      ctx.beginPath(); ctx.arc(x,y,p.size*3.2+T*3,0,7); ctx.fill();
+      ctx.fillStyle='rgba('+Math.min(255,r+60)+','+Math.min(255,g+60)+','+Math.min(255,b+50)+','+al+')';
+      ctx.beginPath(); ctx.arc(x,y,p.size,0,7); ctx.fill();
+    }
+  }
+  function rim(){
+    ctx.strokeStyle='rgba(160,150,130,0.10)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(C,C,R+34,0,7); ctx.stroke();
+    for(let i=0;i<12;i++){
+      const a=i/12*2*Math.PI-Math.PI/2;
+      ctx.strokeStyle=i%3===0?'rgba(200,188,160,0.30)':'rgba(160,150,130,0.14)';
+      ctx.lineWidth=i%3===0?2.5:1.2;
+      const r1=R+26,r2=R+42;
+      ctx.beginPath();
+      ctx.moveTo(C+r1*Math.cos(a),C+r1*Math.sin(a));
+      ctx.lineTo(C+r2*Math.cos(a),C+r2*Math.sin(a)); ctx.stroke();
+    }
+  }
+  const stateW=document.getElementById('mt-stateW'), spreadEl=document.getElementById('mt-spread'),
+        centerT=document.getElementById('mt-centerT');
+  function plaque(t){
+    const sg=sigma(T); let st;
+    if(T<0.17) st='결정 結晶';
+    else if(T<0.52) st='액체 液體';
+    else if(T<0.82) st='비등 沸騰';
+    else st='증기 蒸氣';
+    stateW.textContent=st;
+    spreadEl.textContent='±'+(sg/(2*Math.PI)*60).toFixed(1)+'분';
+    const d=t.d; let hh=d.getHours()%12; if(hh===0)hh=12;
+    centerT.textContent=String(hh).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+    tempRead.textContent='T '+T.toFixed(2);
+  }
+  let last=performance.now(), acc=0;
+  function frame(now){
+    if(!alive) return;
+    const dt=Math.min(Math.max((now-last)/1000,0),0.05); last=now; clock+=dt;
+    if(clock-lastTouch>12){ T=0.36+0.30*Math.sin(clock/17); tS.value=T; }
+    const t=angles();
+    stepCloud(minC,dt); stepCloud(hourC,dt); stepCloud(secC,dt);
+    ctx.globalCompositeOperation='destination-out';
+    ctx.fillStyle='rgba(0,0,0,'+(0.10+0.13*T)+')';
+    ctx.fillRect(0,0,S,S);
+    ctx.globalCompositeOperation='source-over';
+    rim();
+    ctx.globalCompositeOperation='lighter';
+    drawCloud(secC ,t.s,0.30);
+    drawCloud(minC ,t.m,0.85);
+    drawCloud(hourC,t.h,1.00);
+    if(T<0.2){
+      for(let i=0;i<2;i++){
+        const arr=Math.random()<0.5?minC:hourC, p=arr[(Math.random()*arr.length)|0];
+        const base=arr===minC?t.m:t.h;
+        const a=base+p.x*p.girth*(0.35+0.85*p.u);
+        ctx.fillStyle='rgba(255,255,255,0.9)';
+        ctx.beginPath(); ctx.arc(C+p.r*Math.cos(a),C+p.r*Math.sin(a),1.6,0,7); ctx.fill();
+      }
+    }
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle='rgba(220,210,185,0.85)';
+    ctx.beginPath(); ctx.arc(C,C,4.5,0,7); ctx.fill();
+    acc+=dt; if(acc>0.25){acc=0; plaque(t);}
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  })();
+  </script>
+
+</Base>

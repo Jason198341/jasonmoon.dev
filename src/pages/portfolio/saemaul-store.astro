@@ -1,0 +1,703 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>새마을 상회 — 동네 종합 생필품·철물 상회</title>
+  <meta name="description" content="새마을 상회 — 면목동 정직한 동네마트·철물점. 잘 살아보세! 생필품·철물·공구 한자리에. 동네 무료배달." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gothic+A1:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green: #2e7d32;
+      --green-dark: #1b5e20;
+      --green-deep: #14401a;
+      --yellow: #ffd400;
+      --yellow-deep: #f5b800;
+      --red: #d32f2f;
+      --red-dark: #a31515;
+      --paper: #f4ead2;
+      --paper-dark: #e7d8b3;
+      --ink: #20180c;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Gothic A1', 'Do Hyeon', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 거친 인쇄 질감 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.06;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.5) 0, rgba(0,0,0,0.5) 1px, transparent 1px, transparent 3px);
+      mix-blend-mode: multiply;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9001;
+      opacity: 0.5;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(0,0,0,0.04) 0, transparent 1.5px),
+        radial-gradient(circle at 70% 60%, rgba(0,0,0,0.05) 0, transparent 1.2px),
+        radial-gradient(circle at 45% 80%, rgba(0,0,0,0.04) 0, transparent 1.4px),
+        radial-gradient(circle at 85% 15%, rgba(0,0,0,0.05) 0, transparent 1.3px);
+      background-size: 7px 7px, 11px 11px, 9px 9px, 13px 13px;
+      mix-blend-mode: multiply;
+    }
+
+    h1, h2, h3, .slogan, .banner-text {
+      font-family: 'Black Han Sans', 'Do Hyeon', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+    /* ===== 현수막 띠 ===== */
+    .ribbon {
+      background: var(--red);
+      color: var(--yellow);
+      text-align: center;
+      padding: 9px 12px;
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: clamp(13px, 2.6vw, 18px);
+      letter-spacing: 0.18em;
+      border-top: 3px solid var(--yellow);
+      border-bottom: 3px solid var(--yellow);
+      position: relative;
+      text-shadow: 1px 1px 0 var(--red-dark);
+    }
+    .ribbon span { display: inline-block; padding: 0 8px; }
+    .ribbon .dot { color: var(--white); }
+
+    /* ===== 히어로 ===== */
+    .hero {
+      background: var(--green);
+      color: var(--white);
+      padding: 0 0 50px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 10px solid var(--yellow);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(135deg, rgba(0,0,0,0.07) 0, rgba(0,0,0,0.07) 2px, transparent 2px, transparent 22px);
+      pointer-events: none;
+    }
+    /* 빛살 방사 */
+    .hero .rays {
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      width: 160%;
+      height: 200%;
+      transform: translateX(-50%);
+      background: repeating-conic-gradient(from 0deg at 50% 50%,
+        rgba(255,212,0,0.10) 0deg, rgba(255,212,0,0.10) 7deg,
+        transparent 7deg, transparent 22deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .topflags {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      padding: 56px 0 8px;
+      position: relative;
+      z-index: 2;
+      flex-wrap: wrap;
+    }
+    .flag {
+      width: 46px;
+      height: 34px;
+      position: relative;
+      filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.25));
+      animation: wave 2.8s ease-in-out infinite;
+    }
+    .flag:nth-child(2) { animation-delay: .3s; }
+    .flag:nth-child(3) { animation-delay: .6s; }
+    .flag:nth-child(4) { animation-delay: .9s; }
+    .flag:nth-child(5) { animation-delay: 1.2s; }
+    @keyframes wave {
+      0%,100% { transform: skewY(-3deg) scaleX(1); }
+      50% { transform: skewY(3deg) scaleX(0.96); }
+    }
+
+    .hero-mark {
+      display: block;
+      margin: 8px auto 4px;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(3px 4px 0 rgba(0,0,0,0.3));
+    }
+
+    .hero h1 {
+      text-align: center;
+      font-size: clamp(46px, 13vw, 132px);
+      line-height: 0.9;
+      color: var(--yellow);
+      position: relative;
+      z-index: 2;
+      margin-top: 6px;
+      text-shadow:
+        4px 4px 0 var(--red),
+        7px 7px 0 var(--green-deep);
+    }
+    .hero .sub {
+      text-align: center;
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: clamp(15px, 3.4vw, 24px);
+      letter-spacing: 0.1em;
+      margin-top: 14px;
+      position: relative;
+      z-index: 2;
+      color: var(--white);
+    }
+
+    .marquee-banner {
+      margin: 30px auto 0;
+      max-width: 760px;
+      background: var(--yellow);
+      color: var(--red-dark);
+      border: 4px solid var(--white);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.3);
+      transform: rotate(-1.2deg);
+      padding: 12px 18px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .marquee-banner .banner-text {
+      font-size: clamp(28px, 7vw, 56px);
+      line-height: 1;
+      letter-spacing: 0.05em;
+    }
+    .marquee-banner small {
+      display: block;
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: clamp(11px, 2.4vw, 15px);
+      letter-spacing: 0.16em;
+      margin-top: 6px;
+      color: var(--green-dark);
+    }
+
+    .hero-people {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 4px;
+      margin-top: 34px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-people svg { filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.25)); }
+
+    /* ===== 섹션 공통 ===== */
+    section { padding: 60px 0; position: relative; }
+
+    .sec-head {
+      display: inline-block;
+      background: var(--red);
+      color: var(--yellow);
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: clamp(24px, 5.5vw, 42px);
+      padding: 6px 22px 8px;
+      transform: rotate(-1.4deg);
+      box-shadow: 5px 5px 0 var(--green-dark);
+      margin-bottom: 8px;
+      text-shadow: 2px 2px 0 var(--red-dark);
+    }
+    .sec-tag {
+      font-family: 'Do Hyeon', sans-serif;
+      color: var(--green-dark);
+      font-size: clamp(13px, 2.6vw, 17px);
+      letter-spacing: 0.1em;
+      margin-bottom: 30px;
+      padding-left: 4px;
+    }
+
+    /* 취급 품목 */
+    .items {
+      background:
+        linear-gradient(0deg, var(--paper-dark), var(--paper));
+    }
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+    .item-card {
+      background: var(--white);
+      border: 3px solid var(--green-dark);
+      box-shadow: 5px 5px 0 var(--green);
+      padding: 22px 20px;
+      position: relative;
+    }
+    .item-card:nth-child(even) { box-shadow: 5px 5px 0 var(--red); border-color: var(--red-dark); }
+    .item-card .ic {
+      width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--yellow);
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      margin-bottom: 12px;
+    }
+    .item-card h3 {
+      font-size: clamp(21px, 4vw, 27px);
+      color: var(--green-dark);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .item-card:nth-child(even) h3 { color: var(--red-dark); }
+    .item-card p {
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 14px;
+      color: #4a3d28;
+      letter-spacing: 0.02em;
+    }
+
+    /* 이번주 특가 */
+    .deals { background: var(--green-dark); color: var(--white); border-top: 8px solid var(--yellow); border-bottom: 8px solid var(--yellow); }
+    .deals .sec-head { box-shadow: 5px 5px 0 var(--yellow-deep); }
+    .deal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 8px;
+    }
+    .deal {
+      background: var(--paper);
+      color: var(--ink);
+      border: 4px solid var(--white);
+      padding: 20px 18px 22px;
+      position: relative;
+      transform: rotate(-0.8deg);
+    }
+    .deal:nth-child(even) { transform: rotate(1deg); }
+    .deal .tag {
+      position: absolute;
+      top: -16px; right: -10px;
+      background: var(--red);
+      color: var(--yellow);
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 16px;
+      padding: 5px 11px;
+      transform: rotate(8deg);
+      box-shadow: 2px 2px 0 var(--red-dark);
+      border: 2px solid var(--yellow);
+    }
+    .deal .name {
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 19px;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+    .deal .was {
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 14px;
+      color: #8a7a5c;
+      text-decoration: line-through;
+    }
+    .deal .now {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: clamp(30px, 7vw, 42px);
+      color: var(--red);
+      line-height: 1;
+      margin-top: 2px;
+    }
+    .deal .now small { font-size: 16px; color: var(--ink); }
+    .deal .unit {
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 12px;
+      color: #6a5a3c;
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+    .deals-note {
+      text-align: center;
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      margin-top: 26px;
+      color: var(--yellow);
+    }
+
+    /* 배달 안내 */
+    .delivery { background: var(--paper); }
+    .delivery-box {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 0;
+      border: 4px solid var(--ink);
+      box-shadow: 8px 8px 0 var(--green);
+      background: var(--white);
+    }
+    .delivery-left {
+      background: var(--green);
+      color: var(--white);
+      padding: 34px 30px;
+      position: relative;
+    }
+    .delivery-left::after {
+      content:"";
+      position:absolute; inset:0;
+      background: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 8px, transparent 8px 16px);
+      pointer-events:none;
+    }
+    .delivery-left h3 {
+      font-size: clamp(28px, 6vw, 44px);
+      color: var(--yellow);
+      line-height: 0.95;
+      margin-bottom: 14px;
+      text-shadow: 3px 3px 0 var(--green-deep);
+    }
+    .delivery-left p {
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+      position: relative; z-index: 1;
+    }
+    .delivery-right { padding: 30px; }
+    .dl-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 4px;
+      border-bottom: 2px dashed var(--paper-dark);
+      font-family: 'Do Hyeon', sans-serif;
+    }
+    .dl-row:last-child { border-bottom: 0; }
+    .dl-row .k { color: var(--ink); font-size: 15px; }
+    .dl-row .v { color: var(--green-dark); font-size: 17px; font-weight: 700; }
+    .dl-row .v.free { color: var(--red); }
+
+    /* 연락 */
+    .contact { background: var(--red); color: var(--white); border-top: 8px solid var(--yellow); position: relative; }
+    .contact::before {
+      content:"";
+      position:absolute; inset:0;
+      background: repeating-linear-gradient(135deg, rgba(0,0,0,0.06) 0 3px, transparent 3px 24px);
+      pointer-events:none;
+    }
+    .contact .inner { text-align: center; position: relative; z-index: 1; }
+    .contact h2 {
+      font-size: clamp(34px, 9vw, 76px);
+      color: var(--yellow);
+      line-height: 0.95;
+      text-shadow: 4px 4px 0 var(--red-dark);
+    }
+    .contact .phone {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: clamp(34px, 9vw, 70px);
+      color: var(--white);
+      margin: 16px 0 4px;
+      text-shadow: 3px 3px 0 var(--red-dark);
+      letter-spacing: 0.02em;
+    }
+    .contact .addr {
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: clamp(14px, 3vw, 19px);
+      letter-spacing: 0.06em;
+    }
+    .contact .hours {
+      display: inline-block;
+      margin-top: 22px;
+      background: var(--green);
+      color: var(--white);
+      font-family: 'Do Hyeon', sans-serif;
+      padding: 10px 22px;
+      border: 3px solid var(--yellow);
+      box-shadow: 4px 4px 0 var(--green-deep);
+      font-size: 15px;
+      letter-spacing: 0.05em;
+      transform: rotate(-1deg);
+    }
+
+    footer {
+      background: var(--green-deep);
+      color: var(--paper-dark);
+      text-align: center;
+      padding: 26px 16px;
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+    footer .seed { vertical-align: middle; margin-bottom: 6px; }
+
+    @media (max-width: 720px) {
+      .delivery-box { grid-template-columns: 1fr; }
+      .delivery-left { box-shadow: none; }
+      section { padding: 46px 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 데모바 -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+    <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+    <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 40 · 새마을 상회 — 70년대 새마을운동 포스터 스타일</span>
+    <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+  </div>
+  <div style="height:40px;"></div>
+
+  <!-- 구호 현수막 띠 -->
+  <div class="ribbon">
+    <span>근면</span><span class="dot">·</span><span>자조</span><span class="dot">·</span><span>협동</span><span class="dot">·</span><span>잘 살아보세</span><span class="dot">·</span><span>면목동 새마을 상회</span>
+  </div>
+
+  <!-- 히어로 -->
+  <header class="hero">
+    <div class="rays"></div>
+
+    <div class="topflags">
+      <!-- 작은 깃발들 -->
+      <svg class="flag" viewBox="0 0 46 34"><polygon points="0,0 46,0 38,17 46,34 0,34" fill="#ffd400" stroke="#14401a" stroke-width="2"/></svg>
+      <svg class="flag" viewBox="0 0 46 34"><polygon points="0,0 46,0 38,17 46,34 0,34" fill="#d32f2f" stroke="#14401a" stroke-width="2"/></svg>
+      <svg class="flag" viewBox="0 0 46 34"><polygon points="0,0 46,0 38,17 46,34 0,34" fill="#ffffff" stroke="#14401a" stroke-width="2"/></svg>
+      <svg class="flag" viewBox="0 0 46 34"><polygon points="0,0 46,0 38,17 46,34 0,34" fill="#d32f2f" stroke="#14401a" stroke-width="2"/></svg>
+      <svg class="flag" viewBox="0 0 46 34"><polygon points="0,0 46,0 38,17 46,34 0,34" fill="#ffd400" stroke="#14401a" stroke-width="2"/></svg>
+    </div>
+
+    <!-- 새마을 마크: 노랑 새싹 원형 -->
+    <svg class="hero-mark" width="118" height="118" viewBox="0 0 118 118" aria-label="새마을 상회 마크">
+      <circle cx="59" cy="59" r="55" fill="#ffd400" stroke="#ffffff" stroke-width="5"/>
+      <circle cx="59" cy="59" r="55" fill="none" stroke="#14401a" stroke-width="2"/>
+      <!-- 새싹 줄기 -->
+      <path d="M59 92 Q59 64 59 48" stroke="#1b5e20" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <!-- 왼쪽 잎 -->
+      <path d="M59 62 Q34 60 28 38 Q52 38 59 60 Z" fill="#2e7d32" stroke="#14401a" stroke-width="2"/>
+      <!-- 오른쪽 잎 -->
+      <path d="M59 56 Q84 52 92 30 Q66 32 59 54 Z" fill="#1b5e20" stroke="#14401a" stroke-width="2"/>
+    </svg>
+
+    <h1>새마을 상회</h1>
+    <p class="sub">동네 생필품 · 철물 · 공구 종합 상회 &nbsp;|&nbsp; 1973년 그 마음 그대로</p>
+
+    <div class="marquee-banner">
+      <div class="banner-text">잘 살아보세!</div>
+      <small>정직한 물건, 바른 저울, 한 동네 한 식구</small>
+    </div>
+
+    <!-- 일하는 사람 실루엣 -->
+    <div class="hero-people">
+      <!-- 짐 든 사람 -->
+      <svg width="58" height="92" viewBox="0 0 58 92"><g fill="#14401a">
+        <circle cx="26" cy="13" r="9"/>
+        <path d="M18 24 h16 l5 30 h-26 z"/>
+        <rect x="14" y="52" width="9" height="36"/>
+        <rect x="29" y="52" width="9" height="36"/>
+        <rect x="2" y="28" width="20" height="16" rx="2"/>
+      </g></svg>
+      <!-- 깃발 든 사람 -->
+      <svg width="58" height="100" viewBox="0 0 58 100"><g fill="#14401a">
+        <circle cx="24" cy="16" r="9"/>
+        <path d="M16 27 h16 l4 28 h-24 z"/>
+        <rect x="13" y="53" width="9" height="44"/>
+        <rect x="28" y="53" width="9" height="44"/>
+        <rect x="38" y="2" width="4" height="60"/>
+      </g>
+        <polygon points="42,4 58,4 53,15 58,26 42,26" fill="#d32f2f" stroke="#14401a" stroke-width="2"/>
+      </svg>
+      <!-- 삽 든 사람 -->
+      <svg width="58" height="94" viewBox="0 0 58 94"><g fill="#14401a">
+        <circle cx="30" cy="14" r="9"/>
+        <path d="M22 25 h16 l4 28 h-24 z"/>
+        <rect x="20" y="51" width="9" height="40"/>
+        <rect x="34" y="51" width="9" height="40"/>
+        <rect x="6" y="22" width="3" height="50" transform="rotate(18 7 47)"/>
+        <path d="M2 70 l10 4 -2 10 -10 -4 z" transform="rotate(18 6 78)"/>
+      </g></svg>
+    </div>
+  </header>
+
+  <!-- 취급 품목 -->
+  <section class="items">
+    <div class="wrap">
+      <div class="sec-head">취급 품목</div>
+      <div class="sec-tag">▶ 한 집에 다 있다! 생필품부터 못 한 봉지까지</div>
+      <div class="item-grid">
+
+        <div class="item-card">
+          <div class="ic">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="#1b5e20"><path d="M4 8h20l-2 16H6L4 8z"/><path d="M9 8V6a5 5 0 0110 0v2" fill="none" stroke="#1b5e20" stroke-width="2.5"/></svg>
+          </div>
+          <h3>생활필수품</h3>
+          <p>쌀·라면·간장·식용유·세제·휴지·계란. 끼니 살림 한 번에 해결.</p>
+        </div>
+
+        <div class="item-card">
+          <div class="ic">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="#a31515"><path d="M14 2l3 9h9l-7 6 3 9-8-5-8 5 3-9-7-6h9z"/></svg>
+          </div>
+          <h3>철물·공구</h3>
+          <p>망치·드라이버·못·나사·경첩·문고리·줄자. 집수리 준비 끝.</p>
+        </div>
+
+        <div class="item-card">
+          <div class="ic">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="#1b5e20"><rect x="5" y="5" width="18" height="18" rx="2"/><path d="M5 11h18M11 5v18" stroke="#fff" stroke-width="2"/></svg>
+          </div>
+          <h3>전기·배관</h3>
+          <p>전구·콘센트·전선·테이프·PVC관·수도꼭지·고무패킹 상비.</p>
+        </div>
+
+        <div class="item-card">
+          <div class="ic">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="#a31515"><path d="M6 4h16v6H6z"/><path d="M8 10h12l-2 14H10L8 10z"/></svg>
+          </div>
+          <h3>청소·주방</h3>
+          <p>빗자루·대걸레·수세미·고무장갑·양동이·플라스틱 그릇.</p>
+        </div>
+
+        <div class="item-card">
+          <div class="ic">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="#1b5e20"><path d="M14 3l9 5v8l-9 5-9-5V8z"/></svg>
+          </div>
+          <h3>농자재·원예</h3>
+          <p>모종삽·호스·화분·비료·씨앗·노끈. 옥상텃밭도 거뜬.</p>
+        </div>
+
+        <div class="item-card">
+          <div class="ic">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="#a31515"><circle cx="14" cy="14" r="11"/><path d="M14 7v7l5 3" stroke="#fff" stroke-width="2.5" fill="none"/></svg>
+          </div>
+          <h3>잡화·문구</h3>
+          <p>건전지·실·바늘·풀·테이프·연탄집게까지. 없는 게 없다.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 이번주 특가 -->
+  <section class="deals">
+    <div class="wrap">
+      <div class="sec-head">이번주 특가</div>
+      <div class="sec-tag" style="color:var(--yellow);">▶ 6월 넷째 주 · 동네 잔치값! 떨어지기 전에 오세요</div>
+      <div class="deal-grid">
+
+        <div class="deal">
+          <div class="tag">대박</div>
+          <div class="name">하얀 쌀 20kg</div>
+          <div class="was">54,000원</div>
+          <div class="now">46,900<small>원</small></div>
+          <div class="unit">한 가마 / 1인 1포 한정</div>
+        </div>
+
+        <div class="deal">
+          <div class="tag">싸다</div>
+          <div class="name">라면 한 박스(30개)</div>
+          <div class="was">19,800원</div>
+          <div class="now">14,500<small>원</small></div>
+          <div class="unit">봉지라면 묶음 / 박스당</div>
+        </div>
+
+        <div class="deal">
+          <div class="tag">철물</div>
+          <div class="name">막못·나사 한 봉</div>
+          <div class="was">3,000원</div>
+          <div class="now">1,900<small>원</small></div>
+          <div class="unit">크기 골라 담기 / 봉지당</div>
+        </div>
+
+        <div class="deal">
+          <div class="tag">실속</div>
+          <div class="name">고무장갑 5켤레</div>
+          <div class="was">6,500원</div>
+          <div class="now">3,900<small>원</small></div>
+          <div class="unit">주방용 / 묶음</div>
+        </div>
+
+        <div class="deal">
+          <div class="tag">한정</div>
+          <div class="name">LED 전구 3개</div>
+          <div class="was">9,900원</div>
+          <div class="now">6,800<small>원</small></div>
+          <div class="unit">백색·전구색 선택 / 세트</div>
+        </div>
+
+        <div class="deal">
+          <div class="tag">덤</div>
+          <div class="name">세탁세제 4kg</div>
+          <div class="was">12,900원</div>
+          <div class="now">8,900<small>원</small></div>
+          <div class="unit">살림 비누 1장 덤 / 통당</div>
+        </div>
+
+      </div>
+      <p class="deals-note">※ 매주 월요일 특가 갱신 · 행사 물량 소진 시 조기 마감됩니다</p>
+    </div>
+  </section>
+
+  <!-- 배달 안내 -->
+  <section class="delivery">
+    <div class="wrap">
+      <div class="sec-head" style="box-shadow:5px 5px 0 var(--green);">배달 안내</div>
+      <div class="sec-tag">▶ 무거운 짐은 우리가! 전화 한 통이면 문 앞까지</div>
+      <div class="delivery-box">
+        <div class="delivery-left">
+          <h3>전화 주문<br/>동네 무료배달</h3>
+          <p>· 전화 한 통이면 당일 배달</p>
+          <p>· 쌀·생수·연탄 무거운 짐 환영</p>
+          <p>· 어르신·단골은 외상장부도 OK</p>
+          <p>· 거동 불편하시면 댁까지 모십니다</p>
+        </div>
+        <div class="delivery-right">
+          <div class="dl-row"><span class="k">배달 지역</span><span class="v">면목동 · 상봉동 일대</span></div>
+          <div class="dl-row"><span class="k">최소 주문</span><span class="v">10,000원</span></div>
+          <div class="dl-row"><span class="k">배달비</span><span class="v free">무료</span></div>
+          <div class="dl-row"><span class="k">주문 마감</span><span class="v">오후 7시 30분</span></div>
+          <div class="dl-row"><span class="k">결제</span><span class="v">현금 · 계좌 · 카드</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 연락 -->
+  <section class="contact">
+    <div class="wrap inner">
+      <h2>전화 한 통,<br/>달려갑니다</h2>
+      <div class="phone">02-822-7395</div>
+      <p class="addr">서울 중랑구 면목동 사가정로 88 (면목시장 입구)</p>
+      <div class="hours">연중무휴 · 오전 8시 ~ 밤 10시 (명절 당일만 휴무)</div>
+    </div>
+  </section>
+
+  <footer>
+    <svg class="seed" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+      <circle cx="15" cy="15" r="14" fill="#ffd400"/>
+      <path d="M15 24 V13" stroke="#1b5e20" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M15 16 Q7 15 5 7 Q13 8 15 15 Z" fill="#2e7d32"/>
+      <path d="M15 13 Q23 11 25 4 Q17 6 15 12 Z" fill="#1b5e20"/>
+    </svg>
+    <div>새마을 상회 · 면목동 정직한 동네 상회 · 잘 살아보세!</div>
+    <div style="opacity:.7;margin-top:4px;">본 페이지는 포트폴리오용 가상 업체 데모입니다 · 표기된 정보는 실제와 무관합니다</div>
+  </footer>
+</body>
+</html>

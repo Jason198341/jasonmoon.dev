@@ -1,0 +1,175 @@
+---
+import Base from '../layouts/Base.astro';
+
+const aphorisms = [
+  {
+    id: 'love',
+    theme: '사랑에 대해',
+    themeEn: 'On Love',
+    featured: true,
+    lines: [
+      '진정으로 사랑하는 자는 상대가 자신 없이도 살아갈 수 있음을 알게 되면 안도한다.',
+      '반면 소유하려는 자는 상대가 자신 없이도 살아갈 수 있음을 알게 되면 공포를 느낀다.',
+    ],
+  },
+  {
+    id: 'gratitude',
+    theme: '감사에 대해',
+    themeEn: 'On Gratitude',
+    featured: false,
+    note: '— 니체식 아포리즘에서',
+    lines: [
+      '섬세한 영혼을 지닌 사람은 누군가가 자신에게 감사해야 할 의무가 있다는 것을 알게 되면 우울해진다.',
+      '반면에 거친 영혼을 지닌 사람은 자신이 누구에겐가 감사해야 할 의무가 있음을 알게 되면 우울해진다.',
+    ],
+  },
+  {
+    id: 'power',
+    theme: '권력에 대해',
+    themeEn: 'On Power',
+    featured: false,
+    lines: [
+      '강한 자는 자신이 누군가를 지배할 수 있다는 것을 알게 되면 그 권력을 내려놓는다.',
+      '반면 약한 자는 자신이 누군가를 지배할 수 없다는 것을 알게 되면 그 권력을 더 쥐려 한다.',
+    ],
+  },
+  {
+    id: 'recognition',
+    theme: '인정에 대해',
+    themeEn: 'On Recognition',
+    featured: false,
+    lines: [
+      '깊은 자는 이해받지 못할 때 고독을 느낀다.',
+      '얕은 자는 이해받았을 때 고독을 느낀다.',
+    ],
+  },
+  {
+    id: 'praise',
+    theme: '칭찬에 대해',
+    themeEn: 'On Praise',
+    featured: false,
+    lines: [
+      '자신에 찬 자는 칭찬받을 때 불편하다. 자신 없는 자는 칭찬받지 못할 때 불편하다.',
+      '그런데 이 둘 모두, 칭찬에 흔들린다는 점에서는 같다.',
+    ],
+  },
+  {
+    id: 'silence',
+    theme: '침묵에 대해',
+    themeEn: 'On Silence',
+    featured: false,
+    lines: [
+      '성숙한 자는 옳다는 것을 알면서도 말하지 않을 수 있다.',
+      '미숙한 자는 틀렸다는 것을 알면서도 말을 멈추지 못한다.',
+    ],
+  },
+  {
+    id: 'responsibility',
+    theme: '책임에 대해',
+    themeEn: 'On Responsibility',
+    featured: false,
+    lines: [
+      '진짜 리더는 모든 일이 잘 풀렸을 때 자신의 공을 의심한다.',
+      '가짜 리더는 모든 일이 잘못됐을 때 자신의 책임을 의심한다.',
+    ],
+  },
+  {
+    id: 'solitude',
+    theme: '고독에 대해',
+    themeEn: 'On Solitude',
+    featured: false,
+    lines: [
+      '혼자를 견딜 수 있는 자는 군중 속에서 더 외롭다.',
+      '혼자를 견딜 수 없는 자는 혼자일 때만 외롭다.',
+    ],
+  },
+];
+---
+
+<Base
+  title="Thoughts — Jason Moon"
+  description="역(逆)대칭 아포리즘. 같은 감정, 반대의 이유. 두 영혼의 본질을 동시에 드러내는 단편들."
+>
+  <section class="py-16 sm:py-24">
+    <div class="mx-auto max-w-2xl px-6">
+
+      <!-- Header -->
+      <div class="mb-14 animate-fade-in-up delay-1">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent mb-3">역(逆)대칭 아포리즘</p>
+        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4 leading-tight">
+          Thoughts
+        </h1>
+        <p class="text-text-muted leading-relaxed text-sm max-w-lg">
+          같은 감정, 반대의 이유.<br />
+          두 영혼의 본질을 동시에 드러내는 단편들.
+        </p>
+      </div>
+
+      <!-- Aphorisms -->
+      <div class="space-y-8">
+        {aphorisms.map((a, i) => (
+          <article
+            class:list={[
+              'group relative rounded-2xl border transition-all duration-300 reveal',
+              a.featured
+                ? 'border-accent/30 bg-accent/5 hover:border-accent/50 hover:bg-accent/8'
+                : 'border-border bg-surface hover:border-border-hover hover:bg-surface-hover',
+            ]}
+            style={`transition-delay: ${i * 60}ms`}
+          >
+            <!-- Featured glow -->
+            {a.featured && (
+              <div class="absolute inset-0 rounded-2xl bg-accent/5 blur-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            )}
+
+            <div class="relative p-7 sm:p-8">
+              <!-- Theme label -->
+              <div class="flex items-center gap-3 mb-5">
+                <span class:list={[
+                  'text-xs font-mono font-semibold tracking-widest uppercase',
+                  a.featured ? 'text-accent' : 'text-text-muted',
+                ]}>
+                  {a.theme}
+                </span>
+                <span class="text-xs text-text-muted/40 font-light">{a.themeEn}</span>
+                {a.featured && (
+                  <span class="ml-auto inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-accent/60 border border-accent/20 rounded-full px-2.5 py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-accent/60 animate-pulse" />
+                    featured
+                  </span>
+                )}
+              </div>
+
+              <!-- Quote lines -->
+              <blockquote class="space-y-3">
+                {a.lines.map((line, li) => (
+                  <p class:list={[
+                    'leading-relaxed',
+                    li === 0
+                      ? 'text-text text-base sm:text-lg font-medium'
+                      : 'text-text-muted text-base sm:text-lg',
+                  ]}>
+                    {line}
+                  </p>
+                ))}
+              </blockquote>
+
+              {a.note && (
+                <p class="mt-4 text-xs text-text-muted/50 font-mono">{a.note}</p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Footer note -->
+      <div class="mt-16 pt-8 border-t border-border text-center animate-fade-in-up">
+        <p class="text-xs text-text-muted/50 font-mono leading-relaxed">
+          역(逆)대칭 아포리즘 — 두 대조 유형 × 동일 상황 × 반대 이유 = 본질 노출<br />
+          Inspired by Nietzsche's aphoristic style
+        </p>
+      </div>
+
+    </div>
+  </section>
+</Base>

@@ -1,202 +1,115 @@
 ---
 import Base from '../layouts/Base.astro';
+
+const KAKAO = 'https://invite.kakao.com/tc/EszOu7fY0i';
+
+const guide = [
+  { n: '1', icon: '🏪', t: '어떤 가게/일인가요?', d: '예) "성수동 작은 카페예요" · "세무사 사무실입니다" · "헬스장 운영해요"' },
+  { n: '2', icon: '🎨', t: '어떤 느낌을 원하세요?', d: '예) "깔끔·고급" · 스타일 도감에서 2~3개 골라 섞어도 OK · 잘 모르면 느낌만 말씀하세요 — 3가지 시안으로 제안드립니다' },
+  { n: '3', icon: '📝', t: '어떤 내용이 들어가나요?', d: '가게 소개 · 메뉴/가격 · 사진 몇 장 · 전화번호 · 영업시간 — 있는 만큼만' },
+  { n: '4', icon: '📞', t: '연락처를 남겨주세요', d: '카카오톡이면 충분합니다. 전화/문자도 좋아요' },
+];
+
+const toolGuide = [
+  '어떤 작업이 매일 반복돼서 귀찮은지 (예: 엑셀 정리, 메일 발송, 번역)',
+  '지금은 그걸 어떻게 하고 계신지',
+  '쓰시는 프로그램 (엑셀 / 아웃룩 / 한글 등)',
+];
 ---
 
-<Base title="Contact — Jason Moon">
-  <section class="py-16 sm:py-20">
+<Base title="무료 제작 문의 — jasonmoon.dev" description="홈페이지·업무 자동화 툴 무료 제작 문의. 카카오톡으로 편하게 연락하세요.">
+  <section class="py-14 sm:py-20">
     <div class="mx-auto max-w-3xl px-6">
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4">Let's Build Something</h1>
-      <p class="text-text-muted mb-10 max-w-xl">
-        I'm an automotive engineer who builds fullstack products nights and weekends.
-        Whether you need a working prototype, a production web app, or a proof of concept to pitch investors — let's talk.
+
+      <div class="flex items-center gap-3 mb-6 font-mono text-[10px] tracking-[0.3em] uppercase">
+        <span class="hud-pip hud-pip--amber"></span>
+        <span class="text-accent">무료 제작 접수중</span>
+      </div>
+      <h1 class="font-display text-3xl sm:text-5xl font-bold text-text mb-4">편하게 문의하세요</h1>
+      <p class="text-text-muted text-lg mb-10 max-w-xl leading-relaxed">
+        홈페이지든, 업무를 편하게 해줄 윈도우 프로그램이든 — <span class="text-text font-semibold">무료로 만들어 드립니다.</span>
+        완성 파일까지 그대로요. 카카오톡 한 줄이면 시작됩니다.
       </p>
 
-      <!-- What I Can Build -->
-      <div class="grid gap-4 sm:grid-cols-2 mb-12">
-        <div class="rounded-xl border border-border bg-surface p-5">
-          <p class="font-medium mb-2">Web Applications</p>
-          <p class="text-sm text-text-muted">React, Next.js, Astro — from AI-powered platforms to data dashboards. Shipped 2 products with custom domains.</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-5">
-          <p class="font-medium mb-2">AI / Multi-Agent Systems</p>
-          <p class="text-sm text-text-muted">LLM integration, multi-agent debate frameworks, RAG systems, intelligent tutoring. Real production experience.</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-5">
-          <p class="font-medium mb-2">Mobile Apps</p>
-          <p class="text-sm text-text-muted">Android native with Kotlin. AI-powered memo apps, vocabulary builders, clipboard intelligence.</p>
-        </div>
-        <div class="rounded-xl border border-border bg-surface p-5">
-          <p class="font-medium mb-2">Browser Extensions</p>
-          <p class="text-sm text-text-muted">Chrome Manifest V3. Built a habit-tracking extension with cross-tab sync and progressive lockdown mechanics.</p>
-        </div>
-      </div>
-
-      <!-- Contact Methods -->
-      <div class="space-y-4 mb-12">
-        <h2 class="text-lg font-semibold">Reach Out</h2>
-        <a
-          href="mailto:skypeople41@gmail.com"
-          class="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:border-accent/40 hover:bg-surface-hover transition-all"
-        >
-          <div class="w-10 h-10 rounded-lg bg-accent-dim flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-medium group-hover:text-accent transition-colors">Email</p>
-            <p class="text-sm text-text-muted">skypeople41@gmail.com</p>
-          </div>
-          <svg class="w-4 h-4 text-text-muted group-hover:text-accent ml-auto transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-
-        <a
-          href="https://wa.me/919154369924"
-          target="_blank"
-          rel="noopener"
-          class="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:border-accent/40 hover:bg-surface-hover transition-all"
-        >
-          <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-medium group-hover:text-emerald-500 transition-colors">WhatsApp</p>
-            <p class="text-sm text-text-muted">+91 91543 69924</p>
-          </div>
-          <svg class="w-4 h-4 text-text-muted group-hover:text-emerald-500 ml-auto transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-
-        <div class="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5">
-          <div class="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M22.125 0H1.875C.839 0 0 .84 0 1.875v20.25C0 23.161.84 24 1.875 24h20.25C23.161 24 24 23.16 24 22.125V1.875C24 .839 23.16 0 22.125 0zM12 18.75c-.621 0-1.125-.504-1.125-1.125v-.375c-2.344-.281-3.75-1.852-3.75-3.75h2.25c0 1.125.844 1.875 2.25 1.875 1.125 0 1.875-.469 1.875-1.125 0-.75-.469-1.031-2.063-1.406C9.75 12.375 8.25 11.625 8.25 9.75c0-1.594 1.125-2.906 3-3.281V6c0-.621.504-1.125 1.125-1.125S13.5 5.379 13.5 6v.469c1.875.375 3 1.688 3 3.281h-2.25c0-.937-.656-1.5-1.875-1.5-.937 0-1.5.469-1.5 1.031 0 .656.469.938 2.063 1.313 1.687.469 3.187 1.125 3.187 3.156 0 1.688-1.219 3.094-3.375 3.469v.406c0 .621-.504 1.125-1.125 1.125z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-medium">KakaoTalk</p>
-            <p class="text-sm text-text-muted">ID: kcmsun</p>
-          </div>
-        </div>
-
-        <a
-          href="tel:+821075253511"
-          class="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:border-accent/40 hover:bg-surface-hover transition-all"
-        >
-          <div class="w-10 h-10 rounded-lg bg-accent-dim flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-medium group-hover:text-accent transition-colors">Phone (Korea)</p>
-            <p class="text-sm text-text-muted">+82 10 7525 3511</p>
-          </div>
-          <svg class="w-4 h-4 text-text-muted group-hover:text-accent ml-auto transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-
-        <a
-          href="https://www.youtube.com/@PeopleSky"
-          target="_blank"
-          rel="noopener"
-          class="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:border-red-500/40 hover:bg-surface-hover transition-all"
-        >
-          <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-medium group-hover:text-red-500 transition-colors">YouTube</p>
-            <p class="text-sm text-text-muted">@PeopleSky — AI & Code</p>
-          </div>
-          <svg class="w-4 h-4 text-text-muted group-hover:text-red-500 ml-auto transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
-        </a>
-
-        <a
-          href="https://www.instagram.com/neuralmind2030/"
-          target="_blank"
-          rel="noopener"
-          class="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:border-pink-500/40 hover:bg-surface-hover transition-all"
-        >
-          <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-medium group-hover:text-pink-500 transition-colors">Instagram</p>
-            <p class="text-sm text-text-muted">@neuralmind2030</p>
-          </div>
-          <svg class="w-4 h-4 text-text-muted group-hover:text-pink-500 ml-auto transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
-        </a>
-
-        <a
-          href="https://github.com/Jason198341"
-          target="_blank"
-          rel="noopener"
-          class="group flex items-center gap-4 rounded-xl border border-border bg-surface p-5 hover:border-accent/40 hover:bg-surface-hover transition-all"
-        >
-          <div class="w-10 h-10 rounded-lg bg-accent-dim flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-medium group-hover:text-accent transition-colors">GitHub</p>
-            <p class="text-sm text-text-muted">github.com/Jason198341</p>
-          </div>
-          <svg class="w-4 h-4 text-text-muted group-hover:text-accent ml-auto transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Board Link -->
-      <a
-        href="/board"
-        class="group block rounded-xl border border-accent/20 bg-accent/5 p-6 hover:border-accent/40 transition-all mb-12"
-      >
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-lg font-semibold group-hover:text-accent transition-colors">Collaboration Board</h2>
-            <p class="text-sm text-text-muted mt-1">Submit a project inquiry or browse past collaborations. All posts are password-protected.</p>
-          </div>
-          <svg class="w-5 h-5 text-accent shrink-0 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </div>
+      <!-- 큰 카톡 버튼 -->
+      <a href={KAKAO} target="_blank" rel="noopener"
+        class="flex items-center justify-center gap-3 w-full px-8 py-6 bg-accent text-black font-bold text-xl sm:text-2xl tracking-tight shadow-[0_4px_28px_rgba(255,176,0,0.45)] hover:bg-accent-hover hover:scale-[1.01] transition-all mb-4">
+        💬 카카오톡 오픈채팅으로 문의하기
       </a>
+      <p class="text-center text-text-faint text-sm mb-12">위 버튼을 누르면 바로 대화창이 열립니다. 아무 말이나 먼저 남기셔도 돼요.</p>
 
-      <!-- Process -->
-      <div class="rounded-xl border border-border bg-surface p-6 sm:p-8">
-        <h2 class="text-lg font-semibold mb-4">How I Work</h2>
-        <div class="space-y-4 text-sm text-text-muted">
-          <div class="flex gap-4">
-            <span class="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center text-xs font-bold">1</span>
-            <div><span class="text-text font-medium">Tell me the problem.</span> What are you trying to build? Who is it for? What does success look like?</div>
-          </div>
-          <div class="flex gap-4">
-            <span class="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center text-xs font-bold">2</span>
-            <div><span class="text-text font-medium">I build a working prototype.</span> Not wireframes or slide decks — actual running code you can click through and test.</div>
-          </div>
-          <div class="flex gap-4">
-            <span class="shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center text-xs font-bold">3</span>
-            <div><span class="text-text font-medium">We iterate to production.</span> Feedback, polish, deploy. I ship to custom domains with real users.</div>
-          </div>
+      <!-- 문의 가이드 (홈페이지) -->
+      <div class="border-2 border-accent/40 bg-accent/5 p-6 sm:p-8 mb-8">
+        <h2 class="font-display text-xl sm:text-2xl font-bold text-text mb-2">🌐 홈페이지 문의 — 딱 4가지만</h2>
+        <p class="text-text-muted text-sm mb-6">어렵게 생각 마세요. 아래만 적어 보내주시면 됩니다. 말로 하셔도 됩니다.</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {guide.map((s) => (
+            <div class="bg-bg border border-border-strong p-5">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="flex items-center justify-center w-10 h-10 rounded-full bg-accent text-black font-display font-bold text-xl shrink-0">{s.n}</span>
+                <span class="text-2xl">{s.icon}</span>
+              </div>
+              <p class="font-bold text-text mb-1">{s.t}</p>
+              <p class="text-text-muted text-sm leading-relaxed">{s.d}</p>
+            </div>
+          ))}
         </div>
       </div>
+
+      <!-- 문의 가이드 (업무툴) -->
+      <div class="border-2 border-border-strong bg-surface/40 p-6 sm:p-8 mb-12">
+        <h2 class="font-display text-xl sm:text-2xl font-bold text-text mb-2">⚙️ 업무 자동화 툴 문의</h2>
+        <p class="text-text-muted text-sm mb-5">반복되는 귀찮은 일, 프로그램으로 만들어 드립니다. 이렇게만 알려주세요.</p>
+        <ul class="space-y-3">
+          {toolGuide.map((t, i) => (
+            <li class="flex items-start gap-3 text-text-muted">
+              <span class="flex items-center justify-center w-7 h-7 rounded-full bg-accent/15 text-accent font-bold text-sm shrink-0">{i + 1}</span>
+              <span class="pt-0.5">{t}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- 연락 수단 -->
+      <h2 class="font-mono text-[11px] tracking-[0.3em] uppercase text-accent mb-4">다른 연락 방법</h2>
+      <div class="space-y-3 mb-12">
+        <a href={KAKAO} target="_blank" rel="noopener"
+          class="group flex items-center gap-4 border border-border-strong bg-surface p-5 hover:border-accent transition-all">
+          <span class="w-11 h-11 rounded-lg bg-yellow-400/15 flex items-center justify-center text-2xl shrink-0">💬</span>
+          <div><p class="font-bold text-text group-hover:text-accent transition-colors">카카오톡 오픈채팅</p><p class="text-sm text-text-muted">가장 빠릅니다 · 24시간 접수 · 개인 ID <b class="text-accent">kcmsun</b></p></div>
+          <span class="ml-auto text-text-faint group-hover:text-accent transition-colors">→</span>
+        </a>
+
+        <a href="tel:+821075253511" class="group flex items-center gap-4 border border-border-strong bg-surface p-5 hover:border-accent transition-all">
+          <span class="w-11 h-11 rounded-lg bg-accent-dim flex items-center justify-center text-xl shrink-0">📞</span>
+          <div><p class="font-bold text-text group-hover:text-accent transition-colors">전화 / 문자</p><p class="text-sm text-text-muted">010-7525-3511 (한국)</p></div>
+          <span class="ml-auto text-text-faint group-hover:text-accent transition-colors">→</span>
+        </a>
+
+        <a href="mailto:skypeople41@gmail.com" class="group flex items-center gap-4 border border-border-strong bg-surface p-5 hover:border-accent transition-all">
+          <span class="w-11 h-11 rounded-lg bg-accent-dim flex items-center justify-center text-xl shrink-0">✉️</span>
+          <div><p class="font-bold text-text group-hover:text-accent transition-colors">이메일</p><p class="text-sm text-text-muted">skypeople41@gmail.com</p></div>
+          <span class="ml-auto text-text-faint group-hover:text-accent transition-colors">→</span>
+        </a>
+
+        <a href="https://wa.me/919154369924" target="_blank" rel="noopener" class="group flex items-center gap-4 border border-border-strong bg-surface p-5 hover:border-accent transition-all">
+          <span class="w-11 h-11 rounded-lg bg-emerald-500/10 flex items-center justify-center text-xl shrink-0">🟢</span>
+          <div><p class="font-bold text-text group-hover:text-accent transition-colors">WhatsApp</p><p class="text-sm text-text-muted">+91 91543 69924 (해외/영어)</p></div>
+          <span class="ml-auto text-text-faint group-hover:text-accent transition-colors">→</span>
+        </a>
+      </div>
+
+      <!-- 무료 범위 안내 -->
+      <div class="border border-border bg-surface/30 p-6 sm:p-8">
+        <h2 class="font-display text-lg font-bold text-text mb-4">💡 무엇이 무료인가요?</h2>
+        <ul class="space-y-2.5 text-sm text-text-muted mb-4">
+          <li class="flex gap-3"><span class="text-accent">✓</span> 홈페이지/프로그램 <span class="text-text">제작 + 완성 파일 전달</span> — 무료</li>
+          <li class="flex gap-3"><span class="text-accent">✓</span> 직접 인터넷에 올리는 방법(배포) <span class="text-text">상세 매뉴얼</span> — 무료 제공</li>
+          <li class="flex gap-3"><span class="text-text-faint">·</span> 도메인 구매·연결, 서버 운영 <span class="text-text">대행</span>은 요청 시 별도 협의 (가능 여부 확인)</li>
+        </ul>
+        <a href="/guide" class="font-mono text-xs text-accent tracking-wider hover:underline">→ 제작·배포·도메인 안내 자세히 보기</a>
+      </div>
+
     </div>
   </section>
 </Base>

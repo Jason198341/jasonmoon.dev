@@ -1,0 +1,392 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const KAKAO = 'https://invite.kakao.com/tc/EszOu7fY0i';
+
+// ── MOD-1 · 업종별 추천 조합 ──
+const industries = [
+  {
+    icon: '☕',
+    name: '카페 · 베이커리',
+    combo: ['인스타 연동', '사진 갤러리', '지도', '스탬프 앱'],
+    why: '비주얼과 재방문이 매출의 핵심 — 예쁜 사진과 단골 쿠폰이 직결됩니다.',
+  },
+  {
+    icon: '💇',
+    name: '미용실 · 네일',
+    combo: ['온라인 예약', '시술 갤러리', '회원', '푸시 앱'],
+    why: '예약을 24시간 받고 단골을 관리하면 빈 시간이 줄어듭니다.',
+  },
+  {
+    icon: '🏋️',
+    name: '헬스장 · 필라테스',
+    combo: ['회원', '수업 예약', '공지', '전용 앱'],
+    why: '회원권·출석·수업 정원을 한 곳에서 관리해 운영이 가벼워집니다.',
+  },
+  {
+    icon: '📚',
+    name: '학원 · 교습소',
+    combo: ['문의 폼', '게시판', '회원', '다국어'],
+    why: '상담 문의를 놓치지 않고 공지·자료를 학부모에게 바로 전달합니다.',
+  },
+  {
+    icon: '🍜',
+    name: '음식점',
+    combo: ['지도', '메뉴 갤러리', '예약', '배달/결제'],
+    why: '찾아오기 쉽게, 메뉴를 먹음직스럽게 — 예약·포장까지 받으면 매출이 붙습니다.',
+  },
+  {
+    icon: '🎨',
+    name: '공방 · 클래스',
+    combo: ['수업 예약', '작품 갤러리', '결제'],
+    why: '클래스 신청과 선결제를 한 번에 받아 노쇼와 정원 관리가 쉬워집니다.',
+  },
+  {
+    icon: '🛠️',
+    name: '인테리어 · 시공',
+    combo: ['시공 갤러리', '문의 폼', '후기'],
+    why: '포트폴리오가 곧 영업입니다 — 사진과 후기가 견적 문의로 이어집니다.',
+  },
+  {
+    icon: '🏡',
+    name: '펜션 · 숙박',
+    combo: ['예약', '객실 갤러리', '지도', '다국어'],
+    why: '직접 예약을 받으면 수수료가 줄고, 다국어로 외국인 손님까지 잡습니다.',
+  },
+];
+
+// ── MOD-2 · 기능별 "이럴 때 켜세요" ──
+const features = [
+  {
+    icon: '📨',
+    name: '문의 폼',
+    effect: '방문자가 이름·연락처·내용을 남기면 사장님께 바로 도착합니다.',
+    forWho: '견적·상담 문의가 중요한 인테리어·학원·서비스업',
+    price: 15,
+  },
+  {
+    icon: '📅',
+    name: '온라인 예약',
+    effect: '손님이 빈 시간을 보고 직접 예약 — 전화 받느라 일 멈출 일이 줍니다.',
+    forWho: '미용실·필라테스·공방·음식점',
+    price: 30,
+  },
+  {
+    icon: '👤',
+    name: '회원',
+    effect: '회원가입·로그인으로 단골을 구분하고 회원 전용 혜택을 줍니다.',
+    forWho: '헬스장·학원처럼 회원권·출석을 관리하는 곳',
+    price: 35,
+  },
+  {
+    icon: '📋',
+    name: '게시판',
+    effect: '공지·자료·후기를 사장님이 직접 올리고 고칠 수 있습니다.',
+    forWho: '공지·자료 전달이 잦은 학원·동호회·단체',
+    price: 15,
+  },
+  {
+    icon: '🖼️',
+    name: '갤러리',
+    effect: '사진을 깔끔한 격자로 보여줘 가게의 분위기·실력을 전합니다.',
+    forWho: '카페·시공·공방처럼 보여줄 게 많은 곳',
+    price: 12,
+  },
+  {
+    icon: '📍',
+    name: '지도',
+    effect: '위치를 지도로 박아 길찾기·전화·내비를 한 번에 연결합니다.',
+    forWho: '오프라인 매장이 있는 거의 모든 가게',
+    price: 5,
+  },
+  {
+    icon: '📷',
+    name: '인스타 연동',
+    effect: '인스타에 새 글을 올리면 홈페이지에도 자동으로 같이 보입니다.',
+    forWho: '인스타를 열심히 하는 카페·맛집·뷰티',
+    price: 5,
+  },
+  {
+    icon: '🌐',
+    name: '다국어',
+    effect: '한국어 외에 영어·중국어 등으로 자동 전환됩니다.',
+    forWho: '외국인 손님이 오는 펜션·관광지·맛집',
+    price: 15,
+  },
+  {
+    icon: '💳',
+    name: '결제',
+    effect: '카드·간편결제로 예약금·상품값을 홈페이지에서 바로 받습니다.',
+    forWho: '클래스 선결제·온라인 판매가 필요한 곳',
+    price: 60,
+  },
+];
+
+// ── MOD-4 · 실전 팁 ──
+const tips = [
+  {
+    n: 1,
+    title: '한 번에 다 넣지 마세요',
+    body: '기능은 매출에 직결되는 1~2개부터 시작하세요. 예약이 중요하면 예약만, 사진이 중요하면 갤러리만. 나중에 천천히 더 붙이면 됩니다.',
+  },
+  {
+    n: 2,
+    title: '예약·문의는 카톡 알림과 연결하세요',
+    body: '손님이 예약·문의를 남기면 사장님 카톡으로 바로 알림이 오게 해두면, 바빠도 놓치지 않습니다. 답장 빠른 가게가 손님을 잡습니다.',
+  },
+  {
+    n: 3,
+    title: '사진은 꼭 압축하세요',
+    body: '폰으로 찍은 원본 사진을 그대로 올리면 홈페이지가 느려집니다. 압축해서 올리면 화질은 그대로인데 훨씬 빨라져 손님이 안 떠납니다.',
+  },
+  {
+    n: 4,
+    title: '인스타가 있으면 따로 만들지 말고 연동하세요',
+    body: '이미 인스타를 하고 계시면, 홈페이지에 인스타를 연동만 해도 됩니다. 두 군데 관리하는 수고가 사라집니다.',
+  },
+  {
+    n: 5,
+    title: '전화번호·지도·영업시간은 첫 화면에',
+    body: '손님이 가장 많이 찾는 정보입니다. 맨 위에 큼직하게 두면 "전화해서 물어보는" 일이 줄고, 손님도 편합니다.',
+  },
+];
+
+// 추천 기능 묶음 칩 색상 순환
+const chipTones = ['accent', 'cyan', 'green'];
+const chipClass = {
+  accent: 'border-accent/40 text-accent',
+  cyan: 'border-cyan/40 text-cyan',
+  green: 'border-green/40 text-green',
+};
+---
+
+<Base
+  title="웹 활용 가이드 — 내 가게에 뭐가 필요할까 | jasonmoon.dev"
+  description="카페·미용실·헬스장·학원·음식점 등 업종별로 어떤 웹서비스(예약·회원·갤러리·지도·인스타·다국어·결제)를 붙이면 매출에 도움되는지 알려드리는 실전 가이드. 필요한 것만 무료로 붙여드립니다."
+>
+  <!-- ══ HERO ══ -->
+  <section class="border-b border-border">
+    <div class="mx-auto max-w-5xl px-6 sm:px-10 py-14 sm:py-20">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="hud-pip hud-pip--amber"></span>
+        <span class="hud-id">SVC-001</span>
+        <p class="font-mono text-[11px] text-text-muted tracking-[0.25em] uppercase">Web Services Guide</p>
+      </div>
+      <h1 class="font-display text-3xl sm:text-5xl font-bold leading-tight tracking-tight mb-5">
+        홈페이지는 시작일 뿐 —<br class="hidden sm:block" />
+        내 가게엔 <span class="text-accent">뭐가 필요할까?</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-text-muted leading-relaxed max-w-2xl">
+        사장님 업종에 딱 맞는 웹서비스 조합을 알려드려요.
+        <span class="text-text font-semibold">필요한 것만</span> 골라서 무료로 붙여드립니다.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href={KAKAO}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2.5 border-2 border-accent bg-accent text-black px-6 py-3.5 font-bold text-base sm:text-lg tracking-tight hover:bg-accent-hover transition-colors"
+        >
+          💬 내 업종 맞춤 추천 받기
+        </a>
+        <a
+          href="#industries"
+          class="inline-flex items-center gap-2.5 border border-border-strong bg-surface text-text px-6 py-3.5 font-semibold text-base sm:text-lg hover:border-accent hover:text-accent transition-colors"
+        >
+          ↓ 업종별 추천 보기
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MOD-1 · 업종별 추천 조합 ══ -->
+  <section id="industries" class="border-b border-border scroll-mt-24">
+    <div class="px-6 sm:px-10 py-4 border-b border-border bg-surface/40 flex items-center gap-3">
+      <span class="hud-id">MOD-1</span>
+      <p class="font-mono text-[11px] text-text-muted tracking-[0.25em] uppercase">업종별 추천 조합</p>
+    </div>
+    <div class="mx-auto max-w-5xl px-6 sm:px-10 py-12 sm:py-16">
+      <h2 class="font-display text-2xl sm:text-3xl font-bold mb-3">내 업종엔 이 조합을 추천해요</h2>
+      <p class="text-base sm:text-lg text-text-muted mb-8 leading-relaxed">
+        업종마다 매출에 직결되는 기능이 다릅니다. 사장님 가게와 가장 비슷한 카드를 찾아보세요.
+      </p>
+      <div class="grid gap-5 sm:grid-cols-2">
+        {industries.map((ind) => (
+          <div class="flex flex-col border border-border bg-surface p-6 hover:border-accent transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="font-display text-3xl leading-none">{ind.icon}</span>
+              <h3 class="font-display text-xl font-bold leading-snug">{ind.name}</h3>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4">
+              {ind.combo.map((c, i) => (
+                <span class={`font-mono text-[11px] tracking-[0.05em] border px-2.5 py-1 ${chipClass[chipTones[i % 3]]}`}>
+                  {c}
+                </span>
+              ))}
+            </div>
+            <p class="text-base text-text-muted leading-relaxed flex-1">{ind.why}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-8 flex items-start gap-3 border border-accent/50 bg-accent-dim p-5 sm:p-6">
+        <span class="hud-pip hud-pip--amber mt-2"></span>
+        <p class="text-base sm:text-lg text-text leading-relaxed">
+          내 업종이 위에 없어도 괜찮아요.
+          <span class="text-accent font-semibold"> 업종만 알려주시면</span> 딱 맞는 조합을 짜드립니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MOD-2 · 기능별 "이럴 때 켜세요" ══ -->
+  <section class="border-b border-border">
+    <div class="px-6 sm:px-10 py-4 border-b border-border bg-surface/40 flex items-center gap-3">
+      <span class="hud-id">MOD-2</span>
+      <p class="font-mono text-[11px] text-text-muted tracking-[0.25em] uppercase">기능별 이럴 때 켜세요</p>
+    </div>
+    <div class="mx-auto max-w-5xl px-6 sm:px-10 py-12 sm:py-16">
+      <h2 class="font-display text-2xl sm:text-3xl font-bold mb-3">이 기능, 이럴 때 켜세요</h2>
+      <p class="text-base sm:text-lg text-text-muted mb-8 leading-relaxed">
+        기능 9가지를 "무엇을 해주는지 · 어떤 가게에 맞는지 · 얼마인지"로 정리했습니다.
+        한 번 붙이면 끝, 매달 나가는 제작비는 없습니다.
+      </p>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {features.map((f) => (
+          <div class="flex flex-col border border-border bg-surface p-6 hover:border-accent transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="font-display text-2xl leading-none">{f.icon}</span>
+              <h3 class="font-display text-lg font-bold leading-snug">{f.name}</h3>
+            </div>
+            <p class="text-base text-text leading-relaxed mb-4">{f.effect}</p>
+            <p class="text-sm text-text-muted leading-relaxed flex-1">
+              <span class="font-mono text-[11px] text-cyan tracking-[0.1em] uppercase mr-1">추천</span>
+              {f.forWho}
+            </p>
+            <p class="mt-5 pt-4 border-t border-border text-sm font-semibold text-text">
+              💰 약 {f.price}만원<span class="text-text-faint font-normal"> · 1회</span>
+            </p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 font-mono text-[12px] text-text-faint leading-relaxed">
+        ※ 가격은 기준 안내입니다. 가게 상황에 따라 조정되며, 홈페이지 제작 자체는 무료입니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ MOD-3 · 홈페이지 + 앱 연계 ══ -->
+  <section class="border-b border-border">
+    <div class="px-6 sm:px-10 py-4 border-b border-border bg-surface/40 flex items-center gap-3">
+      <span class="hud-id">MOD-3</span>
+      <p class="font-mono text-[11px] text-text-muted tracking-[0.25em] uppercase">홈페이지 + 앱 연계</p>
+    </div>
+    <div class="mx-auto max-w-5xl px-6 sm:px-10 py-12 sm:py-16">
+      <h2 class="font-display text-2xl sm:text-3xl font-bold mb-4 leading-snug">
+        홈페이지에 <span class="text-accent">전용 앱</span>까지 연계하면?
+      </h2>
+      <p class="text-base sm:text-lg text-text-muted mb-8 leading-relaxed max-w-2xl">
+        손님 폰에 가게 앱이 깔려 있으면 이야기가 달라집니다. 한 번 받은 손님을 계속 다시 오게 만드는
+        도구가 생깁니다.
+      </p>
+      <div class="grid gap-5 sm:grid-cols-3 mb-8">
+        <div class="border border-border bg-surface p-6">
+          <h3 class="font-display text-lg font-bold mb-3 flex items-center gap-2">
+            <span class="hud-pip hud-pip--on"></span> 푸시 알림
+          </h3>
+          <p class="text-base text-text-muted leading-relaxed">
+            "오늘 신메뉴 나왔어요" 같은 알림을 손님 폰에 바로 띄워 재방문을 유도합니다.
+          </p>
+        </div>
+        <div class="border border-border bg-surface p-6">
+          <h3 class="font-display text-lg font-bold mb-3 flex items-center gap-2">
+            <span class="hud-pip hud-pip--on"></span> 스탬프 · 쿠폰
+          </h3>
+          <p class="text-base text-text-muted leading-relaxed">
+            종이 도장판 대신 앱 안에서 스탬프·쿠폰을 모으게 해 단골을 만듭니다.
+          </p>
+        </div>
+        <div class="border border-border bg-surface p-6">
+          <h3 class="font-display text-lg font-bold mb-3 flex items-center gap-2">
+            <span class="hud-pip hud-pip--on"></span> 홈 화면 상시 노출
+          </h3>
+          <p class="text-base text-text-muted leading-relaxed">
+            손님 폰 첫 화면에 가게 아이콘이 항상 떠 있어, 잊히지 않습니다.
+          </p>
+        </div>
+      </div>
+      <div class="border-2 border-accent bg-accent-dim p-6 sm:p-8">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="font-display text-2xl leading-none">★</span>
+          <p class="font-mono text-[11px] text-accent tracking-[0.2em] uppercase">앱도 무료</p>
+        </div>
+        <p class="text-xl sm:text-2xl font-bold text-text leading-snug mb-3">
+          웹앱(설치 없이 '홈 화면에 추가' — 아이폰·안드로이드 모두)도 무료로 만들어 드립니다. <span class="text-text-muted text-base sm:text-lg font-normal">(조건 협의)</span>
+        </p>
+        <p class="text-base sm:text-lg text-text-muted leading-relaxed">
+          앱이 필요한 업종인지, 지금 만들 때인지부터 같이 봐드립니다. 자세한 건 카톡으로 편하게 물어보세요.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MOD-4 · 실전 팁 ══ -->
+  <section class="border-b border-border">
+    <div class="px-6 sm:px-10 py-4 border-b border-border bg-surface/40 flex items-center gap-3">
+      <span class="hud-id">MOD-4</span>
+      <p class="font-mono text-[11px] text-text-muted tracking-[0.25em] uppercase">사장님 실전 팁</p>
+    </div>
+    <div class="mx-auto max-w-5xl px-6 sm:px-10 py-12 sm:py-16">
+      <h2 class="font-display text-2xl sm:text-3xl font-bold mb-3">알아두면 돈 아끼는 실전 팁</h2>
+      <p class="text-base sm:text-lg text-text-muted mb-8 leading-relaxed">
+        많은 사장님이 처음에 놓치는 것들입니다. 이것만 챙겨도 시행착오가 줄어듭니다.
+      </p>
+      <ol class="space-y-5">
+        {tips.map((tip) => (
+          <li class="flex gap-5 sm:gap-6 border border-border bg-surface p-5 sm:p-7">
+            <span class="shrink-0 grid place-items-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-accent text-black font-display text-xl sm:text-2xl font-bold">
+              {tip.n}
+            </span>
+            <div class="pt-0.5">
+              <h3 class="font-display text-lg sm:text-xl font-bold leading-snug mb-2">{tip.title}</h3>
+              <p class="text-base sm:text-lg text-text-muted leading-relaxed">{tip.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="bg-surface/40">
+    <div class="mx-auto max-w-4xl px-6 sm:px-10 py-16 sm:py-24 text-center">
+      <div class="flex items-center justify-center gap-3 mb-5">
+        <span class="hud-pip hud-pip--amber"></span>
+        <span class="hud-id">CONTACT</span>
+      </div>
+      <h2 class="font-display text-2xl sm:text-4xl font-bold leading-tight mb-4">
+        내 가게엔 뭐가 맞을지<br class="sm:hidden" /> 모르겠으면?
+      </h2>
+      <p class="text-base sm:text-lg text-text-muted leading-relaxed max-w-2xl mx-auto mb-8">
+        <span class="text-text font-semibold">업종만 알려주세요.</span>
+        딱 맞는 기능 조합을 추천하고, 실제로 어떻게 보일지 <span class="text-accent font-semibold">시안 3가지</span>를 만들어 드립니다.
+        제작은 무료, 필요한 것만 붙입니다.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a
+          href={KAKAO}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-3 border-2 border-accent bg-accent text-black px-8 py-4 font-bold text-lg sm:text-xl tracking-tight hover:bg-accent-hover transition-colors"
+        >
+          💬 카톡으로 맞춤 추천 받기
+        </a>
+        <a
+          href="/demo"
+          class="inline-flex items-center gap-3 border border-border-strong bg-surface text-text px-8 py-4 font-semibold text-lg sm:text-xl hover:border-accent hover:text-accent transition-colors"
+        >
+          ► 9가지 기능 풀데모 보기
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

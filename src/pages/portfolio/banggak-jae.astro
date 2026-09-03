@@ -1,0 +1,689 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방각재 坊刻齋 — 전통찻집·한정식</title>
+  <meta name="description" content="서울 북촌의 전통찻집과 한정식. 조선 후기 방각본의 결을 담아 차와 음식을 짓습니다. 방각재 坊刻齋." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --hanji: #ece3d0;
+      --hanji-deep: #e1d6bd;
+      --hanji-shade: #d8cbac;
+      --meok: #2b2520;
+      --meok-soft: #5a5145;
+      --meok-faint: #8a7f6c;
+      --rule: rgba(43, 37, 32, 0.22);
+      --rule-soft: rgba(43, 37, 32, 0.12);
+      --injang: #9a1b1b;
+      --injang-soft: rgba(154, 27, 27, 0.10);
+      --gold: #7a5a2e;
+      --col: 1px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif;
+      color: var(--meok);
+      background-color: var(--hanji);
+      line-height: 1.9;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 목판 질감 + 한지 결 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.55;
+      background:
+        repeating-linear-gradient(91deg, rgba(43,37,32,0.018) 0 2px, transparent 2px 5px),
+        repeating-linear-gradient(0deg, rgba(122,90,46,0.02) 0 3px, transparent 3px 7px),
+        radial-gradient(circle at 18% 22%, rgba(122,90,46,0.05) 0 120px, transparent 200px),
+        radial-gradient(circle at 88% 78%, rgba(43,37,32,0.04) 0 160px, transparent 260px);
+      background-size: 6px 6px, 7px 7px, 100% 100%, 100% 100%;
+      mix-blend-mode: multiply;
+    }
+
+    /* 세로 계선 (얇은 세로 괘선) — 본문 영역 배경 */
+    .gyeseon {
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent calc(2.4em - var(--col)),
+        var(--rule-soft) calc(2.4em - var(--col)),
+        var(--rule-soft) 2.4em
+      );
+    }
+
+    ::selection { background: var(--injang-soft); color: var(--injang); }
+
+    a { color: inherit; }
+
+    .wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 28px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .han { font-family: 'Nanum Myeongjo', serif; color: var(--meok-soft); }
+    .small { font-size: 0.82rem; letter-spacing: 0.18em; color: var(--meok-faint); }
+
+    /* 이중 테두리 (방각본 광곽) */
+    .gwanggwak {
+      border: 2px solid var(--meok);
+      box-shadow: 0 0 0 1px var(--hanji), 0 0 0 4px var(--meok);
+    }
+
+    /* ───────── 인장 (낙관) ───────── */
+    .injang {
+      width: 64px;
+      height: 64px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .injang--lg { width: 92px; height: 92px; }
+
+    /* ───────── 히어로 (현판풍) ───────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 96px 28px 72px;
+      position: relative;
+    }
+    .hero-frame {
+      position: relative;
+      z-index: 2;
+      width: min(720px, 100%);
+      padding: 56px 40px 48px;
+      text-align: center;
+      background:
+        linear-gradient(180deg, rgba(225,214,189,0.5), rgba(216,203,172,0.35));
+    }
+    .hyeonpan-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.42em;
+      color: var(--injang);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 7px 18px;
+      margin-bottom: 40px;
+    }
+    .hero-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 800;
+      font-size: clamp(3.4rem, 13vw, 7rem);
+      line-height: 1.04;
+      letter-spacing: 0.16em;
+      color: var(--meok);
+      /* 세로쓰기 느낌 */
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      margin: 0 auto 34px;
+      display: inline-block;
+      padding-left: 0.1em;
+    }
+    .hero-han {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      letter-spacing: 0.7em;
+      color: var(--meok-soft);
+      margin-bottom: 26px;
+      padding-left: 0.7em;
+    }
+    .hero-sub {
+      font-size: clamp(0.95rem, 2.4vw, 1.12rem);
+      color: var(--meok-soft);
+      letter-spacing: 0.06em;
+      max-width: 30ch;
+      margin: 0 auto 34px;
+      line-height: 2.1;
+    }
+    .hero-meta {
+      font-size: 0.8rem;
+      letter-spacing: 0.22em;
+      color: var(--meok-faint);
+    }
+    .hero-injang {
+      position: absolute;
+      right: clamp(20px, 8vw, 90px);
+      bottom: clamp(40px, 12vh, 120px);
+      z-index: 3;
+      transform: rotate(-3deg);
+      opacity: 0.96;
+    }
+
+    /* ───────── 섹션 공통 ───────── */
+    section { position: relative; z-index: 2; }
+    .sec {
+      padding: clamp(72px, 11vw, 132px) 0;
+      border-top: 1px solid var(--rule);
+    }
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      margin-bottom: 52px;
+    }
+    .sec-no {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      color: var(--injang);
+      white-space: nowrap;
+    }
+    .sec-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 800;
+      font-size: clamp(1.7rem, 4.6vw, 2.6rem);
+      letter-spacing: 0.14em;
+      color: var(--meok);
+    }
+    .sec-title .han { font-size: 0.62em; margin-left: 0.5em; font-weight: 400; }
+    .sec-line {
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+      transform: translateY(-0.4em);
+    }
+
+    /* ───────── 차림표 ───────── */
+    .menu-block { margin-bottom: 56px; }
+    .menu-block:last-child { margin-bottom: 0; }
+    .menu-cat {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 700;
+      font-size: 1.18rem;
+      letter-spacing: 0.2em;
+      color: var(--meok);
+      padding: 10px 0 8px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--meok);
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .menu-cat .han { font-size: 0.78rem; letter-spacing: 0.3em; }
+    .menu-list { list-style: none; }
+    .menu-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: 14px;
+      padding: 13px 0;
+      border-bottom: 1px dotted var(--rule);
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .mi-name {
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .mi-name .han { font-size: 0.74em; margin-left: 0.4em; font-weight: 400; }
+    .mi-desc {
+      display: block;
+      font-size: 0.84rem;
+      color: var(--meok-faint);
+      letter-spacing: 0.02em;
+      font-weight: 300;
+      margin-top: 2px;
+      line-height: 1.6;
+    }
+    .mi-price {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 0.98rem;
+      color: var(--meok-soft);
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 56px;
+    }
+
+    /* ───────── 공간 이야기 ───────── */
+    .story {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(36px, 6vw, 80px);
+      align-items: start;
+    }
+    .story-body p {
+      margin-bottom: 1.5em;
+      font-size: 1.04rem;
+      letter-spacing: 0.02em;
+      color: var(--meok-soft);
+      line-height: 2.15;
+    }
+    .story-body p:last-child { margin-bottom: 0; }
+    .story-lead {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 1.28rem !important;
+      color: var(--meok) !important;
+      line-height: 2 !important;
+      letter-spacing: 0.05em;
+    }
+    .story-aside {
+      padding: 30px 26px;
+      background: rgba(225,214,189,0.5);
+      border: 1px solid var(--rule);
+      position: relative;
+    }
+    .story-aside::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 1px solid var(--rule-soft);
+      pointer-events: none;
+    }
+    .aside-h {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: 0.24em;
+      color: var(--injang);
+      margin-bottom: 18px;
+    }
+    .aside-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 9px 0;
+      border-bottom: 1px dotted var(--rule);
+      font-size: 0.9rem;
+    }
+    .aside-row:last-child { border-bottom: none; }
+    .aside-row .k { color: var(--meok-faint); letter-spacing: 0.1em; }
+    .aside-row .v { color: var(--meok); font-weight: 500; }
+
+    /* ───────── 예약 ───────── */
+    .reserve-inner {
+      padding: clamp(40px, 6vw, 64px);
+      text-align: center;
+      background:
+        linear-gradient(180deg, rgba(225,214,189,0.55), rgba(216,203,172,0.4));
+    }
+    .reserve-q {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(1.5rem, 4.4vw, 2.3rem);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    .reserve-p {
+      font-size: 1rem;
+      color: var(--meok-soft);
+      letter-spacing: 0.04em;
+      margin-bottom: 38px;
+      line-height: 2;
+    }
+    .reserve-tel {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--injang);
+      text-decoration: none;
+      display: inline-block;
+      border-bottom: 3px solid var(--injang);
+      padding-bottom: 4px;
+      transition: opacity 0.25s;
+    }
+    .reserve-tel:hover { opacity: 0.7; }
+    .reserve-note {
+      margin-top: 30px;
+      font-size: 0.82rem;
+      color: var(--meok-faint);
+      letter-spacing: 0.12em;
+    }
+
+    /* ───────── 연락 (간기 풍 푸터) ───────── */
+    .gangi {
+      padding: clamp(60px, 9vw, 100px) 0 clamp(48px, 7vw, 72px);
+      border-top: 2px solid var(--meok);
+    }
+    .gangi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px 36px;
+      margin-bottom: 56px;
+    }
+    .gangi-col h4 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 700;
+      font-size: 0.86rem;
+      letter-spacing: 0.26em;
+      color: var(--injang);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .gangi-col p {
+      font-size: 0.95rem;
+      color: var(--meok-soft);
+      line-height: 1.95;
+      letter-spacing: 0.03em;
+    }
+    .gangi-col a { text-decoration: none; }
+    .gangi-col a:hover { color: var(--injang); }
+    .gangi-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+    }
+    .gangi-mark {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: 0.3em;
+      color: var(--meok);
+    }
+    .gangi-copy {
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      color: var(--meok-faint);
+      line-height: 1.8;
+    }
+
+    /* ───────── 반응형 ───────── */
+    @media (max-width: 760px) {
+      .menu-grid { grid-template-columns: 1fr; gap: 0; }
+      .menu-block.is-grid { margin-bottom: 0; }
+      .story { grid-template-columns: 1fr; }
+      .gangi-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hero-injang { right: 16px; bottom: 28px; }
+      .injang--lg { width: 72px; height: 72px; }
+      .sec-head { flex-wrap: wrap; gap: 10px; }
+      .sec-line { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- DEMO BAR -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+  <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+  <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 17 · 방각재 — 조선 후기 방각본 스타일</span>
+  <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+</div>
+<div style="height:40px;"></div>
+
+<!-- ───────── 히어로 (현판풍) ───────── -->
+<header class="hero">
+  <div class="hero-frame gwanggwak">
+    <span class="hyeonpan-label">北村 한옥 다실 · 한정식</span>
+    <div class="hero-title">坊刻齋</div>
+    <div class="hero-han">방 각 재</div>
+    <p class="hero-sub">목판에 한 자 한 자 새기듯,<br />차와 음식을 정성으로 짓습니다.</p>
+    <div class="hero-meta">매일 11:00 — 21:30 · 서울 종로구 북촌로</div>
+  </div>
+
+  <div class="hero-injang" aria-hidden="true">
+    <svg class="injang injang--lg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="94" height="94" rx="4" fill="none" stroke="#9a1b1b" stroke-width="4"/>
+      <rect x="9" y="9" width="82" height="82" rx="2" fill="#9a1b1b"/>
+      <g fill="#ece3d0" font-family="'Nanum Myeongjo', serif" font-weight="800" text-anchor="middle">
+        <text x="30" y="40" font-size="30">坊</text>
+        <text x="71" y="40" font-size="30">刻</text>
+        <text x="30" y="80" font-size="30">齋</text>
+        <text x="71" y="80" font-size="30">印</text>
+      </g>
+    </svg>
+  </div>
+</header>
+
+<!-- ───────── 1. 차림표 ───────── -->
+<section class="sec gyeseon" id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">其一</span>
+      <h2 class="sec-title">차림표 <span class="han">茶 食 單</span></h2>
+      <span class="sec-line"></span>
+    </div>
+
+    <div class="menu-block is-grid">
+      <div class="menu-cat">차 <span class="han">茶</span></div>
+      <div class="menu-grid">
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">발효 작설차 <span class="han">雀舌</span></span>
+              <span class="mi-desc">곡우 전 어린잎, 세 번 우려 마시는 녹차</span>
+            </div>
+            <span class="mi-price">9,000</span>
+          </li>
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">황차 <span class="han">黃茶</span></span>
+              <span class="mi-desc">은은한 단맛, 가을볕에 덖은 반발효차</span>
+            </div>
+            <span class="mi-price">10,000</span>
+          </li>
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">오미자 청 <span class="han">五味子</span></span>
+              <span class="mi-desc">다섯 가지 맛, 차게 또는 따뜻하게</span>
+            </div>
+            <span class="mi-price">8,500</span>
+          </li>
+        </ul>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">쌍화차 <span class="han">雙和茶</span></span>
+              <span class="mi-desc">아홉 약재를 달여 잣과 대추를 얹다</span>
+            </div>
+            <span class="mi-price">11,000</span>
+          </li>
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">대추생강차</span>
+              <span class="mi-desc">하루 달인 대추고에 생강을 더하다</span>
+            </div>
+            <span class="mi-price">9,500</span>
+          </li>
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">국화차 <span class="han">菊花</span></span>
+              <span class="mi-desc">가을 감국을 그늘에 말려 띄우다</span>
+            </div>
+            <span class="mi-price">8,500</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="menu-block">
+      <div class="menu-cat">한정식 <span class="han">韓 定 食</span></div>
+      <ul class="menu-list">
+        <li class="menu-item">
+          <div>
+            <span class="mi-name">방각 반상 <span class="han">坊刻盤床</span></span>
+            <span class="mi-desc">계절 나물 일곱, 구이와 전, 솥밥과 토장국 · 2인 이상</span>
+          </div>
+          <span class="mi-price">38,000</span>
+        </li>
+        <li class="menu-item">
+          <div>
+            <span class="mi-name">북촌 정찬 <span class="han">正餐</span></span>
+            <span class="mi-desc">전채·죽·구절판·주물럭·솥밥·후식까지 아홉 첩</span>
+          </div>
+          <span class="mi-price">52,000</span>
+        </li>
+        <li class="menu-item">
+          <div>
+            <span class="mi-name">제철 솥밥 정식</span>
+            <span class="mi-desc">그날의 채소로 지은 무쇠솥밥과 곁반찬</span>
+          </div>
+          <span class="mi-price">22,000</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="menu-block is-grid">
+      <div class="menu-cat">후식 <span class="han">茶 菓</span></div>
+      <div class="menu-grid">
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">약과와 다식 <span class="han">藥菓</span></span>
+              <span class="mi-desc">참기름에 지진 약과, 송화·흑임자 다식 한 접</span>
+            </div>
+            <span class="mi-price">9,000</span>
+          </li>
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">계절 떡 세 가지</span>
+              <span class="mi-desc">절기에 맞춰 빚은 색떡과 인절미</span>
+            </div>
+            <span class="mi-price">8,000</span>
+          </li>
+        </ul>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">단팥죽 <span class="han">小豆粥</span></span>
+              <span class="mi-desc">통팥을 곱게 갈아 새알심을 띄우다</span>
+            </div>
+            <span class="mi-price">10,000</span>
+          </li>
+          <li class="menu-item">
+            <div>
+              <span class="mi-name">호박식혜</span>
+              <span class="mi-desc">엿기름에 삭힌 식혜, 늙은호박을 더하다</span>
+            </div>
+            <span class="mi-price">7,500</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="small" style="margin-top:42px;text-align:center;">모든 차림에는 자릿값이 없습니다 · 가격은 원(₩) 단위 · 부가세 포함</p>
+  </div>
+</section>
+
+<!-- ───────── 2. 공간 이야기 ───────── -->
+<section class="sec" id="story">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">其二</span>
+      <h2 class="sec-title">방각재 이야기 <span class="han">由 來</span></h2>
+      <span class="sec-line"></span>
+    </div>
+
+    <div class="story">
+      <div class="story-body">
+        <p class="story-lead">방각본(坊刻本)은 민간의 책방에서 목판에 새겨 펴낸 책입니다. 누구나 손에 쥘 수 있도록, 정성껏 새겨 널리 나누던 마음.</p>
+        <p>방각재는 그 마음을 상에 옮긴 자리입니다. 백 년 넘은 북촌의 한옥, 마당의 감나무 그늘 아래에서 차를 우리고 솥밥을 짓습니다. 빠르게 내는 한 끼가 아니라, 한 자 한 자 새기듯 천천히 차린 한 상을 권합니다.</p>
+        <p>찻잎은 하동과 보성의 다원에서, 나물과 채소는 절기마다 산지를 바꿔 들입니다. 그릇은 분청과 백자, 무쇠솥은 무겁고 오래된 것을 씁니다. 손이 많이 가는 만큼, 자리를 비워 두고 미리 청해 주시길 부탁드립니다.</p>
+        <p>창밖으로 기와의 골이 흐르고, 마루에는 햇살의 계선이 길게 눕습니다. 부디 말수를 줄이고, 차의 김이 사그라드는 동안 잠시 머물다 가시길.</p>
+      </div>
+
+      <aside class="story-aside">
+        <div class="aside-h">머무는 법 · 案內</div>
+        <div class="aside-row"><span class="k">자리</span><span class="v">방 4 · 마루 2 · 다실 6석</span></div>
+        <div class="aside-row"><span class="k">한정식</span><span class="v">하루 전 예약 권장</span></div>
+        <div class="aside-row"><span class="k">차 마실 때</span><span class="v">예약 없이 가능</span></div>
+        <div class="aside-row"><span class="k">머무는 시간</span><span class="v">한 자리 두 시간</span></div>
+        <div class="aside-row"><span class="k">반려동물</span><span class="v">마당석에 한함</span></div>
+        <div class="aside-row"><span class="k">정기 휴무</span><span class="v">매월 첫 월요일</span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 3. 예약 ───────── -->
+<section class="sec gyeseon" id="reserve">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">其三</span>
+      <h2 class="sec-title">예약 <span class="han">豫 約</span></h2>
+      <span class="sec-line"></span>
+    </div>
+
+    <div class="reserve-inner gwanggwak">
+      <p class="reserve-q">한 상을 비워 두고<br />기다리겠습니다.</p>
+      <p class="reserve-p">한정식은 자리 수가 적어 미리 청해 주시면<br />그날의 솥과 나물을 넉넉히 준비합니다.</p>
+      <a href="tel:02-732-0419" class="reserve-tel">02 · 732 · 0419</a>
+      <p class="reserve-note">전화 예약 11:00 — 20:00 · 4인 이상은 전날까지 청해 주십시오</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 4. 연락 (간기 풍) ───────── -->
+<footer class="gangi">
+  <div class="wrap">
+    <div class="gangi-grid">
+      <div class="gangi-col">
+        <h4>찾는 길 · 位置</h4>
+        <p>
+          서울 종로구 북촌로 5나길 12<br />
+          안국역 2번 출구 · 도보 7분<br />
+          한옥 골목 안, 감나무 대문집
+        </p>
+      </div>
+      <div class="gangi-col">
+        <h4>여는 때 · 時間</h4>
+        <p>
+          매일 11:00 — 21:30<br />
+          점심 한정식 11:30 — 15:00<br />
+          저녁 정찬 17:30 — 20:30<br />
+          정기 휴무 · 매월 첫 월요일
+        </p>
+      </div>
+      <div class="gangi-col">
+        <h4>잇는 곳 · 連絡</h4>
+        <p>
+          예약 <a href="tel:02-732-0419">02-732-0419</a><br />
+          글월 <a href="mailto:banggak@bangakjae.kr">banggak@bangakjae.kr</a><br />
+          @banggak_jae
+        </p>
+      </div>
+    </div>
+
+    <div class="gangi-foot">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <svg class="injang" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="6" y="6" width="88" height="88" rx="3" fill="#9a1b1b"/>
+          <g fill="#ece3d0" font-family="'Nanum Myeongjo', serif" font-weight="800" text-anchor="middle">
+            <text x="30" y="42" font-size="32">坊</text>
+            <text x="70" y="42" font-size="32">刻</text>
+            <text x="50" y="82" font-size="32">齋</text>
+          </g>
+        </svg>
+        <span class="gangi-mark">坊刻齋</span>
+      </div>
+      <p class="gangi-copy">
+        北村 坊刻齋 · 방각재<br />
+        © 2026 방각재. 모든 차림과 글의 권리는 방각재에 있습니다.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

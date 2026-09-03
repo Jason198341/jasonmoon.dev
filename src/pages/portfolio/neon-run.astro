@@ -1,0 +1,583 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>네온 런 — NEON RUN // 80s SYNTHWAVE ARCADE</title>
+<meta name="description" content="네온 런 · 80년대 신스웨이브 아웃런 스타일 게임카페·PC방 데모 — 서울 신촌의 레트로 퓨처 아케이드." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#07060f;
+    --bg-2:#0d0a1d;
+    --ink:#0a0814;
+    --magenta:#ff2e97;
+    --magenta-soft:#ff6ec0;
+    --cyan:#00ffff;
+    --cyan-dim:#19c5d6;
+    --purple:#8b2bff;
+    --violet:#3a1a6e;
+    --sun-1:#ffd23f;
+    --sun-2:#ff7b3d;
+    --sun-3:#ff2e97;
+    --grid:#ff2e97;
+    --text:#e7e2ff;
+    --muted:#9a90c4;
+    --line:rgba(255,46,151,0.22);
+    --line-cyan:rgba(0,255,255,0.22);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Oswald',sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* scanlines overlay */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9000;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.16) 3px,
+      rgba(0,0,0,0.16) 4px
+    );
+    mix-blend-mode:multiply;
+    opacity:0.55;
+  }
+  h1,h2,h3,.orb{font-family:'Orbitron',sans-serif;letter-spacing:0.06em;}
+  a{color:inherit;text-decoration:none}
+  section{position:relative;z-index:1}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* ============ chrome / glow text ============ */
+  .chrome{
+    background:linear-gradient(180deg,#fff 0%,#cfeaff 38%,#7fd6ff 50%,#1b4a8a 51%,#0b2350 60%,#3a86c8 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 2px 0 rgba(0,0,0,0.5));
+  }
+  .glow-m{color:var(--magenta);text-shadow:0 0 6px var(--magenta),0 0 18px rgba(255,46,151,0.7),0 0 38px rgba(255,46,151,0.45);}
+  .glow-c{color:var(--cyan);text-shadow:0 0 6px var(--cyan),0 0 18px rgba(0,255,255,0.6),0 0 38px rgba(0,255,255,0.4);}
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 50% 18%, #2a0f4d 0%, #150a2e 42%, var(--bg) 78%);
+    padding:120px 24px 0;
+  }
+  /* the sun */
+  .sun{
+    position:absolute;
+    top:14%;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(440px,72vw);
+    height:min(440px,72vw);
+    border-radius:50%;
+    background:linear-gradient(180deg,var(--sun-1) 0%,var(--sun-2) 44%,var(--sun-3) 100%);
+    box-shadow:0 0 80px rgba(255,80,140,0.55),0 0 160px rgba(255,46,151,0.35);
+    z-index:0;
+    overflow:hidden;
+    mask-image:linear-gradient(180deg,#000 55%,transparent 100%);
+    -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 100%);
+  }
+  /* sun stripes */
+  .sun::before{
+    content:"";
+    position:absolute;
+    left:0;right:0;
+    bottom:0;
+    height:46%;
+    background:repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 7px,
+      var(--bg) 7px,
+      var(--bg) 13px
+    );
+  }
+  .sun::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;
+    bottom:30%;
+    height:32%;
+    background:repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 12px,
+      var(--bg) 12px,
+      var(--bg) 16px
+    );
+  }
+  /* perspective grid floor */
+  .grid-floor{
+    position:absolute;
+    left:50%;
+    bottom:0;
+    width:300%;
+    height:46vh;
+    transform:translateX(-50%) perspective(340px) rotateX(74deg);
+    transform-origin:bottom center;
+    background-image:
+      linear-gradient(var(--grid) 2px, transparent 2px),
+      linear-gradient(90deg, var(--grid) 2px, transparent 2px);
+    background-size:64px 64px;
+    opacity:0.85;
+    z-index:0;
+    -webkit-mask-image:linear-gradient(to top, #000 26%, transparent 85%);
+    mask-image:linear-gradient(to top, #000 26%, transparent 85%);
+    animation:scroll-grid 1.2s linear infinite;
+  }
+  @keyframes scroll-grid{
+    from{background-position:0 0,0 0}
+    to{background-position:0 64px,0 0}
+  }
+  .grid-glow{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:46vh;
+    z-index:0;
+    background:radial-gradient(70% 60% at 50% 100%, rgba(255,46,151,0.28), transparent 70%);
+  }
+  .hero-inner{position:relative;z-index:2;}
+  .badge{
+    display:inline-block;
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;
+    letter-spacing:0.42em;
+    color:var(--cyan);
+    border:1px solid var(--line-cyan);
+    padding:7px 16px 6px;
+    border-radius:2px;
+    margin-bottom:26px;
+    text-shadow:0 0 10px rgba(0,255,255,0.5);
+    background:rgba(0,255,255,0.04);
+  }
+  .hero h1{
+    font-weight:900;
+    font-size:clamp(3.2rem,12vw,8rem);
+    line-height:0.92;
+    margin-bottom:8px;
+  }
+  .hero h1 .l1{display:block;}
+  .hero h1 .l2{display:block;font-size:0.42em;letter-spacing:0.5em;margin-top:18px;font-weight:700;}
+  .hero .tagline{
+    font-size:clamp(1rem,2.4vw,1.4rem);
+    color:var(--muted);
+    font-weight:300;
+    letter-spacing:0.16em;
+    margin:22px auto 38px;
+    max-width:540px;
+  }
+  .cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    font-family:'Orbitron',sans-serif;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.16em;
+    padding:15px 30px;
+    border-radius:3px;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease;
+    display:inline-block;
+  }
+  .btn-primary{
+    background:linear-gradient(180deg,var(--magenta),#d61f7d);
+    color:#fff;
+    border:1px solid var(--magenta-soft);
+    box-shadow:0 0 18px rgba(255,46,151,0.55),inset 0 0 12px rgba(255,255,255,0.15);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:var(--cyan);
+    border:1px solid var(--cyan);
+    box-shadow:0 0 14px rgba(0,255,255,0.3),inset 0 0 10px rgba(0,255,255,0.08);
+  }
+  .btn:hover{transform:translateY(-3px);}
+  .btn-primary:hover{box-shadow:0 0 30px rgba(255,46,151,0.8),inset 0 0 14px rgba(255,255,255,0.25);}
+  .btn-ghost:hover{box-shadow:0 0 26px rgba(0,255,255,0.6),inset 0 0 14px rgba(0,255,255,0.18);}
+
+  /* ============ section heading ============ */
+  .sec{padding:96px 0;position:relative;}
+  .sec-head{text-align:center;margin-bottom:60px;}
+  .sec-kicker{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:0.4em;
+    color:var(--cyan);text-shadow:0 0 10px rgba(0,255,255,0.5);
+    display:block;margin-bottom:14px;
+  }
+  .sec-title{
+    font-weight:900;
+    font-size:clamp(2rem,5vw,3.4rem);
+    line-height:1;
+  }
+  .divider-glow{
+    height:2px;width:120px;margin:20px auto 0;
+    background:linear-gradient(90deg,transparent,var(--magenta),transparent);
+    box-shadow:0 0 14px var(--magenta);
+  }
+
+  /* ============ PRICING ============ */
+  #pricing{background:
+    linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 50%,var(--bg) 100%);}
+  .price-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .card{
+    position:relative;
+    background:linear-gradient(180deg,rgba(20,14,38,0.9),rgba(10,8,20,0.95));
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:34px 26px;
+    overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;border-radius:6px;
+    background:linear-gradient(180deg,transparent,rgba(255,46,151,0.05));
+    pointer-events:none;
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--magenta);box-shadow:0 0 30px rgba(255,46,151,0.35);}
+  .card.feat{border-color:var(--cyan);box-shadow:0 0 26px rgba(0,255,255,0.22);}
+  .card.feat:hover{box-shadow:0 0 40px rgba(0,255,255,0.4);}
+  .card .tier{
+    font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;
+    letter-spacing:0.2em;margin-bottom:6px;
+  }
+  .card .price{
+    font-family:'Orbitron',sans-serif;font-weight:900;
+    font-size:2.6rem;line-height:1.1;margin:14px 0 4px;
+  }
+  .card .price small{font-size:0.9rem;font-weight:400;color:var(--muted);font-family:'Oswald';letter-spacing:0.05em;}
+  .card .unit{color:var(--muted);font-size:0.85rem;letter-spacing:0.1em;margin-bottom:20px;}
+  .card ul{list-style:none;}
+  .card li{
+    font-size:0.92rem;color:var(--text);padding:8px 0;
+    border-top:1px solid rgba(255,255,255,0.06);
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .card li:first-child{border-top:none;}
+  .card li::before{content:"▸";color:var(--cyan);flex:0 0 auto;}
+  .ribbon{
+    position:absolute;top:16px;right:-30px;
+    background:var(--cyan);color:#04161a;
+    font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:0.2em;
+    padding:5px 36px;transform:rotate(45deg);
+    box-shadow:0 0 14px rgba(0,255,255,0.5);
+  }
+
+  /* ============ SPECS / GAMES ============ */
+  #specs{background:radial-gradient(120% 90% at 50% 0%, #160a30 0%, var(--bg) 60%);}
+  .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+  .spec-block h3{font-size:1.3rem;font-weight:700;margin-bottom:20px;}
+  .spec-rows{display:flex;flex-direction:column;gap:0;}
+  .spec-row{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:13px 2px;border-bottom:1px solid var(--line);
+    font-size:0.95rem;
+  }
+  .spec-row .k{color:var(--muted);letter-spacing:0.04em;}
+  .spec-row .v{color:var(--cyan);font-family:'Orbitron';font-size:0.82rem;font-weight:500;text-align:right;text-shadow:0 0 8px rgba(0,255,255,0.4);}
+  .games{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+  .game-tag{
+    font-family:'Orbitron';font-size:11px;letter-spacing:0.1em;
+    color:var(--magenta-soft);
+    border:1px solid var(--line);
+    padding:8px 13px;border-radius:3px;
+    background:rgba(255,46,151,0.05);
+    transition:all .2s ease;
+  }
+  .game-tag:hover{color:#fff;border-color:var(--magenta);box-shadow:0 0 14px rgba(255,46,151,0.4);}
+
+  /* ============ EVENTS ============ */
+  #events{background:linear-gradient(180deg,var(--bg) 0%,#0c0820 100%);}
+  .event-list{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .event{
+    position:relative;border:1px solid var(--line-cyan);border-radius:6px;
+    padding:28px 24px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(10,18,30,0.7),rgba(8,6,18,0.9));
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .event:hover{transform:translateY(-5px);box-shadow:0 0 28px rgba(0,255,255,0.3);}
+  .event .when{
+    font-family:'Orbitron';font-size:11px;letter-spacing:0.18em;
+    color:var(--cyan);margin-bottom:12px;text-shadow:0 0 8px rgba(0,255,255,0.5);
+  }
+  .event h3{font-size:1.2rem;font-weight:700;margin-bottom:10px;color:#fff;}
+  .event p{font-size:0.9rem;color:var(--muted);}
+  .event .prize{
+    margin-top:16px;font-family:'Orbitron';font-size:0.85rem;
+    color:var(--sun-1);text-shadow:0 0 10px rgba(255,210,63,0.5);
+  }
+
+  /* ============ CONTACT ============ */
+  #contact{
+    background:radial-gradient(110% 120% at 50% 100%, #2a0f4d 0%, var(--bg) 62%);
+    padding-bottom:120px;
+  }
+  .contact-card{
+    max-width:760px;margin:0 auto;
+    border:1px solid var(--line);border-radius:8px;
+    background:linear-gradient(180deg,rgba(18,12,34,0.85),rgba(8,6,18,0.95));
+    box-shadow:0 0 40px rgba(139,43,255,0.18);
+    padding:48px 40px;text-align:center;
+  }
+  .contact-card .big{
+    font-family:'Orbitron';font-weight:900;
+    font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:8px;
+  }
+  .contact-rows{
+    display:grid;grid-template-columns:1fr 1fr;gap:20px;
+    margin:34px 0 10px;text-align:left;
+  }
+  .c-item .lbl{
+    font-family:'Orbitron';font-size:10px;letter-spacing:0.24em;
+    color:var(--cyan);margin-bottom:6px;
+  }
+  .c-item .val{font-size:1.05rem;color:var(--text);font-weight:400;}
+  .hours{font-size:0.92rem;color:var(--muted);margin-top:24px;letter-spacing:0.06em;}
+
+  footer{
+    text-align:center;padding:40px 24px;
+    border-top:1px solid var(--line);
+    font-size:0.8rem;color:var(--muted);letter-spacing:0.1em;
+  }
+  footer .neon-name{font-family:'Orbitron';font-weight:700;color:var(--magenta);text-shadow:0 0 10px rgba(255,46,151,0.6);}
+
+  /* ============ responsive ============ */
+  @media (max-width:860px){
+    .price-grid{grid-template-columns:1fr;}
+    .spec-grid{grid-template-columns:1fr;gap:34px;}
+    .event-list{grid-template-columns:1fr;}
+    .contact-rows{grid-template-columns:1fr;}
+    .sec{padding:72px 0;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .grid-floor{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+  <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+  <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 21 · 네온 런 — 80년대 신스웨이브/아웃런 스타일</span>
+  <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+</div>
+<div style="height:40px;"></div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="sun"></div>
+  <div class="grid-glow"></div>
+  <div class="grid-floor"></div>
+  <div class="hero-inner">
+    <span class="badge">SHINCHON ARCADE · EST.1987</span>
+    <h1>
+      <span class="l1 chrome">네온 런</span>
+      <span class="l2 glow-m">NEON&nbsp;RUN</span>
+    </h1>
+    <p class="tagline">서울 신촌, 끝나지 않는 밤을 달리는<br/>레트로 퓨처 게임 카페 &amp; PC방</p>
+    <div class="cta-row">
+      <a href="#pricing" class="btn btn-primary">요금 보기</a>
+      <a href="#contact" class="btn btn-ghost">위치 / 예약</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section id="pricing" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">INSERT COIN</span>
+      <h2 class="sec-title glow-c">요금제</h2>
+      <div class="divider-glow"></div>
+    </div>
+    <div class="price-grid">
+      <div class="card">
+        <div class="tier glow-m">ROOKIE</div>
+        <div class="price">₩1,500<small> /시간</small></div>
+        <div class="unit">기본 PC 좌석</div>
+        <ul>
+          <li>RTX 4060 · 165Hz 좌석</li>
+          <li>웰컴 드링크 1잔</li>
+          <li>심야 할증 없음 (24–06시)</li>
+          <li>충전식 선불 회원카드</li>
+        </ul>
+      </div>
+      <div class="card feat">
+        <div class="ribbon">BEST</div>
+        <div class="tier glow-c">OUTRUN VIP</div>
+        <div class="price">₩2,900<small> /시간</small></div>
+        <div class="unit">프리미엄 좌석 + 콘솔</div>
+        <ul>
+          <li>RTX 4080 · 240Hz 커브드</li>
+          <li>독립 부스 · 가죽 레이싱 시트</li>
+          <li>레이싱 휠 &amp; 페달 무제한</li>
+          <li>음료 + 라면 1식 포함</li>
+          <li>네온 라운지 우선 입장</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="tier glow-m">NIGHT CREW</div>
+        <div class="price">₩19,000<small> /패키지</small></div>
+        <div class="unit">올나잇 정액 (22–08시)</div>
+        <ul>
+          <li>10시간 무제한 이용</li>
+          <li>야식 세트 1종 제공</li>
+          <li>친구 동반 시 2번째 30% 할인</li>
+          <li>새벽 토너먼트 자동 참가권</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPECS / GAMES ================= -->
+<section id="specs" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">SYSTEM SPEC</span>
+      <h2 class="sec-title glow-m">사양 &amp; 게임</h2>
+      <div class="divider-glow"></div>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-block">
+        <h3 class="glow-c">하드웨어</h3>
+        <div class="spec-rows">
+          <div class="spec-row"><span class="k">CPU</span><span class="v">Intel i7-14700K</span></div>
+          <div class="spec-row"><span class="k">그래픽</span><span class="v">RTX 4080 / 4060</span></div>
+          <div class="spec-row"><span class="k">메모리</span><span class="v">DDR5 32GB</span></div>
+          <div class="spec-row"><span class="k">모니터</span><span class="v">27" 240Hz 1ms</span></div>
+          <div class="spec-row"><span class="k">주변기기</span><span class="v">기계식 / 게이밍 마우스</span></div>
+          <div class="spec-row"><span class="k">네트워크</span><span class="v">대칭형 10Gbps</span></div>
+          <div class="spec-row"><span class="k">좌석</span><span class="v">총 64석 · 부스 12실</span></div>
+        </div>
+      </div>
+      <div class="spec-block">
+        <h3 class="glow-c">상시 비치 타이틀</h3>
+        <div class="games">
+          <span class="game-tag">아웃런 2 SP</span>
+          <span class="game-tag">발로란트</span>
+          <span class="game-tag">리그 오브 레전드</span>
+          <span class="game-tag">철권 8</span>
+          <span class="game-tag">오버워치 2</span>
+          <span class="game-tag">스트리트 파이터 6</span>
+          <span class="game-tag">그란 투리스모</span>
+          <span class="game-tag">배틀그라운드</span>
+          <span class="game-tag">메탈슬러그 코인업</span>
+          <span class="game-tag">사이버펑크 2077</span>
+        </div>
+        <h3 class="glow-c" style="margin-top:30px;">레트로 존</h3>
+        <div class="games">
+          <span class="game-tag">철권 3 캐비닛</span>
+          <span class="game-tag">버추어 파이터</span>
+          <span class="game-tag">팩맨</span>
+          <span class="game-tag">갤러그</span>
+          <span class="game-tag">다이노 런 핀볼</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EVENTS ================= -->
+<section id="events" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">LIVE NOW</span>
+      <h2 class="sec-title glow-c">이벤트</h2>
+      <div class="divider-glow"></div>
+    </div>
+    <div class="event-list">
+      <div class="event">
+        <div class="when">매주 금요일 23:00</div>
+        <h3>미드나잇 드리프트</h3>
+        <p>아웃런 2 &amp; 그란 투리스모 랩타임 배틀. 부스 16명 한정, 현장 접수.</p>
+        <div class="prize">우승 상금 ₩100,000 + VIP 10시간권</div>
+      </div>
+      <div class="event">
+        <div class="when">매월 첫째 토요일</div>
+        <h3>네온 파이트 클럽</h3>
+        <p>철권 8 · 스파6 더블 엘리미네이션 토너먼트. 32인 풀 브래킷 진행.</p>
+        <div class="prize">우승 상금 ₩300,000 + 트로피</div>
+      </div>
+      <div class="event">
+        <div class="when">상시 진행</div>
+        <h3>레벨업 적립</h3>
+        <p>이용 시간마다 네온 포인트 적립. 1만 포인트 = 올나잇 무료 1회.</p>
+        <div class="prize">생일 주간 좌석 50% 할인</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">FIND US</span>
+      <h2 class="sec-title glow-m">연락 &amp; 위치</h2>
+      <div class="divider-glow"></div>
+    </div>
+    <div class="contact-card">
+      <div class="big chrome">신촌역 3번 출구 · 도보 2분</div>
+      <p style="color:var(--muted);letter-spacing:0.08em;">네온 사인을 따라 지하 1층으로 내려오세요.</p>
+      <div class="contact-rows">
+        <div class="c-item">
+          <div class="lbl">ADDRESS</div>
+          <div class="val">서울 서대문구 신촌로 83 네온빌딩 B1</div>
+        </div>
+        <div class="c-item">
+          <div class="lbl">PHONE</div>
+          <div class="val">02-487-1987</div>
+        </div>
+        <div class="c-item">
+          <div class="lbl">RESERVE</div>
+          <div class="val">카카오채널 @네온런</div>
+        </div>
+        <div class="c-item">
+          <div class="lbl">PARKING</div>
+          <div class="val">신촌공영주차장 2시간 무료</div>
+        </div>
+      </div>
+      <div class="hours">영업시간 · 연중무휴 24시간 운영 · 심야 할증 없음</div>
+      <div class="cta-row" style="margin-top:30px;">
+        <a href="#pricing" class="btn btn-primary">요금제 다시 보기</a>
+        <a href="/contact" class="btn btn-ghost">제작 문의</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="neon-name">NEON RUN</span> · 신촌 레트로 퓨처 아케이드 — 가상 데모 페이지 (포트폴리오 샘플)
+</footer>
+
+</body>
+</html>

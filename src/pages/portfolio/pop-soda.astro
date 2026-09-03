@@ -1,0 +1,524 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>팝 소다 · POP SODA — 수제 청량음료</title>
+  <meta name="description" content="팝 소다 — 1950년대 빈티지 라벨 감성의 수제 소다. 연남동에서 직접 만드는 진짜 청량함." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka:wght@400;500;600;700&family=Gowun+Dodum&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cherry: #e01a2b;
+      --cherry-dark: #b3121f;
+      --cream: #fdf3e3;
+      --cream-deep: #f6e4c8;
+      --white: #fffdf8;
+      --mint: #5ec9a6;
+      --mint-dark: #2f9c7c;
+      --ink: #2a1a16;
+      --gold: #e8b84b;
+      --shadow: rgba(42,26,22,0.18);
+      --script: 'Pacifico', cursive;
+      --display: 'Fredoka', sans-serif;
+      --body: 'Gowun Dodum', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-family: var(--display); line-height: 1.1; }
+
+    a { color: inherit; }
+
+    .wrap { width: min(1120px, 92vw); margin-inline: auto; }
+
+    .script { font-family: var(--script); }
+
+    /* ---------- shared decorative bits ---------- */
+    .ribbon {
+      display: inline-block;
+      position: relative;
+      background: var(--cherry);
+      color: var(--white);
+      font-family: var(--display);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      padding: 7px 22px;
+      box-shadow: 0 3px 0 var(--cherry-dark);
+    }
+    .ribbon::before, .ribbon::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 0; height: 0;
+      border-style: solid;
+    }
+    .ribbon::before {
+      left: -11px;
+      border-width: 0 11px 33px 0;
+      border-color: transparent var(--cherry-dark) transparent transparent;
+    }
+    .ribbon::after {
+      right: -11px;
+      border-width: 33px 11px 0 0;
+      border-color: var(--cherry-dark) transparent transparent transparent;
+    }
+
+    .crown { display: inline-block; vertical-align: middle; }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.25) 60%, rgba(255,255,255,0) 72%);
+      border: 1.5px solid rgba(255,255,255,0.55);
+      pointer-events: none;
+    }
+
+    /* ================= HERO / LABEL ================= */
+    .hero {
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 120%, rgba(94,201,166,0.35), transparent 55%),
+        repeating-linear-gradient(135deg, var(--cherry) 0 38px, var(--cherry-dark) 38px 76px);
+      padding: clamp(70px, 12vw, 130px) 0 clamp(60px, 9vw, 110px);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 45%, rgba(255,255,255,0.08), transparent 60%);
+    }
+
+    .label-frame {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      margin: 0 auto;
+      background: var(--cream);
+      border: 6px solid var(--ink);
+      border-radius: 50% / 22%;
+      padding: clamp(40px, 7vw, 66px) clamp(28px, 6vw, 60px);
+      text-align: center;
+      box-shadow: 0 24px 50px rgba(0,0,0,0.35), inset 0 0 0 9px var(--cream), inset 0 0 0 12px var(--cherry);
+    }
+    .label-frame::after {
+      content: "";
+      position: absolute; inset: 18px;
+      border: 2px dashed rgba(224,26,43,0.4);
+      border-radius: 50% / 20%;
+      pointer-events: none;
+    }
+
+    .est { font-family: var(--display); font-weight: 600; letter-spacing: 0.32em; font-size: 0.7rem; color: var(--cherry); text-transform: uppercase; }
+
+    .brand {
+      font-family: var(--script);
+      color: var(--cherry);
+      font-size: clamp(3.6rem, 12vw, 6.6rem);
+      line-height: 0.9;
+      margin: 6px 0 2px;
+      text-shadow: 3px 3px 0 var(--white), 5px 5px 0 var(--mint);
+    }
+    .brand-sub {
+      font-family: var(--display);
+      font-weight: 700;
+      letter-spacing: 0.46em;
+      font-size: clamp(0.8rem, 2.6vw, 1.05rem);
+      color: var(--ink);
+      text-transform: uppercase;
+      padding-right: 0.46em;
+    }
+    .divider {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin: 18px 0 16px; color: var(--mint-dark);
+    }
+    .divider span { height: 2px; width: 54px; background: currentColor; border-radius: 2px; }
+    .hero-tag {
+      font-size: 1.02rem; color: var(--ink); max-width: 420px; margin: 0 auto 26px;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--display); font-weight: 600; letter-spacing: 0.06em;
+      text-decoration: none; padding: 13px 30px; border-radius: 40px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease; font-size: 0.95rem;
+    }
+    .btn-primary { background: var(--cherry); color: var(--white); box-shadow: 0 5px 0 var(--cherry-dark); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--cherry-dark); }
+    .btn-ghost { background: var(--white); color: var(--cherry); border: 2px solid var(--cherry); box-shadow: 0 5px 0 rgba(224,26,43,0.25); }
+    .btn-ghost:hover { transform: translateY(-2px); }
+
+    /* floating bottle + bubbles in hero */
+    .b1 { width: 90px; height: 90px; top: 12%; left: 8%; animation: float 7s ease-in-out infinite; }
+    .b2 { width: 50px; height: 50px; top: 70%; left: 14%; animation: float 5s ease-in-out infinite 0.5s; }
+    .b3 { width: 64px; height: 64px; top: 18%; right: 10%; animation: float 6s ease-in-out infinite 0.8s; }
+    .b4 { width: 38px; height: 38px; top: 64%; right: 16%; animation: float 4.5s ease-in-out infinite 0.3s; }
+    @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-22px) } }
+
+    /* ================= SECTION BASE ================= */
+    section { position: relative; }
+    .sec-pad { padding: clamp(64px, 10vw, 110px) 0; }
+    .sec-head { text-align: center; margin-bottom: 48px; }
+    .sec-head .ribbon { margin-bottom: 16px; }
+    .sec-head h2 {
+      font-family: var(--script); color: var(--cherry);
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+    }
+    .sec-head p { color: rgba(42,26,22,0.7); margin-top: 6px; }
+
+    /* ================= SIGNATURE SODAS ================= */
+    .signature { background: var(--cream-deep); }
+    .soda-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+    }
+    .soda-card {
+      position: relative; background: var(--white);
+      border: 3px solid var(--ink); border-radius: 22px;
+      padding: 34px 24px 28px; text-align: center;
+      box-shadow: 8px 8px 0 var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      overflow: hidden;
+    }
+    .soda-card:hover { transform: translate(-3px,-3px); box-shadow: 11px 11px 0 var(--shadow); }
+    .soda-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: var(--gold); color: var(--ink);
+      font-family: var(--display); font-weight: 700; font-size: 0.62rem;
+      letter-spacing: 0.1em; padding: 4px 10px; border-radius: 20px;
+      transform: rotate(8deg);
+    }
+    /* CSS bottle */
+    .bottle { width: 70px; height: 150px; margin: 6px auto 18px; position: relative; }
+    .bottle .cap {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 26px; height: 16px; background: var(--gold);
+      border-radius: 4px 4px 2px 2px; border: 2px solid var(--ink);
+    }
+    .bottle .neck {
+      position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+      width: 20px; height: 26px; border: 2px solid var(--ink); border-top: none;
+      background: rgba(255,255,255,0.5);
+    }
+    .bottle .body {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 64px; height: 112px; border: 2px solid var(--ink);
+      border-radius: 14px 14px 18px 18px;
+      overflow: hidden;
+    }
+    .bottle .fill { position: absolute; bottom: 0; left: 0; right: 0; height: 78%; }
+    .bottle .label-band {
+      position: absolute; top: 38%; left: 0; right: 0; height: 30%;
+      background: var(--cream); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--script); font-size: 0.78rem; color: var(--cherry);
+    }
+    .fill-cherry { background: var(--cherry); }
+    .fill-mint   { background: var(--mint); }
+    .fill-gold   { background: var(--gold); }
+
+    .soda-card h3 { font-size: 1.32rem; color: var(--ink); margin-bottom: 6px; }
+    .soda-card .flavor { color: var(--mint-dark); font-family: var(--display); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .soda-card .desc { font-size: 0.9rem; color: rgba(42,26,22,0.72); min-height: 48px; }
+    .soda-card .price { display: inline-block; margin-top: 14px; font-family: var(--display); font-weight: 700; color: var(--cherry); font-size: 1.1rem; }
+
+    /* ================= SEASON MENU ================= */
+    .season { background: var(--cherry); color: var(--cream); }
+    .season .sec-head h2 { color: var(--cream); text-shadow: 2px 2px 0 var(--cherry-dark); }
+    .season .ribbon { background: var(--gold); color: var(--ink); box-shadow: 0 3px 0 #c79a2f; }
+    .season .ribbon::before { border-color: transparent #c79a2f transparent transparent; }
+    .season .ribbon::after { border-color: #c79a2f transparent transparent transparent; }
+    .menu-list {
+      max-width: 720px; margin: 0 auto;
+      background: var(--cream); color: var(--ink);
+      border: 4px solid var(--ink); border-radius: 18px;
+      padding: clamp(26px, 5vw, 44px);
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.25);
+    }
+    .menu-row {
+      display: flex; align-items: baseline; gap: 12px;
+      padding: 14px 0; border-bottom: 2px dotted rgba(42,26,22,0.3);
+    }
+    .menu-row:last-child { border-bottom: none; }
+    .menu-row .name { font-family: var(--display); font-weight: 600; font-size: 1.05rem; white-space: nowrap; }
+    .menu-row .tag { font-size: 0.74rem; background: var(--mint); color: var(--ink); padding: 2px 9px; border-radius: 12px; font-family: var(--display); font-weight: 600; }
+    .menu-row .dots { flex: 1; border-bottom: 2px dotted rgba(42,26,22,0.35); transform: translateY(-4px); }
+    .menu-row .cost { font-family: var(--display); font-weight: 700; color: var(--cherry); white-space: nowrap; }
+    .menu-note { text-align: center; color: var(--cream); margin-top: 24px; font-size: 0.9rem; opacity: 0.9; }
+
+    /* ================= STORE ================= */
+    .store { background: var(--cream); }
+    .store-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
+    .store-card {
+      background: var(--white); border: 3px solid var(--ink);
+      border-radius: 20px; padding: 36px;
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+    .store-card h3 { color: var(--cherry); font-family: var(--script); font-size: 2rem; margin-bottom: 18px; }
+    .info-row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px dashed rgba(42,26,22,0.2); }
+    .info-row:last-child { border-bottom: none; }
+    .info-row .k { font-family: var(--display); font-weight: 600; color: var(--mint-dark); min-width: 76px; }
+    .info-row .v { color: var(--ink); }
+    /* stylized storefront illustration */
+    .storefront {
+      aspect-ratio: 4 / 3; border: 3px solid var(--ink); border-radius: 20px;
+      background:
+        linear-gradient(var(--mint) 0 30%, transparent 30%),
+        repeating-linear-gradient(90deg, var(--cherry) 0 26px, var(--white) 26px 52px) ;
+      position: relative; overflow: hidden;
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+    .storefront .awning-label {
+      position: absolute; top: 9%; left: 0; right: 0; text-align: center;
+      font-family: var(--script); color: var(--white); font-size: clamp(1.4rem,4vw,2.2rem);
+      text-shadow: 2px 2px 0 var(--cherry-dark);
+    }
+    .storefront .window {
+      position: absolute; bottom: 0; left: 8%; right: 8%; height: 58%;
+      background: linear-gradient(160deg, #cfeee4, #a7dac9);
+      border: 3px solid var(--ink); border-bottom: none;
+      border-radius: 10px 10px 0 0;
+    }
+    .storefront .door {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 26%; height: 40%; background: var(--cream-deep);
+      border: 3px solid var(--ink); border-bottom: none; border-radius: 8px 8px 0 0;
+    }
+    .storefront .door::after {
+      content: ""; position: absolute; top: 45%; right: 16%;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
+    }
+
+    /* ================= CONTACT ================= */
+    .contact {
+      background:
+        radial-gradient(circle at 50% 0%, rgba(94,201,166,0.3), transparent 50%),
+        repeating-linear-gradient(135deg, var(--cherry) 0 38px, var(--cherry-dark) 38px 76px);
+      color: var(--cream); text-align: center; position: relative; overflow: hidden;
+    }
+    .contact .cap-mark {
+      width: 88px; height: 88px; margin: 0 auto 22px;
+      background: var(--gold); border: 4px solid var(--ink);
+      border-radius: 50%;
+      background-image: radial-gradient(var(--ink) 1.5px, transparent 1.6px);
+      background-size: 11px 11px; background-position: center;
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.15);
+      display: grid; place-items: center;
+    }
+    .contact .cap-mark span { font-family: var(--script); color: var(--cherry); font-size: 1.5rem; background: var(--cream); width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; }
+    .contact h2 { font-family: var(--script); font-size: clamp(2.2rem, 6vw, 3.4rem); color: var(--cream); text-shadow: 2px 2px 0 var(--cherry-dark); margin-bottom: 10px; }
+    .contact p.lead { max-width: 480px; margin: 0 auto 30px; }
+    .contact-cards { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 34px; }
+    .c-card {
+      background: var(--cream); color: var(--ink);
+      border: 3px solid var(--ink); border-radius: 16px;
+      padding: 20px 26px; min-width: 200px;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+    }
+    .c-card .lbl { font-family: var(--display); font-weight: 600; color: var(--mint-dark); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; }
+    .c-card .val { font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--cherry); margin-top: 4px; }
+    .c-card .small { font-size: 0.82rem; color: rgba(42,26,22,0.7); margin-top: 2px; }
+
+    footer.foot {
+      background: var(--ink); color: var(--cream-deep);
+      text-align: center; padding: 28px 16px; font-size: 0.84rem;
+    }
+    footer.foot .script { color: var(--cherry); font-size: 1.4rem; }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 860px) {
+      .soda-grid { grid-template-columns: 1fr; max-width: 360px; margin-inline: auto; }
+      .store-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .menu-row { flex-wrap: wrap; }
+      .menu-row .dots { display: none; }
+      .menu-row .cost { margin-left: auto; }
+      .brand-sub { letter-spacing: 0.28em; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DEMO BAR -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+    <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+    <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 35 · 팝 소다 — 레트로 청량음료 라벨 스타일</span>
+    <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+  </div>
+  <div style="height:40px;"></div>
+
+  <!-- HERO / LABEL -->
+  <header class="hero">
+    <span class="bubble b1"></span>
+    <span class="bubble b2"></span>
+    <span class="bubble b3"></span>
+    <span class="bubble b4"></span>
+    <div class="wrap">
+      <div class="label-frame">
+        <svg class="crown" width="44" height="30" viewBox="0 0 44 30" aria-hidden="true" style="margin-bottom:4px;">
+          <path d="M4 26 L6 8 L15 18 L22 4 L29 18 L38 8 L40 26 Z" fill="#e8b84b" stroke="#2a1a16" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="6" cy="7" r="3" fill="#e01a2b" stroke="#2a1a16" stroke-width="1.5"/>
+          <circle cx="22" cy="3" r="3" fill="#e01a2b" stroke="#2a1a16" stroke-width="1.5"/>
+          <circle cx="38" cy="7" r="3" fill="#e01a2b" stroke="#2a1a16" stroke-width="1.5"/>
+        </svg>
+        <div class="est">EST. 1953 · 수제 청량음료</div>
+        <div class="brand">Pop Soda</div>
+        <div class="brand-sub">팝 소다 · 청량 공방</div>
+        <div class="divider"><span></span>★<span></span></div>
+        <p class="hero-tag">탄산이 살아있는 진짜 청량함. 인공 향료 없이, 과일과 설탕과 거품만으로 만든 빈티지 수제 소다.</p>
+        <div class="hero-btns">
+          <a class="btn btn-primary" href="#signature">시그니처 보기</a>
+          <a class="btn btn-ghost" href="#contact">매장 찾기</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SIGNATURE SODAS -->
+  <section id="signature" class="signature sec-pad">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="ribbon">Signature</span>
+        <h2>시그니처 소다</h2>
+        <p>팝 소다를 대표하는 세 가지 클래식한 한 병</p>
+      </div>
+      <div class="soda-grid">
+
+        <article class="soda-card">
+          <span class="soda-badge">BEST</span>
+          <div class="bottle">
+            <div class="cap"></div><div class="neck"></div>
+            <div class="body"><div class="fill fill-cherry"></div><div class="label-band">Pop</div></div>
+          </div>
+          <h3>체리 팝</h3>
+          <div class="flavor">CHERRY · 새콤달콤</div>
+          <p class="desc">진한 체리 과즙에 강한 탄산을 더한 시그니처. 입안에서 톡 터지는 1953년 그대로의 맛.</p>
+          <span class="price">₩6,500</span>
+        </article>
+
+        <article class="soda-card">
+          <span class="soda-badge">NEW</span>
+          <div class="bottle">
+            <div class="cap"></div><div class="neck"></div>
+            <div class="body"><div class="fill fill-mint"></div><div class="label-band">Mint</div></div>
+          </div>
+          <h3>민트 모히토 소다</h3>
+          <div class="flavor">MINT · 청량 폭발</div>
+          <p class="desc">생민트 잎을 직접 으깨 넣은 무알콜 모히토. 청량함의 끝, 더운 날 가장 먼저 비워지는 병.</p>
+          <span class="price">₩7,000</span>
+        </article>
+
+        <article class="soda-card">
+          <span class="soda-badge">HOT</span>
+          <div class="bottle">
+            <div class="cap"></div><div class="neck"></div>
+            <div class="body"><div class="fill fill-gold"></div><div class="label-band">Gold</div></div>
+          </div>
+          <h3>골든 진저에일</h3>
+          <div class="flavor">GINGER · 알싸달콤</div>
+          <p class="desc">생강을 12시간 우려낸 수제 진저 시럽. 알싸하게 쏘는 탄산이 코끝까지 시원하게 올라옵니다.</p>
+          <span class="price">₩6,800</span>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SEASON MENU -->
+  <section class="season sec-pad">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="ribbon">Seasonal</span>
+        <h2>시즌 한정 메뉴</h2>
+        <p>여름에만 만나는 계절 소다와 곁들임</p>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row"><span class="name">수박 소다 플로트</span><span class="tag">여름한정</span><span class="dots"></span><span class="cost">₩7,500</span></div>
+        <div class="menu-row"><span class="name">자몽 비터 토닉</span><span class="tag">시그니처</span><span class="dots"></span><span class="cost">₩7,200</span></div>
+        <div class="menu-row"><span class="name">청포도 에이드 소다</span><span class="dots"></span><span class="cost">₩6,800</span></div>
+        <div class="menu-row"><span class="name">복숭아 크림 소다</span><span class="tag">인기</span><span class="dots"></span><span class="cost">₩7,300</span></div>
+        <div class="menu-row"><span class="name">레몬 솔티 소다</span><span class="dots"></span><span class="cost">₩6,200</span></div>
+        <div class="menu-row"><span class="name">유자 진저 하이볼(무알콜)</span><span class="tag">NEW</span><span class="dots"></span><span class="cost">₩7,800</span></div>
+        <div class="menu-row"><span class="name">바닐라 빈 크림 + 거품</span><span class="dots"></span><span class="cost">₩3,000</span></div>
+      </div>
+      <p class="menu-note">※ 모든 소다는 매장에서 직접 탄산을 주입해 제공합니다 · 테이크아웃 병 포장 +₩500</p>
+    </div>
+  </section>
+
+  <!-- STORE -->
+  <section class="store sec-pad">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="ribbon">Our Shop</span>
+        <h2>연남동 소다 공방</h2>
+        <p>골목 끝, 체리레드 차양이 보이면 도착</p>
+      </div>
+      <div class="store-grid">
+        <div class="store-card">
+          <h3>Pop Soda 연남점</h3>
+          <div class="info-row"><span class="k">주소</span><span class="v">서울 마포구 연남동 동교로 38길 12, 1층</span></div>
+          <div class="info-row"><span class="k">영업시간</span><span class="v">매일 11:30 — 21:30 (라스트오더 21:00)</span></div>
+          <div class="info-row"><span class="k">휴무</span><span class="v">매주 화요일 정기휴무</span></div>
+          <div class="info-row"><span class="k">좌석</span><span class="v">실내 16석 · 테라스 8석 · 포장 가능</span></div>
+          <div class="info-row"><span class="k">주차</span><span class="v">인근 공영주차장 이용 (도보 3분)</span></div>
+        </div>
+        <div class="storefront" role="img" aria-label="팝 소다 연남점 매장 일러스트">
+          <div class="awning-label">Pop Soda</div>
+          <div class="window"></div>
+          <div class="door"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact sec-pad">
+    <span class="bubble b2" style="top:18%;left:10%;width:46px;height:46px;"></span>
+    <span class="bubble b3" style="top:64%;right:12%;width:60px;height:60px;"></span>
+    <div class="wrap">
+      <div class="cap-mark"><span>Pop</span></div>
+      <h2>한 병 하러 오세요</h2>
+      <p class="lead">예약·단체 주문·케이터링 문의는 아래 연락처로 편하게 연락 주세요. 톡 쏘는 환영이 기다립니다.</p>
+      <div class="contact-cards">
+        <div class="c-card">
+          <div class="lbl">Phone</div>
+          <div class="val">02-322-1953</div>
+          <div class="small">11:30 — 21:30 / 화요일 휴무</div>
+        </div>
+        <div class="c-card">
+          <div class="lbl">Instagram</div>
+          <div class="val">@pop.soda.seoul</div>
+          <div class="small">신메뉴·시즌 소식 업데이트</div>
+        </div>
+        <div class="c-card">
+          <div class="lbl">Catering</div>
+          <div class="val">popsoda@demo.kr</div>
+          <div class="small">행사·팝업 소다바 운영</div>
+        </div>
+      </div>
+      <a class="btn btn-ghost" href="#signature" style="background:var(--cream);">메뉴 다시 보기</a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="script">Pop Soda</div>
+    <p>© 2026 팝 소다 청량 공방 · 서울 마포구 연남동 · 가상의 데모 페이지입니다.</p>
+  </footer>
+
+</body>
+</html>

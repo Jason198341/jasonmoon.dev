@@ -1,0 +1,740 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>아폴로 모터스 · APM-TM-1967 정비 기술 매뉴얼</title>
+<meta name="description" content="아폴로 모터스 — 경기 화성 자동차 정비·튜닝. 1960년대 NASA 엔지니어링 기술 매뉴얼 스타일 데모 페이지." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Saira+Condensed:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#14171c;            /* 차콜 먹빛 배경 */
+    --bg-2:#0f1217;          /* 더 짙은 패널 */
+    --bg-3:#1b1f26;          /* 살짝 밝은 패널 */
+    --amber:#e6a93b;         /* 앰버 강조 */
+    --amber-deep:#b9842a;
+    --amber-faint:#5a4a26;   /* 흐린 앰버 라인 */
+    --ink:#dfe4ea;           /* 밝은 회색 본문 */
+    --ink-dim:#9aa4b2;       /* 흐린 본문 */
+    --ink-faint:#5f6a78;     /* 가장 흐린 / 도면 라벨 */
+    --rule:#2b313b;          /* 구획선 */
+    --rule-blue:#243042;     /* 청사진 라인 */
+    --blueprint:#3d5a80;     /* 청사진 색 */
+    --warn:#d96a4a;          /* 경고 적황 */
+    --head:'Oswald', 'Saira Condensed', sans-serif;
+    --cond:'Saira Condensed', 'Oswald', sans-serif;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--cond);font-weight:400;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    /* 청사진 그리드 + 비네팅 */
+    background-image:
+      linear-gradient(var(--rule-blue) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule-blue) 1px, transparent 1px),
+      radial-gradient(120% 90% at 50% -10%, #1c222b 0%, var(--bg) 60%);
+    background-size:42px 42px, 42px 42px, 100% 100%;
+    background-position:0 0, 0 0, 0 0;
+  }
+  ::selection{background:var(--amber);color:#0b0d11;}
+
+  /* ===== 레이아웃 ===== */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  section{position:relative;}
+  .rule-h{height:1px;background:var(--rule);border:0;margin:0;}
+
+  /* ===== 문서 머릿단 (모든 섹션 상단 docno) ===== */
+  .docno{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:0.18em;
+    color:var(--ink-faint);text-transform:uppercase;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding:10px 0;border-bottom:1px solid var(--rule);
+  }
+  .docno .amber{color:var(--amber-deep);}
+
+  /* 라벨 칩 */
+  .chip{
+    display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;
+    letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--amber);border:1px solid var(--amber-faint);
+    padding:4px 10px;border-radius:1px;background:rgba(230,169,59,0.05);
+  }
+  .fig{
+    font-family:var(--mono);font-size:11px;letter-spacing:0.16em;
+    color:var(--amber);text-transform:uppercase;font-weight:600;
+  }
+  .secnum{
+    font-family:var(--mono);font-size:11px;letter-spacing:0.2em;
+    color:var(--ink-faint);text-transform:uppercase;
+  }
+  h2.sec{
+    font-family:var(--head);font-weight:600;text-transform:uppercase;
+    letter-spacing:0.04em;font-size:clamp(1.7rem,1rem+2.6vw,2.9rem);
+    line-height:1.02;margin:.35rem 0 .1rem;color:var(--ink);
+  }
+  .sec-sub{color:var(--ink-dim);font-size:.98rem;max-width:60ch;margin:.4rem 0 0;letter-spacing:0.01em;}
+
+  /* ===== HERO / 표지 ===== */
+  .cover{padding:54px 0 64px;border-bottom:2px solid var(--amber);position:relative;overflow:hidden;}
+  .cover::before{
+    content:"";position:absolute;inset:0;z-index:0;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 22px, rgba(230,169,59,0.03) 22px 23px);
+    pointer-events:none;
+  }
+  .cover .wrap{position:relative;z-index:1;}
+  .cover-top{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:18px;
+    flex-wrap:wrap;padding-bottom:34px;border-bottom:1px solid var(--rule);
+  }
+  .stamp{
+    font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--ink-faint);
+    text-transform:uppercase;line-height:1.9;text-align:right;
+  }
+  .stamp b{color:var(--amber-deep);font-weight:600;}
+  .classif{
+    display:inline-block;border:1.5px solid var(--warn);color:var(--warn);
+    font-family:var(--mono);font-size:10px;letter-spacing:0.22em;font-weight:600;
+    padding:3px 9px;transform:rotate(-3deg);margin-bottom:8px;
+  }
+  .cover-id{font-family:var(--mono);font-size:11px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;}
+  .cover h1{
+    font-family:var(--head);font-weight:700;text-transform:uppercase;
+    font-size:clamp(2.8rem,1.2rem+8vw,7.2rem);line-height:0.9;letter-spacing:0.01em;
+    margin:30px 0 6px;color:var(--ink);
+  }
+  .cover h1 .amber{color:var(--amber);}
+  .cover .tagline{
+    font-family:var(--cond);font-weight:300;font-size:clamp(1.1rem,.7rem+1.6vw,1.7rem);
+    color:var(--ink-dim);letter-spacing:0.03em;max-width:48ch;margin:4px 0 0;
+  }
+  .cover-meta{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);
+    border:1px solid var(--rule);margin-top:40px;
+  }
+  .cover-meta div{background:var(--bg-2);padding:14px 16px;}
+  .cover-meta dt{font-family:var(--mono);font-size:9.5px;letter-spacing:0.18em;color:var(--ink-faint);text-transform:uppercase;}
+  .cover-meta dd{margin:5px 0 0;font-family:var(--head);font-weight:500;font-size:1.05rem;color:var(--amber);text-transform:uppercase;letter-spacing:0.02em;}
+
+  /* ===== 일반 섹션 패딩 ===== */
+  .blk{padding:62px 0;}
+  .sec-head{margin-bottom:34px;}
+  .sec-head .row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+
+  /* ===== ② 정비 항목 — 규격표 카드 ===== */
+  .spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .spec{
+    background:var(--bg-2);border:1px solid var(--rule);position:relative;
+    padding:0;overflow:hidden;
+  }
+  .spec::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--amber);}
+  .spec-h{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:14px 18px;border-bottom:1px solid var(--rule);background:var(--bg-3);
+  }
+  .spec-h .sys{font-family:var(--head);font-weight:600;font-size:1.25rem;text-transform:uppercase;letter-spacing:0.03em;color:var(--ink);}
+  .spec-h .pn{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--amber-deep);}
+  table.spectbl{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+  table.spectbl tr{border-bottom:1px solid var(--rule);}
+  table.spectbl tr:last-child{border-bottom:0;}
+  table.spectbl td{padding:9px 18px;color:var(--ink-dim);}
+  table.spectbl td:first-child{color:var(--ink-faint);letter-spacing:0.06em;width:46%;}
+  table.spectbl td:last-child{color:var(--ink);text-align:right;font-weight:500;}
+  table.spectbl .ok{color:var(--amber);}
+
+  /* ===== ③ 단면도 도식 ===== */
+  .cut-stage{
+    background:var(--bg-2);border:1px solid var(--rule-blue);position:relative;
+    padding:18px 18px 8px;
+  }
+  .cut-stage .corner{position:absolute;width:14px;height:14px;border:1.5px solid var(--amber-faint);}
+  .cut-stage .c1{top:8px;left:8px;border-right:0;border-bottom:0;}
+  .cut-stage .c2{top:8px;right:8px;border-left:0;border-bottom:0;}
+  .cut-stage .c3{bottom:8px;left:8px;border-right:0;border-top:0;}
+  .cut-stage .c4{bottom:8px;right:8px;border-left:0;border-top:0;}
+  .cut-cap{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding:14px 4px 4px;border-top:1px solid var(--rule);margin-top:8px;
+  }
+  .cut-cap .t{font-family:var(--cond);font-size:.95rem;color:var(--ink-dim);}
+  svg{display:block;width:100%;height:auto;}
+  .legend{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:8px 26px;
+    margin-top:18px;font-family:var(--mono);font-size:12px;
+  }
+  .legend .li{display:flex;gap:10px;align-items:flex-start;color:var(--ink-dim);}
+  .legend .bn{
+    flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--amber);
+    color:var(--amber);font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+  }
+  .legend .li b{color:var(--ink);font-weight:600;}
+
+  /* ===== ④ 절차 STEP + CAUTION ===== */
+  .steps{display:grid;gap:0;border:1px solid var(--rule);background:var(--bg-2);}
+  .step{
+    display:grid;grid-template-columns:96px 1fr;gap:0;border-bottom:1px solid var(--rule);
+  }
+  .step:last-child{border-bottom:0;}
+  .step .no{
+    background:var(--bg-3);border-right:1px solid var(--rule);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:18px 8px;
+  }
+  .step .no .lab{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--ink-faint);}
+  .step .no .n{font-family:var(--head);font-weight:700;font-size:2.1rem;color:var(--amber);line-height:1;}
+  .step .body{padding:18px 22px;}
+  .step .body h4{font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;font-size:1.15rem;margin:0 0 5px;color:var(--ink);}
+  .step .body p{margin:0;color:var(--ink-dim);font-size:.96rem;}
+  .step .body .torq{font-family:var(--mono);font-size:11px;color:var(--amber-deep);letter-spacing:0.08em;margin-top:8px;}
+
+  .caution{
+    margin-top:22px;border:1.5px solid var(--warn);background:rgba(217,106,74,0.07);
+    display:grid;grid-template-columns:120px 1fr;
+  }
+  .caution .hd{
+    background:var(--warn);color:#16100c;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:2px;padding:12px;text-align:center;
+  }
+  .caution .hd .ic{font-size:1.6rem;line-height:1;}
+  .caution .hd .tx{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:0.2em;}
+  .caution .ct{padding:14px 18px;font-size:.95rem;color:var(--ink);}
+  .caution .ct b{color:var(--warn);}
+
+  /* ===== ⑤ 공임표 ===== */
+  .fee{width:100%;border-collapse:collapse;border:1px solid var(--rule);font-family:var(--cond);}
+  .fee thead th{
+    background:var(--bg-3);font-family:var(--mono);font-size:10px;letter-spacing:0.16em;
+    color:var(--ink-faint);text-transform:uppercase;font-weight:600;
+    padding:12px 16px;text-align:left;border-bottom:1px solid var(--amber-faint);
+  }
+  .fee thead th:last-child,.fee tbody td:last-child{text-align:right;}
+  .fee tbody td{padding:13px 16px;border-bottom:1px solid var(--rule);color:var(--ink-dim);font-size:.98rem;}
+  .fee tbody tr:nth-child(even){background:rgba(255,255,255,0.012);}
+  .fee tbody td:first-child{color:var(--ink);font-weight:500;}
+  .fee tbody td .pn{font-family:var(--mono);font-size:10px;color:var(--ink-faint);display:block;letter-spacing:0.1em;margin-top:2px;}
+  .fee tbody td.cost{font-family:var(--mono);color:var(--amber);font-weight:600;font-size:.95rem;text-align:right;}
+  .fee tfoot td{padding:13px 16px;font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:0.06em;background:var(--bg-2);}
+
+  /* ===== ⑥ CTA / 연락처 ===== */
+  .cta{border-top:2px solid var(--amber);background:var(--bg-2);padding:66px 0 30px;position:relative;}
+  .cta::before{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(135deg, transparent 0 22px, rgba(230,169,59,0.025) 22px 23px);
+    pointer-events:none;
+  }
+  .cta .wrap{position:relative;}
+  .cta h2{font-family:var(--head);font-weight:700;text-transform:uppercase;font-size:clamp(2rem,1rem+4vw,3.8rem);line-height:0.95;letter-spacing:0.02em;margin:.5rem 0 .3rem;color:var(--ink);}
+  .cta h2 .amber{color:var(--amber);}
+  .cta p.lead{color:var(--ink-dim);max-width:52ch;font-size:1.02rem;}
+  .cta-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;margin-top:36px;align-items:start;}
+  .contact{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+  .contact div{background:var(--bg);padding:16px 18px;}
+  .contact dt{font-family:var(--mono);font-size:9.5px;letter-spacing:0.18em;color:var(--ink-faint);text-transform:uppercase;}
+  .contact dd{margin:5px 0 0;font-family:var(--head);font-weight:500;font-size:1.15rem;color:var(--ink);letter-spacing:0.02em;}
+  .contact dd.amber{color:var(--amber);}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;
+    color:#0b0d11;background:var(--amber);padding:15px 26px;text-decoration:none;border:0;
+    transition:background .18s,transform .18s;
+  }
+  .btn:hover{background:#f2bd55;transform:translateY(-2px);}
+  .btn.ghost{background:transparent;color:var(--amber);border:1.5px solid var(--amber);}
+  .btn.ghost:hover{background:rgba(230,169,59,0.1);}
+  .btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+  .form-note{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);letter-spacing:0.08em;margin-top:18px;}
+
+  /* ===== 푸터 ===== */
+  footer{border-top:1px solid var(--rule);padding:26px 0 60px;}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;}
+  footer .fnote{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;color:var(--ink-faint);text-transform:uppercase;line-height:1.9;}
+  footer .fnote .amber{color:var(--amber-deep);}
+
+  /* SVG 도면 공통 */
+  .draw .out{fill:none;stroke:var(--blueprint);stroke-width:1.4;}
+  .draw .out2{fill:none;stroke:#4a6c96;stroke-width:1;}
+  .draw .fillp{fill:#1b2532;stroke:#3d5a80;stroke-width:1.2;}
+  .draw .hatch{fill:url(#hatch);stroke:#3d5a80;stroke-width:1;}
+  .draw .ctr{stroke:var(--amber-deep);stroke-width:0.7;stroke-dasharray:7 3 1 3;fill:none;opacity:.6;}
+  .draw .lead{stroke:var(--amber);stroke-width:0.9;fill:none;}
+  .draw .bn-c{fill:var(--bg);stroke:var(--amber);stroke-width:1.3;}
+  .draw .bn-t{fill:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;}
+  .draw .dim{stroke:var(--ink-faint);stroke-width:0.7;fill:none;}
+  .draw .dim-t{fill:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.05em;}
+  .draw .lbl{fill:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.08em;}
+
+  /* ===== 반응형 ===== */
+  @media (max-width:820px){
+    .spec-grid{grid-template-columns:1fr;}
+    .cover-meta{grid-template-columns:repeat(2,1fr);}
+    .cta-grid{grid-template-columns:1fr;}
+    .cover-top{flex-direction:column;}
+    .stamp{text-align:left;}
+  }
+  @media (max-width:540px){
+    .cover-meta{grid-template-columns:1fr;}
+    .step{grid-template-columns:72px 1fr;}
+    .caution{grid-template-columns:1fr;}
+    .caution .hd{flex-direction:row;gap:8px;}
+    .legend{grid-template-columns:1fr;}
+    .fee thead{display:none;}
+    .fee tbody td{display:block;text-align:left !important;border-bottom:0;padding:4px 16px;}
+    .fee tbody tr{display:block;border-bottom:1px solid var(--rule);padding:8px 0;}
+    .fee tbody td.cost{text-align:left;padding-top:6px;padding-bottom:10px;}
+  }
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+  <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+  <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 06 · 아폴로 모터스 — 1960년대 NASA 엔지니어링 매뉴얼 스타일</span>
+  <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+</div>
+<div style="height:40px;"></div>
+
+<!-- ===== ① 표지 / HERO ===== -->
+<section class="cover" id="cover">
+  <div class="wrap">
+    <div class="cover-top">
+      <div>
+        <span class="classif">FOR SERVICE USE</span>
+        <div class="cover-id">DOCUMENT No. APM-TM-1967 &nbsp;·&nbsp; REV.C</div>
+        <div class="cover-id" style="color:var(--ink-faint);margin-top:4px;">VEHICLE TECHNICAL MAINTENANCE MANUAL</div>
+      </div>
+      <div class="stamp">
+        ISSUE DATE &nbsp; <b>1967·04·12</b><br/>
+        SECTION &nbsp; <b>00 — GENERAL</b><br/>
+        SHEET &nbsp; <b>01 OF 06</b><br/>
+        ASSY GROUP &nbsp; <b>PROPULSION / CHASSIS</b>
+      </div>
+    </div>
+
+    <h1>APOLLO<br/><span class="amber">MOTORS</span></h1>
+    <p class="tagline">정비를 항공우주 공학처럼 — 측정하고, 기록하고, 규격으로 마감하는 아폴로 모터스.</p>
+
+    <dl class="cover-meta">
+      <div><dt>STATION</dt><dd>경기 화성</dd></div>
+      <div><dt>SPECIALTY</dt><dd>엔진·미션·튜닝</dd></div>
+      <div><dt>CERTIFICATION</dt><dd>정비 1급</dd></div>
+      <div><dt>OPERATING</dt><dd>09:00–19:00</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ===== ② 정비 항목 — 규격표 ===== -->
+<section class="blk" id="systems">
+  <div class="wrap">
+    <div class="docno"><span>SECTION 02 — SERVICE SYSTEMS</span><span class="amber">APM-TM-1967 · SHT 02/06</span></div>
+
+    <div class="sec-head" style="margin-top:26px;">
+      <div class="row"><span class="secnum">2.0</span><span class="chip">SERVICE SYSTEMS</span></div>
+      <h2 class="sec">정비 항목 규격</h2>
+      <p class="sec-sub">4개 핵심 계통을 항공 정비 카드 방식으로 점검합니다. 각 계통은 작업 부호(P/N)와 점검 규격으로 관리됩니다.</p>
+    </div>
+
+    <div class="spec-grid">
+      <!-- 엔진 -->
+      <article class="spec">
+        <div class="spec-h"><span class="sys">엔진 · ENGINE</span><span class="pn">P/N APM-PWR-01</span></div>
+        <table class="spectbl">
+          <tr><td>실린더 압축 점검</td><td>11.5 ± 0.5 kg/cm²</td></tr>
+          <tr><td>타이밍 / 밸브 간극</td><td class="ok">규격 조정</td></tr>
+          <tr><td>오일·쿨런트 교환</td><td>전합성 5W-30</td></tr>
+          <tr><td>인젝터 / 카본 클리닝</td><td class="ok">초음파 세척</td></tr>
+        </table>
+      </article>
+
+      <!-- 미션 -->
+      <article class="spec">
+        <div class="spec-h"><span class="sys">미션 · DRIVETRAIN</span><span class="pn">P/N APM-DRV-02</span></div>
+        <table class="spectbl">
+          <tr><td>자동변속기 오일(ATF)</td><td>순환식 교환</td></tr>
+          <tr><td>클러치 / 듀얼클러치</td><td class="ok">유격 점검</td></tr>
+          <tr><td>디퍼렌셜 / 등속조인트</td><td>토크 규격</td></tr>
+          <tr><td>변속 충격 진단</td><td class="ok">OBD 로깅</td></tr>
+        </table>
+      </article>
+
+      <!-- 하체 -->
+      <article class="spec">
+        <div class="spec-h"><span class="sys">하체 · CHASSIS</span><span class="pn">P/N APM-CHS-03</span></div>
+        <table class="spectbl">
+          <tr><td>휠 얼라인먼트</td><td>토우 ±0.05°</td></tr>
+          <tr><td>쇼크 / 스프링 / 부싱</td><td class="ok">댐핑 측정</td></tr>
+          <tr><td>브레이크 패드·로터</td><td>잔량 ≥ 3 mm</td></tr>
+          <tr><td>로워암 / 볼조인트</td><td class="ok">유격 점검</td></tr>
+        </table>
+      </article>
+
+      <!-- 전장 -->
+      <article class="spec">
+        <div class="spec-h"><span class="sys">전장 · ELECTRICAL</span><span class="pn">P/N APM-ELC-04</span></div>
+        <table class="spectbl">
+          <tr><td>배터리 / 발전기 부하</td><td>13.8 ~ 14.4 V</td></tr>
+          <tr><td>ECU 진단 / 코드 소거</td><td class="ok">스캐너 연동</td></tr>
+          <tr><td>배선 / 릴레이 점검</td><td>저항 측정</td></tr>
+          <tr><td>등화 / 센서 캘리브레이션</td><td class="ok">규격 보정</td></tr>
+        </table>
+      </article>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-h"/>
+
+<!-- ===== ③ 대표 작업 — 단면도 SVG ===== -->
+<section class="blk" id="cutaway">
+  <div class="wrap">
+    <div class="docno"><span>SECTION 03 — CUTAWAY REFERENCE</span><span class="amber">APM-TM-1967 · SHT 03/06</span></div>
+
+    <div class="sec-head" style="margin-top:26px;">
+      <div class="row"><span class="secnum">3.0</span><span class="chip">FLAGSHIP WORK</span></div>
+      <h2 class="sec">대표 작업 · 단면 기준도</h2>
+      <p class="sec-sub">아폴로 모터스의 대표 작업을 NASA 기술도면 양식의 단면도와 지시선으로 도해합니다. 번호 풍선은 작업 포인트를 가리킵니다.</p>
+    </div>
+
+    <!-- FIGURE 3-1 : 차량 측면 단면 -->
+    <div class="cut-stage draw">
+      <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+      <svg viewBox="0 0 900 360" role="img" aria-label="차량 측면 단면 도식">
+        <defs>
+          <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#34506f" stroke-width="1"/>
+          </pattern>
+        </defs>
+
+        <!-- 기준선 프레임 -->
+        <rect x="20" y="20" width="860" height="320" class="out2" opacity="0.35"/>
+        <line x1="40" y1="300" x2="860" y2="300" class="dim"/>
+        <text x="44" y="316" class="lbl">GROUND DATUM — STA 0.0</text>
+
+        <!-- 차체 측면 윤곽 -->
+        <path class="out" d="M70 250
+          L70 215 Q72 196 96 192
+          L210 184 Q250 130 330 124
+          L520 120 Q600 122 640 168
+          L815 178 Q840 182 840 210
+          L840 250" />
+        <!-- 루프 라인 보조 -->
+        <path class="out2" d="M240 150 L300 130 M520 122 L600 130" opacity="0.5"/>
+
+        <!-- 캐빈 글라스 -->
+        <path class="hatch" d="M252 150 L320 128 L505 124 L600 132 L562 150 Z" opacity="0.55"/>
+
+        <!-- 엔진 베이 블록 -->
+        <rect x="90" y="196" width="120" height="58" rx="3" class="fillp"/>
+        <line x1="100" y1="206" x2="200" y2="206" class="out2"/>
+        <line x1="100" y1="220" x2="200" y2="220" class="out2"/>
+        <circle cx="120" cy="236" r="9" class="out2"/>
+        <circle cx="150" cy="236" r="9" class="out2"/>
+
+        <!-- 변속기 -->
+        <rect x="214" y="222" width="86" height="30" rx="3" class="fillp"/>
+
+        <!-- 휠 -->
+        <circle cx="150" cy="290" r="46" class="out"/>
+        <circle cx="150" cy="290" r="24" class="hatch"/>
+        <line x1="100" y1="290" x2="200" y2="290" class="ctr"/>
+        <line x1="150" y1="240" x2="150" y2="340" class="ctr"/>
+        <circle cx="745" cy="290" r="46" class="out"/>
+        <circle cx="745" cy="290" r="24" class="hatch"/>
+        <line x1="695" y1="290" x2="795" y2="290" class="ctr"/>
+        <line x1="745" y1="240" x2="745" y2="340" class="ctr"/>
+
+        <!-- 하체 / 서스펜션 암 -->
+        <path class="out2" d="M196 254 L150 282 M300 252 L360 270 L640 270 L700 282 L745 282"/>
+        <circle cx="640" cy="270" r="14" class="out2"/>
+
+        <!-- 지시선 + 풍선 -->
+        <!-- 1 엔진 -->
+        <line x1="150" y1="220" x2="150" y2="70" class="lead"/>
+        <circle cx="150" cy="58" r="13" class="bn-c"/><text x="146" y="62" class="bn-t">1</text>
+        <!-- 2 변속기 -->
+        <line x1="257" y1="226" x2="350" y2="70" class="lead"/>
+        <circle cx="362" cy="58" r="13" class="bn-c"/><text x="358" y="62" class="bn-t">2</text>
+        <!-- 3 서스펜션 -->
+        <line x1="640" y1="270" x2="640" y2="80" class="lead"/>
+        <circle cx="640" cy="68" r="13" class="bn-c"/><text x="636" y="72" class="bn-t">3</text>
+        <!-- 4 브레이크/휠 -->
+        <line x1="745" y1="246" x2="828" y2="78" class="lead"/>
+        <circle cx="838" cy="66" r="13" class="bn-c"/><text x="834" y="70" class="bn-t">4</text>
+
+        <!-- 치수선 -->
+        <line x1="150" y1="346" x2="745" y2="346" class="dim"/>
+        <line x1="150" y1="340" x2="150" y2="352" class="dim"/>
+        <line x1="745" y1="340" x2="745" y2="352" class="dim"/>
+        <text x="420" y="343" class="dim-t">WHEELBASE — REF</text>
+      </svg>
+
+      <div class="cut-cap">
+        <span class="fig">FIGURE 3-1</span>
+        <span class="t">차량 종합 점검 — 측면 단면 및 주요 계통 위치</span>
+      </div>
+      <div class="legend">
+        <div class="li"><span class="bn">1</span><div><b>파워트레인 베이</b> — 엔진 압축·타이밍·누유 진단 및 ECU 매핑</div></div>
+        <div class="li"><span class="bn">2</span><div><b>변속기 어셈블리</b> — ATF 순환 교환, 변속 충격 OBD 로깅</div></div>
+        <div class="li"><span class="bn">3</span><div><b>서스펜션 지오메트리</b> — 로워암·부싱 점검, 댐핑 측정</div></div>
+        <div class="li"><span class="bn">4</span><div><b>휠 / 제동 모듈</b> — 패드 잔량, 로터 런아웃, 얼라인먼트</div></div>
+      </div>
+    </div>
+
+    <!-- FIGURE 3-2 : 엔진 단면 -->
+    <div class="cut-stage draw" style="margin-top:26px;">
+      <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+      <svg viewBox="0 0 900 340" role="img" aria-label="4기통 엔진 단면 도식">
+        <rect x="20" y="20" width="860" height="300" class="out2" opacity="0.35"/>
+
+        <!-- 실린더 블록 -->
+        <rect x="250" y="150" width="400" height="120" rx="4" class="out"/>
+        <!-- 오일팬 -->
+        <path class="fillp" d="M270 270 L630 270 L600 318 L300 318 Z"/>
+        <text x="420" y="300" class="lbl">OIL PAN</text>
+
+        <!-- 4 실린더 보어 -->
+        <g>
+          <rect x="280" y="120" width="60" height="90" rx="2" class="out2"/>
+          <rect x="360" y="120" width="60" height="90" rx="2" class="out2"/>
+          <rect x="440" y="120" width="60" height="90" rx="2" class="out2"/>
+          <rect x="520" y="120" width="60" height="90" rx="2" class="out2"/>
+        </g>
+        <!-- 피스톤 (서로 다른 높이) -->
+        <rect x="284" y="150" width="52" height="26" rx="2" class="hatch"/>
+        <rect x="364" y="132" width="52" height="26" rx="2" class="hatch"/>
+        <rect x="444" y="168" width="52" height="26" rx="2" class="hatch"/>
+        <rect x="524" y="144" width="52" height="26" rx="2" class="hatch"/>
+        <!-- 커넥팅 로드 -->
+        <line x1="310" y1="176" x2="330" y2="248" class="out2"/>
+        <line x1="390" y1="158" x2="370" y2="248" class="out2"/>
+        <line x1="470" y1="194" x2="450" y2="248" class="out2"/>
+        <line x1="550" y1="170" x2="530" y2="248" class="out2"/>
+        <!-- 크랭크샤프트 -->
+        <line x1="270" y1="248" x2="630" y2="248" class="ctr"/>
+        <circle cx="330" cy="248" r="6" class="fillp"/>
+        <circle cx="370" cy="248" r="6" class="fillp"/>
+        <circle cx="450" cy="248" r="6" class="fillp"/>
+        <circle cx="530" cy="248" r="6" class="fillp"/>
+
+        <!-- 헤드 / 캠 -->
+        <rect x="270" y="92" width="320" height="30" rx="3" class="fillp"/>
+        <circle cx="320" cy="107" r="10" class="out2"/>
+        <circle cx="430" cy="107" r="10" class="out2"/>
+        <circle cx="540" cy="107" r="10" class="out2"/>
+
+        <!-- 인테이크 / 터보 -->
+        <path class="out2" d="M650 180 Q720 180 720 130 L760 130" />
+        <circle cx="780" cy="130" r="22" class="hatch"/>
+        <text x="744" y="172" class="lbl">TURBO</text>
+
+        <!-- 지시선 + 풍선 -->
+        <line x1="390" y1="145" x2="390" y2="56" class="lead"/>
+        <circle cx="390" cy="44" r="13" class="bn-c"/><text x="386" y="48" class="bn-t">1</text>
+        <line x1="430" y1="107" x2="200" y2="60" class="lead"/>
+        <circle cx="188" cy="52" r="13" class="bn-c"/><text x="184" y="56" class="bn-t">2</text>
+        <line x1="450" y1="248" x2="450" y2="300" class="lead"/>
+        <circle cx="450" cy="312" r="13" class="bn-c"/><text x="446" y="316" class="bn-t">3</text>
+        <line x1="780" y1="108" x2="820" y2="58" class="lead"/>
+        <circle cx="830" cy="48" r="13" class="bn-c"/><text x="826" y="52" class="bn-t">4</text>
+      </svg>
+
+      <div class="cut-cap">
+        <span class="fig">FIGURE 3-2</span>
+        <span class="t">직렬 4기통 엔진 — 종단면 및 주요 정비 포인트</span>
+      </div>
+      <div class="legend">
+        <div class="li"><span class="bn">1</span><div><b>피스톤 / 보어</b> — 압축 측정, 링 마모 및 카본 점검</div></div>
+        <div class="li"><span class="bn">2</span><div><b>캠샤프트 / 밸브</b> — 타이밍·밸브 간극 규격 조정</div></div>
+        <div class="li"><span class="bn">3</span><div><b>크랭크 / 베어링</b> — 유압·메탈음 진단, 오일 분석</div></div>
+        <div class="li"><span class="bn">4</span><div><b>터보 / 흡기</b> — 부스트 압력 로깅, 액추에이터 점검</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-h"/>
+
+<!-- ===== ④ 정비 절차 + CAUTION ===== -->
+<section class="blk" id="procedure">
+  <div class="wrap">
+    <div class="docno"><span>SECTION 04 — SERVICE PROCEDURE</span><span class="amber">APM-TM-1967 · SHT 04/06</span></div>
+
+    <div class="sec-head" style="margin-top:26px;">
+      <div class="row"><span class="secnum">4.0</span><span class="chip">PROCEDURE</span></div>
+      <h2 class="sec">표준 정비 절차</h2>
+      <p class="sec-sub">입고부터 출고까지 5단계 표준 작업 순서(SOP)를 따릅니다. 모든 단계는 측정값과 함께 작업 카드에 기록됩니다.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="no"><span class="lab">STEP</span><span class="n">01</span></div>
+        <div class="body">
+          <h4>입고 진단 · INTAKE DIAGNOSIS</h4>
+          <p>차량 인수 후 OBD 스캔과 육안 점검을 병행하여 증상 코드를 수집합니다. 고객 진술과 계측값을 작업 카드 양식에 기록합니다.</p>
+          <div class="torq">DOC: 작업카드 APM-WC-001 발행</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no"><span class="lab">STEP</span><span class="n">02</span></div>
+        <div class="body">
+          <h4>견적 승인 · ESTIMATE SIGN-OFF</h4>
+          <p>부품·공임 견적을 항목별로 산출해 고객 서면 승인을 받습니다. 승인 전 추가 작업은 진행하지 않습니다.</p>
+          <div class="torq">REQUIRE: 고객 서명 / 사진 증빙 첨부</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no"><span class="lab">STEP</span><span class="n">03</span></div>
+        <div class="body">
+          <h4>분해 · 정비 · DISASSEMBLY</h4>
+          <p>규격 공구로 분해하고 마모 부품을 교환합니다. 체결부는 토크렌치로 제조사 규격값에 맞춰 조립합니다.</p>
+          <div class="torq">TORQUE: 제조사 규격 ±5% 이내 체결</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no"><span class="lab">STEP</span><span class="n">04</span></div>
+        <div class="body">
+          <h4>검증 · 시운전 · VERIFICATION</h4>
+          <p>로드 테스트와 재진단으로 코드 소거 및 증상 해소를 확인합니다. 정렬·압력·전압을 재측정해 규격 충족을 검증합니다.</p>
+          <div class="torq">VERIFY: 코드 0건 / 규격 충족 확인</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no"><span class="lab">STEP</span><span class="n">05</span></div>
+        <div class="body">
+          <h4>출고 · 보증 · DELIVERY</h4>
+          <p>작업 내역서와 교환 부품을 함께 전달하고 보증 조건을 안내합니다. 측정 데이터는 차량 이력에 보관됩니다.</p>
+          <div class="torq">WARRANTY: 공임 6개월 / 부품 제조사 기준</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caution">
+      <div class="hd"><span class="ic">⚠</span><span class="tx">CAUTION</span></div>
+      <div class="ct">
+        <b>4.5 — 고전압 / 고압 계통 취급 주의.</b> 하이브리드·EV 고전압 배터리, 에어컨 고압 라인, 연료 압력 계통 작업 시 반드시 잔압을 제거하고 절연 장비를 착용합니다. 규격 외 공구 사용 및 임의 절차 변경을 금지합니다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-h"/>
+
+<!-- ===== ⑤ 공임표 ===== -->
+<section class="blk" id="fees">
+  <div class="wrap">
+    <div class="docno"><span>SECTION 05 — LABOR SCHEDULE</span><span class="amber">APM-TM-1967 · SHT 05/06</span></div>
+
+    <div class="sec-head" style="margin-top:26px;">
+      <div class="row"><span class="secnum">5.0</span><span class="chip">LABOR SCHEDULE</span></div>
+      <h2 class="sec">표준 공임표</h2>
+      <p class="sec-sub">대표 작업의 표준 공임입니다. 부품비 별도, 차종·연식에 따라 작업 시간(FRT)이 가감될 수 있습니다.</p>
+    </div>
+
+    <table class="fee">
+      <thead>
+        <tr>
+          <th style="width:42%;">작업 항목 / OPERATION</th>
+          <th>표준 작업시간</th>
+          <th>기준 공임</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>엔진 오일·필터 교환<span class="pn">P/N APM-PWR-01-A</span></td>
+          <td>0.5 FRT</td>
+          <td class="cost">₩ 35,000</td>
+        </tr>
+        <tr>
+          <td>타이밍·밸브 간극 조정<span class="pn">P/N APM-PWR-01-C</span></td>
+          <td>3.0 FRT</td>
+          <td class="cost">₩ 280,000</td>
+        </tr>
+        <tr>
+          <td>자동변속기 오일 순환 교환<span class="pn">P/N APM-DRV-02-A</span></td>
+          <td>1.5 FRT</td>
+          <td class="cost">₩ 120,000</td>
+        </tr>
+        <tr>
+          <td>4륜 휠 얼라인먼트<span class="pn">P/N APM-CHS-03-A</span></td>
+          <td>1.0 FRT</td>
+          <td class="cost">₩ 90,000</td>
+        </tr>
+        <tr>
+          <td>브레이크 패드·로터 교환(축당)<span class="pn">P/N APM-CHS-03-B</span></td>
+          <td>1.2 FRT</td>
+          <td class="cost">₩ 110,000</td>
+        </tr>
+        <tr>
+          <td>ECU 진단 / 부스트 로깅<span class="pn">P/N APM-ELC-04-A</span></td>
+          <td>0.8 FRT</td>
+          <td class="cost">₩ 60,000</td>
+        </tr>
+        <tr>
+          <td>흡기·인젝터 카본 클리닝<span class="pn">P/N APM-PWR-01-D</span></td>
+          <td>2.0 FRT</td>
+          <td class="cost">₩ 180,000</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">NOTE — 1 FRT = 표준 작업시간 단위. 부품비 별도, VAT 포함. 정밀 진단 후 최종 견적 확정 / 견적서 서면 발행.</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+<!-- ===== ⑥ 예약 CTA + 연락처 ===== -->
+<section class="cta" id="reserve">
+  <div class="wrap">
+    <div class="docno" style="border-bottom-color:var(--amber-faint);"><span>SECTION 06 — SERVICE REQUEST</span><span class="amber">APM-TM-1967 · SHT 06/06</span></div>
+
+    <div style="margin-top:30px;">
+      <span class="chip">SERVICE REQUEST</span>
+      <h2>정비를 <span class="amber">엔지니어링</span>처럼<br/>예약하세요.</h2>
+      <p class="lead">증상과 차종을 알려주시면 사전 진단 항목을 배정하고 입고 시간을 안내합니다. 모든 작업은 측정·기록·규격으로 마감합니다.</p>
+    </div>
+
+    <div class="cta-grid">
+      <dl class="contact">
+        <div><dt>예약 / 정비 문의 · TEL</dt><dd class="amber">031-472-1967</dd></div>
+        <div><dt>위치 · STATION</dt><dd>경기 화성시 동탄산단2길 67<br/>아폴로 정비동 A-12</dd></div>
+        <div><dt>운영 시간 · HOURS</dt><dd>평일 09:00 – 19:00 / 토 09:00 – 15:00 (일·공휴일 휴무)</dd></div>
+        <div><dt>긴급 견인 · DISPATCH</dt><dd class="amber">010-4720-1967 (24H)</dd></div>
+      </dl>
+
+      <div>
+        <p style="font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--ink-faint);text-transform:uppercase;margin:0 0 14px;">REQUEST FORM — APM-RQ-06</p>
+        <div class="btn-row">
+          <a class="btn" href="tel:0314721967">전화 예약 →</a>
+          <a class="btn ghost" href="/contact">온라인 접수 →</a>
+        </div>
+        <p class="form-note">※ 본 페이지는 jasonmoon.dev 포트폴리오 데모입니다. 가상 업체·가상 연락처이며 실제 영업장이 아닙니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fnote">
+      <span class="amber">APOLLO MOTORS</span> · VEHICLE TECHNICAL MANUAL<br/>
+      DOC No. APM-TM-1967 REV.C · ISSUED 1967·04·12 · SHEET 06/06
+    </div>
+    <div class="fnote" style="text-align:right;">
+      DESIGN DIRECTION — 1960s NASA ENGINEERING MANUAL<br/>
+      <span class="amber">SAMPLE 06</span> · <a href="/portfolio" style="color:var(--amber-deep);text-decoration:none;">← 포트폴리오로 돌아가기</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

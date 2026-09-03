@@ -1,0 +1,827 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>비전파트너스 — Strategy & Management Consulting</title>
+  <meta name="description" content="비전파트너스: 전략·운영·조직·디지털 컨설팅. 경영진을 위한 의사결정 파트너." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=Archivo:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f2a43;
+      --navy-deep: #0a1f33;
+      --navy-line: #234a6b;
+      --ink: #e8eef4;
+      --muted: #9fb3c8;
+      --gold: #c8a24a;
+      --gold-bright: #e0bd66;
+      --silver: #b8c4d0;
+      --paper: #f4f1e9;
+      --serif: 'PT Serif', Georgia, 'Times New Roman', serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --label: 'Archivo', 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif { font-family: var(--serif); }
+
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+
+    /* ---- shared eyebrow / exhibit labels ---- */
+    .eyebrow {
+      font-family: var(--label);
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .exhibit-tag {
+      font-family: var(--label);
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--navy-deep);
+      background: var(--gold);
+      font-weight: 800;
+      padding: 3px 9px;
+      display: inline-block;
+    }
+
+    .exhibit-cap {
+      font-family: var(--label);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      text-transform: uppercase;
+      border-top: 1px solid var(--navy-line);
+      padding-top: 10px;
+      margin-top: 18px;
+    }
+
+    .section-num {
+      font-family: var(--label);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* action title (bullet headline, McKinsey style) */
+    .action-title {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 1rem + 1.6vw, 2.1rem);
+      line-height: 1.28;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      max-width: 24ch;
+    }
+    .action-title em { color: var(--gold-bright); font-style: italic; }
+
+    .lede {
+      color: var(--muted);
+      font-size: 1.02rem;
+      max-width: 56ch;
+    }
+
+    section { border-top: 1px solid var(--navy-line); }
+
+    /* =================== TOPBAR offset already handled inline =================== */
+
+    /* =================== MASTHEAD =================== */
+    .masthead {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 26px 0 22px;
+      border-bottom: 2px solid var(--gold);
+    }
+    .brandmark {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .brandmark b { color: var(--gold); }
+    .brand-en {
+      font-family: var(--label);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+      display: block;
+      margin-top: 2px;
+    }
+    .masthead nav {
+      font-family: var(--label);
+      font-size: 11.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--silver);
+      display: flex; gap: 26px;
+    }
+    .masthead nav span:last-child { color: var(--gold); }
+
+    /* =================== HERO / EXHIBIT 0 =================== */
+    .hero { padding: 70px 0 84px; position: relative; }
+    .hero::after {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(0deg, transparent 0, transparent calc(100% - 1px), rgba(35,74,107,0.35) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(35,74,107,0.13) 79px, rgba(35,74,107,0.13) 80px);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 1.4rem + 4.6vw, 4.6rem);
+      line-height: 1.04;
+      letter-spacing: -0.025em;
+      margin: 20px 0 22px;
+    }
+    .hero h1 .hl { color: var(--gold-bright); }
+    .hero .lede { font-size: 1.12rem; }
+    .hero-meta {
+      margin-top: 34px;
+      display: flex; gap: 0; border: 1px solid var(--navy-line);
+    }
+    .hero-meta div {
+      flex: 1; padding: 16px 20px;
+      border-right: 1px solid var(--navy-line);
+    }
+    .hero-meta div:last-child { border-right: none; }
+    .hero-meta .k {
+      font-family: var(--label); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .hero-meta .v {
+      font-family: var(--serif); font-size: 1.7rem; color: var(--gold);
+      font-weight: 700; line-height: 1.1; margin-top: 4px;
+    }
+    .hero-meta .v small { font-size: 0.85rem; color: var(--silver); }
+
+    /* hero side: a "synthesis" governing-thought card */
+    .gov-card {
+      background: linear-gradient(160deg, #12314e 0%, #0c2238 100%);
+      border: 1px solid var(--navy-line);
+      border-top: 3px solid var(--gold);
+      padding: 30px 28px;
+      box-shadow: 0 26px 60px -28px rgba(0,0,0,0.7);
+    }
+    .gov-card .exhibit-tag { margin-bottom: 16px; }
+    .gov-card h3 {
+      font-size: 1.18rem; line-height: 1.45; font-weight: 700;
+    }
+    .gov-card ol {
+      list-style: none; margin-top: 20px; counter-reset: g;
+    }
+    .gov-card li {
+      counter-increment: g;
+      display: flex; gap: 14px; padding: 12px 0;
+      border-top: 1px solid rgba(35,74,107,0.6);
+      font-size: 0.92rem; color: var(--silver);
+    }
+    .gov-card li::before {
+      content: counter(g);
+      font-family: var(--label); font-weight: 800; font-size: 0.78rem;
+      color: var(--navy-deep); background: var(--gold);
+      width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%;
+      display: grid; place-items: center;
+    }
+
+    /* =================== GENERIC SECTION HEAD =================== */
+    .sec-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      gap: 30px; flex-wrap: wrap; margin-bottom: 44px;
+    }
+    .sec-head .left { max-width: 60%; }
+    .sec-head .exhibit-tag { margin-bottom: 14px; }
+    .pad { padding: 86px 0; }
+
+    /* =================== 2x2 MATRIX =================== */
+    .matrix-wrap {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start;
+    }
+    .matrix {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-left: 2px solid var(--silver);
+      border-bottom: 2px solid var(--silver);
+      margin: 30px 0 0 96px;
+    }
+    .matrix .cell {
+      position: absolute; width: 50%; height: 50%;
+      border: 1px solid var(--navy-line);
+      padding: 18px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .matrix .cell:hover { background: rgba(200,162,74,0.1); transform: scale(1.012); z-index: 2; }
+    .cell.tl { top: 0; left: 0; }
+    .cell.tr { top: 0; left: 50%; background: rgba(200,162,74,0.07); }
+    .cell.bl { top: 50%; left: 0; }
+    .cell.br { top: 50%; left: 50%; }
+    .cell .q {
+      font-family: var(--label); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .cell h4 { font-family: var(--serif); font-size: 1.22rem; margin: 6px 0 4px; }
+    .cell p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .cell .dot {
+      align-self: flex-end;
+      font-family: var(--label); font-size: 0.7rem; letter-spacing: 0.1em;
+      color: var(--silver); border: 1px solid var(--navy-line); padding: 2px 7px;
+    }
+    /* axis labels */
+    .axis-y {
+      position: absolute; left: -86px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+      transform-origin: center; white-space: nowrap;
+      font-family: var(--label); font-size: 10.5px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--silver);
+    }
+    .axis-x {
+      position: absolute; bottom: -34px; left: 0; right: 0; text-align: center;
+      font-family: var(--label); font-size: 10.5px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--silver);
+    }
+    .axis-end { position: absolute; font-family: var(--label); font-size: 9.5px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+    .axis-end.x0 { bottom: -18px; left: 0; }
+    .axis-end.x1 { bottom: -18px; right: 0; }
+    .axis-end.y0 { left: -30px; bottom: 0; }
+    .axis-end.y1 { left: -30px; top: 0; }
+
+    .matrix-note h3 { font-size: 1.3rem; line-height: 1.4; margin-bottom: 16px; }
+    .matrix-note ul { list-style: none; }
+    .matrix-note li {
+      padding: 14px 0 14px 26px; position: relative;
+      border-top: 1px solid var(--navy-line); font-size: 0.94rem; color: var(--silver);
+    }
+    .matrix-note li::before {
+      content: "▸"; position: absolute; left: 0; color: var(--gold); font-size: 0.8rem; top: 15px;
+    }
+    .matrix-note li b { color: var(--ink); font-family: var(--serif); }
+
+    /* =================== PYRAMID =================== */
+    .pyr-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: center; }
+    .pyramid { display: flex; flex-direction: column; gap: 10px; }
+    .pyr-row {
+      display: flex; align-items: center; gap: 18px;
+    }
+    .pyr-bar {
+      background: linear-gradient(90deg, #163a5b, #1d4d77);
+      border: 1px solid var(--navy-line);
+      border-left: 3px solid var(--gold);
+      padding: 16px 20px; margin: 0 auto;
+      display: flex; align-items: center; gap: 14px;
+      transition: transform 0.2s;
+    }
+    .pyr-bar:hover { transform: translateX(4px); border-left-color: var(--gold-bright); }
+    .pyr-row.l0 .pyr-bar { width: 42%; background: linear-gradient(90deg, #c8a24a, #e0bd66); border-left-color: var(--navy-deep); }
+    .pyr-row.l0 .pyr-bar h4, .pyr-row.l0 .pyr-bar p, .pyr-row.l0 .step { color: var(--navy-deep); }
+    .pyr-row.l1 .pyr-bar { width: 64%; }
+    .pyr-row.l2 .pyr-bar { width: 86%; }
+    .pyr-row.l3 .pyr-bar { width: 100%; }
+    .step {
+      font-family: var(--label); font-weight: 800; font-size: 0.95rem;
+      color: var(--gold); flex: 0 0 auto;
+    }
+    .pyr-bar h4 { font-family: var(--serif); font-size: 1.02rem; }
+    .pyr-bar p { font-size: 0.78rem; color: var(--muted); }
+    .pyr-bar .txt h4 { line-height: 1.2; }
+
+    .pyr-note h3 { font-size: 1.4rem; line-height: 1.4; margin-bottom: 18px; }
+    .mece-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .mece-chip {
+      font-family: var(--label); font-size: 11px; letter-spacing: 0.08em;
+      border: 1px solid var(--navy-line); padding: 8px 14px; color: var(--silver);
+      text-transform: uppercase;
+    }
+    .mece-chip b { color: var(--gold); }
+
+    /* =================== RESULTS / CHARTS =================== */
+    .kpi-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border: 1px solid var(--navy-line); margin-bottom: 56px;
+    }
+    .kpi {
+      padding: 26px 24px; border-right: 1px solid var(--navy-line);
+    }
+    .kpi:last-child { border-right: none; }
+    .kpi .v { font-family: var(--serif); font-size: 2.5rem; color: var(--gold); font-weight: 700; line-height: 1; }
+    .kpi .v small { font-size: 1.1rem; }
+    .kpi .k { font-family: var(--label); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
+    .kpi .d { font-size: 0.82rem; color: var(--silver); margin-top: 4px; }
+
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .chart-card {
+      border: 1px solid var(--navy-line); padding: 28px 30px 24px;
+      background: linear-gradient(160deg, #0e2942, #0b2034);
+    }
+    .chart-card .ctitle { font-family: var(--serif); font-size: 1.12rem; margin-bottom: 4px; }
+    .chart-card .csub { font-family: var(--label); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .chart-svg { width: 100%; height: auto; margin-top: 18px; display: block; }
+
+    /* CSS bar chart */
+    .bars { display: flex; align-items: flex-end; gap: 16px; height: 220px; margin-top: 22px; padding-bottom: 28px; border-bottom: 1px solid var(--navy-line); position: relative; }
+    .bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; position: relative; }
+    .bar .col {
+      width: 70%; background: linear-gradient(180deg, #1d4d77, #133a5b);
+      border-top: 3px solid var(--silver);
+      position: relative; transition: filter 0.2s;
+    }
+    .bar:last-child .col { background: linear-gradient(180deg, #e0bd66, #c8a24a); border-top-color: #fff; }
+    .bar:hover .col { filter: brightness(1.18); }
+    .bar .val { position: absolute; top: -22px; width: 100%; text-align: center; font-family: var(--label); font-weight: 700; font-size: 0.82rem; color: var(--gold-bright); }
+    .bar .lab { position: absolute; bottom: -24px; font-family: var(--label); font-size: 10px; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; }
+
+    /* =================== PARTNERS =================== */
+    .partners { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .partner {
+      border: 1px solid var(--navy-line); border-top: 3px solid var(--gold);
+      padding: 0; overflow: hidden;
+      background: linear-gradient(160deg, #0e2942, #0a1d31);
+    }
+    .partner .avatar {
+      height: 120px; display: grid; place-items: center;
+      background:
+        repeating-linear-gradient(45deg, rgba(35,74,107,0.25) 0 10px, transparent 10px 20px),
+        linear-gradient(160deg, #14334f, #0c2138);
+      border-bottom: 1px solid var(--navy-line);
+    }
+    .monogram {
+      width: 60px; height: 60px; border: 2px solid var(--gold);
+      display: grid; place-items: center; border-radius: 50%;
+      font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--gold);
+    }
+    .partner .body { padding: 22px 24px 26px; }
+    .partner h4 { font-family: var(--serif); font-size: 1.2rem; }
+    .partner .role { font-family: var(--label); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-top: 4px; }
+    .partner p { font-size: 0.86rem; color: var(--muted); margin-top: 14px; line-height: 1.55; }
+    .partner .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+    .partner .tags span { font-family: var(--label); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--silver); border: 1px solid var(--navy-line); padding: 3px 8px; }
+
+    /* =================== CTA =================== */
+    .cta { background: linear-gradient(165deg, #0c2238 0%, #081a2c 100%); position: relative; }
+    .cta-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 56px; align-items: center; }
+    .cta h2 { font-size: clamp(2rem, 1.4rem + 2.4vw, 3.2rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 18px; }
+    .cta h2 .hl { color: var(--gold-bright); }
+    .cta .lede { font-size: 1.08rem; }
+    .cta-actions { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--label); font-weight: 700; font-size: 12px; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 15px 26px; text-decoration: none; display: inline-block;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn.primary { background: var(--gold); color: var(--navy-deep); }
+    .btn.primary:hover { background: var(--gold-bright); transform: translateY(-2px); }
+    .btn.ghost { border: 1px solid var(--silver); color: var(--ink); }
+    .btn.ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    .contact-card {
+      border: 1px solid var(--navy-line); border-top: 3px solid var(--gold);
+      padding: 30px 30px;
+      background: rgba(7,18,30,0.5);
+    }
+    .contact-card .exhibit-tag { margin-bottom: 18px; }
+    .contact-row { display: flex; gap: 14px; padding: 14px 0; border-top: 1px solid var(--navy-line); }
+    .contact-row:first-of-type { border-top: none; }
+    .contact-row .k { font-family: var(--label); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); flex: 0 0 84px; padding-top: 3px; }
+    .contact-row .v { font-size: 0.96rem; color: var(--ink); }
+    .contact-row .v b { font-family: var(--serif); color: var(--gold); font-size: 1.1rem; }
+
+    /* =================== FOOTER =================== */
+    footer { border-top: 2px solid var(--gold); padding: 40px 0; }
+    .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .foot .brandmark { font-size: 1.1rem; }
+    .foot p { font-family: var(--label); font-size: 10.5px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+
+    /* =================== RESPONSIVE =================== */
+    @media (max-width: 860px) {
+      .wrap { padding: 0 22px; }
+      .pad { padding: 56px 0; }
+      .masthead nav { display: none; }
+      .hero { padding: 44px 0 56px; }
+      .hero-grid, .matrix-wrap, .pyr-wrap, .cta-grid { grid-template-columns: 1fr; gap: 38px; }
+      .hero-meta { flex-wrap: wrap; }
+      .hero-meta div { flex: 1 1 50%; border-bottom: 1px solid var(--navy-line); }
+      .matrix { margin: 30px 0 30px 70px; }
+      .sec-head .left { max-width: 100%; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .kpi:nth-child(2) { border-right: none; }
+      .kpi:nth-child(1), .kpi:nth-child(2) { border-bottom: 1px solid var(--navy-line); }
+      .charts { grid-template-columns: 1fr; }
+      .partners { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .kpi-row { grid-template-columns: 1fr; }
+      .kpi { border-right: none; border-bottom: 1px solid var(--navy-line); }
+      .matrix { margin-left: 60px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ====== COMMON DEMO BAR ====== -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+    <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+    <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 03 · 비전파트너스 — 1980년대 전략 컨설팅 보고서 스타일</span>
+    <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+  </div>
+  <div style="height:40px;"></div>
+
+  <!-- ====== MASTHEAD ====== -->
+  <div class="wrap">
+    <header class="masthead">
+      <div>
+        <div class="brandmark">비전<b>파트너스</b></div>
+        <span class="brand-en">Vision Partners · Strategy & Management Consulting</span>
+      </div>
+      <nav>
+        <span>Services</span>
+        <span>Approach</span>
+        <span>Impact</span>
+        <span>Contact</span>
+      </nav>
+    </header>
+  </div>
+
+  <!-- ====== HERO / EXHIBIT 0 ====== -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">Exhibit 0 · Governing Thought</span>
+          <h1>경영진의 결정에<br /><span class="hl">근거</span>를 더합니다.</h1>
+          <p class="lede">
+            비전파트너스는 1992년 이래 한국 대기업·중견기업의 전략·운영·조직·디지털 의제를
+            구조화된 사실 기반으로 풀어 온 경영 컨설팅 펌입니다.
+            추측이 아닌 분석으로, 보고서가 아닌 의사결정으로 끝맺습니다.
+          </p>
+          <div class="hero-meta">
+            <div>
+              <div class="k">Founded</div>
+              <div class="v">1992</div>
+            </div>
+            <div>
+              <div class="k">Engagements</div>
+              <div class="v">480<small>+</small></div>
+            </div>
+            <div>
+              <div class="k">Repeat Clients</div>
+              <div class="v">86<small>%</small></div>
+            </div>
+            <div>
+              <div class="k">Partners</div>
+              <div class="v">24</div>
+            </div>
+          </div>
+        </div>
+        <aside class="gov-card">
+          <span class="exhibit-tag">The Pyramid Principle</span>
+          <h3>“성장 둔화는 시장이 아니라 자원 배분의 문제다 — 세 가지 레버에서 결정된다.”</h3>
+          <ol>
+            <li>핵심 사업의 수익 구조를 재설계하여 마진 압력을 상쇄한다.</li>
+            <li>운영 비효율을 제거해 재투자 여력을 12개월 내 확보한다.</li>
+            <li>디지털·조직 역량을 성장 축에 재배치한다.</li>
+          </ol>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 01 · SERVICES = 2x2 MATRIX ====== -->
+  <section class="pad" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <span class="exhibit-tag">Exhibit 1 · Service Portfolio</span>
+          <p class="action-title">네 개의 의제를 <em>가치 잠재력 × 실행 시급성</em>으로 배치해 우선순위를 정합니다.</p>
+        </div>
+        <span class="section-num">01 / SERVICES</span>
+      </div>
+
+      <div class="matrix-wrap">
+        <div>
+          <div class="matrix">
+            <span class="axis-y">가치 잠재력 (Value Potential)</span>
+            <span class="axis-x">실행 시급성 (Urgency to Execute)</span>
+            <span class="axis-end y1">High</span>
+            <span class="axis-end y0">Low</span>
+            <span class="axis-end x0">Low</span>
+            <span class="axis-end x1">High</span>
+
+            <div class="cell tl">
+              <span class="q">Selective Invest</span>
+              <div>
+                <h4>조직 변화</h4>
+                <p>리더십·거버넌스·인재 구조 재설계</p>
+              </div>
+              <span class="dot">육성 영역</span>
+            </div>
+            <div class="cell tr">
+              <span class="q">Lead Priority</span>
+              <div>
+                <h4>전략</h4>
+                <p>성장 포트폴리오·M&A·사업 진입/철수</p>
+              </div>
+              <span class="dot">★ 핵심 영역</span>
+            </div>
+            <div class="cell bl">
+              <span class="q">Maintain</span>
+              <div>
+                <h4>운영</h4>
+                <p>원가·SCM·생산성 개선</p>
+              </div>
+              <span class="dot">유지 영역</span>
+            </div>
+            <div class="cell br">
+              <span class="q">Quick Win</span>
+              <div>
+                <h4>디지털</h4>
+                <p>데이터·자동화·AI 도입 로드맵</p>
+              </div>
+              <span class="dot">조기 성과</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="matrix-note">
+          <h3>읽는 법</h3>
+          <ul>
+            <li><b>전략</b>은 가치·시급성이 모두 높은 핵심 영역 — 가장 먼저 자원을 투입합니다.</li>
+            <li><b>디지털</b>은 빠른 성과로 모멘텀을 만드는 Quick Win 레버입니다.</li>
+            <li><b>조직 변화</b>는 잠재력이 크나 시간이 필요한 선별 투자 영역입니다.</li>
+            <li><b>운영</b>은 안정적 캐시 기반 — 효율을 지키며 재투자 재원을 만듭니다.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="exhibit-cap">Exhibit 1 — Growth–Share 기반 서비스 매트릭스. 출처: 비전파트너스 분석 (예시).</p>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 02 · APPROACH PYRAMID ====== -->
+  <section class="pad" id="approach">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <span class="exhibit-tag">Exhibit 2 · Engagement Methodology</span>
+          <p class="action-title">진단에서 정착까지, <em>MECE 원칙</em>으로 누락 없이 단계를 쌓습니다.</p>
+        </div>
+        <span class="section-num">02 / APPROACH</span>
+      </div>
+
+      <div class="pyr-wrap">
+        <div class="pyr-note">
+          <h3>한 단계도 건너뛰지 않습니다.</h3>
+          <p class="lede">
+            상위로 갈수록 좁아지는 피라미드는 의제의 수렴을 뜻합니다.
+            넓은 진단(사실)에서 출발해 단일한 권고(결론)로 좁혀가고,
+            마지막 정착 단계에서 조직에 내재화합니다.
+          </p>
+          <div class="mece-row">
+            <span class="mece-chip"><b>M</b>utually Exclusive</span>
+            <span class="mece-chip"><b>C</b>ollectively Exhaustive</span>
+            <span class="mece-chip">Fact → <b>Insight</b> → Action</span>
+          </div>
+        </div>
+
+        <div class="pyramid">
+          <div class="pyr-row l0">
+            <div class="pyr-bar">
+              <span class="step">04</span>
+              <div class="txt"><h4>정착 (Embed)</h4><p>역량 이전·성과 모니터링</p></div>
+            </div>
+          </div>
+          <div class="pyr-row l1">
+            <div class="pyr-bar">
+              <span class="step">03</span>
+              <div class="txt"><h4>권고 (Recommend)</h4><p>실행 로드맵·우선순위·재무 효과</p></div>
+            </div>
+          </div>
+          <div class="pyr-row l2">
+            <div class="pyr-bar">
+              <span class="step">02</span>
+              <div class="txt"><h4>시사점 (Synthesize)</h4><p>가설 검증·원인 구조화</p></div>
+            </div>
+          </div>
+          <div class="pyr-row l3">
+            <div class="pyr-bar">
+              <span class="step">01</span>
+              <div class="txt"><h4>현상 진단 (Diagnose)</h4><p>데이터 수집·시장/내부 사실 정리</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="exhibit-cap">Exhibit 2 — MECE 기반 4단계 인게이지먼트 모델. 현상 → 시사점 → 권고 흐름.</p>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 03 · IMPACT / CHARTS ====== -->
+  <section class="pad" id="impact">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <span class="exhibit-tag">Exhibit 3 · Measured Impact</span>
+          <p class="action-title">평균 인게이지먼트는 <em>18개월 내 영업이익률 4.2%p</em>를 끌어올렸습니다.</p>
+        </div>
+        <span class="section-num">03 / IMPACT</span>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="v">+4.2<small>%p</small></div>
+          <div class="k">Operating Margin</div>
+          <div class="d">18개월 평균 개선폭</div>
+        </div>
+        <div class="kpi">
+          <div class="v">₩1.8<small>조</small></div>
+          <div class="k">Value Unlocked</div>
+          <div class="d">누적 식별 가치 (2019–2025)</div>
+        </div>
+        <div class="kpi">
+          <div class="v">−21<small>%</small></div>
+          <div class="k">Cost-to-Serve</div>
+          <div class="d">운영 인게이지먼트 중위값</div>
+        </div>
+        <div class="kpi">
+          <div class="v">3.4<small>×</small></div>
+          <div class="k">ROI on Fees</div>
+          <div class="d">12개월 실현 기준</div>
+        </div>
+      </div>
+
+      <div class="charts">
+        <!-- WATERFALL (inline SVG) -->
+        <div class="chart-card">
+          <div class="ctitle">영업이익 개선 워터폴</div>
+          <div class="csub">Operating Profit Bridge · ₩ bn</div>
+          <svg class="chart-svg" viewBox="0 0 460 240" role="img" aria-label="영업이익 개선 워터폴 차트">
+            <!-- baseline grid -->
+            <line x1="40" y1="200" x2="450" y2="200" stroke="#234a6b" stroke-width="1" />
+            <line x1="40" y1="150" x2="450" y2="150" stroke="#1a3a57" stroke-width="0.5" stroke-dasharray="3 4" />
+            <line x1="40" y1="100" x2="450" y2="100" stroke="#1a3a57" stroke-width="0.5" stroke-dasharray="3 4" />
+            <line x1="40" y1="50"  x2="450" y2="50"  stroke="#1a3a57" stroke-width="0.5" stroke-dasharray="3 4" />
+
+            <!-- START 120 -->
+            <rect x="52" y="116" width="56" height="84" fill="#1d4d77" stroke="#b8c4d0" stroke-width="1" />
+            <text x="80" y="108" fill="#9fb3c8" font-size="10" text-anchor="middle" font-family="Archivo, sans-serif">120</text>
+            <text x="80" y="216" fill="#9fb3c8" font-size="9" text-anchor="middle" font-family="Archivo, sans-serif">기준</text>
+
+            <!-- +28 마진 -->
+            <rect x="128" y="88" width="56" height="28" fill="#2f8f5b" stroke="#7fd6a4" stroke-width="1" />
+            <line x1="108" y1="116" x2="128" y2="116" stroke="#234a6b" stroke-dasharray="2 3" />
+            <text x="156" y="80" fill="#7fd6a4" font-size="10" text-anchor="middle" font-family="Archivo, sans-serif">+28</text>
+            <text x="156" y="216" fill="#9fb3c8" font-size="9" text-anchor="middle" font-family="Archivo, sans-serif">마진</text>
+
+            <!-- +34 원가절감 -->
+            <rect x="204" y="54" width="56" height="34" fill="#2f8f5b" stroke="#7fd6a4" stroke-width="1" />
+            <line x1="184" y1="88" x2="204" y2="88" stroke="#234a6b" stroke-dasharray="2 3" />
+            <text x="232" y="46" fill="#7fd6a4" font-size="10" text-anchor="middle" font-family="Archivo, sans-serif">+34</text>
+            <text x="232" y="216" fill="#9fb3c8" font-size="9" text-anchor="middle" font-family="Archivo, sans-serif">원가</text>
+
+            <!-- -12 투자 -->
+            <rect x="280" y="54" width="56" height="14" fill="#b04a3a" stroke="#e08c7c" stroke-width="1" />
+            <line x1="260" y1="54" x2="280" y2="54" stroke="#234a6b" stroke-dasharray="2 3" />
+            <text x="308" y="46" fill="#e08c7c" font-size="10" text-anchor="middle" font-family="Archivo, sans-serif">−12</text>
+            <text x="308" y="216" fill="#9fb3c8" font-size="9" text-anchor="middle" font-family="Archivo, sans-serif">재투자</text>
+
+            <!-- END 170 -->
+            <rect x="356" y="64" width="56" height="136" fill="#c8a24a" stroke="#fff" stroke-width="1" />
+            <line x1="336" y1="68" x2="356" y2="68" stroke="#234a6b" stroke-dasharray="2 3" />
+            <text x="384" y="56" fill="#e0bd66" font-size="11" text-anchor="middle" font-weight="700" font-family="Archivo, sans-serif">170</text>
+            <text x="384" y="216" fill="#e0bd66" font-size="9" text-anchor="middle" font-family="Archivo, sans-serif">개선 후</text>
+          </svg>
+        </div>
+
+        <!-- BAR CHART (pure CSS) -->
+        <div class="chart-card">
+          <div class="ctitle">연도별 고객 성과 지수</div>
+          <div class="csub">Client Performance Index · 2020 = 100</div>
+          <div class="bars">
+            <div class="bar"><span class="val">100</span><div class="col" style="height:48%"></div><span class="lab">'20</span></div>
+            <div class="bar"><span class="val">112</span><div class="col" style="height:57%"></div><span class="lab">'21</span></div>
+            <div class="bar"><span class="val">128</span><div class="col" style="height:66%"></div><span class="lab">'22</span></div>
+            <div class="bar"><span class="val">141</span><div class="col" style="height:74%"></div><span class="lab">'23</span></div>
+            <div class="bar"><span class="val">158</span><div class="col" style="height:85%"></div><span class="lab">'24</span></div>
+            <div class="bar"><span class="val">176</span><div class="col" style="height:100%"></div><span class="lab">'25</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="exhibit-cap">Exhibit 3 — 인게이지먼트 성과 지표. 가상 집계치 (데모용 예시 수치).</p>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 04 · PARTNERS ====== -->
+  <section class="pad" id="partners">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="left">
+          <span class="exhibit-tag">Exhibit 4 · Senior Partners</span>
+          <p class="action-title">현장을 책임지는 시니어 파트너가 <em>처음부터 끝까지</em> 함께합니다.</p>
+        </div>
+        <span class="section-num">04 / PEOPLE</span>
+      </div>
+
+      <div class="partners">
+        <div class="partner">
+          <div class="avatar"><div class="monogram">姜</div></div>
+          <div class="body">
+            <h4>강도현</h4>
+            <div class="role">Managing Partner · 전략</div>
+            <p>제조·소비재 성장 전략과 사업 포트폴리오 재편을 22년간 자문. 前 글로벌 펌 한국 대표.</p>
+            <div class="tags"><span>Corporate Strategy</span><span>M&A</span><span>Portfolio</span></div>
+          </div>
+        </div>
+        <div class="partner">
+          <div class="avatar"><div class="monogram">尹</div></div>
+          <div class="body">
+            <h4>윤서경</h4>
+            <div class="role">Partner · 운영</div>
+            <p>SCM·원가 혁신 전문. 누적 ₩9천억 규모 비용 개선을 이끈 운영 전환 리더.</p>
+            <div class="tags"><span>Operations</span><span>SCM</span><span>Cost</span></div>
+          </div>
+        </div>
+        <div class="partner">
+          <div class="avatar"><div class="monogram">林</div></div>
+          <div class="body">
+            <h4>임재우</h4>
+            <div class="role">Partner · 디지털·조직</div>
+            <p>데이터·AI 도입과 조직 변화 관리를 결합한 디지털 전환 설계자. 前 테크 기업 CDO.</p>
+            <div class="tags"><span>Digital</span><span>AI</span><span>Change Mgmt</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="exhibit-cap">Exhibit 4 — 시니어 파트너 프로필 (가상 인물, 데모용 예시).</p>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 05 · CTA + CONTACT ====== -->
+  <section class="cta pad" id="contact">
+    <div class="wrap">
+      <div class="cta-grid">
+        <div>
+          <span class="eyebrow">Next Step</span>
+          <h2 style="margin-top:14px;">한 번의 <span class="hl">진단 미팅</span>으로<br />레버가 어디 있는지 확인하세요.</h2>
+          <p class="lede">
+            첫 90분 진단 세션은 무상으로 제공됩니다.
+            귀사의 현황 자료를 바탕으로 비전파트너스의 시니어 파트너가
+            가장 시급한 가치 레버 3가지를 정리해 드립니다.
+          </p>
+          <div class="cta-actions">
+            <a href="/contact" class="btn primary">진단 미팅 신청 →</a>
+            <a href="/portfolio" class="btn ghost">다른 사례 보기</a>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <span class="exhibit-tag">Contact</span>
+          <div class="contact-row">
+            <div class="k">Office</div>
+            <div class="v">서울 영등포구 여의대로 108<br />파크원타워 27층</div>
+          </div>
+          <div class="contact-row">
+            <div class="k">Tel</div>
+            <div class="v"><b>02-2780-4100</b></div>
+          </div>
+          <div class="contact-row">
+            <div class="k">Email</div>
+            <div class="v">contact@visionpartners.co.kr</div>
+          </div>
+          <div class="contact-row">
+            <div class="k">Hours</div>
+            <div class="v">평일 09:00 – 18:00 (KST)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <div class="brandmark">비전<b>파트너스</b></div>
+        <span class="brand-en">Vision Partners · Strategy & Management Consulting</span>
+      </div>
+      <p>© 1992–2026 Vision Partners Inc. · 본 페이지는 포트폴리오 데모입니다.</p>
+    </div>
+  </footer>
+</body>
+</html>

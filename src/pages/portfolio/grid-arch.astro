@@ -1,0 +1,657 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>그리드 건축사사무소 — 2025 연차보고서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#111111;
+    --paper:#f4f3ef;
+    --red:#d9252a;
+    --line:#111111;
+    --gray:#c9c7bf;
+    --grayd:#9a988f;
+    --gut:24px;
+    --rule:1px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    letter-spacing:-0.005em;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  /* ---- container ---- */
+  .wrap{
+    max-width:1280px;
+    margin:0 auto;
+    padding:0 40px;
+  }
+  .rule{height:var(--rule);background:var(--line);width:100%;}
+  .rule--red{background:var(--red);height:3px;}
+
+  /* ---- grid helper ---- */
+  .grid12{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:var(--gut);
+  }
+
+  /* mono labels / numbering */
+  .label{
+    font-family:'Archivo',sans-serif;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  .label--red{color:var(--red);}
+  .secnum{
+    font-family:'Archivo',sans-serif;
+    font-weight:800;
+    font-size:13px;
+    letter-spacing:0.05em;
+  }
+  .caption{
+    font-size:11px;
+    line-height:1.45;
+    letter-spacing:0.01em;
+    color:#4a4a4a;
+    font-feature-settings:"tnum";
+  }
+
+  /* ================= MASTHEAD ================= */
+  .masthead{ padding-top:72px; }
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    padding-bottom:14px;
+  }
+  .mast-top .label{font-size:12px;}
+  .mast-title{
+    padding:40px 0 0;
+  }
+  .mast-title h1{
+    font-family:'Archivo',sans-serif;
+    font-weight:900;
+    font-size:clamp(46px,9.2vw,138px);
+    line-height:0.9;
+    letter-spacing:-0.03em;
+    text-transform:uppercase;
+  }
+  .mast-title .ko{
+    font-family:'Archivo',sans-serif;
+    font-weight:700;
+    font-size:clamp(20px,3vw,40px);
+    letter-spacing:-0.01em;
+    margin-top:18px;
+  }
+  .mast-meta{
+    margin-top:44px;
+    align-items:start;
+  }
+  .mast-meta .lead{
+    grid-column:1 / span 7;
+    font-size:clamp(18px,2.1vw,27px);
+    line-height:1.35;
+    font-weight:500;
+    letter-spacing:-0.015em;
+  }
+  .mast-meta .lead .em{color:var(--red);}
+  .mast-meta .data{
+    grid-column:9 / span 4;
+    border-top:2px solid var(--ink);
+    padding-top:12px;
+  }
+  .datarow{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:7px 0;
+    border-bottom:1px solid var(--gray);
+    font-size:12px;
+  }
+  .datarow dt{color:var(--grayd);font-weight:500;letter-spacing:0.02em;}
+  .datarow dd{font-weight:600;text-align:right;font-feature-settings:"tnum";}
+
+  /* big year block */
+  .yearstrip{
+    margin-top:56px;
+    display:flex;align-items:flex-end;justify-content:space-between;
+    border-top:3px solid var(--red);
+    padding-top:10px;
+  }
+  .yearstrip .yr{
+    font-family:'Archivo',sans-serif;font-weight:900;
+    font-size:clamp(60px,13vw,200px);line-height:0.82;letter-spacing:-0.04em;
+  }
+  .yearstrip .yr-side{
+    text-align:right;max-width:280px;
+    font-size:12px;line-height:1.5;color:#444;
+    padding-bottom:10px;
+  }
+
+  /* ================= SECTION shell ================= */
+  section{padding:84px 0;}
+  .sechead{
+    display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gut);
+    align-items:baseline;
+    border-top:2px solid var(--ink);
+    padding-top:14px;margin-bottom:48px;
+  }
+  .sechead .num{grid-column:1 / span 2;}
+  .sechead .ttl{
+    grid-column:3 / span 7;
+    font-family:'Archivo',sans-serif;font-weight:800;
+    font-size:clamp(26px,3.4vw,46px);line-height:1.02;letter-spacing:-0.02em;
+  }
+  .sechead .kick{grid-column:11 / span 2;text-align:right;}
+
+  /* ===== 01 소개 ===== */
+  .intro-body{ grid-column:3 / span 6; }
+  .intro-body p{margin-bottom:18px;font-size:16px;line-height:1.62;}
+  .intro-body p.first::first-letter{
+    font-family:'Archivo',sans-serif;font-weight:900;
+    font-size:64px;line-height:0.7;float:left;
+    margin:6px 12px 0 0;color:var(--red);
+  }
+  .intro-side{
+    grid-column:10 / span 3;
+    border-top:1px solid var(--ink);padding-top:14px;
+  }
+  .intro-side .label{display:block;margin-bottom:14px;}
+  .principle{padding:11px 0;border-bottom:1px solid var(--gray);}
+  .principle b{display:block;font-family:'Archivo';font-weight:700;font-size:14px;letter-spacing:0.01em;}
+  .principle span{font-size:12px;color:#555;}
+
+  /* stat band */
+  .stats{
+    margin-top:64px;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .stat{padding:28px 0 26px;border-right:1px solid var(--gray);}
+  .stat:last-child{border-right:none;}
+  .stat .v{
+    font-family:'Archivo',sans-serif;font-weight:900;
+    font-size:clamp(40px,5.4vw,68px);line-height:0.9;letter-spacing:-0.03em;
+    font-feature-settings:"tnum";
+  }
+  .stat .v sup{font-size:0.42em;vertical-align:super;color:var(--red);font-weight:700;margin-left:2px;}
+  .stat .k{margin-top:10px;font-size:12px;color:#444;letter-spacing:0.02em;max-width:150px;}
+
+  /* ===== 02 실적 그리드 ===== */
+  .projlist{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gut) var(--gut);}
+  .proj{display:flex;flex-direction:column;}
+  .proj--a{grid-column:1 / span 7;}
+  .proj--b{grid-column:8 / span 5;}
+  .proj--c{grid-column:1 / span 4;}
+  .proj--d{grid-column:5 / span 4;}
+  .proj--e{grid-column:9 / span 4;}
+  .proj--f{grid-column:1 / span 5;}
+  .proj--g{grid-column:6 / span 7;}
+  .photo{
+    background:var(--gray);position:relative;width:100%;
+    display:flex;align-items:flex-end;
+    border:1px solid var(--line);
+  }
+  .photo::before{
+    content:"";position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 11px, rgba(17,17,17,0.045) 11px 12px);
+  }
+  .photo .frameno{
+    position:absolute;top:10px;left:12px;
+    font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:0.1em;
+    background:var(--ink);color:var(--paper);padding:3px 7px;
+  }
+  .photo .ph-mark{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:0.2em;
+    color:#7d7b73;
+  }
+  .ar-43{aspect-ratio:4/3;}
+  .ar-32{aspect-ratio:3/2;}
+  .ar-11{aspect-ratio:1/1;}
+  .ar-169{aspect-ratio:16/9;}
+  .proj .meta{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-top:2px solid var(--ink);margin-top:12px;padding-top:9px;gap:14px;
+  }
+  .proj .meta h3{
+    font-family:'Archivo',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.01em;
+  }
+  .proj .meta .yr{font-family:'Archivo';font-weight:700;font-size:13px;color:var(--red);font-feature-settings:"tnum";}
+  .proj .sub{font-size:12px;color:#555;margin-top:5px;letter-spacing:0.01em;}
+
+  /* ===== 03 프로세스 ===== */
+  .process{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gut);}
+  .proc-intro{grid-column:1 / span 4;}
+  .proc-intro p{font-size:15px;line-height:1.6;color:#333;}
+  .proc-steps{grid-column:5 / span 8;border-top:2px solid var(--ink);}
+  .step{
+    display:grid;grid-template-columns:1.2fr 3fr 5fr;gap:20px;align-items:start;
+    padding:22px 0;border-bottom:1px solid var(--gray);
+  }
+  .step .pn{
+    font-family:'Archivo';font-weight:900;font-size:34px;line-height:0.9;
+    letter-spacing:-0.03em;color:var(--ink);
+  }
+  .step .pn em{color:var(--red);font-style:normal;}
+  .step h4{font-family:'Archivo';font-weight:700;font-size:18px;letter-spacing:-0.01em;padding-top:4px;}
+  .step p{font-size:13px;line-height:1.55;color:#444;padding-top:5px;}
+
+  /* ===== 04 팀 ===== */
+  .team{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gut);}
+  .team-lead{
+    grid-column:1 / span 3;
+    font-family:'Archivo';font-weight:700;font-size:20px;line-height:1.25;letter-spacing:-0.01em;
+  }
+  .team-lead span{color:var(--red);}
+  .roster{grid-column:5 / span 8;}
+  .person{
+    display:grid;grid-template-columns:0.6fr 2.4fr 2fr 1.4fr;gap:16px;align-items:baseline;
+    padding:14px 0;border-bottom:1px solid var(--gray);
+  }
+  .person:first-child{border-top:2px solid var(--ink);}
+  .person .pid{font-family:'Archivo';font-weight:700;font-size:12px;color:var(--grayd);font-feature-settings:"tnum";}
+  .person .nm{font-family:'Archivo';font-weight:700;font-size:16px;}
+  .person .nm small{display:block;font-family:'Inter';font-weight:400;font-size:11px;color:#888;letter-spacing:0.06em;margin-top:2px;}
+  .person .role{font-size:13px;color:#333;}
+  .person .lic{font-size:11px;color:#666;text-align:right;letter-spacing:0.02em;}
+
+  /* awards */
+  .awards{margin-top:60px;display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gut);}
+  .awards .label{grid-column:1 / span 3;}
+  .awardlist{grid-column:5 / span 8;border-top:2px solid var(--red);}
+  .award{
+    display:grid;grid-template-columns:1fr 5fr 2fr;gap:16px;
+    padding:12px 0;border-bottom:1px solid var(--gray);align-items:baseline;
+  }
+  .award .ay{font-family:'Archivo';font-weight:700;color:var(--red);font-size:13px;font-feature-settings:"tnum";}
+  .award .an{font-size:14px;font-weight:500;}
+  .award .ao{font-size:12px;color:#666;text-align:right;}
+
+  /* ===== 05 연락 ===== */
+  .contact{padding-bottom:0;}
+  .contact-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gut);align-items:start;}
+  .contact-big{
+    grid-column:1 / span 7;
+    font-family:'Archivo';font-weight:900;
+    font-size:clamp(30px,4.6vw,68px);line-height:0.98;letter-spacing:-0.03em;text-transform:uppercase;
+  }
+  .contact-big .red{color:var(--red);}
+  .contact-info{grid-column:9 / span 4;border-top:2px solid var(--ink);padding-top:12px;}
+  .contact-info .datarow dt{color:var(--grayd);}
+
+  /* footer */
+  footer{margin-top:72px;border-top:3px solid var(--ink);padding:22px 0 90px;}
+  .foot{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;}
+  .foot .label{font-size:10px;}
+  .foot .big{
+    font-family:'Archivo';font-weight:900;font-size:13px;letter-spacing:0.05em;text-transform:uppercase;
+  }
+
+  /* page numbering ticks down the side feel */
+  .pgno{
+    font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:0.1em;
+    font-feature-settings:"tnum";
+  }
+
+  /* ===== responsive ===== */
+  @media (max-width:880px){
+    .wrap{padding:0 22px;}
+    :root{--gut:16px;}
+    .mast-meta .lead{grid-column:1 / span 12;}
+    .mast-meta .data{grid-column:1 / span 12;margin-top:26px;}
+    .yearstrip{flex-direction:column;align-items:flex-start;gap:14px;}
+    .yearstrip .yr-side{text-align:left;max-width:none;}
+    .sechead .num{grid-column:1 / span 12;margin-bottom:8px;}
+    .sechead .ttl{grid-column:1 / span 12;}
+    .sechead .kick{grid-column:1 / span 12;text-align:left;margin-top:8px;}
+    .intro-body{grid-column:1 / span 12;}
+    .intro-side{grid-column:1 / span 12;margin-top:34px;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--gray);}
+    .projlist > .proj{grid-column:1 / span 12 !important;}
+    .proc-intro{grid-column:1 / span 12;margin-bottom:24px;}
+    .proc-steps{grid-column:1 / span 12;}
+    .step{grid-template-columns:0.7fr 4fr;grid-template-areas:"pn h" "pn p";}
+    .step .pn{grid-area:pn;}
+    .step h4{grid-area:h;}
+    .step p{grid-area:p;}
+    .team-lead{grid-column:1 / span 12;margin-bottom:22px;}
+    .roster{grid-column:1 / span 12;}
+    .person{grid-template-columns:0.5fr 2fr 2fr;}
+    .person .lic{display:none;}
+    .awards .label{grid-column:1 / span 12;margin-bottom:12px;}
+    .awardlist{grid-column:1 / span 12;}
+    .award{grid-template-columns:1fr 4fr;}
+    .award .ao{display:none;}
+    .contact-big{grid-column:1 / span 12;}
+    .contact-info{grid-column:1 / span 12;margin-top:28px;}
+  }
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+  <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+  <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 11 · 그리드 건축사사무소 — 1960년대 스위스 국제주의 스타일</span>
+  <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+</div>
+<div style="height:40px;"></div>
+
+<!-- ===================== MASTHEAD ===================== -->
+<header class="masthead">
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="label">그리드 건축사사무소 / GRID ARCHITECTS</span>
+      <span class="label label--red">ANNUAL REPORT — 2025</span>
+    </div>
+    <div class="rule--red"></div>
+
+    <div class="mast-title">
+      <h1>Grid<br/>Architects</h1>
+      <div class="ko">질서·비례·빛 — 설계의 기본 단위</div>
+    </div>
+
+    <div class="grid12 mast-meta">
+      <p class="lead">
+        우리는 건축을 하나의 <span class="em">구조적 질서</span>로 본다.
+        모듈, 비례, 그리고 빛의 운동을 통해 도시와 사람의 관계를
+        다시 정의한다. 장식이 아니라 논리로 짓는다.
+      </p>
+      <dl class="data">
+        <div class="datarow"><dt>설립</dt><dd>1998</dd></div>
+        <div class="datarow"><dt>본사</dt><dd>서울 중구 세종대로</dd></div>
+        <div class="datarow"><dt>구성원</dt><dd>34명 / 건축사 11</dd></div>
+        <div class="datarow"><dt>누적 실적</dt><dd>212 프로젝트</dd></div>
+        <div class="datarow"><dt>분야</dt><dd>공공·문화·주거</dd></div>
+      </dl>
+    </div>
+
+    <div class="yearstrip">
+      <div class="yr">2025</div>
+      <div class="yr-side">
+        2025 회계연도 사업 실적 및 설계 활동 종합 보고.
+        본 문서는 그리드 건축사사무소의 연간 프로젝트, 프로세스,
+        조직 및 수상 내역을 기록한다.
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== 01 소개 ===================== -->
+<section id="intro">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="num secnum">01 / 05</span>
+      <h2 class="ttl">사무소 소개<br/>철학과 방법론</h2>
+      <span class="kick label label--red">INTRODUCTION</span>
+    </div>
+
+    <div class="grid12">
+      <div class="intro-body">
+        <p class="first">
+          그리드 건축사사무소는 1998년 설립 이래 27년간 공공 건축과
+          문화 시설을 중심으로 활동해 왔다. 우리의 작업은 형태의 새로움이
+          아니라, 공간을 지배하는 명료한 구조에서 출발한다.
+        </p>
+        <p>
+          모든 프로젝트는 하나의 모듈 단위를 정의하는 것에서 시작한다.
+          이 단위는 평면, 입면, 그리고 디테일에 이르기까지 일관되게
+          반복되며, 건물 전체에 측정 가능한 질서를 부여한다.
+        </p>
+        <p>
+          우리는 재료의 솔직함과 빛의 정밀한 통제를 중시한다.
+          노출 콘크리트, 정제된 금속, 그리고 절제된 개구부는
+          시간이 지나도 변하지 않는 건축적 본질을 지향한다.
+        </p>
+      </div>
+
+      <aside class="intro-side">
+        <span class="label">설계 원칙 / PRINCIPLES</span>
+        <div class="principle"><b>01 — 모듈</b><span>측정 가능한 반복 단위</span></div>
+        <div class="principle"><b>02 — 비례</b><span>인체와 도시의 척도</span></div>
+        <div class="principle"><b>03 — 빛</b><span>시간을 기록하는 개구부</span></div>
+        <div class="principle"><b>04 — 솔직함</b><span>재료 본연의 표현</span></div>
+        <div class="principle"><b>05 — 지속</b><span>유지·운영까지의 설계</span></div>
+      </aside>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v">212</div><div class="k">설립 이래 누적 설계 프로젝트</div></div>
+      <div class="stat"><div class="v">18<sup>건</sup></div><div class="k">2025년 진행 중 공공·민간 사업</div></div>
+      <div class="stat"><div class="v">9<sup>회</sup></div><div class="k">국내외 건축상 수상 이력</div></div>
+      <div class="stat"><div class="v">34</div><div class="k">건축사·설계·관리 전문 인력</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 02 실적 그리드 ===================== -->
+<section id="works">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="num secnum">02 / 05</span>
+      <h2 class="ttl">주요 설계 실적<br/>2025 PORTFOLIO</h2>
+      <span class="kick label label--red">SELECTED WORKS</span>
+    </div>
+
+    <div class="projlist">
+      <article class="proj proj--a">
+        <div class="photo ar-32">
+          <span class="frameno">FIG. 01</span><span class="ph-mark">PHOTO — EXTERIOR</span>
+        </div>
+        <div class="meta"><h3>세종 시립 도서관</h3><span class="yr">2025</span></div>
+        <p class="sub">연면적 14,200㎡ · 지상 5층 · 노출 콘크리트 / 공공 현상설계 당선</p>
+      </article>
+
+      <article class="proj proj--b">
+        <div class="photo ar-43">
+          <span class="frameno">FIG. 02</span><span class="ph-mark">PHOTO — ATRIUM</span>
+        </div>
+        <div class="meta"><h3>한강 문화 플랫폼</h3><span class="yr">2025</span></div>
+        <p class="sub">복합 문화시설 · 8,640㎡ · 모듈 입면 시스템</p>
+      </article>
+
+      <article class="proj proj--c">
+        <div class="photo ar-11">
+          <span class="frameno">FIG. 03</span><span class="ph-mark">PHOTO — DETAIL</span>
+        </div>
+        <div class="meta"><h3>중구 청사 리노베이션</h3><span class="yr">2024</span></div>
+        <p class="sub">공공 청사 · 리모델링 · 6,100㎡</p>
+      </article>
+
+      <article class="proj proj--d">
+        <div class="photo ar-11">
+          <span class="frameno">FIG. 04</span><span class="ph-mark">PHOTO — FACADE</span>
+        </div>
+        <div class="meta"><h3>성수 집합주거 G</h3><span class="yr">2024</span></div>
+        <p class="sub">공동주택 · 72세대 · 그리드 발코니</p>
+      </article>
+
+      <article class="proj proj--e">
+        <div class="photo ar-11">
+          <span class="frameno">FIG. 05</span><span class="ph-mark">PHOTO — INTERIOR</span>
+        </div>
+        <div class="meta"><h3>판교 R&D 센터</h3><span class="yr">2024</span></div>
+        <p class="sub">업무시설 · 19,800㎡ · 모듈 코어</p>
+      </article>
+
+      <article class="proj proj--f">
+        <div class="photo ar-43">
+          <span class="frameno">FIG. 06</span><span class="ph-mark">PHOTO — PLAZA</span>
+        </div>
+        <div class="meta"><h3>인천 시민 미술관</h3><span class="yr">2023</span></div>
+        <p class="sub">문화시설 · 11,500㎡ · 자연채광 천창 시스템 / 한국건축문화대상</p>
+      </article>
+
+      <article class="proj proj--g">
+        <div class="photo ar-169">
+          <span class="frameno">FIG. 07</span><span class="ph-mark">PHOTO — MASTERPLAN</span>
+        </div>
+        <div class="meta"><h3>대전 행정타운 마스터플랜</h3><span class="yr">2023</span></div>
+        <p class="sub">도시설계 · 부지 4.2ha · 가로 그리드 체계 / 국제 지명초청 1등</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 03 프로세스 ===================== -->
+<section id="process">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="num secnum">03 / 05</span>
+      <h2 class="ttl">설계 프로세스<br/>METHOD</h2>
+      <span class="kick label label--red">PROCESS</span>
+    </div>
+
+    <div class="process">
+      <div class="proc-intro">
+        <p>
+          우리는 설계를 직관이 아닌 검증 가능한 단계로 구조화한다.
+          각 단계는 명확한 산출물과 의사결정 기준을 가지며,
+          발주처와의 협의를 통해 다음 단계로 진행된다.
+        </p>
+      </div>
+
+      <div class="proc-steps">
+        <div class="step">
+          <div class="pn"><em>0</em>1</div>
+          <h4>리서치 · 분석</h4>
+          <p>대지, 법규, 프로그램, 환경 조건을 정량적으로 조사하여 설계의 전제를 정의한다.</p>
+        </div>
+        <div class="step">
+          <div class="pn"><em>0</em>2</div>
+          <h4>모듈 설정</h4>
+          <p>프로젝트 고유의 구조 단위와 그리드 체계를 결정하고, 전체 비례의 기준선을 수립한다.</p>
+        </div>
+        <div class="step">
+          <div class="pn"><em>0</em>3</div>
+          <h4>계획 설계</h4>
+          <p>매스, 동선, 공간 위계를 구성하고 다수의 대안을 그리드 위에서 비교·검증한다.</p>
+        </div>
+        <div class="step">
+          <div class="pn"><em>0</em>4</div>
+          <h4>실시 설계</h4>
+          <p>재료, 디테일, 구조·설비를 통합하여 시공 가능한 도면 체계로 정밀화한다.</p>
+        </div>
+        <div class="step">
+          <div class="pn"><em>0</em>5</div>
+          <h4>감리 · 운영</h4>
+          <p>시공 품질을 관리하고, 준공 후 운영 데이터를 다음 설계로 환류한다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 04 팀 ===================== -->
+<section id="team">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="num secnum">04 / 05</span>
+      <h2 class="ttl">조직과 사람<br/>PRACTICE</h2>
+      <span class="kick label label--red">TEAM</span>
+    </div>
+
+    <div class="team">
+      <p class="team-lead">
+        34명의 구성원이 <span>수평적 스튜디오</span> 체계 아래
+        프로젝트별 팀을 구성한다.
+      </p>
+      <div class="roster">
+        <div class="person">
+          <span class="pid">01</span>
+          <span class="nm">문재현<small>MOON JAE-HYUN</small></span>
+          <span class="role">대표 건축사 · 총괄</span>
+          <span class="lic">건축사 제8821호</span>
+        </div>
+        <div class="person">
+          <span class="pid">02</span>
+          <span class="nm">서지원<small>SEO JI-WON</small></span>
+          <span class="role">파트너 · 설계 디렉터</span>
+          <span class="lic">건축사 제10433호</span>
+        </div>
+        <div class="person">
+          <span class="pid">03</span>
+          <span class="nm">한도경<small>HAN DO-KYUNG</small></span>
+          <span class="role">파트너 · 도시·계획</span>
+          <span class="lic">건축사 제11207호</span>
+        </div>
+        <div class="person">
+          <span class="pid">04</span>
+          <span class="nm">임수아<small>LIM SU-A</small></span>
+          <span class="role">실시설계 · BIM 총괄</span>
+          <span class="lic">건축사 제12950호</span>
+        </div>
+        <div class="person">
+          <span class="pid">05</span>
+          <span class="nm">정태민<small>JUNG TAE-MIN</small></span>
+          <span class="role">현장 감리 · 시공관리</span>
+          <span class="lic">건축사 제13388호</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="awards">
+      <span class="label">수상 / AWARDS</span>
+      <div class="awardlist">
+        <div class="award"><span class="ay">2025</span><span class="an">한국건축문화대상 — 우수상</span><span class="ao">인천 시민 미술관</span></div>
+        <div class="award"><span class="ay">2024</span><span class="an">서울특별시 건축상 — 대상</span><span class="ao">중구 청사 리노베이션</span></div>
+        <div class="award"><span class="ay">2024</span><span class="an">대한민국 공공건축상 — 본상</span><span class="ao">세종 시립 도서관</span></div>
+        <div class="award"><span class="ay">2023</span><span class="an">국제 도시설계 공모 — 1등</span><span class="ao">대전 행정타운 마스터플랜</span></div>
+        <div class="award"><span class="ay">2022</span><span class="an">젊은건축가상 — 본상</span><span class="ao">서지원·한도경</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 연락 ===================== -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="num secnum">05 / 05</span>
+      <h2 class="ttl">연락 및 협업<br/>CONTACT</h2>
+      <span class="kick label label--red">CONTACT</span>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-big">
+        함께<br/>지을<br/><span class="red">질서를.</span>
+      </div>
+      <div class="contact-info">
+        <dl>
+          <div class="datarow"><dt>주소</dt><dd>서울 중구 세종대로 18길 22, 7F</dd></div>
+          <div class="datarow"><dt>전화</dt><dd>02-318-7740</dd></div>
+          <div class="datarow"><dt>팩스</dt><dd>02-318-7741</dd></div>
+          <div class="datarow"><dt>이메일</dt><dd>studio@grid-arch.kr</dd></div>
+          <div class="datarow"><dt>업무시간</dt><dd>월–금 09:00–18:00</dd></div>
+          <div class="datarow"><dt>제안·협업</dt><dd>project@grid-arch.kr</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <footer>
+      <div class="foot">
+        <span class="label">© 2025 그리드 건축사사무소 / GRID ARCHITECTS CO., LTD.</span>
+        <span class="big">ORDER · PROPORTION · LIGHT</span>
+        <span class="pgno">PAGE 01 — 01</span>
+      </div>
+    </footer>
+  </div>
+</section>
+
+</body>
+</html>

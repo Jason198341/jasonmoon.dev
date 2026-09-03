@@ -1,0 +1,702 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>올드 어퍼시너리 · Old Apothecary — 빅토리아 약제상 수제 화장품</title>
+  <meta name="description" content="1890년 종로의 작은 약방에서 시작된 올드 어퍼시너리. 약제상 처방을 잇는 수제 화장품과 비누." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=IM+Fell+English:ital@0;1&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f3ece0;
+      --paper-deep: #e9dec9;
+      --ink: #3b2a1a;
+      --ink-soft: #5a4632;
+      --gold: #a67c2e;
+      --gold-soft: #c9a24b;
+      --rule: #8a6a3e;
+      --serif: "Playfair Display", Georgia, serif;
+      --fell: "IM Fell English", Georgia, serif;
+      --kr: "Gowun Batang", "Playfair Display", serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(circle at 20% 15%, rgba(166,124,46,0.06), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(59,42,26,0.05), transparent 40%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      color: var(--ink);
+      font-family: var(--kr);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+
+    /* ---------- Decorative rules / ornaments ---------- */
+    .rule-double {
+      border: 0;
+      height: 6px;
+      border-top: 1.5px solid var(--rule);
+      border-bottom: 1.5px solid var(--rule);
+      background: transparent;
+      margin: 0 auto;
+    }
+    .ornament {
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px; color: var(--gold);
+      font-family: var(--serif);
+      letter-spacing: 0.4em; text-transform: uppercase;
+      font-size: 12px; font-weight: 700;
+    }
+    .ornament::before, .ornament::after {
+      content: ""; height: 1px; width: clamp(30px, 12vw, 120px);
+      background: linear-gradient(90deg, transparent, var(--rule), transparent);
+    }
+    .fleuron { color: var(--gold); font-size: 18px; line-height: 1; }
+
+    .eyebrow {
+      font-family: var(--fell);
+      font-style: italic;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    section { position: relative; }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      padding: 96px 0 78px;
+      text-align: center;
+      border-bottom: 2px solid var(--rule);
+      position: relative;
+    }
+    .hero-frame {
+      border: 2px solid var(--rule);
+      outline: 1px solid var(--rule);
+      outline-offset: 6px;
+      padding: 54px 30px 48px;
+      position: relative;
+      background:
+        linear-gradient(var(--paper), var(--paper)) padding-box,
+        radial-gradient(circle at 50% 0%, rgba(201,162,75,0.18), transparent 60%);
+    }
+    .corner {
+      position: absolute; width: 38px; height: 38px;
+      color: var(--gold); opacity: 0.9;
+    }
+    .corner.tl { top: -2px; left: -2px; }
+    .corner.tr { top: -2px; right: -2px; transform: scaleX(-1); }
+    .corner.bl { bottom: -2px; left: -2px; transform: scaleY(-1); }
+    .corner.br { bottom: -2px; right: -2px; transform: scale(-1,-1); }
+
+    .est {
+      font-family: var(--serif);
+      letter-spacing: 0.5em;
+      font-weight: 700; font-size: 12px;
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+    }
+    .brandmark { margin: 0 auto 10px; width: 92px; height: 92px; color: var(--ink); }
+    .hero h1 {
+      font-family: var(--serif);
+      font-weight: 900;
+      font-size: clamp(2.6rem, 2rem + 5vw, 5.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-shadow: 1px 1px 0 rgba(166,124,46,0.18);
+    }
+    .hero h1 .amp { font-style: italic; color: var(--gold); font-weight: 600; }
+    .hero .kr-name {
+      font-family: var(--kr);
+      font-weight: 700;
+      font-size: clamp(1.05rem, 0.9rem + 1vw, 1.5rem);
+      letter-spacing: 0.35em;
+      color: var(--ink-soft);
+      margin-top: 12px;
+    }
+    .hero .tagline {
+      font-family: var(--fell);
+      font-style: italic;
+      font-size: clamp(1rem, 0.9rem + 0.6vw, 1.35rem);
+      color: var(--ink-soft);
+      max-width: 600px; margin: 22px auto 0;
+    }
+    .apo-badge {
+      display: inline-block; margin-top: 26px;
+      font-family: var(--serif); font-weight: 700;
+      letter-spacing: 0.42em; font-size: 13px;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      padding: 9px 20px 9px 24px;
+      background: rgba(201,162,75,0.07);
+    }
+    .hero-meta {
+      margin-top: 34px;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 12px 34px;
+      font-family: var(--serif); font-size: 13px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-meta .dot { color: var(--gold); }
+
+    /* ---------- Section heading ---------- */
+    .sec-head { text-align: center; margin-bottom: 46px; }
+    .sec-head .ornament { margin-bottom: 16px; }
+    .sec-head h2 {
+      font-family: var(--serif);
+      font-weight: 800;
+      font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3.2rem);
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .sec-head .sub {
+      font-family: var(--fell); font-style: italic;
+      color: var(--ink-soft); margin-top: 8px; font-size: 1.05rem;
+    }
+
+    /* ---------- STORY ---------- */
+    .story { padding: 84px 0; }
+    .story-grid {
+      display: grid; grid-template-columns: 1.15fr 1fr;
+      gap: 56px; align-items: center;
+    }
+    .story-body p {
+      font-size: 1.06rem; color: var(--ink-soft);
+      margin-bottom: 18px;
+    }
+    .story-body p .drop {
+      float: left;
+      font-family: var(--serif); font-weight: 900;
+      font-size: 4.6rem; line-height: 0.72;
+      padding: 6px 12px 0 0;
+      color: var(--gold);
+    }
+    .story-quote {
+      font-family: var(--fell); font-style: italic;
+      font-size: 1.2rem; color: var(--ink);
+      border-left: 3px double var(--rule);
+      padding-left: 20px; margin: 26px 0;
+    }
+    .story-figure {
+      border: 2px solid var(--rule); outline: 1px solid var(--rule);
+      outline-offset: 5px; padding: 28px;
+      background: var(--paper-deep);
+      text-align: center; position: relative;
+    }
+    .story-figure svg { margin: 0 auto; color: var(--ink); }
+    .story-figure figcaption {
+      font-family: var(--serif); letter-spacing: 0.3em;
+      text-transform: uppercase; font-size: 11px;
+      color: var(--ink-soft); margin-top: 18px;
+    }
+
+    /* ---------- PRODUCTS (label cards) ---------- */
+    .products { padding: 84px 0; background: var(--paper-deep); border-top: 2px solid var(--rule); border-bottom: 2px solid var(--rule); }
+    .label-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 34px;
+    }
+    .label {
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      padding: 26px 22px 24px;
+      position: relative;
+      box-shadow: 4px 5px 0 rgba(59,42,26,0.16);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .label:hover { transform: translateY(-5px); box-shadow: 7px 9px 0 rgba(59,42,26,0.22); }
+    .label::before {
+      content: ""; position: absolute; inset: 6px;
+      border: 1px solid var(--rule); pointer-events: none;
+    }
+    .label-top {
+      text-align: center; font-family: var(--serif);
+      letter-spacing: 0.34em; text-transform: uppercase;
+      font-size: 10px; color: var(--gold); font-weight: 700;
+      border-bottom: 1px solid var(--rule); padding-bottom: 8px; margin-bottom: 16px;
+    }
+    .oval {
+      width: 150px; height: 174px; margin: 0 auto 16px;
+      border: 2px solid var(--ink);
+      border-radius: 50% / 46%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(201,162,75,0.16), transparent 62%),
+        var(--paper-deep);
+    }
+    .oval::after {
+      content: ""; position: absolute; inset: 7px;
+      border: 1px solid var(--rule); border-radius: 50% / 46%;
+    }
+    .oval svg { color: var(--ink-soft); }
+    .label h3 {
+      font-family: var(--serif); font-weight: 800;
+      font-size: 1.35rem; text-align: center; color: var(--ink);
+      line-height: 1.1;
+    }
+    .label .latin {
+      font-family: var(--fell); font-style: italic;
+      text-align: center; color: var(--gold); font-size: 0.92rem;
+      margin: 4px 0 12px;
+    }
+    .label .desc {
+      font-size: 0.92rem; color: var(--ink-soft); text-align: center;
+      min-height: 56px;
+    }
+    .label-foot {
+      margin-top: 14px; padding-top: 12px;
+      border-top: 1px solid var(--rule);
+      display: flex; align-items: baseline; justify-content: space-between;
+      font-family: var(--serif);
+    }
+    .label-foot .vol {
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .label-foot .price { font-weight: 800; font-size: 1.15rem; color: var(--ink); }
+    .label-foot .price small { font-size: 0.7em; font-weight: 600; }
+
+    /* ---------- INGREDIENTS ---------- */
+    .ingredients { padding: 84px 0; }
+    .ingr-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 26px; margin-top: 10px;
+    }
+    .ingr {
+      text-align: center; padding: 28px 16px;
+      border: 1px solid var(--rule);
+      background: linear-gradient(var(--paper), var(--paper-deep));
+      position: relative;
+    }
+    .ingr::before, .ingr::after {
+      content: "❦"; position: absolute; color: var(--gold-soft);
+      font-size: 13px; top: 7px;
+    }
+    .ingr::before { left: 9px; }
+    .ingr::after { right: 9px; transform: scaleX(-1); }
+    .ingr .herb { width: 64px; height: 64px; margin: 0 auto 14px; color: var(--ink); }
+    .ingr h4 {
+      font-family: var(--serif); font-weight: 700; font-size: 1.12rem;
+      color: var(--ink); margin-bottom: 2px;
+    }
+    .ingr .latin { font-family: var(--fell); font-style: italic; color: var(--gold); font-size: 0.85rem; margin-bottom: 10px; }
+    .ingr p { font-size: 0.86rem; color: var(--ink-soft); }
+
+    /* ---------- ATELIER ---------- */
+    .atelier { padding: 84px 0; background: var(--ink); color: var(--paper); position: relative; }
+    .atelier .wrap { position: relative; z-index: 1; }
+    .atelier .sec-head h2 { color: var(--paper); }
+    .atelier .sec-head .sub { color: var(--gold-soft); }
+    .atelier .ornament { color: var(--gold-soft); }
+    .atelier .ornament::before, .atelier .ornament::after { background: linear-gradient(90deg, transparent, var(--gold-soft), transparent); }
+    .atelier-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 30px; margin-top: 12px;
+    }
+    .craft-step {
+      border: 1px solid var(--gold); padding: 30px 24px;
+      background: rgba(243,236,224,0.04);
+      position: relative;
+    }
+    .craft-step .num {
+      font-family: var(--serif); font-style: italic; font-weight: 700;
+      font-size: 2.6rem; color: var(--gold-soft); line-height: 1;
+    }
+    .craft-step h4 {
+      font-family: var(--serif); font-weight: 700; font-size: 1.25rem;
+      margin: 8px 0 10px; color: var(--paper);
+    }
+    .craft-step p { font-size: 0.94rem; color: #d8c9b0; }
+    .atelier-note {
+      text-align: center; margin-top: 44px;
+      font-family: var(--fell); font-style: italic; font-size: 1.15rem;
+      color: var(--gold-soft);
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact { padding: 88px 0 70px; text-align: center; }
+    .contact-card {
+      border: 2px solid var(--rule); outline: 1px solid var(--rule);
+      outline-offset: 6px; padding: 50px 32px; position: relative;
+      background: radial-gradient(circle at 50% 0%, rgba(201,162,75,0.12), transparent 65%);
+    }
+    .contact h2 {
+      font-family: var(--serif); font-weight: 800;
+      font-size: clamp(1.8rem, 1.4rem + 2vw, 3rem); color: var(--ink);
+    }
+    .contact .sub { font-family: var(--fell); font-style: italic; color: var(--ink-soft); margin-top: 6px; }
+    .contact-info {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin: 40px 0 8px; text-align: center;
+    }
+    .contact-info .item .k {
+      font-family: var(--serif); letter-spacing: 0.3em; text-transform: uppercase;
+      font-size: 11px; color: var(--gold); margin-bottom: 8px;
+    }
+    .contact-info .item .v {
+      font-size: 1.02rem; color: var(--ink); line-height: 1.5;
+    }
+    .contact-info .item .v strong { font-family: var(--serif); font-weight: 700; }
+    .hours-rule { margin: 36px auto 30px; max-width: 420px; }
+    .cta {
+      display: inline-block; margin-top: 6px;
+      font-family: var(--serif); font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase; font-size: 13px;
+      color: var(--paper); background: var(--ink);
+      padding: 15px 38px; border: 1.5px solid var(--gold);
+      box-shadow: 4px 4px 0 var(--gold);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .cta:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--gold); }
+
+    footer {
+      text-align: center; padding: 40px 0;
+      border-top: 2px solid var(--rule);
+      font-family: var(--serif); font-size: 12px;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft);
+    }
+    footer .fleuron { margin-bottom: 10px; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .story-grid { grid-template-columns: 1fr; gap: 36px; }
+      .label-grid { grid-template-columns: repeat(2, 1fr); }
+      .ingr-grid { grid-template-columns: repeat(2, 1fr); }
+      .atelier-grid { grid-template-columns: 1fr; }
+      .contact-info { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .label-grid { grid-template-columns: 1fr; }
+      .ingr-grid { grid-template-columns: 1fr; }
+      .hero { padding: 70px 0 56px; }
+      .hero-frame { padding: 40px 18px 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+    <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+    <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 12 · 올드 어퍼시너리 — 빅토리아 약제상 라벨 스타일</span>
+    <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+  </div>
+  <div style="height:40px;"></div>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-frame">
+        <svg class="corner tl" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 38V14C2 7 7 2 14 2h24"/><path d="M8 38V18c0-6 4-10 10-10h20"/><circle cx="13" cy="13" r="2.4" fill="currentColor" stroke="none"/></svg>
+        <svg class="corner tr" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 38V14C2 7 7 2 14 2h24"/><path d="M8 38V18c0-6 4-10 10-10h20"/><circle cx="13" cy="13" r="2.4" fill="currentColor" stroke="none"/></svg>
+        <svg class="corner bl" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 38V14C2 7 7 2 14 2h24"/><path d="M8 38V18c0-6 4-10 10-10h20"/><circle cx="13" cy="13" r="2.4" fill="currentColor" stroke="none"/></svg>
+        <svg class="corner br" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 38V14C2 7 7 2 14 2h24"/><path d="M8 38V18c0-6 4-10 10-10h20"/><circle cx="13" cy="13" r="2.4" fill="currentColor" stroke="none"/></svg>
+
+        <p class="est">EST. 1890</p>
+
+        <svg class="brandmark" viewBox="0 0 92 92" fill="none" stroke="currentColor" stroke-width="1.6">
+          <!-- mortar & pestle -->
+          <path d="M30 38h32l-3 18a13 13 0 0 1-13 11h0a13 13 0 0 1-13-11l-3-18z"/>
+          <path d="M26 38h40"/>
+          <path d="M52 36l16-22" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="69" cy="13" r="3" fill="currentColor" stroke="none"/>
+          <path d="M40 50h12M38 56h16" opacity="0.5"/>
+        </svg>
+
+        <h1>Old <span class="amp">&amp;</span> Apothecary</h1>
+        <p class="kr-name">올 드 어 퍼 시 너 리</p>
+        <p class="tagline">종로의 오래된 약방에서 이어온 처방. 식물과 정직한 손으로 빚는 수제 화장품과 비누.</p>
+
+        <span class="apo-badge">A P O T H E C A R Y</span>
+
+        <div class="hero-meta">
+          <span><span class="dot">✦</span> 수제 비누</span>
+          <span><span class="dot">✦</span> 식물 추출 화장품</span>
+          <span><span class="dot">✦</span> 소량 정성 제조</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== STORY ===================== -->
+  <section class="story">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="ornament"><span class="fleuron">❧</span> Our Story <span class="fleuron">❧</span></div>
+        <h2>약방에서 시작된 처방</h2>
+        <p class="sub">A prescription, handed down through generations</p>
+      </div>
+
+      <div class="story-grid">
+        <div class="story-body">
+          <p><span class="drop">1</span>890년, 종로의 좁은 골목 안 작은 약방. 약제상 문(文)씨는 마른 약초를 절구에 빻아 연고를 짓고, 잿물과 기름을 끓여 비누를 만들었습니다. 처방전 한 장 한 장에 담긴 정직함이 올드 어퍼시너리의 시작이었습니다.</p>
+          <p class="story-quote">“좋은 것은 천천히 우러난다 — 약도, 피부도.”</p>
+          <p>오늘의 올드 어퍼시너리는 그 오래된 노트를 그대로 따릅니다. 합성 향료와 보존제를 덜어내고, 카모마일·금잔화·라벤더 같은 식물의 힘으로 처방을 채웁니다. 한 번에 60개. 라벨은 손으로 번호를 매깁니다.</p>
+        </div>
+
+        <figure class="story-figure">
+          <svg width="150" height="180" viewBox="0 0 150 180" fill="none" stroke="currentColor" stroke-width="1.5">
+            <!-- apothecary bottle -->
+            <rect x="55" y="6" width="40" height="14" rx="2"/>
+            <path d="M60 20h30v10c14 6 24 20 24 38v82a14 14 0 0 1-14 14H50a14 14 0 0 1-14-14V68c0-18 10-32 24-38V20z"/>
+            <rect x="46" y="86" width="58" height="56" rx="3" fill="none" stroke-dasharray="0"/>
+            <path d="M75 96v36M57 114h36" opacity="0.5"/>
+            <text x="75" y="80" font-family="Playfair Display, serif" font-size="13" fill="currentColor" stroke="none" text-anchor="middle" letter-spacing="2">No. 01</text>
+          </svg>
+          <figcaption>The First Bottle · 1890</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRODUCTS ===================== -->
+  <section class="products">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="ornament"><span class="fleuron">❧</span> The Shelf <span class="fleuron">❧</span></div>
+        <h2>처방 진열대</h2>
+        <p class="sub">Small-batch remedies for skin & soul</p>
+      </div>
+
+      <div class="label-grid">
+        <!-- 1 -->
+        <article class="label">
+          <div class="label-top">No. 01 · Soap</div>
+          <div class="oval">
+            <svg width="68" height="68" viewBox="0 0 68 68" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="14" y="22" width="40" height="28" rx="5"/>
+              <path d="M20 22c0-7 28-7 28 0M22 34c4 4 20 4 24 0" opacity="0.6"/>
+              <path d="M34 8c4 5 4 9 0 13-4-4-4-8 0-13z"/>
+            </svg>
+          </div>
+          <h3>금잔화 정련 비누</h3>
+          <p class="latin">Sapo Calendula</p>
+          <p class="desc">콜드프로세스 28일 숙성. 금잔화 침출유로 예민한 피부를 다독입니다.</p>
+          <div class="label-foot"><span class="vol">110 g</span><span class="price">12,000<small> ₩</small></span></div>
+        </article>
+
+        <!-- 2 -->
+        <article class="label">
+          <div class="label-top">No. 02 · Balm</div>
+          <div class="oval">
+            <svg width="68" height="68" viewBox="0 0 68 68" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="20" y="26" width="28" height="26" rx="4"/>
+              <rect x="24" y="16" width="20" height="10" rx="2"/>
+              <path d="M28 38h12M28 44h12" opacity="0.55"/>
+            </svg>
+          </div>
+          <h3>라벤더 야상 연고</h3>
+          <p class="latin">Unguentum Lavandula</p>
+          <p class="desc">밀랍과 라벤더 정유. 거칠어진 손끝과 입술을 위한 잠들기 전 연고.</p>
+          <div class="label-foot"><span class="vol">30 ml</span><span class="price">18,000<small> ₩</small></span></div>
+        </article>
+
+        <!-- 3 -->
+        <article class="label">
+          <div class="label-top">No. 03 · Tonic</div>
+          <div class="oval">
+            <svg width="68" height="68" viewBox="0 0 68 68" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="28" y="8" width="12" height="9" rx="1.5"/>
+              <path d="M30 17h8v6c7 3 11 10 11 18v15a6 6 0 0 1-6 6H25a6 6 0 0 1-6-6V41c0-8 4-15 11-18v-6z"/>
+              <path d="M26 40h16" opacity="0.55"/>
+            </svg>
+          </div>
+          <h3>카모마일 진정 토너</h3>
+          <p class="latin">Tonicum Chamomilla</p>
+          <p class="desc">무알코올 발효 추출. 카모마일과 위치하젤로 붉은기를 가라앉힙니다.</p>
+          <div class="label-foot"><span class="vol">120 ml</span><span class="price">22,000<small> ₩</small></span></div>
+        </article>
+
+        <!-- 4 -->
+        <article class="label">
+          <div class="label-top">No. 04 · Oil</div>
+          <div class="oval">
+            <svg width="68" height="68" viewBox="0 0 68 68" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M30 10h8v8l8 10v26a6 6 0 0 1-6 6H28a6 6 0 0 1-6-6V28l8-10v-8z"/>
+              <circle cx="34" cy="44" r="6" opacity="0.55"/>
+            </svg>
+          </div>
+          <h3>로즈힙 야간 페이스오일</h3>
+          <p class="latin">Oleum Rosae</p>
+          <p class="desc">냉압착 로즈힙·호호바. 자는 동안 피부 결을 정돈하는 황금빛 오일.</p>
+          <div class="label-foot"><span class="vol">30 ml</span><span class="price">29,000<small> ₩</small></span></div>
+        </article>
+
+        <!-- 5 -->
+        <article class="label">
+          <div class="label-top">No. 05 · Clay</div>
+          <div class="oval">
+            <svg width="68" height="68" viewBox="0 0 68 68" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16h24l-3 34a9 9 0 0 1-9 8h0a9 9 0 0 1-9-8L22 16z"/>
+              <path d="M19 16h30" />
+              <path d="M27 30h14" opacity="0.55"/>
+            </svg>
+          </div>
+          <h3>약초 정화 클레이</h3>
+          <p class="latin">Argilla Herbarum</p>
+          <p class="desc">프랑스 그린클레이에 쑥·녹차 분말. 주 1회 모공을 비우는 진흙 처방.</p>
+          <div class="label-foot"><span class="vol">60 g</span><span class="price">16,000<small> ₩</small></span></div>
+        </article>
+
+        <!-- 6 -->
+        <article class="label">
+          <div class="label-top">No. 06 · Set</div>
+          <div class="oval">
+            <svg width="68" height="68" viewBox="0 0 68 68" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="14" y="20" width="16" height="34" rx="3"/>
+              <rect x="38" y="14" width="16" height="40" rx="3"/>
+              <path d="M18 12h8v8h-8zM42 6h8v8h-8z"/>
+            </svg>
+          </div>
+          <h3>처방 선물 상자</h3>
+          <p class="latin">Cista Remediorum</p>
+          <p class="desc">비누·연고·토너를 약방 노트와 함께. 마끈으로 묶은 선물용 세트.</p>
+          <div class="label-foot"><span class="vol">3종 구성</span><span class="price">48,000<small> ₩</small></span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INGREDIENTS ===================== -->
+  <section class="ingredients">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="ornament"><span class="fleuron">❧</span> Materia Medica <span class="fleuron">❧</span></div>
+        <h2>약초 처방 노트</h2>
+        <p class="sub">The botanicals on our bench</p>
+      </div>
+
+      <div class="ingr-grid">
+        <div class="ingr">
+          <svg class="herb" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M32 56V30"/>
+            <circle cx="32" cy="20" r="8"/>
+            <path d="M32 20h0M24 20l-6 4M40 20l6 4M28 24v6M36 24v6" opacity="0.6"/>
+            <path d="M22 30q10 6 20 0" opacity="0.6"/>
+          </svg>
+          <h4>금잔화</h4>
+          <p class="latin">Calendula officinalis</p>
+          <p>진정과 재생. 약방 연고의 기본.</p>
+        </div>
+        <div class="ingr">
+          <svg class="herb" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M32 58V26"/>
+            <path d="M32 26q-3-10 0-18Q35 16 32 26z"/>
+            <path d="M32 32q-6-3-12 0Q26 36 32 32zM32 40q6-3 12 0Q38 44 32 40z" opacity="0.7"/>
+          </svg>
+          <h4>라벤더</h4>
+          <p class="latin">Lavandula angustifolia</p>
+          <p>긴장 완화. 잠들기 전 향기.</p>
+        </div>
+        <div class="ingr">
+          <svg class="herb" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M32 58V30"/>
+            <circle cx="32" cy="22" r="6" fill="currentColor" stroke="none" opacity="0.18"/>
+            <circle cx="32" cy="22" r="6"/>
+            <path d="M32 22l0-9M32 22l8-3M32 22l8 5M32 22l-8-3M32 22l-8 5"/>
+          </svg>
+          <h4>카모마일</h4>
+          <p class="latin">Matricaria chamomilla</p>
+          <p>붉은기 진정. 토너의 중심.</p>
+        </div>
+        <div class="ingr">
+          <svg class="herb" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M32 58V20"/>
+            <path d="M32 20q8-4 14 2-6 6-14 2z"/>
+            <path d="M32 30q-8-4-14 2 6 6 14 2z" opacity="0.75"/>
+            <path d="M32 40q8-3 12 2" opacity="0.55"/>
+          </svg>
+          <h4>로즈힙</h4>
+          <p class="latin">Rosa canina</p>
+          <p>비타민 결 정돈. 야간 오일.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ATELIER ===================== -->
+  <section class="atelier">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="ornament"><span class="fleuron">❧</span> The Atelier <span class="fleuron">❧</span></div>
+        <h2>공방의 손길</h2>
+        <p class="sub">How each batch is made by hand</p>
+      </div>
+
+      <div class="atelier-grid">
+        <div class="craft-step">
+          <div class="num">I.</div>
+          <h4>침출 & 우림</h4>
+          <p>말린 약초를 식물성 기름에 4주간 담가 천천히 우려냅니다. 서두르지 않는 것이 처방의 첫 단계입니다.</p>
+        </div>
+        <div class="craft-step">
+          <div class="num">II.</div>
+          <h4>절구 & 배합</h4>
+          <p>놋 절구에 직접 빻은 약초 분말을 저울로 한 줌씩 달아 배합합니다. 한 번에 단 60개 분량.</p>
+        </div>
+        <div class="craft-step">
+          <div class="num">III.</div>
+          <h4>숙성 & 번호</h4>
+          <p>28일 건조 숙성 후, 약방 노트에 제조일을 적고 라벨마다 손으로 일련번호를 매겨 봉합니다.</p>
+        </div>
+      </div>
+
+      <p class="atelier-note">— 모든 처방은 종로 공방에서 소량으로 빚어집니다 —</p>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact">
+    <div class="wrap">
+      <div class="contact-card">
+        <div class="ornament" style="margin-bottom:14px;"><span class="fleuron">❧</span> Visit the Shop <span class="fleuron">❧</span></div>
+        <h2>약방으로 오세요</h2>
+        <p class="sub">Old &amp; Apothecary · 종로 본점</p>
+
+        <div class="contact-info">
+          <div class="item">
+            <div class="k">Address</div>
+            <div class="v"><strong>서울 종로구 자하문로 18길 7</strong><br/>옛 약방 골목 1층</div>
+          </div>
+          <div class="item">
+            <div class="k">Telephone</div>
+            <div class="v"><strong>02-734-1890</strong><br/>처방 상담 · 주문 문의</div>
+          </div>
+          <div class="item">
+            <div class="k">Correspondence</div>
+            <div class="v"><strong>hello@old-apothecary.kr</strong><br/>@old.apothecary</div>
+          </div>
+        </div>
+
+        <hr class="rule-double hours-rule" />
+
+        <p style="font-family:var(--fell);font-style:italic;color:var(--ink-soft);margin-bottom:24px;">화–일 11:00 – 19:00 · 매주 월요일 휴방</p>
+
+        <a href="/contact" class="cta">처방 문의하기</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="ornament"><span class="fleuron">❦</span></div>
+    Old &amp; Apothecary · EST. 1890 · 종로, 서울 · 손으로 빚은 처방
+  </footer>
+</body>
+</html>

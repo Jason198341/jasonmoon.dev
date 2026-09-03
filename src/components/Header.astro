@@ -1,5 +1,7 @@
 ---
 const pathname = Astro.url.pathname;
+const _now = new Date();
+const version = `v${_now.getFullYear()}.${String(_now.getMonth() + 1).padStart(2, '0')}`;
 
 interface NavLink {
   href?: string;
@@ -8,22 +10,25 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
-  { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Work' },
+  { href: '/', label: '홈' },
+  { href: '/portfolio', label: '포트폴리오' },
+  { href: '/styles', label: '스타일 도감' },
+  { href: '/services', label: '웹 활용' },
+  { href: '/guide', label: '제작·배포 안내' },
   {
-    label: 'Showcase',
+    label: 'Lab',
     children: [
-      { href: '/exec-english-100/', label: 'English 100' },
+      { href: '/projects', label: 'Work' },
       { href: '/templates', label: 'Templates' },
       { href: '/prompts', label: 'Prompts' },
       { href: '/video-catalog', label: 'Videos' },
-      { href: '/thoughts', label: 'Thoughts' },
-      { href: '/skills', label: 'Skills' },
+      { href: '/blog', label: 'Blog' },
+      { href: '/bluf/', label: 'BLUF · 보고서엔진' },
+      { href: '/exec-english-100/', label: 'English 100' },
+      { href: '/about', label: 'About' },
     ],
   },
-  { href: '/blog', label: 'Blog' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/contact', label: '문의하기' },
 ];
 
 function isActive(link: NavLink): boolean {
@@ -62,7 +67,7 @@ for (const link of links) {
     </div>
     <div class="flex items-center gap-4">
       <span id="hud-clock">00:00:00 KST</span>
-      <span class="text-accent">v2026.04</span>
+      <span class="text-accent">{version}</span>
     </div>
   </div>
 
@@ -102,7 +107,7 @@ for (const link of links) {
               class="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-52 border border-border-strong bg-bg/95 backdrop-blur-xl shadow-2xl opacity-0 invisible translate-y-1 transition-all duration-200 pointer-events-none"
             >
               <div class="border-b border-border/50 px-3 py-1.5 font-mono text-[9px] tracking-[0.25em] uppercase text-text-faint flex justify-between">
-                <span>Showcase Index</span>
+                <span>Lab Index</span>
                 <span class="text-accent">{link.children.length}</span>
               </div>
               <div class="p-1">

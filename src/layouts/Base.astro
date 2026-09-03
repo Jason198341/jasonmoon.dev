@@ -18,7 +18,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#06060a" />
+    <meta name="theme-color" content="#070b14" />
     <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
@@ -33,10 +33,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${Astro.site}og-image.png`} />
 
-    <!-- Fonts: Syne (display) + Outfit (body) + Pretendard (Korean fallback) -->
+    <!-- Fonts: Space Grotesk (display+body) + JetBrains Mono + Pretendard (Korean) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
@@ -54,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
   </head>
   <body class="bg-bg text-text min-h-dvh flex flex-col">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-accent focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-accent focus:text-black focus:px-4 focus:py-2 font-mono text-xs tracking-widest uppercase">
       Skip to main content
     </a>
     <Header />
@@ -62,16 +62,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
 
-    <!-- Floating Chat button -->
+    <!-- Floating 카톡 오픈채팅 문의 버튼 -->
     <a
-      href="/chat"
-      class="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white rounded-full px-4 py-3 shadow-lg shadow-accent/20 hover:shadow-accent/30 transition-all duration-200 hover:scale-105 group"
-      aria-label="Chat with me"
+      href="https://invite.kakao.com/tc/EszOu7fY0i"
+      target="_blank"
+      rel="noopener"
+      class="fixed bottom-5 right-5 z-40 group inline-flex items-center gap-2.5 border-2 border-accent bg-accent text-black px-5 py-3.5 font-bold text-sm sm:text-base tracking-tight shadow-[0_4px_24px_rgba(255,176,0,0.45)] hover:bg-accent-hover hover:scale-[1.03] transition-all duration-200"
+      aria-label="카카오톡으로 무료 제작 문의하기"
     >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
-      <span class="text-sm font-semibold">Chat</span>
+      <span class="hud-pip hud-pip--amber" style="background:#000;box-shadow:none;"></span>
+      <span>💬 무료 제작 문의</span>
     </a>
 
     <Footer />

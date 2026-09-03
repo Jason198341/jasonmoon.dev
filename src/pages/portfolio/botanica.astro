@@ -1,0 +1,903 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>보타니카 · BOTANICA — 식물·플라워 아틀리에</title>
+  <meta name="description" content="평창동의 식물·플라워 아틀리에 보타니카. 19세기 박물학 도판의 정밀함으로 식물과 꽃을 큐레이션합니다." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f5f0e4;
+      --paper-deep: #ece4d2;
+      --paper-edge: #e3d8be;
+      --ink: #3a3326;
+      --ink-soft: #6b6149;
+      --sage: #7a8c5a;
+      --sage-deep: #5c6b41;
+      --sepia: #8a6f47;
+      --sepia-soft: #b29468;
+      --rule: #a99a76;
+      --crimson: #984a34;
+
+      --serif: "Cormorant", Georgia, serif;
+      --body: "EB Garamond", Georgia, serif;
+      --kr: "Gowun Batang", "EB Garamond", serif;
+
+      --plate-max: 1180px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(circle at 18% 12%, rgba(138,111,71,0.05), transparent 40%),
+        radial-gradient(circle at 82% 78%, rgba(122,140,90,0.05), transparent 42%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .kr { font-family: var(--kr); }
+    .lat { font-style: italic; font-family: var(--serif); }
+
+    /* ---------- shared ---------- */
+    .wrap { max-width: var(--plate-max); margin: 0 auto; padding: 0 28px; }
+
+    .plate-no {
+      font-family: var(--serif);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--sepia);
+      font-weight: 600;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--serif);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--sage-deep);
+      font-weight: 600;
+    }
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-weight: 500;
+      line-height: 1.05;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+
+    .caption {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+    }
+    .caption .fig {
+      font-style: italic;
+      font-family: var(--serif);
+      color: var(--sepia);
+    }
+
+    section { position: relative; }
+
+    .rule-line {
+      height: 1px;
+      background: var(--rule);
+      opacity: 0.6;
+    }
+    .rule-double {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      height: 4px;
+      opacity: 0.7;
+    }
+
+    /* ---------- HERO / Title plate ---------- */
+    .hero {
+      padding: 132px 0 70px;
+    }
+    .hero-frame {
+      border: 1px solid var(--rule);
+      box-shadow: 0 0 0 6px var(--paper), 0 0 0 7px var(--rule);
+      padding: 48px clamp(24px, 5vw, 70px) 40px;
+      position: relative;
+      background:
+        linear-gradient(var(--paper), var(--paper));
+    }
+    .hero-frame::before {
+      content: "PLATE I";
+      position: absolute;
+      top: -11px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--paper);
+      padding: 0 16px;
+      font-family: var(--serif);
+      letter-spacing: 0.45em;
+      font-size: 12px;
+      color: var(--sepia);
+      font-weight: 600;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.92fr;
+      gap: clamp(24px, 5vw, 64px);
+      align-items: center;
+    }
+    .hero-copy .eyebrow { margin-bottom: 26px; }
+    .hero-title {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(58px, 9vw, 118px);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+    .hero-title em {
+      display: block;
+      font-style: italic;
+      font-size: 0.42em;
+      letter-spacing: 0.16em;
+      color: var(--sage-deep);
+      margin-top: 14px;
+      font-weight: 400;
+    }
+    .hero-sub {
+      font-family: var(--kr);
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      max-width: 38ch;
+      margin: 28px 0 30px;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 28px;
+      font-size: 13px;
+      color: var(--sepia);
+      letter-spacing: 0.08em;
+      font-family: var(--serif);
+    }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-meta span::before {
+      content: "";
+      width: 5px; height: 5px;
+      border: 1px solid var(--sage-deep);
+      transform: rotate(45deg);
+    }
+
+    .hero-visual {
+      position: relative;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid var(--rule);
+      padding-left: clamp(20px, 4vw, 50px);
+      min-height: 420px;
+    }
+    .hero-visual svg { width: 100%; max-width: 330px; height: auto; }
+    .hero-visual .lat-tag {
+      position: absolute;
+      bottom: 0; right: 6px;
+      font-style: italic;
+      font-family: var(--serif);
+      color: var(--sepia);
+      font-size: 14px;
+    }
+    .hero-visual .fig-tag {
+      position: absolute;
+      top: 4px; left: clamp(28px, 4.6vw, 60px);
+      font-family: var(--serif);
+      letter-spacing: 0.3em;
+      font-size: 11px;
+      color: var(--sepia);
+    }
+
+    /* botanical stroke defaults */
+    .bot { fill: none; stroke: var(--ink); stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
+    .bot-sage { stroke: var(--sage-deep); }
+    .bot-thin { stroke-width: 0.7; }
+    .bot-fill-sage { fill: rgba(122,140,90,0.12); stroke: var(--sage-deep); stroke-width: 1; }
+    .bot-fill-sepia { fill: rgba(138,111,71,0.10); stroke: var(--sepia); stroke-width: 1; }
+
+    /* ---------- COLLECTION ---------- */
+    .collection { padding: 78px 0 40px; }
+    .collection-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .collection-head .section-title { font-size: clamp(34px, 5vw, 58px); }
+    .collection-head .lead {
+      max-width: 34ch;
+      font-family: var(--kr);
+      font-size: 14.5px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+      text-align: right;
+    }
+    .collection .rule-double { margin: 22px 0 36px; }
+
+    .plate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--rule);
+    }
+    .specimen {
+      position: relative;
+      padding: 34px 26px 30px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background: var(--paper);
+      transition: background .5s ease;
+    }
+    .specimen:nth-child(3n) { border-right: none; }
+    .specimen:nth-last-child(-n+3) { border-bottom: none; }
+    .specimen:hover { background: var(--paper-deep); }
+    .specimen-fig {
+      position: absolute;
+      top: 14px; left: 20px;
+      font-family: var(--serif);
+      letter-spacing: 0.26em;
+      font-size: 11px;
+      color: var(--sepia);
+    }
+    .specimen-price {
+      position: absolute;
+      top: 14px; right: 20px;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--sage-deep);
+    }
+    .specimen-art {
+      height: 196px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 18px 0 18px;
+    }
+    .specimen-art svg { height: 100%; width: auto; max-width: 100%; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+    .specimen:hover .specimen-art svg { transform: translateY(-4px) scale(1.03); }
+    .specimen-name {
+      font-family: var(--serif);
+      font-size: 25px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .specimen-lat {
+      font-style: italic;
+      font-family: var(--serif);
+      font-size: 15px;
+      color: var(--sepia);
+      margin: 2px 0 12px;
+    }
+    .specimen-desc {
+      font-family: var(--kr);
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.7;
+      border-top: 1px solid var(--paper-edge);
+      padding-top: 12px;
+    }
+
+    /* ---------- SUBSCRIPTION ---------- */
+    .subscribe { padding: 82px 0; }
+    .subscribe-inner {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: clamp(28px, 5vw, 70px);
+      align-items: center;
+      border: 1px solid var(--rule);
+      box-shadow: 0 0 0 6px var(--paper), 0 0 0 7px var(--rule);
+      padding: clamp(30px, 4vw, 56px);
+      position: relative;
+    }
+    .subscribe-inner::before {
+      content: "PLATE III";
+      position: absolute;
+      top: -11px; left: 40px;
+      background: var(--paper);
+      padding: 0 14px;
+      font-family: var(--serif);
+      letter-spacing: 0.4em;
+      font-size: 11px;
+      color: var(--sepia);
+      font-weight: 600;
+    }
+    .subscribe-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid var(--rule);
+      padding-right: clamp(20px, 4vw, 50px);
+      align-self: stretch;
+    }
+    .subscribe-visual svg { width: 100%; max-width: 230px; height: auto; }
+    .subscribe-copy .eyebrow { margin-bottom: 22px; }
+    .subscribe-copy .section-title { font-size: clamp(30px, 4.4vw, 48px); margin-bottom: 8px; }
+    .subscribe-copy .sub-lead {
+      font-family: var(--kr);
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      line-height: 1.85;
+      margin-bottom: 28px;
+      max-width: 46ch;
+    }
+    .tiers { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+    .tier {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: baseline;
+      gap: 18px;
+      padding: 16px 4px;
+      border-bottom: 1px solid var(--paper-edge);
+    }
+    .tier-roman {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--sepia);
+      font-size: 15px;
+      min-width: 30px;
+    }
+    .tier-name { font-family: var(--serif); font-size: 21px; font-weight: 600; color: var(--ink); }
+    .tier-name small {
+      display: block;
+      font-family: var(--kr);
+      font-style: normal;
+      font-size: 12.5px;
+      font-weight: 400;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+    .tier-price {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 19px;
+      color: var(--sage-deep);
+      white-space: nowrap;
+    }
+
+    /* ---------- CARE GUIDE ---------- */
+    .care { padding: 24px 0 84px; }
+    .care-head { text-align: center; margin-bottom: 40px; }
+    .care-head .eyebrow { margin-bottom: 18px; }
+    .care-head .section-title { font-size: clamp(32px, 5vw, 56px); }
+    .care-head .plate-no { display: block; margin-top: 12px; }
+    .care-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--rule);
+      border-left: 1px solid var(--rule);
+    }
+    .care-cell {
+      padding: 28px 22px 26px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      text-align: center;
+    }
+    .care-icon {
+      height: 86px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .care-icon svg { height: 100%; width: auto; }
+    .care-fig {
+      font-family: var(--serif);
+      letter-spacing: 0.24em;
+      font-size: 11px;
+      color: var(--sepia);
+      margin-bottom: 6px;
+    }
+    .care-title {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .care-text {
+      font-family: var(--kr);
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact {
+      padding: 70px 0 90px;
+      border-top: 1px solid var(--rule);
+      background:
+        linear-gradient(var(--paper-deep), var(--paper-deep));
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(28px, 5vw, 70px);
+      align-items: center;
+    }
+    .contact-mark {
+      font-family: var(--serif);
+      font-size: clamp(44px, 7vw, 86px);
+      font-weight: 500;
+      line-height: 0.95;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+    .contact-mark em { font-style: italic; color: var(--sage-deep); font-size: 0.45em; display:block; letter-spacing:0.16em; margin-top:10px; }
+    .contact-note {
+      font-family: var(--kr);
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      line-height: 1.85;
+      margin-top: 22px;
+      max-width: 40ch;
+    }
+    .contact-card {
+      border: 1px solid var(--rule);
+      box-shadow: 0 0 0 6px var(--paper-deep), 0 0 0 7px var(--rule);
+      padding: 38px 34px;
+      background: var(--paper);
+    }
+    .contact-row {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--paper-edge);
+      align-items: baseline;
+    }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row dt {
+      font-family: var(--serif);
+      font-style: italic;
+      letter-spacing: 0.06em;
+      color: var(--sepia);
+      font-size: 14px;
+    }
+    .contact-row dd {
+      font-family: var(--kr);
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    .contact-row dd .big { font-family: var(--serif); font-size: 22px; letter-spacing: 0.04em; color: var(--ink); }
+    .contact-cta {
+      display: inline-block;
+      margin-top: 26px;
+      font-family: var(--serif);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: var(--paper);
+      background: var(--sage-deep);
+      padding: 13px 30px;
+      text-decoration: none;
+      border: 1px solid var(--sage-deep);
+      transition: background .35s ease, color .35s ease;
+    }
+    .contact-cta:hover { background: transparent; color: var(--sage-deep); }
+
+    /* ---------- FOOTER ---------- */
+    .colophon {
+      text-align: center;
+      padding: 36px 20px 48px;
+      font-family: var(--serif);
+      color: var(--sepia);
+      letter-spacing: 0.14em;
+      font-size: 12px;
+    }
+    .colophon .orn { font-size: 18px; color: var(--sage-deep); margin-bottom: 10px; }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 30px; margin-top: 24px; min-height: 320px; }
+      .subscribe-inner { grid-template-columns: 1fr; }
+      .subscribe-visual { border-right: none; border-bottom: 1px solid var(--rule); padding-right: 0; padding-bottom: 26px; margin-bottom: 6px; }
+      .care-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 120px 0 50px; }
+      .plate-grid { grid-template-columns: 1fr; }
+      .specimen { border-right: none !important; }
+      .collection-head .lead { text-align: left; }
+      .care-grid { grid-template-columns: 1fr; }
+      .contact-row { grid-template-columns: 80px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- DEMO BAR -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+    <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+    <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 37 · 보타니카 — 19세기 박물학 도판 스타일</span>
+    <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+  </div>
+  <div style="height:40px;"></div>
+
+  <!-- ============ HERO · PLATE I ============ -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-frame">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Hortus Botanicus · Seoul</span>
+            <h1 class="hero-title">Botanica<em>식물·플라워 아틀리에</em></h1>
+            <p class="hero-sub kr">19세기 박물학자의 눈으로 식물을 기록하듯, 한 줄기의 선과 한 송이의 빛깔까지 정밀하게 큐레이션하는 평창동의 작은 식물원입니다.</p>
+            <div class="hero-meta">
+              <span>Est. MMXIV</span>
+              <span>Pyeongchang-dong</span>
+              <span>Plantae &amp; Flores</span>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <span class="fig-tag">FIG. 1 — 표본 전형</span>
+            <svg viewBox="0 0 240 360" role="img" aria-label="식물 세밀화 도판">
+              <!-- main stem -->
+              <path class="bot bot-sage" d="M120 350 C120 300 116 250 122 200 C126 165 120 130 124 96" />
+              <!-- root system -->
+              <path class="bot bot-thin bot-sage" d="M120 350 C108 348 96 352 88 360 M120 350 C132 349 146 354 156 360 M120 350 C118 354 116 358 114 360" />
+              <!-- lower left leaf -->
+              <path class="bot-fill-sage" d="M120 300 C92 296 66 280 50 252 C78 256 104 270 120 300 Z" />
+              <path class="bot bot-thin bot-sage" d="M120 300 C100 290 80 280 56 256" />
+              <!-- lower right leaf -->
+              <path class="bot-fill-sage" d="M121 264 C150 262 178 248 196 222 C168 222 140 234 121 264 Z" />
+              <path class="bot bot-thin bot-sage" d="M121 264 C144 256 168 246 190 226" />
+              <!-- mid left leaf -->
+              <path class="bot-fill-sage" d="M122 222 C98 220 74 206 60 184 C86 186 108 198 122 222 Z" />
+              <path class="bot bot-thin bot-sage" d="M122 222 C104 214 84 204 64 188" />
+              <!-- flower head -->
+              <g>
+                <circle class="bot-fill-sepia" cx="124" cy="74" r="20" />
+                <path class="bot bot-thin" d="M124 54 C140 56 150 66 150 80 M124 54 C108 56 98 66 98 80 M124 96 C108 94 98 86 98 76 M124 96 C140 94 150 86 150 76" />
+                <!-- petals -->
+                <ellipse class="bot-fill-sepia" cx="124" cy="40" rx="9" ry="18" />
+                <ellipse class="bot-fill-sepia" cx="154" cy="58" rx="9" ry="18" transform="rotate(58 154 58)" />
+                <ellipse class="bot-fill-sepia" cx="158" cy="92" rx="9" ry="18" transform="rotate(118 158 92)" />
+                <ellipse class="bot-fill-sepia" cx="124" cy="110" rx="9" ry="18" />
+                <ellipse class="bot-fill-sepia" cx="90" cy="92" rx="9" ry="18" transform="rotate(62 90 92)" />
+                <ellipse class="bot-fill-sepia" cx="94" cy="58" rx="9" ry="18" transform="rotate(122 94 58)" />
+                <circle cx="124" cy="74" r="6" fill="var(--sepia)" />
+              </g>
+            </svg>
+            <span class="lat-tag">Flos primus</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ COLLECTION · PLATE II ============ -->
+  <section class="collection">
+    <div class="wrap">
+      <div class="collection-head">
+        <div>
+          <span class="plate-no">Plate II</span>
+          <h2 class="section-title">식물 표본 컬렉션</h2>
+        </div>
+        <p class="lead">실내 광량과 습도에 따라 분류한 보타니카의 상시 표본. 모든 개체는 입고 전 한 그루씩 도판으로 기록됩니다.</p>
+      </div>
+      <div class="rule-double"></div>
+
+      <div class="plate-grid">
+        <!-- 1 -->
+        <article class="specimen">
+          <span class="specimen-fig">Fig. 2</span>
+          <span class="specimen-price">₩ 68,000</span>
+          <div class="specimen-art">
+            <svg viewBox="0 0 160 200" aria-label="몬스테라 세밀화">
+              <path class="bot bot-sage" d="M80 196 C80 160 78 130 82 100" />
+              <path class="bot-fill-sage" d="M82 100 C40 96 18 60 26 22 C30 12 40 14 48 22 C40 50 56 84 82 100 Z" />
+              <path class="bot bot-thin bot-sage" d="M48 30 L62 52 M40 48 L58 66 M36 70 L66 82 M52 24 L72 40" />
+              <path class="bot-fill-sage" d="M84 132 C120 130 144 100 140 66 C136 58 126 60 120 68 C128 96 110 122 84 132 Z" />
+              <path class="bot bot-thin bot-sage" d="M120 74 L106 92 M128 88 L110 104 M132 108 L104 116" />
+            </svg>
+          </div>
+          <h3 class="specimen-name">몬스테라 델리시오사</h3>
+          <p class="specimen-lat lat">Monstera deliciosa</p>
+          <p class="specimen-desc">잎의 천공이 뚜렷한 성목. 밝은 간접광과 주 1회 관수면 충분하며, 거실 코너의 구조적 표본으로 추천합니다.</p>
+        </article>
+        <!-- 2 -->
+        <article class="specimen">
+          <span class="specimen-fig">Fig. 3</span>
+          <span class="specimen-price">₩ 42,000</span>
+          <div class="specimen-art">
+            <svg viewBox="0 0 160 200" aria-label="올리브 세밀화">
+              <path class="bot bot-sage" d="M80 196 C80 150 78 110 80 70 C81 50 84 38 80 24" />
+              <g>
+                <ellipse class="bot-fill-sage" cx="56" cy="70" rx="22" ry="7" transform="rotate(-24 56 70)" />
+                <ellipse class="bot-fill-sage" cx="104" cy="92" rx="22" ry="7" transform="rotate(24 104 92)" />
+                <ellipse class="bot-fill-sage" cx="52" cy="116" rx="20" ry="6.5" transform="rotate(-22 52 116)" />
+                <ellipse class="bot-fill-sage" cx="106" cy="140" rx="20" ry="6.5" transform="rotate(22 106 140)" />
+              </g>
+              <circle class="bot-fill-sepia" cx="70" cy="50" r="6" />
+              <circle class="bot-fill-sepia" cx="92" cy="62" r="6" />
+              <circle class="bot-fill-sepia" cx="84" cy="40" r="6" />
+            </svg>
+          </div>
+          <h3 class="specimen-name">올리브 나무</h3>
+          <p class="specimen-lat lat">Olea europaea</p>
+          <p class="specimen-desc">은빛 잎이 특징인 지중해 수종. 햇빛을 가장 사랑하는 표본으로, 남향 창가의 화분 식재에 적합합니다.</p>
+        </article>
+        <!-- 3 -->
+        <article class="specimen">
+          <span class="specimen-fig">Fig. 4</span>
+          <span class="specimen-price">₩ 38,000</span>
+          <div class="specimen-art">
+            <svg viewBox="0 0 160 200" aria-label="고사리 세밀화">
+              <path class="bot bot-sage" d="M80 196 C80 150 78 112 80 88" />
+              <path class="bot bot-sage" d="M80 130 C60 116 44 92 38 60" />
+              <path class="bot bot-sage" d="M80 120 C100 106 116 82 122 50" />
+              <path class="bot bot-sage" d="M80 150 C64 140 50 124 44 104" />
+              <path class="bot bot-sage" d="M80 142 C96 132 110 116 116 96" />
+              <g class="bot bot-thin bot-sage">
+                <path d="M52 76 l-7 -6 M60 86 l-8 -5 M68 98 l-8 -4 M44 64 l-6 -7" />
+                <path d="M108 70 l7 -6 M100 82 l8 -5 M92 94 l8 -4 M116 58 l6 -7" />
+              </g>
+            </svg>
+          </div>
+          <h3 class="specimen-name">보스턴 고사리</h3>
+          <p class="specimen-lat lat">Nephrolepis exaltata</p>
+          <p class="specimen-desc">습도를 머금는 양치식물. 욕실과 북향 공간의 그늘에서 가장 아름답게 잎을 펼치는 표본입니다.</p>
+        </article>
+        <!-- 4 -->
+        <article class="specimen">
+          <span class="specimen-fig">Fig. 5</span>
+          <span class="specimen-price">₩ 54,000</span>
+          <div class="specimen-art">
+            <svg viewBox="0 0 160 200" aria-label="유칼립투스 세밀화">
+              <path class="bot bot-sage" d="M80 196 C80 150 80 100 80 40" />
+              <g>
+                <circle class="bot-fill-sage" cx="58" cy="64" r="13" />
+                <circle class="bot-fill-sage" cx="102" cy="80" r="13" />
+                <circle class="bot-fill-sage" cx="56" cy="104" r="12" />
+                <circle class="bot-fill-sage" cx="104" cy="120" r="12" />
+                <circle class="bot-fill-sage" cx="62" cy="142" r="11" />
+                <circle class="bot-fill-sage" cx="96" cy="156" r="11" />
+              </g>
+              <path class="bot bot-thin bot-sage" d="M80 70 L58 64 M80 86 L102 80 M80 106 L56 104 M80 122 L104 120" />
+            </svg>
+          </div>
+          <h3 class="specimen-name">실버달러 유칼립투스</h3>
+          <p class="specimen-lat lat">Eucalyptus cinerea</p>
+          <p class="specimen-desc">둥근 은청색 잎과 청량한 향. 생화 부케에 한 줄기 더하거나 드라이 표본으로 오래 곁에 둘 수 있습니다.</p>
+        </article>
+        <!-- 5 -->
+        <article class="specimen">
+          <span class="specimen-fig">Fig. 6</span>
+          <span class="specimen-price">₩ 29,000</span>
+          <div class="specimen-art">
+            <svg viewBox="0 0 160 200" aria-label="라넌큘러스 세밀화">
+              <path class="bot bot-sage" d="M80 196 C80 160 78 130 80 104" />
+              <path class="bot-fill-sage" d="M80 150 C58 148 44 134 42 116 C62 118 76 130 80 150 Z" />
+              <g>
+                <circle class="bot-fill-sepia" cx="80" cy="74" r="28" />
+                <circle class="bot bot-thin" cx="80" cy="74" r="20" />
+                <circle class="bot bot-thin" cx="80" cy="74" r="12" />
+                <circle class="bot bot-thin" cx="80" cy="74" r="5" />
+                <path class="bot bot-thin" d="M80 46 v8 M80 94 v8 M52 74 h8 M100 74 h8 M60 54 l6 6 M100 54 l-6 6 M60 94 l6 -6 M100 94 l-6 -6" />
+              </g>
+            </svg>
+          </div>
+          <h3 class="specimen-name">라넌큘러스</h3>
+          <p class="specimen-lat lat">Ranunculus asiaticus</p>
+          <p class="specimen-desc">겹겹의 꽃잎이 종이처럼 포개진 봄의 절기 꽃. 단품 다발 또는 시즌 부케의 중심화로 사랑받습니다.</p>
+        </article>
+        <!-- 6 -->
+        <article class="specimen">
+          <span class="specimen-fig">Fig. 7</span>
+          <span class="specimen-price">₩ 46,000</span>
+          <div class="specimen-art">
+            <svg viewBox="0 0 160 200" aria-label="라벤더 세밀화">
+              <g class="bot bot-sage">
+                <path d="M62 196 C62 150 60 110 64 78" />
+                <path d="M80 196 C80 148 80 104 80 70" />
+                <path d="M98 196 C98 150 100 110 96 78" />
+              </g>
+              <g>
+                <path class="bot-fill-sepia" d="M64 78 C58 64 58 48 64 34 C70 48 70 64 64 78 Z" />
+                <path class="bot-fill-sepia" d="M80 70 C74 54 74 36 80 22 C86 36 86 54 80 70 Z" />
+                <path class="bot-fill-sepia" d="M96 78 C90 64 90 48 96 34 C102 48 102 64 96 78 Z" />
+              </g>
+            </svg>
+          </div>
+          <h3 class="specimen-name">잉글리시 라벤더</h3>
+          <p class="specimen-lat lat">Lavandula angustifolia</p>
+          <p class="specimen-desc">향과 빛깔을 함께 담은 허브 표본. 햇빛과 통풍이 좋은 베란다 화단, 또는 말려 향낭으로도 권합니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUBSCRIPTION · PLATE III ============ -->
+  <section class="subscribe">
+    <div class="wrap">
+      <div class="subscribe-inner">
+        <div class="subscribe-visual">
+          <svg viewBox="0 0 220 320" role="img" aria-label="꽃다발 도판">
+            <!-- bound stems -->
+            <path class="bot bot-sepia" d="M110 318 C104 270 104 230 108 200 M110 318 C116 270 116 230 112 200 M110 318 C110 270 110 230 110 200" stroke="var(--sepia)" />
+            <path class="bot" d="M86 312 L134 312 M84 320 L136 320" stroke="var(--crimson)" stroke-width="1.4" />
+            <!-- stems fanning -->
+            <path class="bot bot-sage" d="M110 200 C80 168 64 130 66 92 M110 200 C140 168 156 130 154 92 M110 200 C100 160 96 120 100 80 M110 200 C120 160 124 120 120 80" />
+            <!-- blossoms -->
+            <g>
+              <circle class="bot-fill-sepia" cx="66" cy="84" r="20" />
+              <circle class="bot bot-thin" cx="66" cy="84" r="12" />
+              <circle class="bot bot-thin" cx="66" cy="84" r="5" />
+            </g>
+            <g>
+              <ellipse class="bot-fill-sage" cx="154" cy="84" rx="9" ry="20" />
+              <ellipse class="bot-fill-sage" cx="154" cy="84" rx="20" ry="9" />
+              <circle cx="154" cy="84" r="6" fill="var(--sepia)" />
+            </g>
+            <g>
+              <circle class="bot-fill-sepia" cx="100" cy="68" r="22" />
+              <path class="bot bot-thin" d="M100 46 v44 M78 68 h44 M86 54 l28 28 M114 54 l-28 28" />
+            </g>
+            <g>
+              <ellipse class="bot-fill-sage" cx="122" cy="74" rx="8" ry="18" />
+              <ellipse class="bot-fill-sage" cx="122" cy="74" rx="18" ry="8" />
+              <circle cx="122" cy="74" r="5" fill="var(--sepia)" />
+            </g>
+          </svg>
+        </div>
+        <div class="subscribe-copy">
+          <span class="eyebrow">Subscriptio Florum</span>
+          <h2 class="section-title">꽃 정기구독</h2>
+          <p class="sub-lead kr">절기마다 가장 좋은 꽃을 박물학 노트와 함께 보내드립니다. 매번 다른 표본, 매번 다른 도판. 일상에 계절의 기록을 두는 일입니다.</p>
+          <div class="tiers">
+            <div class="tier">
+              <span class="tier-roman">I.</span>
+              <span class="tier-name">페티트 부케 <small>월 2회 · 소형 다발</small></span>
+              <span class="tier-price">₩ 34,000 / 월</span>
+            </div>
+            <div class="tier">
+              <span class="tier-roman">II.</span>
+              <span class="tier-name">클래식 헤르바리움 <small>월 2회 · 중형 다발 + 도판 노트</small></span>
+              <span class="tier-price">₩ 58,000 / 월</span>
+            </div>
+            <div class="tier">
+              <span class="tier-roman">III.</span>
+              <span class="tier-name">아틀리에 컬렉터 <small>주 1회 · 대형 계절 표본</small></span>
+              <span class="tier-price">₩ 120,000 / 월</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CARE GUIDE · PLATE IV ============ -->
+  <section class="care">
+    <div class="wrap">
+      <div class="care-head">
+        <span class="eyebrow">Cultura &amp; Cura</span>
+        <h2 class="section-title">표본 관리 도해</h2>
+        <span class="plate-no">Plate IV — 식물 관리의 네 가지 원칙</span>
+      </div>
+      <div class="care-grid">
+        <div class="care-cell">
+          <div class="care-icon">
+            <svg viewBox="0 0 80 80" aria-label="빛 도해">
+              <circle class="bot bot-sepia" cx="40" cy="40" r="14" stroke="var(--sepia)" />
+              <g class="bot bot-thin bot-sepia" stroke="var(--sepia)">
+                <path d="M40 12 v10 M40 58 v10 M12 40 h10 M58 40 h10 M20 20 l7 7 M60 20 l-7 7 M20 60 l7 -7 M60 60 l-7 -7" />
+              </g>
+            </svg>
+          </div>
+          <p class="care-fig">Fig. A</p>
+          <h3 class="care-title">빛 · Lumen</h3>
+          <p class="care-text">밝은 간접광이 원칙입니다. 직사광은 잎을 태우니, 레이스 커튼 너머의 빛을 권합니다.</p>
+        </div>
+        <div class="care-cell">
+          <div class="care-icon">
+            <svg viewBox="0 0 80 80" aria-label="물 도해">
+              <path class="bot-fill-sage" d="M40 14 C52 34 60 46 60 56 C60 68 51 76 40 76 C29 76 20 68 20 56 C20 46 28 34 40 14 Z" />
+              <path class="bot bot-thin" d="M34 60 C34 52 40 48 46 48" stroke="var(--paper)" />
+            </svg>
+          </div>
+          <p class="care-fig">Fig. B</p>
+          <h3 class="care-title">물 · Aqua</h3>
+          <p class="care-text">겉흙이 마르면 충분히. 받침에 고인 물은 반드시 비워 뿌리의 호흡을 지켜주세요.</p>
+        </div>
+        <div class="care-cell">
+          <div class="care-icon">
+            <svg viewBox="0 0 80 80" aria-label="흙 도해">
+              <path class="bot bot-sepia" d="M22 30 L58 30 L52 64 L28 64 Z" stroke="var(--sepia)" />
+              <path class="bot bot-thin bot-sepia" d="M22 30 L58 30 M28 44 L52 44" stroke="var(--sepia)" />
+              <path class="bot bot-sage" d="M40 30 C40 22 36 16 30 12 M40 30 C40 22 44 16 50 12" />
+            </svg>
+          </div>
+          <p class="care-fig">Fig. C</p>
+          <h3 class="care-title">흙 · Terra</h3>
+          <p class="care-text">배수가 좋은 배양토를 사용합니다. 연 1회 분갈이로 뿌리에 새 공간을 내어주세요.</p>
+        </div>
+        <div class="care-cell">
+          <div class="care-icon">
+            <svg viewBox="0 0 80 80" aria-label="온도 도해">
+              <path class="bot bot-crimson" d="M36 16 a4 4 0 0 1 8 0 v32 a10 10 0 1 1 -8 0 Z" stroke="var(--crimson)" />
+              <circle cx="40" cy="58" r="6" fill="var(--crimson)" />
+              <path class="bot bot-thin bot-crimson" d="M40 24 v26" stroke="var(--crimson)" />
+            </svg>
+          </div>
+          <p class="care-fig">Fig. D</p>
+          <h3 class="care-title">온도 · Calor</h3>
+          <p class="care-text">18–24도가 가장 편안합니다. 겨울철 창가의 냉기와 난방기 바람은 피해주세요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT · PLATE V ============ -->
+  <section class="contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div>
+          <span class="plate-no">Plate V</span>
+          <h2 class="contact-mark">Visita Nos<em>아틀리에로 초대합니다</em></h2>
+          <p class="contact-note kr">평창동 언덕의 온실에서 직접 표본을 고르고, 절기 꽃을 묶어 드립니다. 공간 식재·전시 그린·웨딩 부케 상담은 예약을 권합니다.</p>
+          <a href="/contact" class="contact-cta">예약 문의하기</a>
+        </div>
+        <div class="contact-card">
+          <dl>
+            <div class="contact-row">
+              <dt>Telephone</dt>
+              <dd><span class="big">02-934-7012</span></dd>
+            </div>
+            <div class="contact-row">
+              <dt>Hortus</dt>
+              <dd>서울 종로구 평창동 산자락길 47<br />보타니카 온실 아틀리에</dd>
+            </div>
+            <div class="contact-row">
+              <dt>Horae</dt>
+              <dd>화–일 11:00 – 19:00<br />월요일 휴원 (표본 정리일)</dd>
+            </div>
+            <div class="contact-row">
+              <dt>Epistula</dt>
+              <dd>hortus@botanica.kr<br />@botanica.atelier</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <footer class="colophon">
+    <div class="orn">❧ ❦ ❧</div>
+    <div>BOTANICA · HORTUS BOTANICUS SEOUL · Plates I–V</div>
+    <div style="margin-top:8px;opacity:0.7;">Engraved &amp; printed in Pyeongchang-dong · MMXXVI</div>
+  </footer>
+</body>
+</html>

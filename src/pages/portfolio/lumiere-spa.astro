@@ -1,0 +1,565 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>뤼미에르 스파 — 청담 다크 럭셔리 뷰티·네일·왁싱·스파</title>
+  <meta name="description" content="청담동 프리미엄 다크 럭셔리 뷰티 스파. 페이셜, 네일, 왁싱, 바디 트리트먼트. 블랙 골드 무드의 고요한 휴식을 예약하세요." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      /* Brand — jasonmoon.dev dark + gold */
+      --bg:#070b14;
+      --surface:#0d1422;
+      --surface-2:#131a26;
+      --amber:#ffb000;
+      --gold:#d4af37;
+      --fg:#e8ecf2;
+      --muted:#8ea0b8;
+      --faint:#4a5a74;
+      --border:#1e2d45;
+      --border-2:#2c3f5c;
+
+      --grad-gold:linear-gradient(135deg,#ffb000 0%,#d4af37 100%);
+      --grad-gold-soft:linear-gradient(135deg,rgba(255,176,0,0.16) 0%,rgba(212,175,55,0.08) 100%);
+
+      --r-md:16px;
+      --r-lg:20px;
+      --r-xl:28px;
+
+      --shadow-soft:0 12px 40px -12px rgba(0,0,0,0.55);
+      --shadow-lift:0 28px 60px -18px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,176,0,0.08);
+      --shadow-gold:0 16px 40px -14px rgba(255,176,0,0.4);
+
+      --dur:220ms;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    html{scroll-behavior:smooth;}
+
+    body{
+      font-family:'Inter','Pretendard',system-ui,sans-serif;
+      background:var(--bg);
+      color:var(--fg);
+      font-size:16px;
+      line-height:1.7;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+
+    /* atmospheric gold glow */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 600px at 78% -8%, rgba(255,176,0,0.10), transparent 60%),
+        radial-gradient(700px 500px at -6% 100%, rgba(212,175,55,0.06), transparent 60%);
+    }
+
+    h1,h2,h3{font-family:'Playfair Display',serif;line-height:1.12;letter-spacing:-0.01em;}
+
+    a{color:inherit;text-decoration:none;}
+
+    .wrap{max-width:1200px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+    .text-gold{
+      background:var(--grad-gold);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      color:transparent;
+    }
+
+    /* ---- Buttons ---- */
+    .btn{
+      display:inline-flex;align-items:center;gap:9px;
+      font-family:'Inter',sans-serif;font-weight:600;font-size:15px;
+      padding:15px 28px;border-radius:999px;cursor:pointer;
+      transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
+      border:1px solid transparent;white-space:nowrap;
+    }
+    .btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--amber);}
+    .btn-primary{background:var(--grad-gold);color:#1a1206;box-shadow:var(--shadow-gold);}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 22px 50px -14px rgba(255,176,0,0.55);}
+    .btn-outline{background:transparent;color:var(--fg);border:1px solid var(--border-2);}
+    .btn-outline:hover{transform:translateY(-3px);border-color:var(--amber);color:var(--amber);background:rgba(255,176,0,0.05);}
+
+    .icon{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+
+    /* ---- Nav ---- */
+    .nav{
+      position:sticky;top:40px;z-index:50;
+      backdrop-filter:blur(12px);
+      background:rgba(7,11,20,0.72);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
+    .brand{font-family:'Playfair Display',serif;font-size:23px;font-weight:700;letter-spacing:0.01em;}
+    .brand small{display:block;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:0.32em;color:var(--gold);font-weight:600;text-transform:uppercase;margin-top:2px;}
+    .nav-links{display:flex;gap:34px;align-items:center;}
+    .nav-links a{font-size:14.5px;color:var(--muted);transition:color var(--dur) var(--ease);position:relative;}
+    .nav-links a:hover{color:var(--fg);}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--grad-gold);transition:width var(--dur) var(--ease);border-radius:2px;}
+    .nav-links a:hover::after{width:100%;}
+    .nav-cta{font-size:14px;}
+    @media(max-width:860px){.nav-links{display:none;}}
+
+    /* ---- Hero ---- */
+    .hero{padding:84px 0 96px;position:relative;}
+    .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center;}
+    .badge{
+      display:inline-flex;align-items:center;gap:9px;
+      font-size:13px;font-weight:600;letter-spacing:0.02em;
+      padding:8px 16px;border-radius:999px;
+      background:rgba(255,176,0,0.08);border:1px solid rgba(255,176,0,0.28);color:var(--amber);
+      margin-bottom:26px;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(255,176,0,0.18);animation:pulse 2.4s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.45;}}
+    .hero h1{font-size:clamp(3rem,2rem+4.4vw,5.4rem);font-weight:700;margin-bottom:22px;}
+    .hero h1 em{font-style:italic;font-weight:500;}
+    .hero-lead{font-size:19px;color:var(--muted);max-width:30rem;margin-bottom:36px;line-height:1.65;}
+    .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:42px;}
+
+    .proof{display:flex;align-items:center;gap:26px;flex-wrap:wrap;}
+    .proof-stars{display:flex;align-items:center;gap:10px;}
+    .stars{display:flex;gap:2px;}
+    .stars svg{width:18px;height:18px;fill:var(--amber);}
+    .proof-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
+    .proof-label{font-size:13px;color:var(--faint);}
+    .proof-div{width:1px;height:34px;background:var(--border-2);}
+
+    /* hero visual */
+    .hero-visual{position:relative;height:520px;}
+    .hv-card{
+      position:absolute;border-radius:var(--r-xl);overflow:hidden;
+      box-shadow:var(--shadow-soft);border:1px solid var(--border);
+    }
+    .hv-main{
+      inset:0;
+      background:
+        radial-gradient(120% 90% at 70% 15%, rgba(255,176,0,0.22), transparent 55%),
+        linear-gradient(160deg,#131a26 0%,#0a0f1a 100%);
+      display:flex;flex-direction:column;justify-content:flex-end;padding:34px;
+    }
+    .hv-main::before{
+      content:"";position:absolute;top:-40%;right:-30%;width:80%;height:80%;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(212,175,55,0.35), transparent 70%);
+      filter:blur(18px);
+    }
+    .hv-ring{
+      position:absolute;top:40px;left:40px;width:108px;height:108px;border-radius:50%;
+      border:1.5px solid rgba(255,176,0,0.4);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .hv-ring span{font-family:'Playfair Display',serif;font-style:italic;font-size:32px;}
+    .hv-tag{position:relative;z-index:1;}
+    .hv-tag .t1{font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:600;}
+    .hv-tag .t2{font-family:'Playfair Display',serif;font-size:30px;margin-top:8px;}
+    .hv-float{
+      bottom:-26px;left:-26px;width:206px;padding:20px 22px;
+      background:rgba(13,20,34,0.92);backdrop-filter:blur(10px);
+      display:flex;align-items:center;gap:14px;
+    }
+    .hv-float .ic{width:46px;height:46px;border-radius:14px;background:var(--grad-gold-soft);border:1px solid rgba(255,176,0,0.25);display:flex;align-items:center;justify-content:center;color:var(--amber);flex:none;}
+    .hv-float .hv-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;line-height:1;}
+    .hv-float .hv-cap{font-size:12px;color:var(--muted);margin-top:3px;}
+
+    /* ---- Sections ---- */
+    section{padding:96px 0;position:relative;}
+    .sec-head{max-width:640px;margin:0 auto 60px;text-align:center;}
+    .eyebrow{font-size:12.5px;letter-spacing:0.34em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:16px;display:block;}
+    .sec-head h2{font-size:clamp(2.1rem,1.5rem+2vw,3.2rem);font-weight:700;margin-bottom:18px;}
+    .sec-head p{font-size:17px;color:var(--muted);}
+
+    /* services */
+    .services{background:linear-gradient(180deg,transparent,rgba(13,20,34,0.5),transparent);}
+    .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+    .svc-card{
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
+      padding:30px 26px;transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),border-color var(--dur) var(--ease);
+      display:flex;flex-direction:column;
+    }
+    .svc-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lift);border-color:var(--border-2);}
+    .svc-ic{width:58px;height:58px;border-radius:18px;background:var(--grad-gold-soft);border:1px solid rgba(255,176,0,0.22);display:flex;align-items:center;justify-content:center;color:var(--amber);margin-bottom:24px;}
+    .svc-ic svg{width:28px;height:28px;}
+    .svc-card h3{font-size:21px;font-weight:600;margin-bottom:10px;}
+    .svc-card p{font-size:14.5px;color:var(--muted);line-height:1.6;flex:1;margin-bottom:22px;}
+    .svc-foot{display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid var(--border);padding-top:18px;}
+    .svc-price{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
+    .svc-price small{font-size:13px;color:var(--faint);font-family:'Inter',sans-serif;font-weight:400;}
+    .svc-arrow{color:var(--gold);transition:transform var(--dur) var(--ease);}
+    .svc-card:hover .svc-arrow{transform:translateX(5px);}
+
+    /* values */
+    .val-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    .val-card{padding:34px 30px;border-radius:var(--r-lg);background:var(--surface-2);border:1px solid var(--border);transition:transform var(--dur) var(--ease),border-color var(--dur) var(--ease);}
+    .val-card:hover{transform:translateY(-6px);border-color:var(--border-2);}
+    .val-ic{width:54px;height:54px;border-radius:50%;border:1.5px solid rgba(255,176,0,0.35);display:flex;align-items:center;justify-content:center;color:var(--amber);margin-bottom:22px;}
+    .val-ic svg{width:26px;height:26px;}
+    .val-card h3{font-size:20px;font-weight:600;margin-bottom:12px;}
+    .val-card p{font-size:15px;color:var(--muted);line-height:1.65;}
+
+    /* gallery */
+    .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:200px;gap:18px;}
+    .gal{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border);position:relative;transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease);cursor:pointer;}
+    .gal:hover{transform:scale(1.018);box-shadow:var(--shadow-lift);}
+    .gal.tall{grid-row:span 2;}
+    .gal .cap{position:absolute;left:20px;bottom:18px;z-index:2;}
+    .gal .cap .c1{font-size:11px;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);font-weight:600;}
+    .gal .cap .c2{font-family:'Playfair Display',serif;font-size:21px;margin-top:4px;}
+    .gal::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(7,11,20,0.78));z-index:1;}
+    .g1{background:radial-gradient(120% 100% at 30% 20%,rgba(255,176,0,0.3),transparent 60%),linear-gradient(150deg,#1a2436,#0a0f1a);}
+    .g2{background:radial-gradient(120% 100% at 70% 30%,rgba(212,175,55,0.28),transparent 60%),linear-gradient(150deg,#141d2e,#0c1220);}
+    .g3{background:radial-gradient(100% 120% at 50% 80%,rgba(255,176,0,0.22),transparent 60%),linear-gradient(150deg,#11192a,#080d18);}
+    .g4{background:radial-gradient(120% 100% at 20% 70%,rgba(212,175,55,0.3),transparent 60%),linear-gradient(150deg,#18212f,#0a0f1a);}
+    .g5{background:radial-gradient(120% 100% at 80% 20%,rgba(255,176,0,0.26),transparent 60%),linear-gradient(150deg,#131c2c,#090e19);}
+
+    /* testimonials */
+    .reviews{background:linear-gradient(180deg,transparent,rgba(13,20,34,0.5),transparent);}
+    .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .rev-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:32px 30px;transition:transform var(--dur) var(--ease),border-color var(--dur) var(--ease);}
+    .rev-card:hover{transform:translateY(-6px);border-color:var(--border-2);}
+    .rev-stars{display:flex;gap:3px;margin-bottom:18px;}
+    .rev-stars svg{width:18px;height:18px;fill:var(--amber);}
+    .rev-card blockquote{font-size:16px;line-height:1.7;color:var(--fg);margin-bottom:24px;font-style:normal;}
+    .rev-who{display:flex;align-items:center;gap:13px;}
+    .rev-av{width:44px;height:44px;border-radius:50%;background:var(--grad-gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;color:#1a1206;font-size:18px;flex:none;}
+    .rev-name{font-size:15px;font-weight:600;}
+    .rev-meta{font-size:12.5px;color:var(--faint);}
+
+    /* CTA + info */
+    .cta-block{
+      background:
+        radial-gradient(120% 140% at 85% 0%, rgba(255,176,0,0.14), transparent 55%),
+        linear-gradient(160deg,#10182a 0%,#0a0f1a 100%);
+      border:1px solid var(--border-2);border-radius:var(--r-xl);
+      padding:64px 56px;position:relative;overflow:hidden;
+    }
+    .cta-block::before{content:"";position:absolute;top:-50%;right:-10%;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,0.18),transparent 70%);filter:blur(20px);pointer-events:none;}
+    .cta-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;position:relative;z-index:1;}
+    .cta-grid h2{font-size:clamp(2rem,1.4rem+2vw,3rem);font-weight:700;margin-bottom:18px;}
+    .cta-grid p{font-size:17px;color:var(--muted);margin-bottom:30px;line-height:1.65;}
+    .cta-btns{display:flex;gap:14px;flex-wrap:wrap;}
+    .info-list{display:flex;flex-direction:column;gap:4px;}
+    .info-row{display:flex;align-items:flex-start;gap:16px;padding:18px 0;border-bottom:1px solid var(--border);}
+    .info-row:last-child{border-bottom:none;}
+    .info-ic{width:42px;height:42px;border-radius:12px;background:var(--grad-gold-soft);border:1px solid rgba(255,176,0,0.22);display:flex;align-items:center;justify-content:center;color:var(--amber);flex:none;}
+    .info-ic svg{width:20px;height:20px;}
+    .info-k{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:3px;}
+    .info-v{font-size:15.5px;color:var(--fg);font-weight:500;}
+
+    /* footer */
+    footer{border-top:1px solid var(--border);padding:48px 0 64px;}
+    .foot-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+    .foot-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;}
+    .foot-copy{font-size:13.5px;color:var(--faint);}
+    .foot-soc{display:flex;gap:12px;}
+    .foot-soc a{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all var(--dur) var(--ease);}
+    .foot-soc a:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-3px);}
+    .foot-soc svg{width:18px;height:18px;}
+
+    /* responsive */
+    @media(max-width:1024px){
+      .svc-grid{grid-template-columns:repeat(2,1fr);}
+      .hero-grid{gap:44px;}
+    }
+    @media(max-width:860px){
+      .hero-grid{grid-template-columns:1fr;}
+      .hero-visual{height:420px;order:-1;}
+      .val-grid,.rev-grid,.gal-grid{grid-template-columns:1fr;}
+      .gal-grid{grid-auto-rows:180px;}
+      .gal.tall{grid-row:span 1;}
+      .cta-grid{grid-template-columns:1fr;gap:38px;}
+      .cta-block{padding:44px 30px;}
+    }
+    @media(max-width:520px){
+      .wrap{padding:0 18px;}
+      .svc-grid{grid-template-columns:1fr;}
+      section{padding:68px 0;}
+      .proof{gap:16px;}
+      .proof-div{display:none;}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Demo bar -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+    <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+    <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 41 · 뤼미에르 스파 — 브랜드 색감 × UI UX Pro Max UX</span>
+    <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+  </div>
+  <div style="height:40px;"></div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand">Lumière<small>Spa · Cheongdam</small></a>
+      <div class="nav-links">
+        <a href="#services">시그니처</a>
+        <a href="#values">브랜드</a>
+        <a href="#gallery">갤러리</a>
+        <a href="#reviews">후기</a>
+        <a href="#booking">예약·위치</a>
+      </div>
+      <a href="#booking" class="btn btn-primary nav-cta">예약하기</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="badge"><span class="dot"></span>오늘 예약 가능 · 청담 본점</span>
+        <h1>고요한 빛이 머무는<br/><em class="text-gold">다크 럭셔리</em> 살롱</h1>
+        <p class="hero-lead">블랙과 골드의 절제된 무드 속에서, 피부와 손끝까지 섬세하게 돌보는 청담동 프리미엄 뷰티 스파. 당신만을 위한 한 시간을 예약하세요.</p>
+        <div class="hero-cta">
+          <a href="#booking" class="btn btn-primary">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            지금 예약하기
+          </a>
+          <a href="#services" class="btn btn-outline">
+            시술 둘러보기
+            <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="proof">
+          <div class="proof-stars">
+            <div class="stars">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+            </div>
+            <span class="proof-num text-gold">4.9</span>
+            <span class="proof-label">/ 5.0</span>
+          </div>
+          <div class="proof-div"></div>
+          <div>
+            <div class="proof-num">1,280+</div>
+            <div class="proof-label">누적 고객 후기</div>
+          </div>
+          <div class="proof-div"></div>
+          <div>
+            <div class="proof-num">12년</div>
+            <div class="proof-label">청담 운영 경력</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hv-card hv-main">
+          <div class="hv-ring"><span class="text-gold">L</span></div>
+          <div class="hv-tag">
+            <div class="t1">Signature Ritual</div>
+            <div class="t2">24K 골드 페이셜</div>
+          </div>
+        </div>
+        <div class="hv-card hv-float">
+          <div class="ic">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <div>
+            <div class="hv-num text-gold">98%</div>
+            <div class="hv-cap">재방문 만족도</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Services -->
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Signature Treatments</span>
+        <h2>네 가지 시그니처 케어</h2>
+        <p>피부, 손끝, 바디까지. 뤼미에르가 가장 자신 있는 프리미엄 시술을 만나보세요.</p>
+      </div>
+      <div class="svc-grid">
+        <article class="svc-card">
+          <div class="svc-ic"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>프리미엄 페이셜</h3>
+          <p>24K 골드 앰플과 딥 클렌징으로 피부 결을 정돈하는 90분 집중 안면 관리.</p>
+          <div class="svc-foot">
+            <div class="svc-price">₩180,000<small> / 90분</small></div>
+            <span class="svc-arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+        <article class="svc-card">
+          <div class="svc-ic"><svg class="icon" viewBox="0 0 24 24"><path d="M9 11V4a2 2 0 014 0v7"/><path d="M5 11h14v6a4 4 0 01-4 4H9a4 4 0 01-4-4z"/></svg></div>
+          <h3>아트 네일</h3>
+          <p>젤·아크릴·손그림 아트까지. 손끝에 골드 디테일을 더하는 맞춤 네일 디자인.</p>
+          <div class="svc-foot">
+            <div class="svc-price">₩75,000<small> / 60분</small></div>
+            <span class="svc-arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+        <article class="svc-card">
+          <div class="svc-ic"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></svg></div>
+          <h3>왁싱 케어</h3>
+          <p>저자극 슈가링 왁스로 매끄럽게. 민감 부위까지 위생적이고 빠른 전문 케어.</p>
+          <div class="svc-foot">
+            <div class="svc-price">₩45,000<small> / 40분</small></div>
+            <span class="svc-arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+        <article class="svc-card">
+          <div class="svc-ic"><svg class="icon" viewBox="0 0 24 24"><path d="M3 12c4-6 14-6 18 0-4 6-14 6-18 0z"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+          <h3>바디 트리트먼트</h3>
+          <p>아로마 오일 전신 마사지와 림프 케어로 깊은 피로를 풀어주는 120분 릴랙스.</p>
+          <div class="svc-foot">
+            <div class="svc-price">₩220,000<small> / 120분</small></div>
+            <span class="svc-arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section id="values">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Why Lumière</span>
+        <h2>왜 뤼미에르일까요</h2>
+        <p>고급스러움은 분위기만으로 완성되지 않습니다. 우리가 지키는 세 가지 약속.</p>
+      </div>
+      <div class="val-grid">
+        <div class="val-card">
+          <div class="val-ic"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21l2.3-7.1-6-4.5h7.6z"/></svg></div>
+          <h3>전 시술 1:1 프라이빗</h3>
+          <p>독립된 프라이빗 룸에서 전담 테라피스트가 처음부터 끝까지 책임지는 단독 케어. 다른 손님과 동선이 겹치지 않습니다.</p>
+        </div>
+        <div class="val-card">
+          <div class="val-ic"><svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>의료 등급 위생 관리</h3>
+          <p>모든 도구는 1인 1소독 원칙으로 멸균 관리되며, 정품 인증 제품만 사용합니다. 민감성 피부도 안심할 수 있는 환경.</p>
+        </div>
+        <div class="val-card">
+          <div class="val-ic"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+          <h3>경력 12년+ 전문가</h3>
+          <p>평균 12년 경력의 베테랑 테라피스트가 피부 상태와 라이프스타일을 진단해 당신만의 케어 플랜을 설계합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">The Space</span>
+        <h2>공간 &amp; 시술 갤러리</h2>
+        <p>블랙과 골드가 머무는 청담 살롱의 분위기를 미리 둘러보세요.</p>
+      </div>
+      <div class="gal-grid">
+        <div class="gal tall g1"><div class="cap"><div class="c1">Lounge</div><div class="c2">웰컴 라운지</div></div></div>
+        <div class="gal g2"><div class="cap"><div class="c1">Facial</div><div class="c2">골드 페이셜 룸</div></div></div>
+        <div class="gal g3"><div class="cap"><div class="c1">Nail Bar</div><div class="c2">아트 네일 바</div></div></div>
+        <div class="gal g4"><div class="cap"><div class="c1">Private</div><div class="c2">프라이빗 스파 룸</div></div></div>
+        <div class="gal tall g5"><div class="cap"><div class="c1">Detail</div><div class="c2">골드 디테일</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews" id="reviews">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Guest Stories</span>
+        <h2>고객의 진짜 후기</h2>
+        <p>1,280명이 넘는 손님이 남긴 평균 4.9점. 그중 몇 가지 이야기.</p>
+      </div>
+      <div class="rev-grid">
+        <article class="rev-card">
+          <div class="rev-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          </div>
+          <blockquote>“골드 페이셜 받고 나서 피부 톤이 확 살아났어요. 무엇보다 프라이빗 룸이라 누구 신경 안 쓰고 온전히 쉬다 갈 수 있었습니다.”</blockquote>
+          <div class="rev-who"><div class="rev-av">서</div><div><div class="rev-name">서지윤</div><div class="rev-meta">프리미엄 페이셜 · 단골 2년차</div></div></div>
+        </article>
+        <article class="rev-card">
+          <div class="rev-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          </div>
+          <blockquote>“아트 네일 디자인 감각이 정말 남달라요. 골드 라인 디테일 살려달라 했더니 기대 이상으로 고급스럽게 나왔습니다. 강추.”</blockquote>
+          <div class="rev-who"><div class="rev-av">민</div><div><div class="rev-name">민하경</div><div class="rev-meta">아트 네일 · 첫 방문</div></div></div>
+        </article>
+        <article class="rev-card">
+          <div class="rev-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          </div>
+          <blockquote>“바디 트리트먼트 120분이 어떻게 지나갔는지 모르겠어요. 향과 조명, 손길까지 완벽했고 며칠째 몸이 가볍습니다.”</blockquote>
+          <div class="rev-who"><div class="rev-av">한</div><div><div class="rev-name">한도윤</div><div class="rev-meta">바디 트리트먼트 · 단골 3년차</div></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking CTA + Info -->
+  <section id="booking">
+    <div class="wrap">
+      <div class="cta-block">
+        <div class="cta-grid">
+          <div>
+            <h2>오늘, 당신을 위한<br/><span class="text-gold">한 시간</span>을 예약하세요</h2>
+            <p>예약은 전화 또는 메시지로 간단하게. 첫 방문 고객은 골드 페이셜 10% 웰컴 혜택을 드립니다.</p>
+            <div class="cta-btns">
+              <a href="tel:0255512345" class="btn btn-primary">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8 9.6a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg>
+                02-551-2345
+              </a>
+              <a href="#top" class="btn btn-outline">카카오 예약하기</a>
+            </div>
+          </div>
+          <div class="info-list">
+            <div class="info-row">
+              <div class="info-ic"><svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div><div class="info-k">Location</div><div class="info-v">서울 강남구 청담동 도산대로 100, 3층</div></div>
+            </div>
+            <div class="info-row">
+              <div class="info-ic"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+              <div><div class="info-k">Hours</div><div class="info-v">평일 11:00 – 21:00 · 주말 10:00 – 20:00 · 월 휴무</div></div>
+            </div>
+            <div class="info-row">
+              <div class="info-ic"><svg class="icon" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8 9.6a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg></div>
+              <div><div class="info-k">Reservation</div><div class="info-v">02-551-2345 · @lumiere.spa</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap foot-inner">
+      <div>
+        <div class="foot-brand">Lumière <span class="text-gold">Spa</span></div>
+        <div class="foot-copy">© 2026 뤼미에르 스파 · 서울 청담. 다크 럭셔리 뷰티 살롱.</div>
+      </div>
+      <div class="foot-soc">
+        <a href="#top" aria-label="Instagram"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#top" aria-label="전화"><svg class="icon" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8 9.6a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg></a>
+        <a href="#top" aria-label="위치"><svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

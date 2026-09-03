@@ -1,0 +1,685 @@
+---
+---
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>프라임에셋 자산운용 · Confidential Offering Memorandum</title>
+<meta name="description" content="프라임에셋 자산운용 — 부동산·펀드·세무·승계 통합 자산관리. 1990년대 투자은행 IPO 제안서 스타일 데모." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#10221c;          /* 먹빛 딥그린 배경 */
+    --ink-2:#0b1813;        /* 더 짙은 패널 */
+    --ink-3:#16302746;      /* 살짝 밝은 라인 위 패널 */
+    --gold:#d4af7a;         /* 샴페인 골드 */
+    --gold-deep:#b8945f;
+    --paper:#e7ece8;        /* 밝은 본문 */
+    --paper-dim:#a9b8af;    /* 흐린 본문 */
+    --paper-faint:#76887d;  /* 가장 흐린 */
+    --rule:#2c4339;         /* 구획선 */
+    --rule-gold:#6e5a38;    /* 골드 구획선 */
+    --pos:#7cc6a0;          /* 양(+) 수익 */
+    --neg:#cf7d6e;          /* 음(-) */
+    --serif:'Playfair Display', Georgia, serif;
+    --serif-2:'Cormorant Garamond', Georgia, serif;
+    --sans:'Inter','IBM Plex Sans', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--ink);color:var(--paper);
+    font-family:var(--sans);font-weight:400;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, #1a3329 0%, var(--ink) 55%),
+      repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(212,175,122,0.018) 38px, rgba(212,175,122,0.018) 39px);
+  }
+  a{color:inherit;}
+  ::selection{background:var(--gold);color:var(--ink);}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .mono{font-family:var(--mono);}
+  .small-caps{font-family:var(--sans);text-transform:uppercase;letter-spacing:0.22em;font-size:11px;font-weight:600;color:var(--gold);}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+
+  /* CONFIDENTIAL 머릿단 (sticky) */
+  .confbar{
+    position:sticky;top:0;z-index:50;
+    background:var(--ink-2);
+    border-bottom:1px solid var(--rule-gold);
+    border-top:1px solid var(--rule-gold);
+  }
+  .confbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:9px;padding-bottom:9px;}
+  .confbar .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.34em;color:var(--gold);text-transform:uppercase;}
+  .confbar .doc{font-family:var(--mono);font-size:10.5px;letter-spacing:0.18em;color:var(--paper-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+  /* 섹션 공통 */
+  section{padding:84px 0;border-top:1px solid var(--rule);}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:40px;flex-wrap:wrap;}
+  .sec-no{font-family:var(--mono);font-size:12px;color:var(--gold-deep);letter-spacing:0.1em;border:1px solid var(--rule-gold);padding:3px 8px;border-radius:1px;}
+  .sec-title{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,1rem+2.2vw,2.6rem);letter-spacing:-0.01em;margin:0;line-height:1.08;}
+  .sec-sub{font-family:var(--serif-2);font-style:italic;font-size:1.05rem;color:var(--paper-dim);margin:6px 0 0;}
+  .eyebrow{margin:0 0 14px;}
+
+  /* ───────── 표지 히어로 ───────── */
+  .cover{
+    position:relative;
+    padding:0;border-top:none;
+    background:
+      linear-gradient(180deg, rgba(11,24,19,0) 60%, var(--ink) 100%),
+      radial-gradient(80% 60% at 78% 18%, rgba(212,175,122,0.10), transparent 60%);
+  }
+  .cover-inner{padding:64px 0 70px;}
+  .cover-meta{
+    display:flex;justify-content:space-between;gap:20px;
+    padding-bottom:18px;margin-bottom:46px;border-bottom:1px solid var(--rule-gold);
+    font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--paper-faint);flex-wrap:wrap;
+  }
+  .cover-meta b{color:var(--gold);font-weight:600;}
+  .deal-eyebrow{font-family:var(--mono);letter-spacing:0.38em;font-size:12px;color:var(--gold);text-transform:uppercase;margin:0 0 22px;}
+  .deal-name{
+    font-family:var(--serif);font-weight:800;line-height:0.98;letter-spacing:-0.015em;
+    font-size:clamp(2.8rem,1.2rem+7vw,6.4rem);margin:0;
+  }
+  .deal-name span{display:block;font-family:var(--serif-2);font-style:italic;font-weight:500;
+    font-size:clamp(1.2rem,0.6rem+2.6vw,2.2rem);color:var(--gold);letter-spacing:0;margin-top:10px;}
+  .deal-desc{max-width:560px;color:var(--paper-dim);font-size:1.06rem;margin:30px 0 0;font-family:var(--serif-2);font-style:italic;font-size:1.28rem;line-height:1.5;}
+
+  .cover-kpis{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:54px;
+    border:1px solid var(--rule-gold);
+  }
+  .kpi{padding:22px 20px;border-right:1px solid var(--rule);}
+  .kpi:last-child{border-right:none;}
+  .kpi .l{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:10px;}
+  .kpi .v{font-family:var(--serif);font-weight:700;font-size:2rem;line-height:1;color:var(--paper);}
+  .kpi .v small{font-size:0.95rem;color:var(--gold);font-family:var(--mono);font-weight:500;margin-left:3px;}
+  .kpi .d{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);margin-top:9px;letter-spacing:0.04em;}
+
+  .underwriters{display:flex;align-items:center;gap:14px;margin-top:50px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11px;color:var(--paper-faint);letter-spacing:0.1em;}
+  .underwriters .hr{height:1px;flex:1;background:var(--rule-gold);min-width:30px;}
+  .underwriters b{color:var(--gold);font-weight:500;}
+
+  /* ───────── 서비스 ───────── */
+  .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+  .svc{background:var(--ink);padding:30px 28px;position:relative;transition:background .25s;}
+  .svc:hover{background:var(--ink-2);}
+  .svc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;}
+  .svc-no{font-family:var(--mono);font-size:11px;color:var(--gold-deep);letter-spacing:0.1em;}
+  .svc h3{font-family:var(--serif);font-weight:700;font-size:1.5rem;margin:14px 0 4px;letter-spacing:-0.01em;}
+  .svc .en{font-family:var(--mono);font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--paper-faint);}
+  .svc p{color:var(--paper-dim);font-size:0.95rem;margin:16px 0 22px;}
+  .svc-stat{display:flex;gap:26px;border-top:1px solid var(--rule);padding-top:16px;}
+  .svc-stat .s .v{font-family:var(--mono);font-weight:600;font-size:1.35rem;color:var(--gold);}
+  .svc-stat .s .l{font-family:var(--mono);font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--paper-faint);margin-top:4px;}
+
+  /* ───────── 운용 성과 ───────── */
+  .perf-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:start;}
+  .chart-card{border:1px solid var(--rule-gold);padding:26px 26px 18px;background:var(--ink-2);}
+  .chart-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+  .chart-head h4{font-family:var(--serif);font-size:1.15rem;margin:0;font-weight:600;}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--paper-dim);}
+  .legend i{display:inline-block;width:11px;height:11px;margin-right:5px;vertical-align:-1px;}
+  .legend .bar-i{background:var(--gold);}
+  .legend .line-i{background:none;border-bottom:2px solid var(--pos);height:0;width:14px;}
+
+  .combo{width:100%;height:auto;display:block;margin-top:8px;font-family:var(--mono);}
+  .combo .grid-l{stroke:var(--rule);stroke-width:1;}
+  .combo .axis-t{fill:var(--paper-faint);font-size:10px;}
+  .combo .bar{fill:var(--gold);}
+  .combo .bar-top{fill:var(--gold-deep);}
+  .combo .nav-line{fill:none;stroke:var(--pos);stroke-width:2;}
+  .combo .nav-dot{fill:var(--ink-2);stroke:var(--pos);stroke-width:2;}
+
+  .fin-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px;}
+  .fin-table caption{text-align:left;font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--paper);margin-bottom:14px;letter-spacing:-0.01em;}
+  .fin-table th,.fin-table td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums;}
+  .fin-table th:first-child,.fin-table td:first-child{text-align:left;color:var(--paper-dim);}
+  .fin-table thead th{color:var(--gold);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--rule-gold);}
+  .fin-table tbody tr:hover td{background:var(--ink-3);}
+  .fin-table .pos{color:var(--pos);}
+  .fin-table .neg{color:var(--neg);}
+  .fin-table tfoot td{border-top:1px solid var(--rule-gold);border-bottom:none;color:var(--gold);font-weight:600;padding-top:11px;}
+
+  /* 밸류에이션 레인지 */
+  .valbox{margin-top:40px;border:1px solid var(--rule);padding:26px 26px 14px;}
+  .valbox h4{font-family:var(--serif);font-weight:600;font-size:1.15rem;margin:0 0 4px;}
+  .valbox .cap{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:0.06em;margin-bottom:22px;}
+  .valrow{display:grid;grid-template-columns:140px 1fr 96px;align-items:center;gap:14px;margin-bottom:16px;}
+  .valrow .nm{font-family:var(--mono);font-size:11px;color:var(--paper-dim);letter-spacing:0.04em;}
+  .valtrack{position:relative;height:16px;background:var(--ink-2);border:1px solid var(--rule);}
+  .valbar{position:absolute;top:-1px;bottom:-1px;background:linear-gradient(90deg,var(--gold-deep),var(--gold));border-left:1px solid var(--paper);border-right:1px solid var(--paper);}
+  .valmid{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--paper);}
+  .valrow .rg{font-family:var(--mono);font-size:11px;text-align:right;color:var(--gold);font-variant-numeric:tabular-nums;}
+  .valscale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--paper-faint);border-top:1px solid var(--rule);padding-top:8px;margin-top:6px;}
+
+  /* ───────── 자산배분 ───────── */
+  .alloc-grid{display:grid;grid-template-columns:340px 1fr;gap:54px;align-items:center;}
+  .donut-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .donut{transform:rotate(-90deg);}
+  .donut .center-v{transform:rotate(90deg);}
+  .alloc-legend{width:100%;}
+  .alloc-row{display:grid;grid-template-columns:14px 1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12.5px;}
+  .alloc-row .sw{width:12px;height:12px;border-radius:1px;}
+  .alloc-row .nm{color:var(--paper);letter-spacing:0.02em;}
+  .alloc-row .nm small{display:block;color:var(--paper-faint);font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;margin-top:2px;}
+  .alloc-row .pct{color:var(--gold);font-variant-numeric:tabular-nums;}
+  .alloc-row .ret{color:var(--pos);font-variant-numeric:tabular-nums;width:70px;text-align:right;}
+
+  /* ───────── 타임라인 ───────── */
+  .timeline{border-left:1px solid var(--rule-gold);margin-left:8px;padding-left:0;}
+  .tl-item{position:relative;padding:0 0 34px 34px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{content:"";position:absolute;left:-5px;top:4px;width:9px;height:9px;background:var(--gold);border-radius:50%;box-shadow:0 0 0 4px var(--ink);}
+  .tl-yr{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--gold);}
+  .tl-item h4{font-family:var(--serif);font-weight:600;font-size:1.2rem;margin:5px 0 4px;}
+  .tl-item p{color:var(--paper-dim);font-size:0.93rem;margin:0;max-width:560px;}
+
+  /* ───────── 전문가 ───────── */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+  .person{background:var(--ink);padding:26px 24px;}
+  .person .ava{width:54px;height:54px;border:1px solid var(--rule-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.3rem;color:var(--gold);background:var(--ink-2);margin-bottom:18px;}
+  .person h4{font-family:var(--serif);font-weight:600;font-size:1.25rem;margin:0;}
+  .person .role{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-deep);margin:5px 0 14px;}
+  .person p{color:var(--paper-dim);font-size:0.9rem;margin:0 0 14px;}
+  .person ul{list-style:none;padding:0;margin:0;border-top:1px solid var(--rule);padding-top:12px;}
+  .person li{font-family:var(--mono);font-size:11px;color:var(--paper-faint);letter-spacing:0.03em;padding:3px 0;}
+  .person li b{color:var(--paper-dim);font-weight:500;}
+
+  /* ───────── CTA ───────── */
+  .cta{background:var(--ink-2);}
+  .cta-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:54px;align-items:center;}
+  .cta h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,1rem+3vw,3rem);margin:0 0 14px;line-height:1.05;letter-spacing:-0.01em;}
+  .cta h2 i{font-family:var(--serif-2);color:var(--gold);}
+  .cta p{color:var(--paper-dim);max-width:480px;margin:0 0 28px;}
+  .cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--ink);font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:14px 24px;text-decoration:none;border-radius:1px;transition:background .2s,transform .2s;}
+  .cta-btn:hover{background:var(--paper);transform:translateY(-2px);}
+  .contact-card{border:1px solid var(--rule-gold);padding:28px;background:var(--ink);}
+  .contact-card .small-caps{margin-bottom:18px;display:block;}
+  .crow{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12.5px;}
+  .crow:last-child{border-bottom:none;}
+  .crow .k{color:var(--paper-faint);letter-spacing:0.08em;}
+  .crow .v{color:var(--paper);text-align:right;}
+
+  /* ───────── 푸터 / 디스클레이머 ───────── */
+  footer{border-top:1px solid var(--rule-gold);padding:54px 0 70px;background:var(--ink-2);}
+  .foot-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start;margin-bottom:36px;}
+  .foot-brand{font-family:var(--serif);font-weight:700;font-size:1.5rem;}
+  .foot-brand span{font-family:var(--serif-2);font-style:italic;color:var(--gold);font-weight:500;}
+  .foot-cols{display:flex;gap:54px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--paper-faint);}
+  .foot-cols b{display:block;color:var(--gold);font-weight:500;letter-spacing:0.12em;text-transform:uppercase;font-size:10px;margin-bottom:12px;}
+  .foot-cols p{margin:0 0 6px;color:var(--paper-dim);}
+  .disc{border-top:1px solid var(--rule);padding-top:26px;}
+  .disc .fn{display:flex;gap:12px;font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);line-height:1.7;margin-bottom:10px;letter-spacing:0.01em;}
+  .disc .fn sup{color:var(--gold-deep);min-width:18px;font-weight:600;}
+  .copyline{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:0.1em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+  sup.fnref{color:var(--gold);font-size:0.6em;font-family:var(--mono);vertical-align:super;padding-left:1px;}
+
+  /* ───────── 반응형 ───────── */
+  @media (max-width:860px){
+    .cover-kpis{grid-template-columns:repeat(2,1fr);}
+    .kpi:nth-child(2){border-right:none;}
+    .kpi:nth-child(1),.kpi:nth-child(2){border-bottom:1px solid var(--rule);}
+    .svc-grid{grid-template-columns:1fr;}
+    .perf-grid{grid-template-columns:1fr;gap:38px;}
+    .alloc-grid{grid-template-columns:1fr;gap:38px;}
+    .team-grid{grid-template-columns:1fr;}
+    .cta-grid{grid-template-columns:1fr;gap:34px;}
+    .valrow{grid-template-columns:96px 1fr 78px;}
+  }
+  @media (max-width:480px){
+    .cover-kpis{grid-template-columns:1fr;}
+    .kpi{border-right:none;border-bottom:1px solid var(--rule);}
+    .kpi:last-child{border-bottom:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ───── 공통 데모바 ───── -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);border-bottom:2px solid #ffb000;font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;">
+  <a href="/portfolio" style="color:#ffb000;text-decoration:none;white-space:nowrap;">← PORTFOLIO</a>
+  <span style="color:#8ea0b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">SAMPLE 05 · 프라임에셋 — 1990년대 투자은행 IPO 제안서 스타일</span>
+  <a href="/contact" style="color:#070b14;background:#ffb000;padding:6px 12px;text-decoration:none;font-weight:700;white-space:nowrap;border-radius:2px;">제작 문의 →</a>
+</div>
+<div style="height:40px;"></div>
+
+<!-- ───── CONFIDENTIAL 머릿단 ───── -->
+<div class="confbar">
+  <div class="wrap">
+    <span class="tag">Strictly Private &amp; Confidential</span>
+    <span class="doc">PROJECT&nbsp;HANGANG&nbsp;·&nbsp;OFFERING&nbsp;MEMORANDUM&nbsp;·&nbsp;NO.&nbsp;041&nbsp;/&nbsp;120</span>
+  </div>
+</div>
+
+<!-- ───── ① 표지식 히어로 ───── -->
+<section class="cover" id="cover">
+  <div class="wrap cover-inner">
+    <div class="cover-meta">
+      <span>발행일 · <b>2026년 6월</b></span>
+      <span>주관 · <b>프라임에셋 자산운용</b></span>
+      <span>대상 · <b>적격 투자자 한정</b></span>
+      <span class="mono">REV. 2026.06—A</span>
+    </div>
+
+    <p class="deal-eyebrow">Private Wealth &amp; Real Estate Advisory</p>
+    <h1 class="deal-name">프라임에셋<span>Prime Asset Management — 자본의 시간을 설계합니다</span></h1>
+    <p class="deal-desc">부동산·사모펀드·세무·승계를 단일 자문 체계로 통합한 초고액 자산가 전용 운용사. 여의도 본사, 누적 운용자산 2.4조 원.<sup class="fnref">1</sup></p>
+
+    <div class="cover-kpis">
+      <div class="kpi">
+        <div class="l">Assets Under Management</div>
+        <div class="v"><span class="num">2.43</span><small>조원</small></div>
+        <div class="d">YoY +18.6% · 2026.05 기준</div>
+      </div>
+      <div class="kpi">
+        <div class="l">5yr Net IRR · 대표 전략</div>
+        <div class="v"><span class="num">12.7</span><small>%</small></div>
+        <div class="d">벤치 KOSPI +5.9%p 초과<sup class="fnref">2</sup></div>
+      </div>
+      <div class="kpi">
+        <div class="l">관리 가구 수</div>
+        <div class="v"><span class="num">1,184</span></div>
+        <div class="d">평균 위탁 21.0억 원</div>
+      </div>
+      <div class="kpi">
+        <div class="l">운용 경력 · 핵심 인력</div>
+        <div class="v"><span class="num">17</span><small>년+</small></div>
+        <div class="d">IB·세무·부동산 출신</div>
+      </div>
+    </div>
+
+    <div class="underwriters">
+      <span class="hr"></span>
+      <span>주관 운용 &nbsp;<b>PRIME ASSET</b></span>
+      <span class="hr"></span>
+      <span>자문 &nbsp;<b>한강세무법인</b></span>
+      <span class="hr"></span>
+      <span>수탁 &nbsp;<b>국민형제은행</b></span>
+      <span class="hr"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ② 서비스 ───── -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <div>
+        <h2 class="sec-title">통합 자산관리 라인업</h2>
+        <p class="sec-sub">Four Pillars of Integrated Wealth Advisory</p>
+      </div>
+    </div>
+
+    <div class="svc-grid">
+      <div class="svc">
+        <div class="svc-top"><span class="svc-no">2.01</span><span class="en">Real Estate</span></div>
+        <h3>부동산 자문</h3>
+        <p>핵심 상권 수익형 부동산 발굴, 임대차 구조 설계, 리츠·NPL 편입까지. 매입–보유–처분 전 주기를 단일 위원회가 관리합니다.</p>
+        <div class="svc-stat">
+          <div class="s"><div class="v num">7,820억</div><div class="l">운용 부동산</div></div>
+          <div class="s"><div class="v num">6.4%</div><div class="l">평균 캡레이트</div></div>
+          <div class="s"><div class="v num">31건</div><div class="l">진행 딜</div></div>
+        </div>
+      </div>
+
+      <div class="svc">
+        <div class="svc-top"><span class="svc-no">2.02</span><span class="en">Private Fund</span></div>
+        <h3>사모펀드 운용</h3>
+        <p>메자닌·프리IPO·구조화 채권을 결합한 절대수익 전략. 분기 환매 창구와 콜다운 일정을 투자자별로 분리 운용합니다.</p>
+        <div class="svc-stat">
+          <div class="s"><div class="v num">1.12조</div><div class="l">펀드 AUM</div></div>
+          <div class="s"><div class="v num">12.7%</div><div class="l">5yr Net IRR</div></div>
+          <div class="s"><div class="v num">9개</div><div class="l">운용 비히클</div></div>
+        </div>
+      </div>
+
+      <div class="svc">
+        <div class="svc-top"><span class="svc-no">2.03</span><span class="en">Tax Structuring</span></div>
+        <h3>세무 설계</h3>
+        <p>양도·증여·법인 전환 시나리오를 사전 모델링하여 실효세율을 최적화합니다. 한강세무법인과 공동 검토 체계.</p>
+        <div class="svc-stat">
+          <div class="s"><div class="v num">−4.8%p</div><div class="l">평균 실효세율 ↓</div></div>
+          <div class="s"><div class="v num">240건</div><div class="l">연 자문</div></div>
+          <div class="s"><div class="v num">100%</div><div class="l">사전 검토</div></div>
+        </div>
+      </div>
+
+      <div class="svc">
+        <div class="svc-top"><span class="svc-no">2.04</span><span class="en">Succession</span></div>
+        <h3>가업 승계</h3>
+        <p>지분 이전, 가족재단·신탁 구조, 의결권 설계까지 2세대 자본 이전을 장기 로드맵으로 설계합니다.</p>
+        <div class="svc-stat">
+          <div class="s"><div class="v num">58가구</div><div class="l">승계 진행</div></div>
+          <div class="s"><div class="v num">3,400억</div><div class="l">이전 자산</div></div>
+          <div class="s"><div class="v num">10년</div><div class="l">평균 로드맵</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ③ 운용 성과 (콤보 차트 + 표) ───── -->
+<section id="performance">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <div>
+        <h2 class="sec-title">운용 성과 검토</h2>
+        <p class="sec-sub">Track Record · Audited Financial Highlights</p>
+      </div>
+    </div>
+
+    <div class="perf-grid">
+      <!-- 콤보 차트: 막대(연간 순유입) + 라인(누적 NAV 지수) -->
+      <div class="chart-card">
+        <div class="chart-head">
+          <h4>연간 순유입 &amp; 누적 NAV 지수</h4>
+          <div class="legend">
+            <span><i class="bar-i"></i>순유입(억)</span>
+            <span><i class="line-i"></i>NAV 지수</span>
+          </div>
+        </div>
+        <svg class="combo" viewBox="0 0 560 280" role="img" aria-label="연간 순유입 막대와 누적 NAV 라인 콤보 차트">
+          <!-- 그리드 -->
+          <line class="grid-l" x1="46" y1="30"  x2="540" y2="30"/>
+          <line class="grid-l" x1="46" y1="80"  x2="540" y2="80"/>
+          <line class="grid-l" x1="46" y1="130" x2="540" y2="130"/>
+          <line class="grid-l" x1="46" y1="180" x2="540" y2="180"/>
+          <line class="grid-l" x1="46" y1="230" x2="540" y2="230"/>
+          <!-- y축 라벨 (좌: 순유입) -->
+          <text class="axis-t" x="40" y="234" text-anchor="end">0</text>
+          <text class="axis-t" x="40" y="184" text-anchor="end">1,500</text>
+          <text class="axis-t" x="40" y="134" text-anchor="end">3,000</text>
+          <text class="axis-t" x="40" y="84"  text-anchor="end">4,500</text>
+          <text class="axis-t" x="40" y="34"  text-anchor="end">6,000</text>
+
+          <!-- 막대: 7개 연도 -->
+          <!-- 값(억): 1450, 2380, 1980, 3120, 2740, 4380, 5210 -->
+          <rect class="bar" x="64"  y="181.7" width="36" height="48.3"/>
+          <rect class="bar" x="132" y="150.7" width="36" height="79.3"/>
+          <rect class="bar" x="200" y="164.0" width="36" height="66.0"/>
+          <rect class="bar" x="268" y="126.0" width="36" height="104.0"/>
+          <rect class="bar" x="336" y="138.7" width="36" height="91.3"/>
+          <rect class="bar" x="404" y="84.0"  width="36" height="146.0"/>
+          <rect class="bar-top" x="472" y="56.3" width="36" height="173.7"/>
+
+          <!-- 라인: 누적 NAV 지수 (100 → 178), y매핑 230(=100)~30(=180) -->
+          <!-- 100,116,124,141,150,165,178 -->
+          <polyline class="nav-line" points="82,230 150,189 218,168 286,124 354,101 422,63 490,30"/>
+          <circle class="nav-dot" cx="82"  cy="230" r="3.5"/>
+          <circle class="nav-dot" cx="150" cy="189" r="3.5"/>
+          <circle class="nav-dot" cx="218" cy="168" r="3.5"/>
+          <circle class="nav-dot" cx="286" cy="124" r="3.5"/>
+          <circle class="nav-dot" cx="354" cy="101" r="3.5"/>
+          <circle class="nav-dot" cx="422" cy="63"  r="3.5"/>
+          <circle class="nav-dot" cx="490" cy="30"  r="3.5"/>
+
+          <!-- x축 라벨 -->
+          <text class="axis-t" x="82"  y="252" text-anchor="middle">'19</text>
+          <text class="axis-t" x="150" y="252" text-anchor="middle">'20</text>
+          <text class="axis-t" x="218" y="252" text-anchor="middle">'21</text>
+          <text class="axis-t" x="286" y="252" text-anchor="middle">'22</text>
+          <text class="axis-t" x="354" y="252" text-anchor="middle">'23</text>
+          <text class="axis-t" x="422" y="252" text-anchor="middle">'24</text>
+          <text class="axis-t" x="490" y="252" text-anchor="middle">'25</text>
+          <text class="axis-t" x="290" y="274" text-anchor="middle" style="fill:#76887d;letter-spacing:0.1em;">FISCAL YEAR · 회계연도</text>
+        </svg>
+      </div>
+
+      <!-- 재무 하이라이트 표 -->
+      <div>
+        <table class="fin-table">
+          <caption>재무 하이라이트<sup class="fnref">3</sup></caption>
+          <thead>
+            <tr><th>(단위: 억원)</th><th>'23</th><th>'24</th><th>'25</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>운용보수 수익</td><td class="num">214</td><td class="num">268</td><td class="num">331</td></tr>
+            <tr><td>성과보수</td><td class="num">87</td><td class="num">142</td><td class="num">196</td></tr>
+            <tr><td>영업비용</td><td class="num">−138</td><td class="num">−161</td><td class="num">−189</td></tr>
+            <tr><td>영업이익</td><td class="num">163</td><td class="num">249</td><td class="num">338</td></tr>
+            <tr><td>영업이익률</td><td class="num pos">54.1%</td><td class="num pos">60.7%</td><td class="num pos">64.1%</td></tr>
+            <tr><td>순유입 AUM</td><td class="num">2,740</td><td class="num">4,380</td><td class="num">5,210</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>당기순이익</td><td class="num">128</td><td class="num">198</td><td class="num">271</td></tr>
+          </tfoot>
+        </table>
+
+        <!-- 밸류에이션 레인지 바 -->
+        <div class="valbox">
+          <h4>밸류에이션 레인지</h4>
+          <p class="cap">Implied Enterprise Value · 단위 조원 · 굵은 선 = 중앙 추정<sup class="fnref">4</sup></p>
+
+          <div class="valrow">
+            <span class="nm">DCF</span>
+            <div class="valtrack"><span class="valbar" style="left:18%;right:38%;"></span><span class="valmid" style="left:50%;"></span></div>
+            <span class="rg">0.9 – 1.5</span>
+          </div>
+          <div class="valrow">
+            <span class="nm">거래사례 (P/AUM)</span>
+            <div class="valtrack"><span class="valbar" style="left:30%;right:22%;"></span><span class="valmid" style="left:59%;"></span></div>
+            <span class="rg">1.2 – 1.8</span>
+          </div>
+          <div class="valrow">
+            <span class="nm">유사기업 (P/E)</span>
+            <div class="valtrack"><span class="valbar" style="left:42%;right:10%;"></span><span class="valmid" style="left:66%;"></span></div>
+            <span class="rg">1.5 – 2.1</span>
+          </div>
+          <div class="valscale"><span>0.6조</span><span>1.2조</span><span>1.8조</span><span>2.4조</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ④ 자산배분 모델 (도넛 + 막대) ───── -->
+<section id="allocation">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <div>
+        <h2 class="sec-title">표준 자산배분 모델</h2>
+        <p class="sec-sub">Model Portfolio Allocation · Balanced Growth</p>
+      </div>
+    </div>
+
+    <div class="alloc-grid">
+      <div class="donut-wrap">
+        <!-- 도넛: stroke-dasharray, 둘레 ≈ 2πr, r=70 → 439.8 -->
+        <svg class="donut" width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="자산배분 도넛 차트">
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#0b1813" stroke-width="34"/>
+          <!-- 부동산 34% -->
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#d4af7a" stroke-width="34"
+                  stroke-dasharray="149.5 290.3" stroke-dashoffset="0"/>
+          <!-- 사모펀드 27% -->
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#7cc6a0" stroke-width="34"
+                  stroke-dasharray="118.7 321.1" stroke-dashoffset="-149.5"/>
+          <!-- 채권 21% -->
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#b8945f" stroke-width="34"
+                  stroke-dasharray="92.4 347.4" stroke-dashoffset="-268.2"/>
+          <!-- 대체투자 12% -->
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#5c7d6e" stroke-width="34"
+                  stroke-dasharray="52.8 387.0" stroke-dashoffset="-360.6"/>
+          <!-- 현금 6% -->
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#3a5247" stroke-width="34"
+                  stroke-dasharray="26.4 413.4" stroke-dashoffset="-413.4"/>
+          <text class="center-v" x="120" y="113" text-anchor="middle" fill="#e7ece8" font-family="'Playfair Display',serif" font-size="26" font-weight="700">100%</text>
+          <text class="center-v" x="120" y="133" text-anchor="middle" fill="#76887d" font-family="'IBM Plex Mono',monospace" font-size="9" letter-spacing="2">ALLOCATED</text>
+        </svg>
+        <p class="mono" style="font-size:10.5px;color:var(--paper-faint);letter-spacing:0.1em;text-align:center;">목표 변동성 8.5% · 리밸런싱 분기 1회</p>
+      </div>
+
+      <div class="alloc-legend">
+        <div class="alloc-row"><span class="sw" style="background:#d4af7a"></span><span class="nm">부동산<small>Real Estate</small></span><span class="pct">34.0%</span><span class="ret">+9.1%</span></div>
+        <div class="alloc-row"><span class="sw" style="background:#7cc6a0"></span><span class="nm">사모펀드<small>Private Fund</small></span><span class="pct">27.0%</span><span class="ret">+12.7%</span></div>
+        <div class="alloc-row"><span class="sw" style="background:#b8945f"></span><span class="nm">구조화 채권<small>Structured Credit</small></span><span class="pct">21.0%</span><span class="ret">+6.3%</span></div>
+        <div class="alloc-row"><span class="sw" style="background:#5c7d6e"></span><span class="nm">대체투자<small>Alternatives</small></span><span class="pct">12.0%</span><span class="ret">+8.0%</span></div>
+        <div class="alloc-row"><span class="sw" style="background:#3a5247"></span><span class="nm">현금성 자산<small>Cash &amp; Equivalents</small></span><span class="pct">6.0%</span><span class="ret">+3.4%</span></div>
+
+        <!-- 막대: 자산군별 기여 수익 -->
+        <div style="margin-top:26px;">
+          <p class="small-caps" style="margin-bottom:14px;">자산군별 수익 기여도 · 2025</p>
+          <svg width="100%" height="150" viewBox="0 0 420 150" preserveAspectRatio="none" role="img" aria-label="자산군별 수익 기여 막대그래프" style="font-family:var(--mono);">
+            <!-- baseline -->
+            <line x1="0" y1="120" x2="420" y2="120" stroke="#2c4339" stroke-width="1"/>
+            <!-- 기여(bp): 부동산 310, 펀드 343, 채권 132, 대체 96, 현금 20 / max 360 → h scale -->
+            <rect x="14"  y="36"  width="56" height="84"  fill="#d4af7a"/>
+            <rect x="96"  y="25"  width="56" height="95"  fill="#7cc6a0"/>
+            <rect x="178" y="83"  width="56" height="37"  fill="#b8945f"/>
+            <rect x="260" y="93"  width="56" height="27"  fill="#5c7d6e"/>
+            <rect x="342" y="114" width="56" height="6"   fill="#3a5247"/>
+            <text x="42"  y="30" text-anchor="middle" fill="#d4af7a" font-size="11">+310bp</text>
+            <text x="124" y="19" text-anchor="middle" fill="#7cc6a0" font-size="11">+343bp</text>
+            <text x="206" y="77" text-anchor="middle" fill="#a9b8af" font-size="11">+132bp</text>
+            <text x="288" y="87" text-anchor="middle" fill="#a9b8af" font-size="11">+96bp</text>
+            <text x="370" y="108" text-anchor="middle" fill="#76887d" font-size="11">+20bp</text>
+            <text x="42"  y="138" text-anchor="middle" fill="#76887d" font-size="9.5">부동산</text>
+            <text x="124" y="138" text-anchor="middle" fill="#76887d" font-size="9.5">펀드</text>
+            <text x="206" y="138" text-anchor="middle" fill="#76887d" font-size="9.5">채권</text>
+            <text x="288" y="138" text-anchor="middle" fill="#76887d" font-size="9.5">대체</text>
+            <text x="370" y="138" text-anchor="middle" fill="#76887d" font-size="9.5">현금</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- 타임라인 -->
+    <div style="margin-top:70px;">
+      <p class="small-caps eyebrow">연혁 · Firm Milestones</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-yr">2012</div><h4>프라임에셋 설립</h4><p>여의도 IFC에서 부동산 자문 전문 부티크로 출범. 초기 운용자산 1,200억 원.</p></div>
+        <div class="tl-item"><div class="tl-yr">2016</div><h4>사모펀드 운용 인가</h4><p>전문사모집합투자업 등록. 메자닌·구조화 전략 1호 비히클 설정.</p></div>
+        <div class="tl-item"><div class="tl-yr">2020</div><h4>세무·승계 본부 신설</h4><p>한강세무법인과 전략적 제휴. 통합 자산관리 4축 체계 완성.</p></div>
+        <div class="tl-item"><div class="tl-yr">2024</div><h4>운용자산 2조 원 돌파</h4><p>관리 가구 1,000세대 돌파. 부동산·펀드 동시 두 자릿수 성장.</p></div>
+        <div class="tl-item"><div class="tl-yr">2026</div><h4>Project Hangang</h4><p>차세대 승계 플랫폼 및 가족재단 솔루션 론칭. 본 제안서의 대상 이니셔티브.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ⑤ 전문가 소개 ───── -->
+<section id="team">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">05</span>
+      <div>
+        <h2 class="sec-title">운용 전문가</h2>
+        <p class="sec-sub">Investment Committee &amp; Senior Advisors</p>
+      </div>
+    </div>
+
+    <div class="team-grid">
+      <div class="person">
+        <div class="ava">文</div>
+        <h4>문재선</h4>
+        <div class="role">대표이사 · CIO</div>
+        <p>前 대형 증권사 IB본부 상무. 17년간 부동산·구조화 딜 누적 4.2조 원 집행.</p>
+        <ul>
+          <li><b>경력</b> &nbsp;IB·PE 17년</li>
+          <li><b>전문</b> &nbsp;딜 소싱 · 자산배분</li>
+          <li><b>자격</b> &nbsp;CFA · 투자운용</li>
+        </ul>
+      </div>
+      <div class="person">
+        <div class="ava">韓</div>
+        <h4>한지원</h4>
+        <div class="role">세무 본부장 · Tax Partner</div>
+        <p>한강세무법인 파트너. 양도·승계 자문 240건/년, 평균 실효세율 4.8%p 절감.</p>
+        <ul>
+          <li><b>경력</b> &nbsp;세무 19년</li>
+          <li><b>전문</b> &nbsp;승계 · 법인전환</li>
+          <li><b>자격</b> &nbsp;세무사 · 경영학 박사</li>
+        </ul>
+      </div>
+      <div class="person">
+        <div class="ava">徐</div>
+        <h4>서민호</h4>
+        <div class="role">부동산 운용역 · Head of RE</div>
+        <p>핵심 상권 수익형 부동산 31건 운용. 평균 캡레이트 6.4%, 공실률 2% 미만 유지.</p>
+        <ul>
+          <li><b>경력</b> &nbsp;부동산 14년</li>
+          <li><b>전문</b> &nbsp;임대차 · NPL</li>
+          <li><b>자격</b> &nbsp;감정평가사</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ⑥ 상담 CTA + 연락처 ───── -->
+<section class="cta" id="contact">
+  <div class="wrap cta-grid">
+    <div>
+      <p class="small-caps eyebrow">Private Consultation</p>
+      <h2>자본의 다음 세대를<br><i>설계하실 차례입니다.</i></h2>
+      <p>본 제안서는 적격 투자자 대상 비공개 자료입니다. 1:1 비공개 상담을 통해 귀하의 자산 구조에 맞춘 통합 운용·승계 로드맵을 제시해 드립니다.</p>
+      <a class="cta-btn" href="/contact">비공개 상담 예약 →</a>
+    </div>
+
+    <div class="contact-card">
+      <span class="small-caps">Contact · 여의도 본사</span>
+      <div class="crow"><span class="k">대표번호</span><span class="v">02-6xx-2400</span></div>
+      <div class="crow"><span class="k">PB 데스크</span><span class="v">02-6xx-2418</span></div>
+      <div class="crow"><span class="k">이메일</span><span class="v">advisory@prime-asset.kr</span></div>
+      <div class="crow"><span class="k">주소</span><span class="v">서울 영등포구 여의대로 108<br>프라임타워 34F</span></div>
+      <div class="crow"><span class="k">상담 시간</span><span class="v">평일 09:00–18:00 (예약제)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── 푸터 / 디스클레이머 ───── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">프라임에셋 <span>자산운용</span></div>
+        <p class="mono" style="font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:0.06em;">Prime Asset Management Co., Ltd. · 여의도</p>
+      </div>
+      <div class="foot-cols">
+        <div>
+          <b>Offices</b>
+          <p>여의도 본사 (34F)</p>
+          <p>강남 PB센터</p>
+          <p>판교 패밀리오피스</p>
+        </div>
+        <div>
+          <b>License</b>
+          <p>전문사모집합투자업</p>
+          <p>투자자문·일임업</p>
+          <p>등록 제2012-0418호</p>
+        </div>
+        <div>
+          <b>Document</b>
+          <p>Project Hangang</p>
+          <p>OM No. 041 / 120</p>
+          <p>REV. 2026.06—A</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="disc">
+      <div class="fn"><sup>1</sup><span>운용자산(AUM)·관리 가구 수는 2026년 5월 말 내부 관리 기준이며 외부 회계감사 수치와 차이가 있을 수 있습니다. 본 자료 내 모든 수치는 시연용 가상 데이터입니다.</span></div>
+      <div class="fn"><sup>2</sup><span>대표 전략 5년 Net IRR은 운용보수·성과보수 차감 후 수치이며, 과거 성과가 미래 수익을 보장하지 않습니다. 벤치마크는 KOSPI 총수익지수 기준입니다.</span></div>
+      <div class="fn"><sup>3</sup><span>재무 하이라이트는 한국채택국제회계기준(K-IFRS) 별도 기준 가정치이며, 반올림으로 인해 합계가 일치하지 않을 수 있습니다.</span></div>
+      <div class="fn"><sup>4</sup><span>밸류에이션 레인지는 DCF·거래사례·유사기업 분석을 종합한 참고 추정치로, 어떠한 투자 권유나 가격 보장도 구성하지 않습니다.</span></div>
+      <div class="copyline">
+        <span>STRICTLY PRIVATE &amp; CONFIDENTIAL — NOT FOR DISTRIBUTION</span>
+        <span>© 2026 PRIME ASSET MANAGEMENT · 본 페이지는 포트폴리오 시연용 가상 데모입니다.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
