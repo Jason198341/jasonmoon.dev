@@ -1,10 +1,10 @@
 ---
-import Base from '../layouts/Base.astro';
-import { CONCEPTS, type Level } from '../data/concepts';
-import { schoolStatus, stageOf, STAGE_BY_N, SEYEON } from '../data/curriculum';
-import { DEEP } from '../data/deep';
-import { PREP, PREP_LABEL, CHECK_ITEMS, prepCount } from '../data/prep';
-import { EN } from '../data/english';
+import Base from '../../layouts/Base.astro';
+import { CONCEPTS, type Level } from '../../data/concepts';
+import { schoolStatus, stageOf, STAGE_BY_N, SEYEON } from '../../data/curriculum';
+import { DEEP } from '../../data/deep';
+import { PREP, PREP_LABEL, CHECK_ITEMS, prepCount } from '../../data/prep';
+import { EN } from '../../data/english';
 
 const rows = [...CONCEPTS].sort((a, b) => stageOf(a) - stageOf(b)).map((c) => {
   const p = PREP[c.id];
@@ -17,7 +17,12 @@ const rows = [...CONCEPTS].sort((a, b) => stageOf(a) - stageOf(b)).map((c) => {
 });
 const deepCount = rows.filter((r) => r.hasDeep).length;
 ---
-<Base title="아빠 예습" desc="가르치기 전에 제1원칙으로 내가 먼저 재구성한다">
+<Base title="아빠 예습" desc="가르치기 전에 제1원칙으로 내가 먼저 재구성한다" subject="math" nav={[
+    { href: '/math', label: '홈' },
+    { href: '/math/map', label: '개념지도' },
+    { href: '/math/prep', label: '아빠 예습' },
+    { href: '/math/journal', label: '일지' },
+  ]}>
   <h1>아빠 예습</h1>
   <p class="lead" style="max-width:720px">
     가르치기 전에 <b>제1원칙으로 내가 먼저 재구성</b>한다.
@@ -62,7 +67,7 @@ const deepCount = rows.filter((r) => r.hasDeep).length;
       <li data-st={r.prep?.status ?? 'todo'} data-q={`${r.name} ${r.en} ${r.area} ${r.stage}`.toLowerCase()}
           style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <span class={`chip ${r.lv}`} style="flex:0 0 auto">{r.stage}</span>
-        <a href={`/c/${r.id}#prep`} style="font-weight:700;font-size:15.5px">{r.name}</a>
+        <a href={`/math/c/${r.id}#prep`} style="font-weight:700;font-size:15.5px">{r.name}</a>
         {r.en && <span class="eng-term sm">{r.en}</span>}
         <span class="tiny">{r.area}</span>
         {r.school === 'current' && <span class="pill current">지금 여기</span>}

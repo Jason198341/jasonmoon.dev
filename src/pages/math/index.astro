@@ -1,0 +1,196 @@
+---
+import Base from '../../layouts/Base.astro';
+import { CONCEPTS, THREADS, LEVEL_NAME, BY_ID, type Level } from '../../data/concepts';
+import {
+  SEYEON, STAGE_BY_N, UNITS_5_2, schoolStatus, stageOf,
+} from '../../data/curriculum';
+import { prepCount } from '../../data/prep';
+import { PROGRESS, JOURNAL, RECORDS, byDateDesc } from '../../data/content';
+import { widgetCount } from '../../data/widgets';
+import { DEEP } from '../../data/deep';
+import { EN } from '../../data/english';
+
+const total = CONCEPTS.length;
+const learned  = CONCEPTS.filter((c) => schoolStatus(c) === 'learned');
+const current  = CONCEPTS.filter((c) => schoolStatus(c) === 'current');
+const upcoming = CONCEPTS.filter((c) => schoolStatus(c) === 'upcoming');
+
+const pct = (n: number) => ((n / total) * 100).toFixed(1);
+
+// 다음에 만날 개념 (진도 순)
+const nextUp = [...upcoming].sort((a, b) => stageOf(a) - stageOf(b)).slice(0, 8);
+
+const byLevel = (['E', 'M', 'H', 'U'] as Level[]).map((lv) => {
+  const all = CONCEPTS.filter((c) => c.lv === lv);
+  return {
+    lv,
+    name: LEVEL_NAME[lv],
+    total: all.length,
+    learned: all.filter((c) => schoolStatus(c) === 'learned').length,
+    current: all.filter((c) => schoolStatus(c) === 'current').length,
+  };
+});
+---
+<Base title="홈" subject="math" nav={[
+    { href: '/math', label: '홈' },
+    { href: '/math/map', label: '개념지도' },
+    { href: '/math/prep', label: '아빠 예습' },
+    { href: '/math/journal', label: '일지' },
+  ]}>
+  <section style="margin-bottom:8px">
+    <p class="hand" style="font-size:26px;color:var(--soft);margin:0">
+      아빠가 세연이한테 그려주는
+    </p>
+    <h1>초등부터 대학까지, 수학 <span style="color:var(--ink)">{total}개</span> 개념 지도</h1>
+    <p class="lead" style="max-width:640px">
+      학교에서 배운 것과, 백지에 스스로 다시 그릴 수 있는 것은 다릅니다.
+      이 사이트는 그 격차를 메우는 기록입니다.
+    </p>
+  </section>
+
+  <!-- 세연이 현재 위치 -->
+  <section class="card lift band-E" style="margin:22px 0">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+      <div style="flex:1;min-width:260px">
+        <div class="tiny" style="font-weight:700;letter-spacing:.4px">세연이는 지금 여기</div>
+        <div style="font-size:26px;font-weight:900;letter-spacing:-.6px;margin:2px 0 4px">
+          {STAGE_BY_N[SEYEON.stage].label}
+          <span style="color:var(--current)"> · {SEYEON.unit}단원</span>
+        </div>
+        <div class="hand" style="font-size:24px;color:var(--ink)">「{SEYEON.unitName}」</div>
+
+        <div style="margin-top:14px">
+          <div class="bar-track" title={`배운 곳 ${learned.length} / 진행 ${current.length} / 전체 ${total}`}>
+            <i class="learned" style={`width:${pct(learned.length)}%`}></i>
+            <i class="current" style={`width:${pct(current.length)}%`}></i>
+          </div>
+          <div class="tiny" style="margin-top:6px">
+            <span class="dot learned"></span>배운 곳 {learned.length}
+            <span style="margin-left:12px"><span class="dot current"></span>지금 {current.length}</span>
+            <span style="margin-left:12px"><span class="dot upcoming"></span>앞으로 {upcoming.length}</span>
+            <span style="margin-left:12px">· 전체 {total}개 중 <b>{pct(learned.length)}%</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-2 단원 진행 -->
+      <div style="flex:0 0 300px;min-width:240px">
+        <div class="tiny" style="font-weight:700;margin-bottom:6px">초5-2 단원</div>
+        <ol class="list" style="counter-reset:none">
+          {UNITS_5_2.map((u) => {
+            const st = u.unit < SEYEON.unit ? 'learned'
+                     : u.unit === SEYEON.unit ? 'current' : 'upcoming';
+            return (
+              <li style="padding:5px 0;border-bottom:1px dotted var(--hairline);display:flex;gap:8px;align-items:center">
+                <span class={`dot ${st}`}></span>
+                <span style={st === 'upcoming' ? 'color:var(--soft)' : ''}>
+                  {u.unit}. {u.name}
+                </span>
+                {st === 'current' && <span class="pill current" style="margin-left:auto">진행 중</span>}
+                {st === 'learned' && <span class="tiny" style="margin-left:auto">✓</span>}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 백지 훈련 현황 (DB) -->
+  <h2>백지 훈련 현황</h2>
+  <p class="lead" style="margin-top:2px">
+    학교 진도와 별개입니다. <b>백지에 아무것도 없이 다시 그릴 수 있는가</b>만 셉니다.
+  </p>
+  <div class="grid c4" style="margin-top:12px">
+    <div class="stat"><div class="n">{prepCount('ready') + prepCount('taught')}</div><div class="k">아빠 예습 완료</div></div>
+    <div class="stat"><div class="n">{Object.values(PROGRESS).filter((x) => x.status === 'done').length}</div><div class="k">백지 완료</div></div>
+    <div class="stat"><div class="n">{RECORDS.length}</div><div class="k">훈련 기록</div></div>
+    <div class="stat"><div class="n">{JOURNAL.length}</div><div class="k">일지</div></div>
+  </div>
+
+  <div class="grid c2" style="margin-top:12px">
+    <div class="stat"><div class="n">{Object.keys(DEEP).length}</div><div class="k">심층 자료 개념</div></div>
+    <div class="stat"><div class="n">{widgetCount}</div><div class="k">인터랙티브 위젯</div></div>
+  </div>
+
+  <!-- 최근 -->
+  <div class="grid c2" style="margin-top:18px">
+    <div class="card">
+      <h3 style="margin-top:0">최근 일지</h3>
+      {JOURNAL.length === 0 ? <p class="tiny">아직 일지가 없습니다.</p> : (
+        <ul class="list">{byDateDesc(JOURNAL).slice(0, 4).map((j) => (
+          <li style="padding:8px 0">
+            <a href={`/math/journal#${j.id}`} style="font-weight:700;font-size:14.5px">{j.title}</a>
+            <div class="tiny">{j.date}</div>
+          </li>))}</ul>)}
+      <p style="margin:12px 0 0"><a href="/math/journal">일지 전체 →</a></p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">최근 백지 기록</h3>
+      {RECORDS.length === 0 ? <p class="tiny">아직 백지 기록이 없습니다.</p> : (
+        <ul class="list">{byDateDesc(RECORDS).slice(0, 4).map((r) => (
+          <li style="padding:8px 0">
+            <a href={`/math/c/${r.conceptId}`} style="font-weight:700;font-size:14.5px">{BY_ID[r.conceptId]?.name ?? r.conceptId}</a>
+            <div class="tiny">{r.date} · {r.who}</div>
+          </li>))}</ul>)}
+      <p style="margin:12px 0 0"><a href="/math/map">개념지도에서 기록하기 →</a></p>
+    </div>
+  </div>
+
+  <!-- 다음 만날 개념 -->
+  <h2>다음에 만날 개념</h2>
+  <div class="grid c3" style="margin-top:10px">
+    {nextUp.map((c) => (
+      <a href={`/math/c/${c.id}`} class={`card band-${c.lv}`} style="text-decoration:none;color:inherit">
+        <div class="tiny">{STAGE_BY_N[stageOf(c)].short} · {c.area}</div>
+        <div style="font-weight:700;margin:3px 0 2px">{c.name.replace(/ ★.*$/, '')}</div>
+        {EN[c.id] && <div class="eng-term sm" style="margin-bottom:4px">{EN[c.id]}</div>}
+        <div class="tiny" style="color:var(--soft)">{c.def}</div>
+      </a>
+    ))}
+  </div>
+
+  <!-- 여섯 줄기 -->
+  <h2>여섯 줄기 — 12년이 한 줄로 이어지는 길</h2>
+  <div class="grid" style="margin-top:10px">
+    {THREADS.map((t) => (
+      <div class="card">
+        <b>{t.t}</b>
+        <div class="lead" style="font-size:13.5px">{t.d}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;margin-top:8px">
+          {t.ids.map((id, i) => {
+            const c = CONCEPTS.find((x) => x.id === id);
+            if (!c) return null;
+            const st = schoolStatus(c);
+            return (
+              <>
+                {i > 0 && <span style="color:var(--pencil)">→</span>}
+                <a href={`/math/c/${id}`} class={`chip ${c.lv}`}
+                   style={st === 'upcoming' ? 'opacity:.55' : st === 'current' ? 'background:#FEF0DC;font-weight:700' : ''}>
+                  {c.name.replace(/ ★.*$/, '')}
+                </a>
+              </>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- 학년대별 -->
+  <h2>학년대별</h2>
+  <div class="grid c4" style="margin-top:10px">
+    {byLevel.map((b) => (
+      <a href={`/math/map#lv-${b.lv}`} class={`card band-${b.lv}`} style="text-decoration:none;color:inherit">
+        <div style="font-weight:900;font-size:18px">{b.name}</div>
+        <div class="tiny">개념 {b.total}개</div>
+        <div class="bar-track" style="margin-top:8px;height:7px">
+          <i class="learned" style={`width:${(b.learned / b.total) * 100}%`}></i>
+          <i class="current" style={`width:${(b.current / b.total) * 100}%`}></i>
+        </div>
+        <div class="tiny" style="margin-top:5px">배운 곳 {b.learned} / {b.total}</div>
+      </a>
+    ))}
+  </div>
+</Base>
+

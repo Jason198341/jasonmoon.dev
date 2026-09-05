@@ -1,27 +1,29 @@
 ---
 import '../styles/global.css';
 import { SEYEON } from '../data/curriculum';
+import { BY_SUBJECT, type SubjectId } from '../data/subjects';
 
-interface Props { title: string; desc?: string; }
-const { title, desc = '아빠와 세연이가 백지에 다시 그리는 수학 12년 지도' } = Astro.props;
+interface Props {
+  title: string;
+  desc?: string;
+  /** 어느 과목 안에 있는가. 없으면 대문 */
+  subject?: SubjectId;
+  /** 과목 내부 메뉴 */
+  nav?: { href: string; label: string }[];
+}
+const { title, desc = '아빠와 세연이가 백지에 다시 그리는 지도', subject, nav = [] } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-
-const NAV = [
-  { href: '/',        label: '홈' },
-  { href: '/map',     label: '개념지도' },
-  { href: '/prep',    label: '아빠 예습' },
-  { href: '/journal', label: '일지' },
-];
-const cur = (h: string) => (h === '/' ? path === '/' : path.startsWith(h));
+const s = subject ? BY_SUBJECT[subject] : null;
+const cur = (h: string) => (h === s?.href ? path === h : path.startsWith(h));
 ---
 <!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{title} · 수학 바이블</title>
+  <title>{title}{s ? ` · ${s.name}` : ''} · 세연이 공부방</title>
   <meta name="description" content={desc} />
-  <meta property="og:title" content={`${title} · 수학 바이블`} />
+  <meta property="og:title" content={`${title} · 세연이 공부방`} />
   <meta property="og:description" content={desc} />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -29,12 +31,18 @@ const cur = (h: string) => (h === '/' ? path === '/' : path.startsWith(h));
 <body>
   <header class="site-head">
     <div class="bar">
-      <a class="brand" href="/">수학 바이블<span class="pen">세연이의 12년 지도</span></a>
-      <nav class="nav" aria-label="주 메뉴">
-        {NAV.map((n) => (
-          <a href={n.href} aria-current={cur(n.href) ? 'page' : undefined}>{n.label}</a>
-        ))}
-      </nav>
+      <a class="brand" href="/">
+        세연이 공부방{s && <span class="pen" style={`color:${s.color}`}>{s.name}</span>}
+      </a>
+      {nav.length > 0 && (
+        <nav class="nav" aria-label="과목 메뉴">
+          {nav.map((n) => (
+            <a href={n.href} aria-current={cur(n.href) ? 'page' : undefined}>{n.label}</a>
+          ))}
+        </nav>
+      )}
+      {nav.length === 0 && <span style="margin-left:auto"></span>}
+      <a href="/" class="nav-home" title="과목 고르기">과목 ▾</a>
     </div>
   </header>
 
@@ -49,13 +57,10 @@ const cur = (h: string) => (h === '/' ? path === '/' : path.startsWith(h));
           아빠가 세연이를 위해 만든 지도
         </span>
         <span class="tiny">
-          현재 진도: {SEYEON.grade} 2학기 {SEYEON.unit}단원 「{SEYEON.unitName}」
-          · 기준일 {SEYEON.updated}
+          {SEYEON.grade} · 내년 한국 학교 복귀 · 기준일 {SEYEON.updated}
         </span>
       </div>
     </div>
   </footer>
-
-
 </body>
 </html>

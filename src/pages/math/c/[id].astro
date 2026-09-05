@@ -1,14 +1,14 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PrepView from '../../components/PrepView.astro';
-import Widget from '../../components/Widget.astro';
-import { CONCEPTS, BY_ID, LEVEL_NAME } from '../../data/concepts';
-import { schoolStatus, stageOf, STAGE_BY_N, SCHOOL_LABEL } from '../../data/curriculum';
-import { getDeep } from '../../data/deep';
-import { getPrep, PREP_LABEL } from '../../data/prep';
-import { PROGRESS, recordsOf } from '../../data/content';
-import { hasWidget } from '../../data/widgets';
-import { en } from '../../data/english';
+import Base from '../../../layouts/Base.astro';
+import PrepView from '../../../components/PrepView.astro';
+import Widget from '../../../components/Widget.astro';
+import { CONCEPTS, BY_ID, LEVEL_NAME } from '../../../data/concepts';
+import { schoolStatus, stageOf, STAGE_BY_N, SCHOOL_LABEL } from '../../../data/curriculum';
+import { getDeep } from '../../../data/deep';
+import { getPrep, PREP_LABEL } from '../../../data/prep';
+import { PROGRESS, recordsOf } from '../../../data/content';
+import { hasWidget } from '../../../data/widgets';
+import { en } from '../../../data/english';
 
 export function getStaticPaths() {
   return CONCEPTS.map((c) => ({ params: { id: c.id }, props: { c } }));
@@ -26,9 +26,14 @@ const prog = PROGRESS[c.id];
 const records = recordsOf(c.id);
 const eng = en(c.id);
 ---
-<Base title={cleanName} desc={d?.intuition ?? c.def}>
+<Base title={cleanName} desc={d?.intuition ?? c.def} subject="math" nav={[
+    { href: '/math', label: '홈' },
+    { href: '/math/map', label: '개념지도' },
+    { href: '/math/prep', label: '아빠 예습' },
+    { href: '/math/journal', label: '일지' },
+  ]}>
   <p class="tiny" style="margin:0">
-    <a href="/map">개념지도</a> / {LEVEL_NAME[c.lv]} / {c.area}
+    <a href="/math/map">개념지도</a> / {LEVEL_NAME[c.lv]} / {c.area}
   </p>
 
   <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:4px">
@@ -166,13 +171,13 @@ const eng = en(c.id);
         {pre.length > 0 && (
           <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
             <span class="tiny" style="font-weight:700">먼저 알아야 할 것</span>
-            {pre.map((x) => <a href={`/c/${x.id}`} class={`chip ${x.lv}`}>{x.name.replace(/ ★.*$/, '')}</a>)}
+            {pre.map((x) => <a href={`/math/c/${x.id}`} class={`chip ${x.lv}`}>{x.name.replace(/ ★.*$/, '')}</a>)}
           </div>
         )}
         {next.length > 0 && (
           <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px">
             <span class="tiny" style="font-weight:700">이걸 알면 갈 수 있는 곳</span>
-            {next.map((x) => <a href={`/c/${x.id}`} class={`chip ${x.lv}`}>{x.name.replace(/ ★.*$/, '')}</a>)}
+            {next.map((x) => <a href={`/math/c/${x.id}`} class={`chip ${x.lv}`}>{x.name.replace(/ ★.*$/, '')}</a>)}
           </div>
         )}
       </div>

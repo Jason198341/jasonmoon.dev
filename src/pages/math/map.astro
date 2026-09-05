@@ -1,18 +1,23 @@
 ---
-import Base from '../layouts/Base.astro';
+import Base from '../../layouts/Base.astro';
 import {
   CONCEPTS, THREADS, LEVEL_NAME, LEVEL_SUB, AREAS_BY_LEVEL, type Level,
-} from '../data/concepts';
-import { schoolStatus, stageOf, STAGE_BY_N, SEYEON, SCHOOL_LABEL } from '../data/curriculum';
-import { PROGRESS } from '../data/content';
-import { hasWidget } from '../data/widgets';
-import { EN } from '../data/english';
+} from '../../data/concepts';
+import { schoolStatus, stageOf, STAGE_BY_N, SEYEON, SCHOOL_LABEL } from '../../data/curriculum';
+import { PROGRESS } from '../../data/content';
+import { hasWidget } from '../../data/widgets';
+import { EN } from '../../data/english';
 
 const LEVELS: Level[] = ['E', 'M', 'H', 'U'];
 const total = CONCEPTS.length;
 const links = CONCEPTS.reduce((s, c) => s + c.pre.length + c.next.length, 0);
 ---
-<Base title="개념지도" desc={`수학 개념 ${total}개 전체 지도`}>
+<Base title="개념지도" desc={`수학 개념 ${total}개 전체 지도`} subject="math" nav={[
+    { href: '/math', label: '홈' },
+    { href: '/math/map', label: '개념지도' },
+    { href: '/math/prep', label: '아빠 예습' },
+    { href: '/math/journal', label: '일지' },
+  ]}>
   <h1>전체 개념지도</h1>
   <p class="lead">
     개념 {total}개 · 연결 {links}개 · 여섯 줄기.
@@ -49,7 +54,7 @@ const links = CONCEPTS.reduce((s, c) => s + c.pre.length + c.next.length, 0);
             const st = schoolStatus(c);
             return (<>
               {i > 0 && <span style="color:var(--pencil)">→</span>}
-              <a href={`/c/${id}`} class={`chip ${c.lv}`}
+              <a href={`/math/c/${id}`} class={`chip ${c.lv}`}
                  style={st === 'upcoming' ? 'opacity:.55' : st === 'current' ? 'background:#FEF0DC;font-weight:700' : ''}>
                 {c.name.replace(/ ★.*$/, '')}
               </a>
@@ -99,18 +104,18 @@ const links = CONCEPTS.reduce((s, c) => s + c.pre.length + c.next.length, 0);
                       {c.pre.length > 0 && <span class="tiny">먼저:</span>}
                       {c.pre.map((p) => {
                         const pc = CONCEPTS.find((x) => x.id === p);
-                        return pc ? <a href={`/c/${p}`} class={`chip ${pc.lv}`}>{pc.name.replace(/ ★.*$/, '')}</a> : null;
+                        return pc ? <a href={`/math/c/${p}`} class={`chip ${pc.lv}`}>{pc.name.replace(/ ★.*$/, '')}</a> : null;
                       })}
                     </div>
                     <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">
                       {c.next.length > 0 && <span class="tiny">다음:</span>}
                       {c.next.map((p) => {
                         const nc = CONCEPTS.find((x) => x.id === p);
-                        return nc ? <a href={`/c/${p}`} class={`chip ${nc.lv}`}>{nc.name.replace(/ ★.*$/, '')}</a> : null;
+                        return nc ? <a href={`/math/c/${p}`} class={`chip ${nc.lv}`}>{nc.name.replace(/ ★.*$/, '')}</a> : null;
                       })}
                     </div>
                     <p style="margin:12px 0 0">
-                      <a class="btn" href={`/c/${c.id}`} style="font-size:13px;padding:5px 11px">백지 기록 열기 →</a>
+                      <a class="btn" href={`/math/c/${c.id}`} style="font-size:13px;padding:5px 11px">백지 기록 열기 →</a>
                     </p>
                   </div>
                 </details>

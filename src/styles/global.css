@@ -260,3 +260,37 @@ summary:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
   font-weight: 500;
 }
 .eng-term.sm { font-size: 12px; padding: 0 5px; font-weight: 400; }
+
+/* ---------- 대문 ---------- */
+.nav-home {
+  font-size: 13px; padding: 5px 11px; border-radius: var(--radius);
+  text-decoration: none; color: var(--soft); font-weight: 500;
+  border: 1.5px solid var(--pencil); background: #fff; margin-left: 8px;
+}
+.nav-home:hover { background: var(--graphite); color: #fff; border-color: var(--graphite); }
+
+.subj-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+}
+.subj-card {
+  display: flex; flex-direction: column; gap: 6px;
+  background: #fff; border: 1px solid var(--hairline);
+  border-left: 7px solid var(--sc, var(--ink));
+  border-radius: var(--radius); padding: 16px 18px;
+  text-decoration: none; color: inherit;
+  transition: transform .12s, box-shadow .12s;
+}
+.subj-card:hover {
+  color: inherit; transform: translateY(-2px);
+  box-shadow: 0 1px 0 var(--hairline), 4px 6px 0 rgba(42,45,51,.07);
+}
+@media (prefers-reduced-motion: reduce) { .subj-card { transition: none; } }
+.subj-card .top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.subj-card .nm { font-size: 20px; font-weight: 900; letter-spacing: -.5px; }
+.subj-card .em { font-size: 22px; line-height: 1; }
+.subj-card .why { font-size: 13.5px; color: var(--graphite); }
+.subj-card .meta { font-size: 12px; color: var(--soft); margin-top: auto; padding-top: 8px; }
+.subj-card dl { margin: 6px 0 0; font-size: 12.5px; }
+.subj-card dt { color: var(--soft); font-weight: 500; float: left; clear: left; width: 46px; }
+.subj-card dd { margin: 0 0 3px 52px; }

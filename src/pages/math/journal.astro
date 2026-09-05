@@ -1,10 +1,15 @@
 ---
-import Base from '../layouts/Base.astro';
-import { JOURNAL, MOOD_LABEL, byDateDesc } from '../data/content';
-import { BY_ID } from '../data/concepts';
+import Base from '../../layouts/Base.astro';
+import { JOURNAL, MOOD_LABEL, byDateDesc } from '../../data/content';
+import { BY_ID } from '../../data/concepts';
 const items = byDateDesc(JOURNAL);
 ---
-<Base title="일지" desc="아빠와 세연이의 수학 일지">
+<Base title="일지" desc="아빠와 세연이의 수학 일지" subject="math" nav={[
+    { href: '/math', label: '홈' },
+    { href: '/math/map', label: '개념지도' },
+    { href: '/math/prep', label: '아빠 예습' },
+    { href: '/math/journal', label: '일지' },
+  ]}>
   <h1>일지</h1>
   <p class="lead">
     그날 무엇을 했고, 어디서 막혔고, 무엇이 열렸는지.
@@ -29,7 +34,7 @@ const items = byDateDesc(JOURNAL);
         <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">
           {j.conceptIds.map((id) => {
             const c = BY_ID[id];
-            return c ? <a href={`/c/${id}`} class={`chip ${c.lv}`}>{c.name.replace(/ ★.*$/, '')}</a> : null;
+            return c ? <a href={`/math/c/${id}`} class={`chip ${c.lv}`}>{c.name.replace(/ ★.*$/, '')}</a> : null;
           })}
         </div>
       )}
