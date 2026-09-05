@@ -4,6 +4,9 @@ import {
   CONCEPTS, THREADS, LEVEL_NAME, LEVEL_SUB, AREAS_BY_LEVEL, type Level,
 } from '../data/concepts';
 import { schoolStatus, stageOf, STAGE_BY_N, SEYEON, SCHOOL_LABEL } from '../data/curriculum';
+import { PROGRESS } from '../data/content';
+import { hasWidget } from '../data/widgets';
+import { EN } from '../data/english';
 
 const LEVELS: Level[] = ['E', 'M', 'H', 'U'];
 const total = CONCEPTS.length;
@@ -73,14 +76,16 @@ const links = CONCEPTS.reduce((s, c) => s + c.pre.length + c.next.length, 0);
               const st = schoolStatus(c);
               return (
                 <details class="c" id={c.id}
-                         data-text={`${c.name} ${c.def} ${c.why} ${c.ex} ${c.a4} ${c.area}`.toLowerCase()}
+                         data-text={`${c.name} ${EN[c.id] ?? ''} ${c.def} ${c.why} ${c.ex} ${c.a4} ${c.area}`.toLowerCase()}
                          data-st={st}>
                   <summary>
                     <span class={`dot ${st}`} title={SCHOOL_LABEL[st]}></span>
                     <span class="nm">{c.name}</span>
+                    {EN[c.id] && <span class="eng-term sm">{EN[c.id]}</span>}
                     <span class="tiny" style="border:1px solid var(--hairline);padding:0 5px;border-radius:3px">
                       {STAGE_BY_N[stageOf(c)].short}
                     </span>
+                    {hasWidget(c.id) && <span class="tiny" title="인터랙티브 위젯">🎛</span>}
                     <span class="df">{c.def}</span>
                   </summary>
                   <div class="cbody">
@@ -120,8 +125,7 @@ const links = CONCEPTS.reduce((s, c) => s + c.pre.length + c.next.length, 0);
 </Base>
 
 <script>
-  import { listProgress } from '../lib/db';
-
+  
   const cs = document.querySelectorAll<HTMLDetailsElement>('details.c');
   const cnt = document.getElementById('cnt')!;
   const empty = document.getElementById('empty')!;
@@ -130,19 +134,6 @@ const links = CONCEPTS.reduce((s, c) => s + c.pre.length + c.next.length, 0);
   const baseCount = `개념 ${cs.length}개`;
   cnt.textContent = baseCount;
 
-  // 백지 훈련 상태를 트리에 표시
-  listProgress().then((rows) => {
-    const map = new Map(rows.map((r) => [r.concept_id, r]));
-    cs.forEach((d) => {
-      const p = map.get(d.id);
-      if (!p || p.status === 'todo') return;
-      const s = d.querySelector('summary')!;
-      const tag = document.createElement('span');
-      tag.className = 'pill ' + (p.status === 'done' ? 'learned' : 'current');
-      tag.textContent = p.status === 'done' ? `백지 ✓ ${p.mastery}/5` : `백지 진행 ${p.mastery}/5`;
-      s.appendChild(tag);
-    });
-  }).catch(() => {});
 
   // 검색
   let onlyNow = false;

@@ -1,8 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PrepView from '../../components/PrepView.astro';
+import Widget from '../../components/Widget.astro';
 import { CONCEPTS, BY_ID, LEVEL_NAME } from '../../data/concepts';
 import { schoolStatus, stageOf, STAGE_BY_N, SCHOOL_LABEL } from '../../data/curriculum';
 import { getDeep } from '../../data/deep';
+import { getPrep, PREP_LABEL } from '../../data/prep';
+import { PROGRESS, recordsOf } from '../../data/content';
+import { hasWidget } from '../../data/widgets';
+import { en } from '../../data/english';
 
 export function getStaticPaths() {
   return CONCEPTS.map((c) => ({ params: { id: c.id }, props: { c } }));
@@ -15,24 +21,10 @@ const pre = c.pre.map((id) => BY_ID[id]).filter(Boolean);
 const next = c.next.map((id) => BY_ID[id]).filter(Boolean);
 const cleanName = c.name.replace(/ ★.*$/, '');
 const d = getDeep(c.id);
-
-const PREP_FIELDS = [
-  { k: 'axioms',    n: '① 출발점 — 전제하는 공리·사실',
-    p: '이 설명은 다음 3가지 사실만 전제한다: …\n관행·통념("원래 그렇다")은 출발점으로 인정하지 않는다.' },
-  { k: 'atoms',     n: '② 원자 분해 — 정의되지 않은 용어 금지',
-    p: '등장하는 모든 용어를 그 전에 정의한다. 선행 개념 → 후행 개념 순서로.' },
-  { k: 'chain',     n: '③ 인과 사슬 — 논리 비약 제거',
-    p: 'A이므로 B, B이므로 C.\n각 화살표마다 "왜 이게 저걸 만드는가"에 답할 수 있어야 한다.' },
-  { k: 'mechanism', n: '④ 메커니즘 — 무엇이 아니라 어떻게',
-    p: '구성요소 → 상호작용 → 결과. 수식이면 왜 그 형태일 수밖에 없는지.' },
-  { k: 'boundary',  n: '⑤ 경계 — 언제 성립하고 언제 깨지는가',
-    p: '"이 설명이 틀리려면 무엇이 달라야 하는가"에 답한다.' },
-  { k: 'analogy',   n: '비유 + 깨지는 지점',
-    p: '비유는 진입로로만. 반드시 "이 비유는 여기서 깨진다"를 붙인다.' },
-  { k: 'questions', n: '아이에게 던질 확인 질문',
-    p: '답할 수 있으면 통과. 답의 재진술이 아니라 재도출을 요구하는 질문으로.' },
-  { k: 'props',     n: '준비물·교구', p: '바둑알, 모눈종이, 가위, 색종이…' },
-] as const;
+const p = getPrep(c.id);
+const prog = PROGRESS[c.id];
+const records = recordsOf(c.id);
+const eng = en(c.id);
 ---
 <Base title={cleanName} desc={d?.intuition ?? c.def}>
   <p class="tiny" style="margin:0">
@@ -41,10 +33,19 @@ const PREP_FIELDS = [
 
   <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:4px">
     <h1 style="margin:0">{cleanName}</h1>
+    {eng && <span class="eng-term">{eng}</span>}
     <span class={`chip ${c.lv}`}>{stage.short}</span>
     <span class={`pill ${st}`}>{SCHOOL_LABEL[st]}</span>
-    <span id="bpill"></span>
-    <span id="ppill"></span>
+    {prog && prog.status !== 'todo' && (
+      <span class={`pill ${prog.status === 'done' ? 'learned' : 'current'}`}>
+        백지 {prog.status === 'done' ? '완료' : '진행'} {prog.mastery}/5
+      </span>
+    )}
+    {p && (
+      <span class={`pill ${p.status === 'ready' || p.status === 'taught' ? 'learned' : 'current'}`}>
+        예습 {PREP_LABEL[p.status]}
+      </span>
+    )}
   </div>
   <p class="lead" style="font-size:17px;margin:6px 0 0">{c.def}</p>
 
@@ -55,11 +56,12 @@ const PREP_FIELDS = [
     </div>
   )}
 
-  <!-- 탭 -->
+  {hasWidget(c.id) && <Widget id={c.id} />}
+
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin:20px 0 14px;border-bottom:2px solid var(--graphite);padding-bottom:10px">
     <button type="button" class="vtab primary" data-v="learn">개념</button>
-    <button type="button" class="vtab" data-v="prep">아빠 예습</button>
-    <button type="button" class="vtab" data-v="blank">백지 훈련</button>
+    <button type="button" class="vtab" data-v="prep">아빠 예습{p ? ' ✓' : ''}</button>
+    <button type="button" class="vtab" data-v="blank">백지 기록{records.length ? ` (${records.length})` : ''}</button>
   </div>
 
   <!-- ============ 개념 ============ -->
@@ -81,75 +83,59 @@ const PREP_FIELDS = [
       </div>
     </div>
 
-    {d?.formulas && d.formulas.length > 0 && (
-      <>
-        <h2>핵심 식</h2>
-        <div class="grid">
-          {d.formulas.map((f) => (
-            <div class="card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-              <div class="katex-here" data-tex={f.tex} style="font-size:19px;min-width:200px"></div>
-              <div class="lead" style="flex:1;min-width:200px;font-size:14.5px">{f.say}</div>
-            </div>
-          ))}
-        </div>
-      </>
-    )}
+    {d?.formulas && d.formulas.length > 0 && (<>
+      <h2>핵심 식</h2>
+      <div class="grid">
+        {d.formulas.map((f) => (
+          <div class="card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+            <div class="katex-here" data-tex={f.tex} style="font-size:19px;min-width:200px"></div>
+            <div class="lead" style="flex:1;min-width:200px;font-size:14.5px">{f.say}</div>
+          </div>
+        ))}
+      </div>
+    </>)}
 
-    {d?.misconceptions && d.misconceptions.length > 0 && (
-      <>
-        <h2>흔한 오개념 — 여기서 막힌다</h2>
-        <div class="grid">
-          {d.misconceptions.map((m) => (
-            <div class="card" style="border-left:6px solid var(--red)">
-              <div style="font-weight:700;color:var(--red)">✗ {m.wrong}</div>
-              <p style="margin:8px 0 0;font-size:14.5px"><b class="tiny">왜 이렇게 생각하나</b><br />{m.why}</p>
-              <p style="margin:8px 0 0;font-size:14.5px;background:var(--hl);padding:8px 10px;border-radius:3px">
-                <b class="tiny">어떻게 깨뜨리나</b><br />{m.fix}</p>
-            </div>
-          ))}
-        </div>
-      </>
-    )}
+    {d?.misconceptions && d.misconceptions.length > 0 && (<>
+      <h2>흔한 오개념 — 여기서 막힌다</h2>
+      <div class="grid">
+        {d.misconceptions.map((m) => (
+          <div class="card" style="border-left:6px solid var(--red)">
+            <div style="font-weight:700;color:var(--red)">✗ {m.wrong}</div>
+            <p style="margin:8px 0 0;font-size:14.5px"><b class="tiny">왜 이렇게 생각하나</b><br />{m.why}</p>
+            <p style="margin:8px 0 0;font-size:14.5px;background:var(--hl);padding:8px 10px;border-radius:3px">
+              <b class="tiny">어떻게 깨뜨리나</b><br />{m.fix}</p>
+          </div>
+        ))}
+      </div>
+    </>)}
 
-    {d?.examples && d.examples.length > 0 && (
-      <>
-        <h2>대표 예제</h2>
-        <ul class="list">
-          {d.examples.map((e) => (
-            <li>
-              <div style="font-weight:700">Q. {e.q}</div>
-              <div style="margin-top:3px">A. {e.a}</div>
-              {e.note && <div class="tiny" style="margin-top:3px">→ {e.note}</div>}
-            </li>
-          ))}
-        </ul>
-      </>
-    )}
+    {d?.examples && d.examples.length > 0 && (<>
+      <h2>대표 예제</h2>
+      <ul class="list">
+        {d.examples.map((e) => (
+          <li>
+            <div style="font-weight:700">Q. {e.q}</div>
+            <div style="margin-top:3px">A. {e.a}</div>
+            {e.note && <div class="tiny" style="margin-top:3px">→ {e.note}</div>}
+          </li>
+        ))}
+      </ul>
+    </>)}
 
-    {d?.traps && d.traps.length > 0 && (
-      <>
-        <h2>함정</h2>
-        <ul class="list">{d.traps.map((t) => <li style="padding:8px 0">{t}</li>)}</ul>
-      </>
-    )}
+    {d?.traps && d.traps.length > 0 && (<>
+      <h2>함정</h2>
+      <ul class="list">{d.traps.map((t) => <li style="padding:8px 0">{t}</li>)}</ul>
+    </>)}
 
-    {d?.blankSteps && d.blankSteps.length > 0 && (
-      <>
-        <h2>백지 훈련 단계 — 순서대로 시키면 됨</h2>
-        <ol style="padding-left:22px">
-          {d.blankSteps.map((s) => <li style="margin:7px 0">{s}</li>)}
-        </ol>
-      </>
-    )}
+    {d?.blankSteps && d.blankSteps.length > 0 && (<>
+      <h2>백지 훈련 단계 — 순서대로 시키면 됨</h2>
+      <ol style="padding-left:22px">{d.blankSteps.map((s) => <li style="margin:7px 0">{s}</li>)}</ol>
+    </>)}
 
-    {d?.checks && d.checks.length > 0 && (
-      <>
-        <h2>확인 질문 — 답하면 통과</h2>
-        <ul class="list">
-          {d.checks.map((q) => <li style="padding:9px 0;font-weight:500">{q}</li>)}
-        </ul>
-      </>
-    )}
+    {d?.checks && d.checks.length > 0 && (<>
+      <h2>확인 질문 — 답하면 통과</h2>
+      <ul class="list">{d.checks.map((q) => <li style="padding:9px 0;font-weight:500">{q}</li>)}</ul>
+    </>)}
 
     <div class="grid c2" style="margin-top:20px">
       {d?.history && (
@@ -175,24 +161,18 @@ const PREP_FIELDS = [
       </div>
     )}
 
-    {!d && (
-      <p class="lead" style="margin-top:20px">
-        이 개념의 심층 데이터는 아직 채워지지 않았습니다. 아래 「아빠 예습」에서 직접 쓰시면 됩니다.
-      </p>
-    )}
-
     {(pre.length > 0 || next.length > 0) && (
       <div class="card" style="margin-top:18px">
         {pre.length > 0 && (
           <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
             <span class="tiny" style="font-weight:700">먼저 알아야 할 것</span>
-            {pre.map((p) => <a href={`/c/${p.id}`} class={`chip ${p.lv}`}>{p.name.replace(/ ★.*$/, '')}</a>)}
+            {pre.map((x) => <a href={`/c/${x.id}`} class={`chip ${x.lv}`}>{x.name.replace(/ ★.*$/, '')}</a>)}
           </div>
         )}
         {next.length > 0 && (
           <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px">
             <span class="tiny" style="font-weight:700">이걸 알면 갈 수 있는 곳</span>
-            {next.map((p) => <a href={`/c/${p.id}`} class={`chip ${p.lv}`}>{p.name.replace(/ ★.*$/, '')}</a>)}
+            {next.map((x) => <a href={`/c/${x.id}`} class={`chip ${x.lv}`}>{x.name.replace(/ ★.*$/, '')}</a>)}
           </div>
         )}
       </div>
@@ -205,126 +185,74 @@ const PREP_FIELDS = [
       가르치기 전에 <b>제1원칙으로 내가 먼저 재구성</b>한다.
       이름 붙이기로 때우지 않고, 논리 비약 없이, 세연이가 나 없이 재도출할 수 있게.
     </p>
-
-    <div id="pgate"></div>
-    <div id="ppanel" hidden>
-      <div class="card lift">
-        <div class="row" style="align-items:flex-end">
-          <div style="flex:0 0 170px">
-            <label for="pStatus2">예습 상태</label>
-            <select id="pStatus2">
-              <option value="todo">예습 전</option>
-              <option value="drafting">대본 작성 중</option>
-              <option value="ready">준비 완료</option>
-              <option value="taught">가르침</option>
-            </select>
-          </div>
-          <div style="flex:0 0 150px">
-            <label for="pMin">예상 소요(분)</label>
-            <input type="number" id="pMin" min="5" max="180" step="5" placeholder="30" />
-          </div>
-          <div style="flex:1;text-align:right">
-            <span class="tiny" id="pSaved"></span>
-          </div>
-        </div>
-
-        {PREP_FIELDS.map((f) => (
-          <>
-            <label for={`p_${f.k}`}>{f.n}</label>
-            <textarea id={`p_${f.k}`} data-k={f.k} placeholder={f.p}
-              style={f.k === 'props' ? 'min-height:60px' : 'min-height:110px'}></textarea>
-          </>
-        ))}
-
-        <label for="p_script">말할 대본 (통짜) — 실제로 이렇게 말한다</label>
-        <textarea id="p_script" data-k="script"
-          style="min-height:280px;font-family:ui-monospace,'D2Coding',Consolas,monospace;font-size:14px;line-height:1.7"
-          placeholder="세연아, 오늘은 …&#10;&#10;(아이 반응 예상: …)&#10;&#10;여기서 백지 꺼내고 …"></textarea>
-
-        <label for="p_ai_notes">AI와 짠 초안·메모</label>
-        <textarea id="p_ai_notes" data-k="ai_notes" style="min-height:140px"
-          placeholder="AI에게 물어본 것, 받은 초안, 내가 고친 부분"></textarea>
-
-        <h3>자기 점검 — 하나라도 아니오면 고치고 나서 가르친다</h3>
-        <div id="checks" class="grid c2" style="gap:6px"></div>
-
-        <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <button type="button" class="primary" id="pSave2">예습 저장</button>
-          <span class="tiny" id="pMsg"></span>
-        </div>
-      </div>
-    </div>
-
-    <div id="prepView" style="margin-top:18px"></div>
+    <PrepView id={c.id} />
   </section>
 
-  <!-- ============ 백지 훈련 ============ -->
+  <!-- ============ 백지 기록 ============ -->
   <section data-view="blank" hidden>
-    <div id="gate"></div>
-    <div id="panel" hidden>
-      <div class="card">
-        <div class="row">
-          <div style="flex:0 0 150px">
-            <label for="rDate">날짜</label><input type="date" id="rDate" />
-          </div>
-          <div style="flex:0 0 130px">
-            <label for="rWho">누가</label>
-            <select id="rWho"><option>세연</option><option>아빠</option><option>같이</option></select>
-          </div>
-          <div style="flex:0 0 150px">
-            <label for="rScore">자평 (0~5)</label>
-            <select id="rScore">
-              <option value="">—</option>
-              {[0, 1, 2, 3, 4, 5].map((n) => <option value={n}>{n}</option>)}
-            </select>
-          </div>
-        </div>
-        <label for="rBefore">① 설명 듣기 전 — 백지에 아는 만큼</label>
-        <textarea id="rBefore" class="blank-sheet" placeholder="세연이가 먼저 쓴 것"></textarea>
-        <label for="rAfter">② 설명 들은 뒤 — 다시 백지에</label>
-        <textarea id="rAfter" class="blank-sheet" placeholder="설명 후 스스로 재구성한 것"></textarea>
-        <label for="rNote">아빠 관찰</label>
-        <textarea id="rNote" style="min-height:80px" placeholder="어디서 막혔는지, 무엇을 이름만 알고 있었는지"></textarea>
-        <label for="rFiles">사진·파일 첨부</label>
-        <input type="file" id="rFiles" multiple accept="image/*,.pdf" />
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px">
-          <button type="button" class="primary" id="rSave">기록 저장</button>
-          <span style="flex:1"></span>
-          <span class="tiny">백지 상태</span>
-          <select id="bStatus" style="width:auto;min-width:120px">
-            <option value="todo">아직</option><option value="doing">진행 중</option><option value="done">완료</option>
-          </select>
-          <select id="bMastery" style="width:auto;min-width:100px">
-            {[0, 1, 2, 3, 4, 5].map((n) => <option value={n}>숙달 {n}/5</option>)}
-          </select>
-          <button type="button" id="bSave">상태 저장</button>
-        </div>
-      </div>
-    </div>
-    <h3>지난 기록</h3>
-    <div id="records" class="tiny">불러오는 중…</div>
+    {records.length === 0 ? (
+      <p class="lead">
+        아직 백지 기록이 없습니다.
+        <span class="tiny">기록은 <code>src/data/content/index.ts</code> 의 <code>RECORDS</code> 에 추가합니다.</span>
+      </p>
+    ) : (
+      <ul class="list">
+        {records.map((r) => (
+          <li>
+            <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+              <b style="font-size:15px">{r.date}</b>
+              <span class="chip">{r.who}</span>
+              {r.score != null && (
+                <span class={`pill ${r.score >= 4 ? 'learned' : 'current'}`}>자평 {r.score}/5</span>
+              )}
+            </div>
+            {r.before && (<div style="margin-top:8px">
+              <span class="tiny" style="font-weight:700">① 설명 전</span>
+              <div class="blank-sheet" style="min-height:auto;padding:6px 12px;white-space:pre-wrap">{r.before}</div>
+            </div>)}
+            {r.after && (<div style="margin-top:8px">
+              <span class="tiny" style="font-weight:700">② 설명 후</span>
+              <div class="blank-sheet" style="min-height:auto;padding:6px 12px;white-space:pre-wrap">{r.after}</div>
+            </div>)}
+            {r.note && (<div style="margin-top:8px">
+              <span class="tiny" style="font-weight:700">아빠 관찰</span>
+              <div style="white-space:pre-wrap;font-size:14.5px">{r.note}</div>
+            </div>)}
+            {r.images && r.images.length > 0 && (
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+                {r.images.map((src) => (
+                  <a href={src} target="_blank" rel="noopener">
+                    <img src={src} alt="" loading="lazy"
+                         style="height:120px;border:1px solid var(--hairline);border-radius:3px" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
   </section>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
 </Base>
 
-<script define:vars={{ conceptId: c.id, lvv: c.lv }}>
-  window.__C__ = { id: conceptId, lv: lvv };
-</script>
-
 <script>
-  import {
-    addRecord, listRecords, deleteRecord, setProgress, listProgress,
-    getPrep, savePrep, CHECK_ITEMS, PREP_LABEL,
-    uploadFile, publicUrl, fmtDate, toast, esc,
-    type PrepStatus, type CheckKey,
-  } from '../../lib/db';
-  import { mountGate } from '../../lib/gate';
+  // 탭
+  document.querySelectorAll<HTMLButtonElement>('.vtab').forEach((b) =>
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.vtab').forEach((x) => x.classList.remove('primary'));
+      b.classList.add('primary');
+      document.querySelectorAll<HTMLElement>('[data-view]').forEach((s) => {
+        s.hidden = s.dataset.view !== b.dataset.v;
+      });
+      history.replaceState(null, '', '#' + b.dataset.v);
+    }));
+  if (location.hash) {
+    document.querySelector<HTMLButtonElement>(`.vtab[data-v="${location.hash.slice(1)}"]`)?.click();
+  }
 
-  const CID = (window as any).__C__.id as string;
-  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
-
-  /* ---- KaTeX ---- */
+  // KaTeX
   const texNodes = document.querySelectorAll<HTMLElement>('.katex-here');
   if (texNodes.length) {
     const s = document.createElement('script');
@@ -339,204 +267,4 @@ const PREP_FIELDS = [
     s.onerror = () => texNodes.forEach((n) => { n.textContent = n.dataset.tex!; });
     document.head.appendChild(s);
   }
-
-  /* ---- 탭 ---- */
-  document.querySelectorAll<HTMLButtonElement>('.vtab').forEach((b) =>
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.vtab').forEach((x) => x.classList.remove('primary'));
-      b.classList.add('primary');
-      document.querySelectorAll<HTMLElement>('[data-view]').forEach((s) => {
-        s.hidden = s.dataset.view !== b.dataset.v;
-      });
-      history.replaceState(null, '', '#' + b.dataset.v);
-    }));
-  if (location.hash) {
-    const t = document.querySelector<HTMLButtonElement>(`.vtab[data-v="${location.hash.slice(1)}"]`);
-    t?.click();
-  }
-
-  /* ---- 오늘 날짜 ---- */
-  const dd = new Date();
-  const today = `${dd.getFullYear()}-${String(dd.getMonth() + 1).padStart(2, '0')}-${String(dd.getDate()).padStart(2, '0')}`;
-  $<HTMLInputElement>('#rDate').value = today;
-
-  /* ---- 체크리스트 UI ---- */
-  $('#checks').innerHTML = CHECK_ITEMS.map((c) => `
-    <label style="display:flex;gap:8px;align-items:flex-start;font-weight:400;color:var(--graphite);
-                  margin:0;padding:8px 10px;border:1px solid var(--hairline);border-radius:3px;background:#fff">
-      <input type="checkbox" class="ck" data-ck="${c.key}" style="width:auto;margin-top:3px" />
-      <span style="font-size:14px">${c.label}</span>
-    </label>`).join('');
-
-  const PREP_KEYS = ['axioms','atoms','chain','mechanism','boundary','analogy',
-                     'questions','props','script','ai_notes'] as const;
-
-  /* ---- 예습 읽기 뷰 ---- */
-  const FIELD_TITLE: Record<string, string> = {
-    axioms: '① 출발점', atoms: '② 원자 분해', chain: '③ 인과 사슬',
-    mechanism: '④ 메커니즘', boundary: '⑤ 경계', analogy: '비유 + 깨지는 지점',
-    questions: '확인 질문', props: '준비물', script: '말할 대본', ai_notes: 'AI 메모',
-  };
-
-  async function renderPrepView() {
-    const box = $('#prepView');
-    try {
-      const p = await getPrep(CID);
-      if (!p) { box.innerHTML = '<p class="lead">아직 예습 기록이 없습니다.</p>'; return; }
-
-      const pill = $('#ppill');
-      pill.innerHTML = `<span class="pill ${p.status === 'taught' || p.status === 'ready' ? 'learned' : 'current'}">예습 ${PREP_LABEL[p.status]}</span>`;
-
-      const done = CHECK_ITEMS.filter((c) => p.checklist?.[c.key]).length;
-      box.innerHTML = `
-        <div class="card lift">
-          <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
-            <b style="font-size:17px">예습 노트</b>
-            <span class="pill ${p.status === 'taught' ? 'learned' : 'current'}">${PREP_LABEL[p.status]}</span>
-            ${p.est_minutes ? `<span class="tiny">약 ${p.est_minutes}분</span>` : ''}
-            <span class="tiny">자기점검 ${done}/${CHECK_ITEMS.length}</span>
-            <span class="tiny" style="margin-left:auto">${fmtDate(p.updated_at)}</span>
-          </div>
-          ${PREP_KEYS.filter((k) => (p as any)[k]).map((k) => `
-            <div style="margin-top:12px">
-              <div class="tiny" style="font-weight:700">${FIELD_TITLE[k]}</div>
-              <div style="white-space:pre-wrap;font-size:14.5px;${k === 'script'
-                ? "font-family:ui-monospace,'D2Coding',Consolas,monospace;background:#FAFAF7;padding:10px;border-radius:3px;border:1px solid var(--hairline)"
-                : ''}">${esc((p as any)[k])}</div>
-            </div>`).join('')}
-        </div>`;
-
-      // 폼에 값 채우기
-      $<HTMLSelectElement>('#pStatus2').value = p.status;
-      $<HTMLInputElement>('#pMin').value = p.est_minutes ? String(p.est_minutes) : '';
-      PREP_KEYS.forEach((k) => {
-        const el = document.querySelector<HTMLTextAreaElement>(`#p_${k}`);
-        if (el) el.value = (p as any)[k] ?? '';
-      });
-      document.querySelectorAll<HTMLInputElement>('.ck').forEach((cb) => {
-        cb.checked = !!p.checklist?.[cb.dataset.ck as CheckKey];
-      });
-    } catch (e) {
-      box.textContent = '예습을 불러오지 못했습니다: ' + (e as Error).message;
-    }
-  }
-
-  /* ---- 백지 기록 목록 ---- */
-  async function renderRecords() {
-    const box = $('#records');
-    try {
-      const rs = await listRecords(CID);
-      if (!rs.length) { box.innerHTML = '<p class="lead">아직 기록이 없습니다.</p>'; return; }
-      box.innerHTML = `<ul class="list">${rs.map((r) => `
-        <li>
-          <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
-            <b style="font-size:15px">${fmtDate(r.session_date)}</b>
-            <span class="chip">${esc(r.who)}</span>
-            ${r.self_score != null ? `<span class="pill ${r.self_score >= 4 ? 'learned' : 'current'}">자평 ${r.self_score}/5</span>` : ''}
-            <button type="button" class="danger delRec" data-id="${r.id}"
-                    style="margin-left:auto;font-size:12px;padding:3px 9px">삭제</button>
-          </div>
-          ${r.blank_before ? `<div style="margin-top:8px"><span class="tiny" style="font-weight:700">① 설명 전</span>
-            <div class="blank-sheet" style="min-height:auto;padding:6px 12px;white-space:pre-wrap">${esc(r.blank_before)}</div></div>` : ''}
-          ${r.blank_after ? `<div style="margin-top:8px"><span class="tiny" style="font-weight:700">② 설명 후</span>
-            <div class="blank-sheet" style="min-height:auto;padding:6px 12px;white-space:pre-wrap">${esc(r.blank_after)}</div></div>` : ''}
-          ${r.note ? `<div style="margin-top:8px"><span class="tiny" style="font-weight:700">아빠 관찰</span>
-            <div style="white-space:pre-wrap;font-size:14.5px">${esc(r.note)}</div></div>` : ''}
-          ${r.images?.length ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${
-            r.images.map((p) => `<a href="${publicUrl(p)}" target="_blank" rel="noopener">
-              <img src="${publicUrl(p)}" alt="" style="height:96px;border:1px solid var(--hairline);border-radius:3px" loading="lazy"></a>`).join('')
-          }</div>` : ''}
-        </li>`).join('')}</ul>`;
-
-      box.querySelectorAll<HTMLButtonElement>('.delRec').forEach((b) =>
-        b.addEventListener('click', async () => {
-          if (!confirm('이 기록을 삭제할까요?')) return;
-          try { await deleteRecord(b.dataset.id!); toast('삭제했습니다'); renderRecords(); }
-          catch (e) { toast((e as Error).message); }
-        }));
-    } catch (e) { box.textContent = '기록을 불러오지 못했습니다: ' + (e as Error).message; }
-  }
-
-  /* ---- 게이트: 예습 ---- */
-  mountGate($('#pgate'), $('#ppanel'), () => {
-    $('#pSave2').addEventListener('click', async (ev) => {
-      const btn = ev.currentTarget as HTMLButtonElement;
-      btn.disabled = true;
-      try {
-        const payload: any = { concept_id: CID, status: $<HTMLSelectElement>('#pStatus2').value as PrepStatus };
-        PREP_KEYS.forEach((k) => {
-          const el = document.querySelector<HTMLTextAreaElement>(`#p_${k}`);
-          payload[k] = el ? el.value.trim() || null : null;
-        });
-        const m = $<HTMLInputElement>('#pMin').value;
-        payload.est_minutes = m ? Number(m) : null;
-        const cl: Record<string, boolean> = {};
-        document.querySelectorAll<HTMLInputElement>('.ck').forEach((cb) => {
-          if (cb.checked) cl[cb.dataset.ck!] = true;
-        });
-        payload.checklist = cl;
-        await savePrep(payload);
-        $('#pMsg').textContent = '저장됨 ' + new Date().toLocaleTimeString('ko-KR');
-        toast('예습을 저장했습니다');
-        renderPrepView();
-      } catch (e) { toast('저장 실패: ' + (e as Error).message); }
-      finally { btn.disabled = false; }
-    });
-  });
-
-  /* ---- 게이트: 백지 훈련 ---- */
-  mountGate($('#gate'), $('#panel'), async () => {
-    try {
-      const p = (await listProgress()).find((x) => x.concept_id === CID);
-      if (p) {
-        $<HTMLSelectElement>('#bStatus').value = p.status;
-        $<HTMLSelectElement>('#bMastery').value = String(p.mastery);
-        $('#bpill').innerHTML = `<span class="pill ${p.status === 'done' ? 'learned' : 'current'}">백지 ${
-          p.status === 'done' ? '완료' : p.status === 'doing' ? '진행' : '아직'} ${p.mastery}/5</span>`;
-      }
-    } catch { /* noop */ }
-
-    $('#rSave').addEventListener('click', async (ev) => {
-      const btn = ev.currentTarget as HTMLButtonElement;
-      btn.disabled = true;
-      try {
-        const files = $<HTMLInputElement>('#rFiles').files;
-        const paths: string[] = [];
-        if (files) for (const f of Array.from(files)) {
-          const row = await uploadFile(f, { category: 'photo', concept_id: CID, title: f.name });
-          paths.push(row.storage_path);
-        }
-        const score = $<HTMLSelectElement>('#rScore').value;
-        await addRecord({
-          concept_id: CID,
-          session_date: $<HTMLInputElement>('#rDate').value || null,
-          who: $<HTMLSelectElement>('#rWho').value,
-          blank_before: $<HTMLTextAreaElement>('#rBefore').value.trim(),
-          blank_after: $<HTMLTextAreaElement>('#rAfter').value.trim(),
-          self_score: score === '' ? null : Number(score),
-          note: $<HTMLTextAreaElement>('#rNote').value.trim(),
-          images: paths,
-        });
-        ['#rBefore', '#rAfter', '#rNote'].forEach((s) => ($<HTMLTextAreaElement>(s).value = ''));
-        $<HTMLInputElement>('#rFiles').value = '';
-        toast('기록했습니다');
-        renderRecords();
-      } catch (e) { toast('저장 실패: ' + (e as Error).message); }
-      finally { btn.disabled = false; }
-    });
-
-    $('#bSave').addEventListener('click', async (ev) => {
-      const btn = ev.currentTarget as HTMLButtonElement;
-      btn.disabled = true;
-      try {
-        await setProgress(CID, $<HTMLSelectElement>('#bStatus').value as any,
-          Number($<HTMLSelectElement>('#bMastery').value));
-        toast('상태를 저장했습니다');
-      } catch (e) { toast('실패: ' + (e as Error).message); }
-      finally { btn.disabled = false; }
-    });
-  });
-
-  renderRecords();
-  renderPrepView();
 </script>

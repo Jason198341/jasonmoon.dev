@@ -245,3 +245,18 @@ summary:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
   .nav a { padding: 4px 8px; font-size: 13px; }
   h2 { font-size: 20px; margin-top: 34px; }
 }
+
+/* ---------- 영어 용어 병기 ---------- */
+.eng-term {
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink);
+  background: #EEF3FA;
+  border: 1px solid #D3E0F0;
+  border-radius: 3px;
+  padding: 1px 7px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.eng-term.sm { font-size: 12px; padding: 0 5px; font-weight: 400; }

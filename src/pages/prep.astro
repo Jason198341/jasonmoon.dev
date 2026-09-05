@@ -1,42 +1,41 @@
 ---
 import Base from '../layouts/Base.astro';
-import { CONCEPTS, LEVEL_NAME, type Level } from '../data/concepts';
+import { CONCEPTS, type Level } from '../data/concepts';
 import { schoolStatus, stageOf, STAGE_BY_N, SEYEON } from '../data/curriculum';
 import { DEEP } from '../data/deep';
+import { PREP, PREP_LABEL, CHECK_ITEMS, prepCount } from '../data/prep';
+import { EN } from '../data/english';
 
-// 예습 우선순위: 진도 순 (지금 배우는 것부터)
-const ordered = [...CONCEPTS].sort((a, b) => stageOf(a) - stageOf(b));
-const rows = ordered.map((c) => ({
-  id: c.id,
-  name: c.name.replace(/ ★.*$/, ''),
-  lv: c.lv as Level,
-  area: c.area,
-  stage: STAGE_BY_N[stageOf(c)].short,
-  school: schoolStatus(c),
-  hasDeep: !!DEEP[c.id],
-}));
+const rows = [...CONCEPTS].sort((a, b) => stageOf(a) - stageOf(b)).map((c) => {
+  const p = PREP[c.id];
+  return {
+    id: c.id, name: c.name.replace(/ ★.*$/, ''), en: EN[c.id] ?? '', lv: c.lv as Level,
+    area: c.area, stage: STAGE_BY_N[stageOf(c)].short, school: schoolStatus(c),
+    hasDeep: !!DEEP[c.id], prep: p,
+    checks: p ? CHECK_ITEMS.filter((k) => p.checklist?.[k.key]).length : 0,
+  };
+});
 const deepCount = rows.filter((r) => r.hasDeep).length;
 ---
 <Base title="아빠 예습" desc="가르치기 전에 제1원칙으로 내가 먼저 재구성한다">
   <h1>아빠 예습</h1>
   <p class="lead" style="max-width:720px">
     가르치기 전에 <b>제1원칙으로 내가 먼저 재구성</b>한다.
-    공리에서 출발해 원자 단위로 쪼개고, 인과 사슬에 비약이 없는지 확인하고,
-    비유의 깨지는 지점까지 정해 둔다.
+    공리에서 출발해 원자 단위로 쪼개고, 인과 사슬에 비약이 없는지 확인하고, 비유의 깨지는 지점까지 정해 둔다.
     <span class="hand" style="font-size:20px">이름 붙이기는 설명이 아니다.</span>
   </p>
 
-  <div class="grid c4" id="stats" style="margin:18px 0">
-    <div class="stat"><div class="n">—</div><div class="k">준비 완료</div></div>
-    <div class="stat"><div class="n">—</div><div class="k">작성 중</div></div>
-    <div class="stat"><div class="n">—</div><div class="k">가르침</div></div>
-    <div class="stat"><div class="n">{deepCount}</div><div class="k">심층자료 있음 / {rows.length}</div></div>
+  <div class="grid c4" style="margin:18px 0">
+    <div class="stat"><div class="n">{prepCount('ready') + prepCount('taught')}</div><div class="k">준비 완료</div></div>
+    <div class="stat"><div class="n">{prepCount('drafting')}</div><div class="k">작성 중</div></div>
+    <div class="stat"><div class="n">{prepCount('taught')}</div><div class="k">가르침</div></div>
+    <div class="stat"><div class="n">{deepCount}</div><div class="k">심층자료 / {rows.length}</div></div>
   </div>
 
   <div class="card" style="background:#F5F9FF;border-color:#C9DDF5;margin-bottom:20px">
     <b>예습 7단계</b>
     <ol style="margin:8px 0 0;padding-left:22px;font-size:14.5px">
-      <li><b>출발점</b> — 이 설명이 전제하는 공리·사실을 명시. 관행·통념은 출발점이 아니다.</li>
+      <li><b>출발점</b> — 전제하는 공리·사실을 명시. 관행·통념은 출발점이 아니다.</li>
       <li><b>원자 분해</b> — 등장하는 모든 용어를 그 전에 정의. 선행 → 후행 순서.</li>
       <li><b>인과 사슬</b> — A이므로 B. "따라서/당연히"로 건너뛴 곳이 설명의 구멍이다.</li>
       <li><b>메커니즘</b> — "무엇"이 아니라 "어떻게". 왜 그 형태일 수밖에 없는가.</li>
@@ -44,87 +43,61 @@ const deepCount = rows.filter((r) => r.hasDeep).length;
       <li><b>비유의 한계</b> — 깨지는 지점을 말하지 않는 비유는 오개념을 심는다.</li>
       <li><b>재도출 검사</b> — 세연이가 나 없이 다시 도출할 수 있는가.</li>
     </ol>
+    <p class="tiny" style="margin:10px 0 0">
+      예습 노트는 <code>src/data/prep/</code> 에 코드로 씁니다. Claude에게 <code>/mathjason</code> 으로 불러주세요.
+    </p>
   </div>
 
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
     <button type="button" class="ft primary" data-f="">전체</button>
-    <button type="button" class="ft" data-f="near">세연이 구간</button>
-    <button type="button" class="ft" data-f="todo">예습 전</button>
-    <button type="button" class="ft" data-f="drafting">작성 중</button>
     <button type="button" class="ft" data-f="ready">준비 완료</button>
+    <button type="button" class="ft" data-f="drafting">작성 중</button>
     <button type="button" class="ft" data-f="taught">가르침</button>
+    <button type="button" class="ft" data-f="todo">예습 전</button>
     <input id="q" type="search" placeholder="개념 검색" style="flex:1;min-width:180px" />
   </div>
 
-  <div id="list" class="tiny">불러오는 중…</div>
-
-  <script type="application/json" id="rows" set:html={JSON.stringify(rows)}></script>
-  <script type="application/json" id="cur" set:html={JSON.stringify({ stage: SEYEON.stage })}></script>
+  <ul class="list" id="list">
+    {rows.map((r) => (
+      <li data-st={r.prep?.status ?? 'todo'} data-q={`${r.name} ${r.en} ${r.area} ${r.stage}`.toLowerCase()}
+          style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span class={`chip ${r.lv}`} style="flex:0 0 auto">{r.stage}</span>
+        <a href={`/c/${r.id}#prep`} style="font-weight:700;font-size:15.5px">{r.name}</a>
+        {r.en && <span class="eng-term sm">{r.en}</span>}
+        <span class="tiny">{r.area}</span>
+        {r.school === 'current' && <span class="pill current">지금 여기</span>}
+        {r.hasDeep && <span class="tiny" title="심층자료 있음">📚</span>}
+        <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          {r.prep && <span class="tiny">점검 {r.checks}/{CHECK_ITEMS.length}</span>}
+          {r.prep?.minutes && <span class="tiny">{r.prep.minutes}분</span>}
+          <span class={`pill ${r.prep?.status === 'ready' || r.prep?.status === 'taught' ? 'learned'
+                             : r.prep?.status === 'drafting' ? 'current' : 'upcoming'}`}>
+            {PREP_LABEL[r.prep?.status ?? 'todo']}
+          </span>
+        </span>
+      </li>
+    ))}
+  </ul>
 </Base>
 
 <script>
-  import { listPrep, getStats, PREP_LABEL, CHECK_ITEMS, fmtDate, esc, type PrepStatus } from '../lib/db';
-
-  const rows = JSON.parse(document.getElementById('rows')!.textContent!) as any[];
-  const prepByCid = new Map<string, any>();
-  let filter = '';
-
-  (async () => {
-    try {
-      const s = await getStats();
-      const tiles = [[s.prep_ready, '준비 완료'], [s.prep_draft, '작성 중'], [s.prep_taught, '가르침']] as const;
-      const el = document.getElementById('stats')!;
-      const last = el.lastElementChild!.outerHTML;
-      el.innerHTML = tiles.map(([n, k]) =>
-        `<div class="stat"><div class="n">${n}</div><div class="k">${k}</div></div>`).join('') + last;
-    } catch { /* noop */ }
-  })();
-
-  function paint() {
-    const q = (document.getElementById('q') as HTMLInputElement).value.trim().toLowerCase();
-    const out = rows.filter((r) => {
-      const p = prepByCid.get(r.id);
-      const stt: PrepStatus = p?.status ?? 'todo';
-      if (filter === 'near' && r.school === 'upcoming' && !['ready', 'taught', 'drafting'].includes(stt)) {
-        // 세연이 구간 = 배운 곳 + 지금 + 바로 다음 학기
-        if (r.school !== 'current' && r.school !== 'learned') return false;
-      }
-      if (filter && filter !== 'near' && stt !== filter) return false;
-      if (q && !(`${r.name} ${r.area} ${r.stage}`.toLowerCase().includes(q))) return false;
-      return true;
+  const items = document.querySelectorAll<HTMLLIElement>('#list li');
+  const q = document.getElementById('q') as HTMLInputElement;
+  let f = '';
+  const apply = () => {
+    const v = q.value.trim().toLowerCase();
+    items.forEach((li) => {
+      const okF = !f || li.dataset.st === f;
+      const okQ = !v || (li.dataset.q || '').includes(v);
+      li.style.display = okF && okQ ? '' : 'none';
     });
-
-    document.getElementById('list')!.innerHTML = out.length
-      ? `<ul class="list">${out.map((r) => {
-          const p = prepByCid.get(r.id);
-          const stt: PrepStatus = p?.status ?? 'todo';
-          const ck = p ? CHECK_ITEMS.filter((c) => p.checklist?.[c.key]).length : 0;
-          return `<li style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-            <span class="chip ${r.lv}" style="flex:0 0 auto">${r.stage}</span>
-            <a href="/c/${r.id}#prep" style="font-weight:700;font-size:15.5px">${esc(r.name)}</a>
-            <span class="tiny">${esc(r.area)}</span>
-            ${r.school === 'current' ? '<span class="pill current">지금 여기</span>' : ''}
-            ${r.hasDeep ? '<span class="tiny" title="심층자료 있음">📚</span>' : ''}
-            <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
-              ${p ? `<span class="tiny">점검 ${ck}/${CHECK_ITEMS.length}</span>` : ''}
-              ${p ? `<span class="tiny">${fmtDate(p.updated_at)}</span>` : ''}
-              <span class="pill ${stt === 'ready' || stt === 'taught' ? 'learned' : stt === 'drafting' ? 'current' : 'upcoming'}">
-                ${PREP_LABEL[stt]}</span>
-            </span>
-          </li>`;
-        }).join('')}</ul>`
-      : '<p class="lead">해당하는 개념이 없습니다.</p>';
-  }
-
+  };
+  q.addEventListener('input', apply);
   document.querySelectorAll<HTMLButtonElement>('.ft').forEach((b) =>
     b.addEventListener('click', () => {
       document.querySelectorAll('.ft').forEach((x) => x.classList.remove('primary'));
       b.classList.add('primary');
-      filter = b.dataset.f || '';
-      paint();
+      f = b.dataset.f || '';
+      apply();
     }));
-  document.getElementById('q')!.addEventListener('input', paint);
-
-  listPrep().then((ps) => { ps.forEach((p) => prepByCid.set(p.concept_id, p)); paint(); })
-            .catch(() => paint());
 </script>

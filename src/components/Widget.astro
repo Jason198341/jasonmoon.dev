@@ -1,0 +1,132 @@
+---
+import { WIDGETS } from '../lib/widgets';
+import { WIDGET_OF } from '../data/widgets';
+
+interface Props { id: string; }
+const { id } = Astro.props;
+const spec = WIDGET_OF[id];
+const def = spec ? WIDGETS[spec.type] : null;
+
+// 서버에서 초기 상태를 미리 그려 둔다 (JS 없이도 보이게)
+let initSvg = '';
+let initCaption = '';
+let initParams: Record<string, number> = {};
+if (def && spec) {
+  def.controls.forEach((c) => {
+    const v = spec.init?.[c.key];
+    initParams[c.key] = v !== undefined ? v : c.def;
+  });
+  const resolved: Record<string, number> = {};
+  def.controls.forEach((c) => {
+    const raw = initParams[c.key];
+    resolved[c.key] = c.values ? c.values[Math.max(0, Math.min(c.values.length - 1, raw))] : raw;
+  });
+  initSvg = def.render(resolved, spec.opt ?? {});
+  initCaption = def.caption ? def.caption(resolved, spec.opt ?? {}) : '';
+}
+---
+{def && spec && (
+  <div class="wgt" data-id={id}>
+    <div class="wgt-head">
+      <b>{def.title}</b>
+      {spec.focus && <span class="wgt-focus">{spec.focus}</span>}
+    </div>
+
+    <svg viewBox={def.vb} class="wgt-svg" role="img" aria-label={def.title}>
+      <g class="wgt-g" set:html={initSvg} />
+    </svg>
+
+    <div class="wgt-cap" set:html={initCaption}></div>
+
+    <div class="wgt-ctl">
+      {def.controls.map((c) => (
+        <label class="wgt-row">
+          <span class="wgt-lab">{c.label}</span>
+          <input type="range" data-key={c.key}
+                 min={c.values ? 0 : (c.min ?? 0)}
+                 max={c.values ? c.values.length - 1 : (c.max ?? 10)}
+                 step={c.values ? 1 : (c.step ?? 1)}
+                 value={initParams[c.key]} />
+          <output data-out={c.key}></output>
+        </label>
+      ))}
+    </div>
+
+    {def.hint && <p class="wgt-hint">{def.hint}</p>}
+  </div>
+)}
+
+<style>
+  .wgt {
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 16px 18px 14px;
+    margin: 14px 0;
+  }
+  .wgt-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px; }
+  .wgt-head b { font-size: 16px; letter-spacing: -.2px; }
+  .wgt-focus { font-size: 12.5px; color: var(--soft); flex: 1; min-width: 200px; }
+  .wgt-svg { display: block; width: 100%; height: auto; margin: 6px 0; }
+  .wgt-cap { text-align: center; font-size: 13px; color: var(--soft); min-height: 0; }
+  .wgt-cap:empty { display: none; }
+  .wgt-ctl { display: grid; gap: 7px; margin-top: 10px; }
+  .wgt-row { display: flex; align-items: center; gap: 10px; margin: 0; font-weight: 400; }
+  .wgt-lab { flex: 0 0 118px; font-size: 12.5px; color: var(--soft); font-weight: 500; }
+  .wgt-row input[type='range'] {
+    flex: 1; min-width: 120px; width: auto; padding: 0; border: 0;
+    accent-color: var(--ink); background: transparent;
+  }
+  .wgt-row output { flex: 0 0 62px; font-size: 13px; font-weight: 500; text-align: right; }
+  .wgt-hint {
+    margin: 10px 0 0; font-size: 12.5px; color: var(--soft);
+    border-top: 1px dotted var(--hairline); padding-top: 8px;
+  }
+  @media (max-width: 560px) {
+    .wgt-lab { flex: 0 0 92px; font-size: 12px; }
+    .wgt { padding: 12px 12px 10px; }
+  }
+</style>
+
+<script>
+  import { WIDGETS } from '../lib/widgets';
+  import { WIDGET_OF } from '../data/widgets';
+
+  document.querySelectorAll<HTMLElement>('.wgt').forEach((root) => {
+    const id = root.dataset.id!;
+    const spec = WIDGET_OF[id];
+    const def = spec && WIDGETS[spec.type];
+    if (!def) return;
+
+    const g = root.querySelector('.wgt-g')!;
+    const cap = root.querySelector('.wgt-cap')!;
+    const inputs = Array.from(root.querySelectorAll<HTMLInputElement>('input[type=range]'));
+
+    const read = () => {
+      const raw: Record<string, number> = {};
+      const resolved: Record<string, number> = {};
+      def.controls.forEach((c) => {
+        const el = inputs.find((i) => i.dataset.key === c.key);
+        const v = el ? Number(el.value) : c.def;
+        raw[c.key] = v;
+        resolved[c.key] = c.values ? c.values[Math.max(0, Math.min(c.values.length - 1, v))] : v;
+      });
+      return { raw, resolved };
+    };
+
+    const paint = () => {
+      const { raw, resolved } = read();
+      g.innerHTML = def.render(resolved, spec.opt ?? {});
+      cap.textContent = def.caption ? def.caption(resolved, spec.opt ?? {}) : '';
+      def.controls.forEach((c) => {
+        const out = root.querySelector<HTMLOutputElement>(`output[data-out="${c.key}"]`);
+        if (!out) return;
+        const v = resolved[c.key];
+        out.textContent = c.fmt ? c.fmt(c.values ? raw[c.key] : v) : String(v);
+      });
+    };
+
+    inputs.forEach((i) => i.addEventListener('input', paint));
+    paint();
+  });
+</script>

@@ -11,10 +11,6 @@ const NAV = [
   { href: '/map',     label: '개념지도' },
   { href: '/prep',    label: '아빠 예습' },
   { href: '/journal', label: '일지' },
-  { href: '/notes',   label: '강의노트' },
-  { href: '/board',   label: '게시판' },
-  { href: '/files',   label: '자료실' },
-  { href: '/trash',   label: '휴지통' },
 ];
 const cur = (h: string) => (h === '/' ? path === '/' : path.startsWith(h));
 ---
@@ -56,27 +52,10 @@ const cur = (h: string) => (h === '/' ? path === '/' : path.startsWith(h));
           현재 진도: {SEYEON.grade} 2학기 {SEYEON.unit}단원 「{SEYEON.unitName}」
           · 기준일 {SEYEON.updated}
         </span>
-        <span class="tiny" style="margin-left:auto">
-          <button type="button" id="lockBtn" class="ghost" style="font-size:12px;padding:4px 10px">잠금</button>
-        </span>
       </div>
     </div>
   </footer>
 
-  <div id="toast" role="status" aria-live="polite"></div>
 
-  <script>
-    import { isUnlocked, clearPass, toast } from '../lib/db';
-    const btn = document.getElementById('lockBtn') as HTMLButtonElement | null;
-    if (btn) {
-      isUnlocked().then((ok) => { btn.textContent = ok ? '잠그기' : '잠김'; });
-      btn.addEventListener('click', () => {
-        clearPass();
-        btn.textContent = '잠김';
-        toast('잠갔습니다');
-        setTimeout(() => location.reload(), 600);
-      });
-    }
-  </script>
 </body>
 </html>

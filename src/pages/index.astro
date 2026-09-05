@@ -1,9 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
-import { CONCEPTS, THREADS, LEVEL_NAME, type Level } from '../data/concepts';
+import { CONCEPTS, THREADS, LEVEL_NAME, BY_ID, type Level } from '../data/concepts';
 import {
   SEYEON, STAGE_BY_N, UNITS_5_2, schoolStatus, stageOf,
 } from '../data/curriculum';
+import { prepCount } from '../data/prep';
+import { PROGRESS, JOURNAL, RECORDS, byDateDesc } from '../data/content';
+import { widgetCount } from '../data/widgets';
+import { DEEP } from '../data/deep';
+import { EN } from '../data/english';
 
 const total = CONCEPTS.length;
 const learned  = CONCEPTS.filter((c) => schoolStatus(c) === 'learned');
@@ -91,23 +96,38 @@ const byLevel = (['E', 'M', 'H', 'U'] as Level[]).map((lv) => {
   <p class="lead" style="margin-top:2px">
     학교 진도와 별개입니다. <b>백지에 아무것도 없이 다시 그릴 수 있는가</b>만 셉니다.
   </p>
-  <div class="grid c4" id="stats" style="margin-top:12px">
-    <div class="stat"><div class="n">—</div><div class="k">아빠 예습 완료</div></div>
-    <div class="stat"><div class="n">—</div><div class="k">백지 완료</div></div>
-    <div class="stat"><div class="n">—</div><div class="k">훈련 기록</div></div>
-    <div class="stat"><div class="n">—</div><div class="k">일지</div></div>
+  <div class="grid c4" style="margin-top:12px">
+    <div class="stat"><div class="n">{prepCount('ready') + prepCount('taught')}</div><div class="k">아빠 예습 완료</div></div>
+    <div class="stat"><div class="n">{Object.values(PROGRESS).filter((x) => x.status === 'done').length}</div><div class="k">백지 완료</div></div>
+    <div class="stat"><div class="n">{RECORDS.length}</div><div class="k">훈련 기록</div></div>
+    <div class="stat"><div class="n">{JOURNAL.length}</div><div class="k">일지</div></div>
+  </div>
+
+  <div class="grid c2" style="margin-top:12px">
+    <div class="stat"><div class="n">{Object.keys(DEEP).length}</div><div class="k">심층 자료 개념</div></div>
+    <div class="stat"><div class="n">{widgetCount}</div><div class="k">인터랙티브 위젯</div></div>
   </div>
 
   <!-- 최근 -->
   <div class="grid c2" style="margin-top:18px">
     <div class="card">
       <h3 style="margin-top:0">최근 일지</h3>
-      <div id="recentJournal" class="tiny">불러오는 중…</div>
+      {JOURNAL.length === 0 ? <p class="tiny">아직 일지가 없습니다.</p> : (
+        <ul class="list">{byDateDesc(JOURNAL).slice(0, 4).map((j) => (
+          <li style="padding:8px 0">
+            <a href={`/journal#${j.id}`} style="font-weight:700;font-size:14.5px">{j.title}</a>
+            <div class="tiny">{j.date}</div>
+          </li>))}</ul>)}
       <p style="margin:12px 0 0"><a href="/journal">일지 전체 →</a></p>
     </div>
     <div class="card">
       <h3 style="margin-top:0">최근 백지 기록</h3>
-      <div id="recentRecords" class="tiny">불러오는 중…</div>
+      {RECORDS.length === 0 ? <p class="tiny">아직 백지 기록이 없습니다.</p> : (
+        <ul class="list">{byDateDesc(RECORDS).slice(0, 4).map((r) => (
+          <li style="padding:8px 0">
+            <a href={`/c/${r.conceptId}`} style="font-weight:700;font-size:14.5px">{BY_ID[r.conceptId]?.name ?? r.conceptId}</a>
+            <div class="tiny">{r.date} · {r.who}</div>
+          </li>))}</ul>)}
       <p style="margin:12px 0 0"><a href="/map">개념지도에서 기록하기 →</a></p>
     </div>
   </div>
@@ -118,7 +138,8 @@ const byLevel = (['E', 'M', 'H', 'U'] as Level[]).map((lv) => {
     {nextUp.map((c) => (
       <a href={`/c/${c.id}`} class={`card band-${c.lv}`} style="text-decoration:none;color:inherit">
         <div class="tiny">{STAGE_BY_N[stageOf(c)].short} · {c.area}</div>
-        <div style="font-weight:700;margin:3px 0 4px">{c.name.replace(/ ★.*$/, '')}</div>
+        <div style="font-weight:700;margin:3px 0 2px">{c.name.replace(/ ★.*$/, '')}</div>
+        {EN[c.id] && <div class="eng-term sm" style="margin-bottom:4px">{EN[c.id]}</div>}
         <div class="tiny" style="color:var(--soft)">{c.def}</div>
       </a>
     ))}
@@ -168,46 +189,3 @@ const byLevel = (['E', 'M', 'H', 'U'] as Level[]).map((lv) => {
   </div>
 </Base>
 
-<script>
-  import { getStats, listJournal, listRecords, fmtDate, esc } from '../lib/db';
-  import { BY_ID } from '../data/concepts';
-
-  (async () => {
-    try {
-      const s = await getStats();
-      const tiles = [
-        [s.prep_ready, '아빠 예습 완료'],
-        [s.done, '백지 완료'],
-        [s.records, '훈련 기록'],
-        [s.journals, '일지'],
-      ] as const;
-      document.getElementById('stats')!.innerHTML = tiles
-        .map(([n, k]) => `<div class="stat"><div class="n">${n}</div><div class="k">${k}</div></div>`)
-        .join('');
-    } catch (e) {
-      document.getElementById('stats')!.innerHTML =
-        `<div class="stat" style="grid-column:1/-1"><div class="k">통계 연결 실패: ${esc((e as Error).message)}</div></div>`;
-    }
-
-    try {
-      const js = await listJournal(4);
-      document.getElementById('recentJournal')!.innerHTML = js.length
-        ? `<ul class="list">${js.map((j) => `<li style="padding:8px 0">
-             <a href="/journal#${j.id}" style="font-weight:700;font-size:14.5px">${esc(j.title)}</a>
-             <div class="tiny">${fmtDate(j.entry_date)}</div></li>`).join('')}</ul>`
-        : '아직 일지가 없습니다. <a href="/journal">첫 일지 쓰기 →</a>';
-    } catch { document.getElementById('recentJournal')!.textContent = '불러오지 못했습니다.'; }
-
-    try {
-      const rs = (await listRecords()).slice(0, 4);
-      document.getElementById('recentRecords')!.innerHTML = rs.length
-        ? `<ul class="list">${rs.map((r) => {
-            const c = BY_ID[r.concept_id];
-            return `<li style="padding:8px 0">
-              <a href="/c/${r.concept_id}" style="font-weight:700;font-size:14.5px">${esc(c ? c.name : r.concept_id)}</a>
-              <div class="tiny">${fmtDate(r.session_date)} · ${esc(r.who)}${r.self_score != null ? ` · 자평 ${r.self_score}/5` : ''}</div></li>`;
-          }).join('')}</ul>`
-        : '아직 백지 기록이 없습니다. <a href="/map">개념 골라서 시작 →</a>';
-    } catch { document.getElementById('recentRecords')!.textContent = '불러오지 못했습니다.'; }
-  })();
-</script>
