@@ -21,7 +21,7 @@ const cur = (h: string) => (h === s?.href ? path === h : path.startsWith(h));
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{title}{s ? ` · ${s.name}` : ''} · 세연이 공부방</title>
+  <title>{title}{s && s.name !== title ? ` · ${s.name}` : ''} · 세연이 공부방</title>
   <meta name="description" content={desc} />
   <meta property="og:title" content={`${title} · 세연이 공부방`} />
   <meta property="og:description" content={desc} />

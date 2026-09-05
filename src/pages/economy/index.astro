@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import { MONEY_TOOLS, MONEY_DECISIONS } from '../../data/subjects/misc';
+import { BY_ID } from '../../data/concepts';
+const NAV = [{ href: '/economy', label: '홈' }];
+---
+<Base title="경제" subject="economy" nav={NAV} desc="학교가 안 가르치는데 평생 쓴다.">
+  <h1>경제</h1>
+  <p class="lead" style="max-width:700px">
+    지도가 아니라 <b>도구 상자</b>입니다. 순서대로 쌓는 게 아니라 필요할 때 꺼내 씁니다.
+    그래서 검증도 시험이 아니라 <b>실제 돈 결정에 써봤는가</b>입니다.
+  </p>
+
+  <div class="grid c3" style="margin:18px 0">
+    <div class="stat"><div class="n">{MONEY_TOOLS.length}</div><div class="k">도구</div></div>
+    <div class="stat"><div class="n">{MONEY_DECISIONS.length}</div><div class="k">실제 결정</div></div>
+    <div class="stat"><div class="n">{new Set(MONEY_TOOLS.flatMap((t) => t.mathRefs ?? [])).size}</div><div class="k">수학과 연결</div></div>
+  </div>
+
+  <h2>도구</h2>
+  <div class="grid c2">
+    {MONEY_TOOLS.map((t) => (
+      <div class="card band-E">
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <b style="font-size:18px">{t.name}</b>
+          {t.en && <span class="eng-term sm">{t.en}</span>}
+        </div>
+        <p style="margin:6px 0 0;font-size:15px">{t.one}</p>
+        <p style="margin:6px 0 0;font-size:14px"><b class="tiny">언제 꺼내나</b> {t.useWhen}</p>
+        {t.mathRefs && (
+          <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:8px">
+            <span class="tiny" style="font-weight:700">수학</span>
+            {t.mathRefs.map((id) => {
+              const c = BY_ID[id];
+              return c ? <a href={`/math/c/${id}`} class={`chip ${c.lv}`}>{c.name.replace(/ ★.*$/, '')}</a> : null;
+            })}
+          </div>
+        )}
+        {t.wrong && (
+          <div style="margin-top:10px;border-left:4px solid var(--red);padding-left:10px">
+            <div style="font-size:14px;color:var(--red);font-weight:700">✗ {t.wrong.claim}</div>
+            <div style="font-size:14px;margin-top:3px">{t.wrong.fix}</div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <h2>실제 돈 결정 — 이게 검증이다</h2>
+  {MONEY_DECISIONS.map((d) => (
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <b>{d.what}</b><span class="tiny" style="margin-left:auto">{d.date}</span>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">
+        {d.toolIds.map((id) => {
+          const t = MONEY_TOOLS.find((x) => x.id === id);
+          return t ? <span class="chip">{t.name}</span> : null;
+        })}
+      </div>
+      {d.chose && <p style="margin:8px 0 0;font-size:14.5px"><b class="tiny">선택</b> {d.chose}</p>}
+      {d.hindsight && <p style="margin:6px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px"><b class="tiny">돌아보니</b> {d.hindsight}</p>}
+    </div>
+  ))}
+</Base>

@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import { EN_LOGS, BRIDGES, EN_KIND_LABEL, type EnKind } from '../../data/subjects/misc';
+const NAV = [{ href: '/english', label: '홈' }];
+const KINDS: EnKind[] = ['speak', 'listen', 'write', 'read', 'bridge', 'exam'];
+---
+<Base title="영어" subject="english" nav={NAV} desc="11과목 중 유일하게 목표가 「잃지 않기」다.">
+  <h1>영어</h1>
+  <p class="lead" style="max-width:720px">
+    이 과목만 목표가 다릅니다. 나머지 10과목은 <b>쌓는 것</b>이고, 영어만 <b>지키는 것</b>입니다.
+    세연이는 국제학교에서 전 과목을 영어로 배웠습니다. 초보 학습자가 아닙니다.
+  </p>
+
+  <div class="card lift" style="margin:18px 0;border-left:6px solid var(--red)">
+    <b>귀국 후 무너지는 순서</b>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 6px">
+      <span class="chip" style="border-color:var(--red);color:var(--red)">말하기</span>
+      <span style="color:var(--pencil)">→</span>
+      <span class="chip" style="border-color:var(--current);color:#B45309">듣기</span>
+      <span style="color:var(--pencil)">→</span>
+      <span class="chip">쓰기</span>
+      <span style="color:var(--pencil)">→</span>
+      <span class="chip">읽기</span>
+    </div>
+    <p class="tiny" style="margin:0">
+      쓸 데가 없어지는 순서대로 무너집니다. 그래서 <b>말하기·듣기 기록을 특히</b> 봅니다.
+      읽기는 혼자서도 유지되지만 말하기는 상대가 있어야 합니다.
+    </p>
+  </div>
+
+  <div class="card" style="background:#FFF7F5;border-color:#F0C9BC">
+    <b>아빠 역할이 다른 과목과 다르다</b>
+    <p style="margin:6px 0 0;font-size:14.5px">
+      아빠는 영어 원어민이 아닙니다. <b>세연이가 아빠보다 영어를 잘할 수 있습니다.</b>
+      그래서 "아빠가 예습해서 가르친다" 모델이 여기서는 성립하지 않습니다.
+      아빠는 <b>관리자·기록자·상대</b>이고, 때로는 배우는 쪽입니다.
+    </p>
+  </div>
+
+  <h2>한↔영 다리 — 이 과목의 진짜 일</h2>
+  <p class="lead" style="margin-top:2px">
+    세연이는 photosynthesis는 알고 광합성은 모릅니다.
+    <b>아는 것에 한국어 이름표를 붙이는 것</b>이 귀국 준비의 핵심입니다.
+  </p>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:460px;margin-top:10px">
+      <thead>
+        <tr style="border-bottom:2px solid var(--graphite)">
+          <th style="text-align:left;padding:8px">English</th>
+          <th style="text-align:left;padding:8px">한국어</th>
+          <th style="text-align:left;padding:8px">어디서</th>
+          <th style="text-align:left;padding:8px">먼저 안 쪽</th>
+        </tr>
+      </thead>
+      <tbody>
+        {BRIDGES.map((b) => (
+          <tr style="border-bottom:1px solid var(--hairline)">
+            <td style="padding:8px"><span class="eng-term sm">{b.en}</span></td>
+            <td style="padding:8px"><b>{b.ko}</b></td>
+            <td style="padding:8px;color:var(--soft)">{b.from}</td>
+            <td style="padding:8px">
+              <span class={`pill ${b.knewFirst === 'en' ? 'current' : 'learned'}`}>
+                {b.knewFirst === 'en' ? '영어' : '한국어'}
+              </span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>기록 — 양을 유지한다</h2>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0">
+    {KINDS.map((k) => (
+      <span class="chip">{EN_KIND_LABEL[k]} {EN_LOGS.filter((l) => l.kind === k).length}</span>
+    ))}
+  </div>
+  {EN_LOGS.map((l) => (
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <span class="pill upcoming">{EN_KIND_LABEL[l.kind]}</span>
+        <b>{l.what}</b>
+        {l.amount && <span class="tiny">{l.amount}</span>}
+        <span class="tiny" style="margin-left:auto">{l.date}</span>
+      </div>
+      {l.note && <p style="margin:8px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px">{l.note}</p>}
+    </div>
+  ))}
+</Base>

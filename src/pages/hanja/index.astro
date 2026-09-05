@@ -1,0 +1,98 @@
+---
+import Base from '../../layouts/Base.astro';
+import { CHARS, WORD_GUESSES, usedIn, atoms, guessRate } from '../../data/subjects/hanja';
+const NAV = [{ href: '/hanja', label: '홈' }];
+const rate = guessRate();
+const fromKorean = CHARS.filter((c) => c.fromUnknown?.length);
+---
+<Base title="한자" subject="hanja" nav={NAV} desc="국어 어휘의 뿌리. 처음 보는 낱말을 추론한다.">
+  <h1>한자</h1>
+  <p class="lead" style="max-width:700px">
+    11과목 중 <b>수학 틀을 가장 많이 계승</b>하는 과목입니다.
+    다만 「선수/후속」이 「부품 포함」으로 바뀝니다 — 日 + 月 = 明.
+    수학의 선수관계보다 오히려 엄격합니다.
+    <span class="hand" style="font-size:20px">외우는 게 아니라 조립하는 겁니다.</span>
+  </p>
+
+  <div class="card" style="background:#FFFDF0;border-color:#EBDFA8;margin:18px 0">
+    <b>글자를 임의로 고르지 않는다</b>
+    <p style="margin:6px 0 0;font-size:14.5px">
+      <a href="/korean">국어 초견</a>에서 세연이가 모른다고 표시한 낱말에서 <b>역산해서</b> 고릅니다.
+      「추산」을 모른다 → 推를 배운다 → 추측·추론·추진이 한꺼번에 열립니다.
+    </p>
+  </div>
+
+  <div class="grid c4" style="margin:18px 0">
+    <div class="stat"><div class="n">{CHARS.length}</div><div class="k">글자</div></div>
+    <div class="stat"><div class="n">{atoms().length}</div><div class="k">기초 부품</div></div>
+    <div class="stat"><div class="n">{fromKorean.length}</div><div class="k">국어에서 역산</div></div>
+    <div class="stat"><div class="n">{rate == null ? '—' : Math.round(rate * 100) + '%'}</div><div class="k">추론 정답률</div></div>
+  </div>
+
+  <h2>검증 — 처음 보는 낱말 뚫기</h2>
+  <p class="lead" style="margin-top:2px">훈음 암기가 아닙니다. 부품에서 뜻을 <b>추론</b>할 수 있는가입니다.</p>
+  {WORD_GUESSES.map((g) => (
+    <div class="card" style="margin-bottom:12px;border-left:6px solid var(--E)">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <b style="font-size:20px">{g.word}</b>
+        {g.hit != null && <span class={`pill ${g.hit ? 'learned' : 'current'}`}>{g.hit ? '추론 성공' : '빗나감'}</span>}
+        <span class="tiny" style="margin-left:auto">{g.date}</span>
+      </div>
+      {g.split && <p style="margin:8px 0 0;font-size:15px"><b class="tiny">쪼갠 결과</b> {g.split}</p>}
+      {g.guess && <p style="margin:4px 0 0;font-size:15px"><b class="tiny">추측</b> {g.guess}</p>}
+      {g.actual && <p style="margin:4px 0 0;font-size:15px"><b class="tiny">실제</b> {g.actual}</p>}
+      {g.note && <p style="margin:8px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px">{g.note}</p>}
+    </div>
+  ))}
+
+  <h2>부품 조립 그래프</h2>
+  <div class="grid c2">
+    {CHARS.map((c) => {
+      const parents = usedIn(c.c);
+      return (
+        <div class="card" style={`border-left:6px solid ${c.parts.length ? 'var(--M)' : 'var(--E)'}`}>
+          <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap">
+            <span style="font-size:34px;line-height:1">{c.c}</span>
+            <div>
+              <b style="font-size:16px">{c.mean} {c.sound}</b>
+              <div class="tiny">{c.strokes ? c.strokes + '획' : ''}{c.level ? ' · ' + c.level + '급' : ''}</div>
+            </div>
+            {c.parts.length === 0 && <span class="pill upcoming" style="margin-left:auto">기초 부품</span>}
+          </div>
+
+          {c.parts.length > 0 && (
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:10px">
+              {c.parts.map((p, i) => (<>{i > 0 && <span style="color:var(--pencil)">+</span>}<span class="chip" style="font-size:18px">{p}</span></>))}
+              <span style="color:var(--pencil)">=</span>
+              <span class="chip" style="font-size:18px;border-color:var(--ink);color:var(--ink)">{c.c}</span>
+            </div>
+          )}
+
+          {c.origin && <p style="margin:8px 0 0;font-size:14.5px">{c.origin}</p>}
+          {c.originNote && (
+            <p class="tiny" style="margin:6px 0 0;background:#FFF7F5;padding:6px 9px;border-radius:3px">
+              ⚠️ {c.originNote}</p>
+          )}
+
+          {c.words && (
+            <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">
+              {c.words.map((w) => <span class="chip">{w}</span>)}
+            </div>
+          )}
+
+          {c.fromUnknown && (
+            <p class="tiny" style="margin:8px 0 0">
+              ← 국어 미지어 <b>{c.fromUnknown.join(', ')}</b> 에서 역산
+            </p>
+          )}
+
+          {parents.length > 0 && (
+            <p class="tiny" style="margin:8px 0 0">
+              이 글자가 부품으로 쓰이는 곳 · {parents.map((p) => p.c).join(' ')}
+            </p>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</Base>

@@ -1,0 +1,188 @@
+---
+import Base from '../../layouts/Base.astro';
+import {
+  LENSES, TEXTS, SESSIONS, SIGHT_READS, LENS_AREA_LABEL, GENRE_LABEL,
+  TEXT_BY_ID, LENS_BY_ID, lensReach, allUnknownWords, type LensArea,
+} from '../../data/subjects/korean';
+
+const NAV = [{ href: '/korean', label: '홈' }];
+const AREAS: LensArea[] = ['read', 'lit', 'write', 'grammar', 'speak', 'media'];
+const unknown = allUnknownWords();
+---
+<Base title="국어" subject="korean" nav={NAV}
+      desc="한국어를 생활 언어에서 학습 언어로 올린다.">
+  <h1>국어</h1>
+  <p class="lead" style="max-width:720px">
+    지도를 쓰지 않습니다. 수학 지도의 힘은 <b>"여기 뚫려 있으면 저 위로 못 간다"</b>는 차단 정보인데,
+    국어 텍스트에는 차단이 없습니다. 「소나기」를 안 읽어도 다른 글을 읽는 데 지장이 없습니다.
+    차단 없는 곳에 지도를 그리면 <b>잘못된 부채감</b>만 남습니다.
+    <span class="hand" style="font-size:20px">대신 씨줄과 날줄로 짭니다.</span>
+  </p>
+
+  <div class="card" style="background:#F5F9FF;border-color:#C9DDF5;margin:18px 0">
+    <b>세 층이 교차한다</b>
+    <div style="overflow-x:auto;margin-top:8px">
+      <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:480px">
+        <tr style="border-bottom:2px solid var(--graphite)">
+          <th style="text-align:left;padding:6px 8px">층</th>
+          <th style="text-align:left;padding:6px 8px">단위</th>
+          <th style="text-align:left;padding:6px 8px">성질</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--hairline)">
+          <td style="padding:6px 8px"><b>텍스트</b> (씨줄)</td><td style="padding:6px 8px">글 1편</td>
+          <td style="padding:6px 8px;color:var(--soft)">일회적 · 순서 없음</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--hairline)">
+          <td style="padding:6px 8px"><b>렌즈</b> (날줄)</td><td style="padding:6px 8px">읽고 쓰는 행위</td>
+          <td style="padding:6px 8px;color:var(--soft)">나선형 · 졸업 없음</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 8px"><b>재료</b></td><td style="padding:6px 8px">낱말 · 문법</td>
+          <td style="padding:6px 8px;color:var(--soft)">누적 · 약한 위계</td>
+        </tr>
+      </table>
+    </div>
+    <p style="margin:10px 0 0;font-size:14px">
+      학습의 실체는 <b>교차점</b>입니다 — "글 3편 × 근거 지목"이 하루 수업 1회.
+      같은 렌즈를 다른 텍스트에 대는 것이 나선형 반복이고,
+      그래야 <b>"이 렌즈를 서로 다른 몇 개 글에 대봤나"</b>라는 진짜 숙달 지표가 나옵니다.
+    </p>
+  </div>
+
+  <div class="grid c4" style="margin:18px 0">
+    <div class="stat"><div class="n">{TEXTS.length}</div><div class="k">읽은 글</div></div>
+    <div class="stat"><div class="n">{LENSES.length}</div><div class="k">렌즈</div></div>
+    <div class="stat"><div class="n">{SESSIONS.length}</div><div class="k">교차점</div></div>
+    <div class="stat"><div class="n">{unknown.length}</div><div class="k">모은 미지어</div></div>
+  </div>
+
+  <!-- 초견 프로토콜 -->
+  <h2>초견(初見) — 국어의 백지 훈련</h2>
+  <p class="lead" style="margin-top:2px">
+    처음 보는 글 · 혼자 · 15분 · 사전 없음. 지지대를 전부 뗀 상태에서 무엇이 남는지 봅니다.
+  </p>
+  {SIGHT_READS.map((s) => (
+    <div class="card lift" style="margin-bottom:12px;border-left:6px solid var(--red)">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <b style="font-size:16px">{s.title}</b>
+        {s.genre && <span class="chip">{GENRE_LABEL[s.genre]}</span>}
+        <span class="tiny" style="margin-left:auto">{s.date}</span>
+      </div>
+      <dl style="margin:10px 0 0;font-size:14.5px">
+        {s.step1 && (<><dt class="tiny" style="font-weight:700;margin-top:8px">① 갈래 판정 + 근거</dt><dd style="margin:2px 0 0">{s.step1}</dd></>)}
+        <dt class="tiny" style="font-weight:700;margin-top:10px">② 모르는 낱말 — ★ 이 사이트의 엔진</dt>
+        <dd style="margin:4px 0 0;display:flex;gap:5px;flex-wrap:wrap">
+          {s.unknownWords.map((w) => <span class="chip" style="border-color:var(--red);color:var(--red)">{w}</span>)}
+        </dd>
+        {s.step3 && (<><dt class="tiny" style="font-weight:700;margin-top:10px">③ 한 문장 요약</dt><dd style="margin:2px 0 0">{s.step3}</dd></>)}
+        {s.step4 && (<><dt class="tiny" style="font-weight:700;margin-top:10px">④ 단락 역할</dt><dd style="margin:2px 0 0">{s.step4}</dd></>)}
+        {s.step5 && (<><dt class="tiny" style="font-weight:700;margin-top:10px">⑤ 근거 지목 — ★ 검증의 핵심</dt><dd style="margin:2px 0 0">{s.step5}</dd></>)}
+        {s.step6 && (<><dt class="tiny" style="font-weight:700;margin-top:10px">⑥ 딴지</dt><dd style="margin:2px 0 0">{s.step6}</dd></>)}
+      </dl>
+      {s.note && (
+        <p style="margin:12px 0 0;font-size:14px;background:var(--hl);padding:8px 10px;border-radius:3px">{s.note}</p>
+      )}
+    </div>
+  ))}
+
+  <div class="card" style="margin-top:14px">
+    <b>모은 미지어</b>
+    <p class="tiny" style="margin:2px 0 8px">
+      추측하지 않고 아이가 직접 표시하게 해서 모읍니다.
+      국제학교 아이의 결핍은 어른이 예상하는 곳에 없습니다 —
+      「알고리즘」은 알면서 「추산」을 모릅니다.
+      이 목록이 <a href="/hanja">한자</a> 글자 선정을 결정합니다.
+    </p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      {unknown.map((w) => <span class="chip">{w}</span>)}
+    </div>
+  </div>
+
+  <!-- 렌즈 -->
+  <h2>렌즈 — 졸업이 없다</h2>
+  <p class="lead" style="margin-top:2px">
+    체크 하나 찍고 끝나는 게 아닙니다. 「요약하기」는 평생 늘어나는 능력이라 체크가 거짓말이 됩니다.
+    <b>몇 개의 서로 다른 글에 대봤는가</b>로 셉니다.
+  </p>
+  {AREAS.map((a) => {
+    const ls = LENSES.filter((l) => l.area === a);
+    return (
+      <div style="margin-top:14px">
+        <h3 style="margin-bottom:6px">{LENS_AREA_LABEL[a]}</h3>
+        <ul class="list">
+          {ls.map((l) => {
+            const reach = lensReach(l.id);
+            return (
+              <li style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+                <div style="flex:1;min-width:220px">
+                  <b>{l.name}</b>
+                  <div class="tiny" style="margin-top:2px">{l.what}</div>
+                  <div class="tiny" style="margin-top:3px;color:var(--graphite)">
+                    <b>통과 기준</b> · {l.pass}
+                  </div>
+                </div>
+                <span class={`pill ${reach >= 3 ? 'learned' : reach > 0 ? 'current' : 'upcoming'}`}>
+                  {reach}개 글에 적용
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  })}
+
+  <!-- 책장 -->
+  <h2>책장 — 읽은 것이 쌓인다</h2>
+  <p class="lead" style="margin-top:2px">
+    위계가 없으니 순서도 없습니다. 저작권상 전문은 싣지 않고 서지·발췌·아빠 메모만 둡니다.
+  </p>
+  <div class="grid c2">
+    {TEXTS.map((t) => (
+      <div class="card band-E">
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <b style="font-size:17px">{t.title}</b>
+          {t.author && <span class="tiny">{t.author}</span>}
+          <span class="chip" style="margin-left:auto">{GENRE_LABEL[t.genre]}</span>
+        </div>
+        <div class="tiny" style="margin-top:3px">{t.where}{t.length ? ` · 약 ${t.length}자` : ''}</div>
+        {t.excerpt && (
+          <p class="hand" style="font-size:20px;margin:10px 0 0;color:var(--soft)">"{t.excerpt}"</p>
+        )}
+        {t.whyPicked && (
+          <p style="margin:10px 0 0;font-size:14px;white-space:pre-wrap">
+            <b class="tiny">아빠가 고른 이유</b><br />{t.whyPicked}</p>
+        )}
+        {t.goodFor && (
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">
+            {t.goodFor.map((id) => <span class="chip">{LENS_BY_ID[id]?.name ?? id}</span>)}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <!-- 교차점 -->
+  <h2>교차점 — 텍스트 × 렌즈</h2>
+  {SESSIONS.map((s) => {
+    const t = TEXT_BY_ID[s.textId];
+    return (
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <b>{t?.title ?? s.textId}</b>
+          <span style="color:var(--pencil)">×</span>
+          {s.lensIds.map((id) => <span class="chip">{LENS_BY_ID[id]?.name ?? id}</span>)}
+          {s.score != null && (
+            <span class={`pill ${s.score >= 4 ? 'learned' : 'current'}`}>{s.score}/5</span>
+          )}
+          <span class="tiny" style="margin-left:auto">{s.date}</span>
+        </div>
+        {s.did && <p style="margin:8px 0 0;font-size:14.5px">{s.did}</p>}
+        {s.note && (
+          <p style="margin:8px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px">
+            <b class="tiny">아빠 관찰</b> · {s.note}</p>
+        )}
+      </div>
+    );
+  })}
+</Base>

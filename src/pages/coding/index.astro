@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import { BUILDS, STACK_LABEL } from '../../data/subjects/misc';
+import { BY_ID } from '../../data/concepts';
+const NAV = [{ href: '/coding', label: '홈' }];
+---
+<Base title="컴퓨터" subject="coding" nav={NAV} desc="돌아가는 것을 만들고 왜 되는지 설명한다.">
+  <h1>컴퓨터</h1>
+  <p class="lead" style="max-width:700px">
+    개념이 단위가 아니라 <b>만든 것</b>이 단위입니다. 돌아가야 안 것입니다.
+    그리고 <b>에러는 정상 상태</b>입니다 — 만들다 반드시 만나는 버그를 미리 적어 둡니다.
+    <span class="hand" style="font-size:20px">아빠가 제일 잘 가르칠 수 있는 과목.</span>
+  </p>
+
+  <div class="grid c3" style="margin:18px 0">
+    <div class="stat"><div class="n">{BUILDS.length}</div><div class="k">만들 것</div></div>
+    <div class="stat"><div class="n">{BUILDS.filter((b) => b.done).length}</div><div class="k">완성</div></div>
+    <div class="stat"><div class="n">{new Set(BUILDS.flatMap((b) => b.mathRefs ?? [])).size}</div><div class="k">수학과 연결</div></div>
+  </div>
+
+  {BUILDS.map((b) => (
+    <section class="card lift" style="margin-bottom:18px;border-left:6px solid var(--graphite)">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <b style="font-size:19px">{b.title}</b>
+        <span class="chip">{STACK_LABEL[b.stack]}</span>
+        <span class={`pill ${b.done ? 'learned' : 'upcoming'}`} style="margin-left:auto">
+          {b.done ? '완성 ' + (b.doneDate ?? '') : '아직'}
+        </span>
+      </div>
+      <p style="margin:8px 0 0;font-size:15px">{b.what}</p>
+
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">
+        {b.learns.map((l) => <span class="chip">{l}</span>)}
+      </div>
+
+      {b.mathRefs && b.mathRefs.length > 0 && (
+        <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:8px">
+          <span class="tiny" style="font-weight:700">수학 연결</span>
+          {b.mathRefs.map((id) => {
+            const c = BY_ID[id];
+            return c ? <a href={`/math/c/${id}`} class={`chip ${c.lv}`}>{c.name.replace(/ ★.*$/, '')}</a> : null;
+          })}
+        </div>
+      )}
+
+      {b.expectedBugs && (
+        <div class="card" style="margin-top:12px;border-left:6px solid var(--red)">
+          <div class="tiny" style="font-weight:700;color:var(--red)">반드시 만나는 버그 — 에러는 정상이다</div>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:14px">
+            {b.expectedBugs.map((x) => <li style="margin:3px 0">{x}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {b.checks && (
+        <div class="card" style="margin-top:12px;background:#FFFDF0;border-color:#EBDFA8">
+          <div class="tiny" style="font-weight:700">다 만든 뒤 스스로 답할 질문</div>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:14.5px">
+            {b.checks.map((x) => <li style="margin:3px 0">{x}</li>)}
+          </ul>
+        </div>
+      )}
+    </section>
+  ))}
+</Base>

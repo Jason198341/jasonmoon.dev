@@ -133,11 +133,11 @@ export const SUBJECTS: Subject[] = [
   },
   {
     id: 'english', name: '영어', en: 'English',
-    why: '이미 강점. 귀국 후 유지가 과제.',
-    spine: 'practice', status: 'external',
-    color: '#1E40AF', emoji: '🔤', href: 'https://papa-english.vercel.app',
-    unit: '반복 항목', proof: '간격반복으로 안 까먹기',
-    gap: '거꾸로 — 잃지 않는 것이 과제.',
+    why: '이미 강점. 귀국 후 잃지 않는 것이 과제.',
+    spine: 'practice', status: 'frame',
+    color: '#1E40AF', emoji: '🔤', href: '/english',
+    unit: '반복 항목', proof: '읽고 쓰는 양을 유지하기',
+    gap: '거꾸로 — 유일하게 「잃지 않기」가 목표인 과목.',
   },
 ];
 

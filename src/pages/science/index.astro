@@ -1,0 +1,197 @@
+---
+import Base from '../../layouts/Base.astro';
+import {
+  UNITS, EVIDENCES, MISCONCEPTIONS, PREDICTIONS,
+  BIG_MODEL, BAND_LABEL, FIELD_LABEL, EVIDENCE_LABEL,
+  evidencesOf, mcsOf, predictionsOf, hasHandsOn,
+  type BigModel, type Band,
+} from '../../data/subjects/science';
+
+const NAV = [{ href: '/science', label: '홈' }];
+const MODELS = Object.keys(BIG_MODEL) as BigModel[];
+const BANDS: Band[] = ['E', 'M', 'H', 'U'];
+---
+<Base title="과학" subject="science" nav={NAV}
+      desc="외운 사실이 아니라 예측하고 확인하는 법.">
+  <h1>과학</h1>
+  <p class="lead" style="max-width:720px">
+    개념을 쪼개면(온도·열·전도·대류) 결국 암기 카드가 됩니다.
+    과학 지식은 명제만이 아니라 <b>"우리는 왜 그걸 믿는가"가 지식의 절반</b>입니다.
+    그래서 유닛마다 <b>눈에 보이는 현상에 닻</b>을 내리고 순서를 강제합니다.
+  </p>
+
+  <div class="card lift" style="background:#F5F9FF;border-color:#C9DDF5;margin:18px 0">
+    <b>순서를 지킨다 — 용어가 마지막이다</b>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 6px">
+      <span class="chip">① 이상한 일이 벌어진다</span><span style="color:var(--pencil)">→</span>
+      <span class="chip">② 너는 어떻게 설명할래?</span><span style="color:var(--pencil)">→</span>
+      <span class="chip">③ 과학자의 설명</span><span style="color:var(--pencil)">→</span>
+      <span class="chip">④ 왜 그걸 믿나</span><span style="color:var(--pencil)">→</span>
+      <span class="chip" style="border-color:var(--ink);color:var(--ink)">⑤ 이름은 이렇게 부른다</span>
+    </div>
+    <p class="tiny" style="margin:0">
+      한국 학교는 순서가 거꾸로(용어 먼저)라서 암기가 됩니다.
+      아이의 설명을 먼저 꺼내야 오개념이 드러납니다.
+    </p>
+  </div>
+
+  <div class="grid c4" style="margin:18px 0">
+    <div class="stat"><div class="n">{UNITS.length}</div><div class="k">유닛</div></div>
+    <div class="stat"><div class="n">{EVIDENCES.length}</div><div class="k">증거</div></div>
+    <div class="stat"><div class="n">{MISCONCEPTIONS.length}</div><div class="k">오개념</div></div>
+    <div class="stat"><div class="n">{PREDICTIONS.length}</div><div class="k">예측 기록</div></div>
+  </div>
+
+  <!-- 거대 모형 매트릭스 -->
+  <h2>거대 모형 8개 — 12년을 관통하는 척추</h2>
+  <p class="lead" style="margin-top:2px">
+    물·화·생·지는 <b>학교의 서랍일 뿐 자연의 구조가 아닙니다.</b>
+    실제로 영역을 가로지르는 것은 소수의 거대 모형입니다.
+  </p>
+  <div style="overflow-x:auto;margin-top:12px">
+    <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:620px">
+      <thead>
+        <tr style="border-bottom:2px solid var(--graphite)">
+          <th style="text-align:left;padding:8px">거대 모형</th>
+          {BANDS.map((b) => <th style="text-align:center;padding:8px;width:90px">{BAND_LABEL[b]}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {MODELS.map((m) => (
+          <tr style="border-bottom:1px solid var(--hairline)">
+            <td style="padding:8px">
+              <b>{BIG_MODEL[m].name}</b>
+              <div class="tiny">{BIG_MODEL[m].one}</div>
+            </td>
+            {BANDS.map((b) => {
+              const us = UNITS.filter((u) => u.model === m && u.band === b);
+              return (
+                <td style="text-align:center;padding:8px">
+                  {us.length ? us.map((u) => (
+                    <a href={`#${u.id}`} class="chip" style="display:block;margin:2px 0;font-size:11.5px">
+                      {u.terms[0]?.ko ?? u.id}
+                    </a>
+                  )) : <span style="color:var(--pencil)">·</span>}
+                </td>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 유닛 -->
+  <h2>유닛</h2>
+  {UNITS.map((u) => {
+    const evs = evidencesOf(u);
+    const mcs = mcsOf(u);
+    const prs = predictionsOf(u.id);
+    return (
+      <section id={u.id} class="card lift" style="margin-bottom:20px;border-left:6px solid var(--E)">
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <span class="chip">{BIG_MODEL[u.model].name}</span>
+          <span class="chip">{FIELD_LABEL[u.field]}</span>
+          <span class="chip">{BAND_LABEL[u.band]}</span>
+          {u.school && <span class="tiny">{u.school}</span>}
+          {hasHandsOn(u)
+            ? <span class="pill learned" style="margin-left:auto">직접 확인 가능</span>
+            : <span class="pill upcoming" style="margin-left:auto">⚠️ 직접 확인 증거 없음</span>}
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="tiny" style="font-weight:700">① 이상한 일</div>
+          <p class="hand" style="font-size:24px;margin:2px 0 0;line-height:1.4">{u.anchor}</p>
+        </div>
+
+        <div class="card" style="margin-top:12px;background:#FFFDF0;border-color:#EBDFA8">
+          <div class="tiny" style="font-weight:700">② 설명을 주기 전에 먼저 묻는다</div>
+          <p style="margin:4px 0 0;font-size:15px">{u.askFirst}</p>
+        </div>
+
+        <details style="margin-top:12px">
+          <summary style="font-weight:700;font-size:15px">③ 과학자의 설명 (아이가 먼저 답한 뒤에 열 것)</summary>
+          <p style="margin:8px 0 0;font-size:15px">{u.modelSays}</p>
+        </details>
+
+        <div style="margin-top:14px">
+          <div class="tiny" style="font-weight:700">④ 왜 그걸 믿나 — 증거</div>
+          <div class="grid c2" style="margin-top:6px">
+            {evs.map((e) => (
+              <div class="card" style="padding:12px 14px">
+                <div style="display:flex;gap:6px;align-items:baseline;flex-wrap:wrap">
+                  <span class={`pill ${e.kind === 'home' ? 'learned' : e.kind === 'proxy' ? 'current' : 'upcoming'}`}>
+                    {EVIDENCE_LABEL[e.kind]}
+                  </span>
+                  <b style="font-size:14.5px">{e.title}</b>
+                </div>
+                <p style="margin:6px 0 0;font-size:14px"><b class="tiny">방법</b> {e.how}</p>
+                <p style="margin:4px 0 0;font-size:14px"><b class="tiny">이러면 맞다</b> {e.expect}</p>
+                {e.props && <p class="tiny" style="margin:4px 0 0">준비물 · {e.props}</p>}
+                {e.ifFails && <p class="tiny" style="margin:4px 0 0;color:var(--red)">실패하면 · {e.ifFails}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="tiny" style="font-weight:700">⑤ 이름 — 한국어와 영어를 함께</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+            {u.terms.map((t) => (
+              <span class="chip" style="border-color:var(--ink)">
+                {t.ko} <span class="eng-term sm" style="margin-left:4px">{t.en}</span>
+                {t.note && <span class="tiny"> · {t.note}</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {mcs.length > 0 && (
+          <div style="margin-top:16px">
+            <div class="tiny" style="font-weight:700;color:var(--red)">무너뜨려야 할 오개념</div>
+            {mcs.map((m) => (
+              <div class="card" style="margin-top:6px;border-left:6px solid var(--red)">
+                <b style="color:var(--red)">✗ {m.wrong}</b>
+                {m.adultsToo && <span class="pill current" style="margin-left:8px">어른도 자주 틀림</span>}
+                <p style="margin:6px 0 0;font-size:14px"><b class="tiny">왜 그렇게 생각하나</b> {m.why}</p>
+                <p style="margin:6px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px">
+                  <b class="tiny">무엇을 보여주면 무너지나</b> {m.breaker}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {prs.length > 0 && (
+          <div style="margin-top:16px">
+            <div class="tiny" style="font-weight:700">예측 기록 — 틀린 예측이 정답보다 값지다</div>
+            {prs.map((p) => (
+              <div class="card" style="margin-top:6px">
+                <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+                  <span class={`pill ${p.hit ? 'learned' : 'current'}`}>{p.hit ? '맞음' : '어긋남'}</span>
+                  <span class="tiny" style="margin-left:auto">{p.date}</span>
+                </div>
+                <p style="margin:6px 0 0;font-size:14.5px"><b class="tiny">예측</b> {p.predicted}</p>
+                <p style="margin:4px 0 0;font-size:14.5px"><b class="tiny">실제</b> {p.observed}</p>
+                {p.explained && (
+                  <p style="margin:6px 0 0;font-size:14.5px;background:#F5F9FF;padding:7px 9px;border-radius:3px">
+                    <b class="tiny">왜 그렇게 생각했었나</b> {p.explained}</p>
+                )}
+                {p.note && <p class="tiny" style="margin:6px 0 0">{p.note}</p>}
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  })}
+
+  <div class="card" style="background:#FFF7F5;border-color:#F0C9BC">
+    <b>예측 잠금에 대하여</b>
+    <p style="margin:6px 0 0;font-size:14.5px">
+      이 사이트에는 데이터베이스가 없습니다. 그래서 <b>아이는 종이에 예측을 먼저 씁니다.</b>
+      사이트의 「과학자의 설명」은 접혀 있고, 아이가 답한 뒤에 폅니다.
+      실시간 잠금은 포기하고 <b>물리적 잠금(종이)</b>을 택했습니다 — 그게 더 정직합니다.
+      예측 기록은 아빠가 나중에 여기 옮겨 적습니다.
+    </p>
+  </div>
+</Base>

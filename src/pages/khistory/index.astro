@@ -1,0 +1,260 @@
+---
+import Base from '../../layouts/Base.astro';
+import {
+  INQUIRIES, SCENES, ENTRIES, CAUSAL_LINKS, PATTERNS, SYNC_POINTS,
+  RANK_LABEL, STRENGTH_LABEL, CONF_COLOR,
+  byTrack, scenesOf, entriesOf, linksOf, yearOf,
+} from '../../data/subjects/history';
+
+const NAV = [{ href: '/khistory', label: '홈' }];
+const inqs = byTrack(INQUIRIES, 'kr');
+const scenes = byTrack(SCENES, 'kr').sort((a, b) => yearOf(a) - yearOf(b));
+const entries = byTrack(ENTRIES, 'kr');
+const withPrep = inqs.filter((i) => i.prep);
+---
+<Base title="한국사" subject="khistory" nav={NAV}
+      desc="학교가 안 가르쳐준 것. 사건이 아니라 질문으로 배운다.">
+  <h1>한국사</h1>
+  <p class="lead" style="max-width:700px">
+    연도를 외우지 않습니다. <b>질문</b>을 단위로 씁니다.
+    사건을 단위로 삼으면 물을 게 "언제 일어났나"밖에 없어 암기로 무너지고,
+    인물을 단위로 삼으면 구조를 개인의 성품으로 환원하는 위인전 함정에 빠집니다.
+    <span class="hand" style="font-size:20px">질문은 대답을 요구합니다.</span>
+  </p>
+
+  <div class="grid c4" style="margin:18px 0">
+    <div class="stat"><div class="n">{inqs.length}</div><div class="k">쟁점 질문</div></div>
+    <div class="stat"><div class="n">{scenes.length}</div><div class="k">장면</div></div>
+    <div class="stat"><div class="n">{entries.length}</div><div class="k">백과 항목</div></div>
+    <div class="stat"><div class="n">{withPrep.length}</div><div class="k">아빠 예습 완료</div></div>
+  </div>
+
+  {inqs.map((inq) => {
+    const ss = scenesOf(inq);
+    const es = entriesOf(inq);
+    const p = inq.prep;
+    return (
+      <section style="margin-bottom:40px">
+        <div class="card lift band-H" style="margin-bottom:14px">
+          <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+            <span class="pill current">{RANK_LABEL[inq.rank]}</span>
+            {inq.school && <span class="tiny">{inq.school}</span>}
+            {p && <span class="pill learned" style="margin-left:auto">예습 완료 · {p.minutes}분</span>}
+          </div>
+          <h2 style="border:0;margin:8px 0 0;padding:0;font-size:26px">{inq.q}</h2>
+        </div>
+
+        <!-- 답의 후보 -->
+        {inq.answers && (
+          <>
+            <h3>답의 후보 — 하나가 아니다</h3>
+            <div class="grid">
+              {inq.answers.map((a) => (
+                <div class="card" style="border-left:6px solid var(--pencil)">
+                  <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+                    <b>{a.claim}</b>
+                    <span class={`pill ${a.weight === '증거 많음' ? 'learned'
+                                       : a.weight === '증거 보통' ? 'current' : 'upcoming'}`}
+                          style="margin-left:auto">{a.weight}</span>
+                  </div>
+                  <p style="margin:6px 0 0;font-size:14.5px">{a.why}</p>
+                </div>
+              ))}
+            </div>
+            {inq.dadStance && (
+              <div class="card" style="margin-top:12px;background:#FFFDF0;border-color:#EBDFA8">
+                <div class="tiny" style="font-weight:700">아빠는 어느 쪽에 서는가</div>
+                <p style="margin:4px 0 0">{inq.dadStance}</p>
+                <p class="tiny" style="margin:8px 0 0">
+                  ⚠️ "학자들 의견이 갈린다"에서 멈추면 아이는 "그럼 아무거나 되네"로 갑니다.
+                  갈리는 것과 아무거나 되는 것은 다릅니다.
+                </p>
+              </div>
+            )}
+          </>
+        )}
+
+        <!-- 연표 -->
+        <h3>연표</h3>
+        <ol class="list" style="border-left:2px solid var(--hairline);padding-left:16px;margin-left:6px">
+          {ss.map((s) => (
+            <li style="border:0;padding:10px 0;position:relative">
+              <span style="position:absolute;left:-23px;top:16px;width:9px;height:9px;border-radius:50%;background:var(--H)"></span>
+              <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+                <b style="font-size:16px">{s.span.join('~')}</b>
+                <b>{s.title}</b>
+                {s.conf && (
+                  <span class="tiny" style={`border:1px solid ${CONF_COLOR[s.conf]};color:${CONF_COLOR[s.conf]};padding:0 6px;border-radius:3px`}>
+                    {s.conf}
+                  </span>
+                )}
+              </div>
+              <div style="margin-top:4px;font-size:14.5px">{s.what}</div>
+              {s.constraint && (
+                <div class="tiny" style="margin-top:5px;background:#F5F9FF;padding:6px 9px;border-radius:3px">
+                  <b>당대의 제약</b> · {s.constraint}
+                </div>
+              )}
+            </li>
+          ))}
+        </ol>
+
+        <!-- 인과 사슬 -->
+        <h3>인과 — 화살표마다 무게가 있다</h3>
+        <div class="grid">
+          {CAUSAL_LINKS.filter((l) => inq.sceneIds.includes(l.from)).map((l) => {
+            const a = SCENES.find((s) => s.id === l.from);
+            const b = SCENES.find((s) => s.id === l.to);
+            return (
+              <div class="card">
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                  <span class="chip">{a?.title}</span>
+                  <span style="color:var(--pencil)">→</span>
+                  <span class="chip">{b?.title}</span>
+                  <span class={`pill ${l.strength === 'decisive' ? 'learned' : 'upcoming'}`}>
+                    {STRENGTH_LABEL[l.strength]}
+                  </span>
+                  <span class="tiny" style={`color:${CONF_COLOR[l.conf]}`}>{l.conf}</span>
+                </div>
+                <p style="margin:6px 0 0;font-size:14.5px">{l.why}</p>
+                {l.ifRemoved && (
+                  <p class="tiny" style="margin:6px 0 0;background:var(--hl);padding:6px 9px;border-radius:3px">
+                    <b>빼면 어떻게 됐을까?</b> {l.ifRemoved}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <!-- 아빠 예습 -->
+        {p && (
+          <>
+            <h3>아빠 예습 — 제1원칙</h3>
+            <div class="card lift" style="border-left:6px solid var(--ink)">
+              <div class="tiny" style="font-weight:700;letter-spacing:.3px">① 출발점 — 공리</div>
+              <div style="white-space:pre-wrap;margin-top:6px;font-size:15px;line-height:1.75">{p.axioms}</div>
+            </div>
+
+            <details class="card" style="margin-top:12px">
+              <summary style="font-weight:700">② 원자 — 전제에서 하나씩 도출</summary>
+              <div style="white-space:pre-wrap;margin-top:10px;font-size:14.5px;line-height:1.8">{p.atoms}</div>
+            </details>
+
+            <div class="card" style="margin-top:12px;background:#F5F9FF;border-color:#C9DDF5">
+              <div class="tiny" style="font-weight:700">③ 인과 사슬 — 새 재료 없이 한 줄로</div>
+              <div style="white-space:pre-wrap;margin-top:6px;font-size:14.5px;line-height:1.8">{p.chain}</div>
+            </div>
+
+            {p.analogy && (
+              <div class="card" style="margin-top:12px">
+                <div class="tiny" style="font-weight:700">비유 + 깨지는 지점</div>
+                <div style="white-space:pre-wrap;margin-top:6px;font-size:14.5px;line-height:1.75">{p.analogy}</div>
+              </div>
+            )}
+
+            {p.myths && (
+              <div class="card" style="margin-top:12px;border-left:6px solid var(--red)">
+                <div class="tiny" style="font-weight:700;color:var(--red)">흔한 오해</div>
+                <div style="white-space:pre-wrap;margin-top:6px;font-size:14.5px;line-height:1.75">{p.myths}</div>
+              </div>
+            )}
+
+            {p.ifWrong && (
+              <div class="card" style="margin-top:12px">
+                <div class="tiny" style="font-weight:700">이 설명이 틀리려면</div>
+                <div style="white-space:pre-wrap;margin-top:6px;font-size:14.5px;line-height:1.75">{p.ifWrong}</div>
+              </div>
+            )}
+
+            {p.questions && (
+              <div class="card" style="margin-top:12px">
+                <div class="tiny" style="font-weight:700">확인 질문</div>
+                <div style="white-space:pre-wrap;margin-top:6px;font-size:14.5px;line-height:1.75">{p.questions}</div>
+              </div>
+            )}
+
+            <div class="card lift" style="margin-top:12px;background:#FFFDF0;border-color:#EBDFA8">
+              <div class="tiny" style="font-weight:700">한 줄 압축</div>
+              <p class="hand" style="font-size:23px;margin:4px 0 0;line-height:1.5">{p.compress}</p>
+            </div>
+          </>
+        )}
+
+        <!-- 등장 인물 -->
+        {es.length > 0 && (
+          <>
+            <h3>등장 — 누가 어느 편이었나</h3>
+            <div class="grid c2">
+              {es.map((e) => (
+                <div class="card" style={`border-left:6px solid ${
+                  e.side === '세조' ? 'var(--red)' : e.side === '단종' ? 'var(--M)' : 'var(--pencil)'}`}>
+                  <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+                    <b>{e.name}</b>
+                    {e.en && <span class="eng-term sm">{e.en}</span>}
+                    {e.side && <span class="tiny" style="margin-left:auto">{e.side} 편</span>}
+                  </div>
+                  <p style="margin:5px 0 0;font-size:14.5px">{e.one}</p>
+                  {e.body && <p style="margin:6px 0 0;font-size:14px;white-space:pre-wrap;color:var(--soft)">{e.body}</p>}
+                  {e.limits && (
+                    <p style="margin:8px 0 0;font-size:13.5px;background:var(--hl);padding:7px 9px;border-radius:3px">
+                      {e.limits}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </section>
+    );
+  })}
+
+  <!-- 반복 구조 -->
+  <h2>반복되는 구조 — "어, 이거 아까 그거잖아"</h2>
+  {PATTERNS.map((p) => (
+    <div class="card" style="margin-bottom:14px">
+      <b style="font-size:17px">{p.name}</b>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0">
+        {p.steps.map((s, i) => (
+          <>
+            {i > 0 && <span style="color:var(--pencil)">→</span>}
+            <span class="chip">{s}</span>
+          </>
+        ))}
+      </div>
+      <div class="grid c3" style="margin-top:10px">
+        {p.instances.map((ins) => (
+          <div class="card" style="padding:10px 12px">
+            <b style="font-size:14px">{ins.label}</b>
+            {ins.note && <div class="tiny" style="margin-top:3px">{ins.note}</div>}
+          </div>
+        ))}
+      </div>
+      <div class="card" style="margin-top:12px;border-left:6px solid var(--learned);background:#F2F8F5">
+        <div class="tiny" style="font-weight:700">이 패턴이 안 통한 경우 — {p.broke.label}</div>
+        <p style="margin:5px 0 0;font-size:14.5px">{p.broke.why}</p>
+      </div>
+    </div>
+  ))}
+
+  <!-- 그때 세계는 -->
+  <h2>그때 세계는</h2>
+  {SYNC_POINTS.map((s) => (
+    <div class="card">
+      <b style="font-size:17px">{s.year}년</b>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">
+        {s.sceneIds.map((id) => {
+          const sc = SCENES.find((x) => x.id === id);
+          return sc ? (
+            <span class={`chip ${sc.track === 'kr' ? 'H' : 'U'}`}>
+              {sc.track === 'kr' ? '🇰🇷' : '🌍'} {sc.title}
+            </span>
+          ) : null;
+        })}
+      </div>
+      <p style="margin:0;font-size:14.5px">{s.note}</p>
+      <p class="tiny" style="margin:8px 0 0"><a href="/whistory">세계사에서 이어 보기 →</a></p>
+    </div>
+  ))}
+</Base>

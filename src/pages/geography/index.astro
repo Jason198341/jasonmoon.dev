@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import { PLACES, MAP_DRILLS } from '../../data/subjects/misc';
+import { SCENES } from '../../data/subjects/history';
+const NAV = [{ href: '/geography', label: '홈' }];
+---
+<Base title="지리" subject="geography" nav={NAV} desc="역사가 왜 거기서 일어났는지는 땅이 답한다.">
+  <h1>지리</h1>
+  <p class="lead" style="max-width:700px">
+    역사와 <b>분리하되 좌표를 공유</b>합니다. 지리는 현재형이고 역사는 완료형이라 인지 모드가 다릅니다.
+    다만 모든 역사 장면은 장소를 반드시 갖습니다 — <b>장소 없는 사건은 데이터로 받지 않습니다.</b>
+  </p>
+
+  <div class="grid c3" style="margin:18px 0">
+    <div class="stat"><div class="n">{PLACES.length}</div><div class="k">장소</div></div>
+    <div class="stat"><div class="n">{MAP_DRILLS.length}</div><div class="k">백지도 훈련</div></div>
+    <div class="stat"><div class="n">{PLACES.filter((p) => p.historyRefs?.length).length}</div><div class="k">역사와 연결됨</div></div>
+  </div>
+
+  <h2>백지도 — 지리의 검증</h2>
+  {MAP_DRILLS.map((d) => (
+    <div class="card" style="margin-bottom:12px;border-left:6px solid var(--red)">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <b>{d.task}</b><span class="tiny" style="margin-left:auto">{d.date}</span>
+      </div>
+      {d.got && <p style="margin:8px 0 0;font-size:14.5px"><b class="tiny">맞은 것</b> {d.got}</p>}
+      {d.missed && <p style="margin:4px 0 0;font-size:14.5px"><b class="tiny">틀린 것</b> {d.missed}</p>}
+      {d.note && <p style="margin:8px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px">{d.note}</p>}
+    </div>
+  ))}
+
+  <h2>장소 — 왜 하필 거기였나</h2>
+  <div class="grid c2">
+    {PLACES.map((p) => (
+      <div class="card band-H">
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <b style="font-size:18px">{p.name}</b>
+          {p.en && <span class="eng-term sm">{p.en}</span>}
+          <span class="tiny" style="margin-left:auto">{p.region}</span>
+        </div>
+        {p.nature && <p style="margin:8px 0 0;font-size:14.5px"><b class="tiny">자연 조건</b> {p.nature}</p>}
+        {p.whyHere && (
+          <p style="margin:8px 0 0;font-size:14.5px;background:var(--hl);padding:8px 10px;border-radius:3px">
+            <b class="tiny">왜 여기서</b> {p.whyHere}</p>
+        )}
+        {p.historyRefs && p.historyRefs.length > 0 && (
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">
+            {p.historyRefs.map((id) => {
+              const sc = SCENES.find((s) => s.id === id);
+              return sc ? <a href="/khistory" class="chip">{sc.title}</a> : null;
+            })}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</Base>

@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import { THINK_TOOLS } from '../../data/subjects/misc';
+import { BY_SUBJECT } from '../../data/subjects';
+const NAV = [{ href: '/logic', label: '홈' }];
+---
+<Base title="생각하는 법" subject="logic" nav={NAV} desc="다른 모든 과목의 상위 도구.">
+  <h1>생각하는 법</h1>
+  <p class="lead" style="max-width:700px">
+    독립 과목이면서 동시에 <b>다른 전 과목에 스며드는</b> 도구입니다.
+    아빠가 예습할 때 쓰는 제1원칙 프로토콜을, 세연이에게도 그대로 가르칩니다.
+    <span class="hand" style="font-size:20px">이름 붙이기는 설명이 아니다.</span>
+  </p>
+
+  <div class="grid c2">
+    {THINK_TOOLS.map((t) => (
+      <div class="card band-U">
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <b style="font-size:17px">{t.name}</b>
+          {t.en && <span class="eng-term sm">{t.en}</span>}
+        </div>
+        <p style="margin:6px 0 0;font-size:15px">{t.one}</p>
+        <p class="hand" style="font-size:21px;margin:10px 0 0;color:var(--ink);line-height:1.5">"{t.kidWords}"</p>
+        {t.drill && (
+          <p style="margin:10px 0 0;font-size:14.5px;background:var(--hl);padding:8px 10px;border-radius:3px">
+            <b class="tiny">연습</b> {t.drill}</p>
+        )}
+        {t.usedIn && (
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">
+            {t.usedIn.map((id) => {
+              const s = BY_SUBJECT[id];
+              return s ? <a href={s.href} class="chip">{s.emoji} {s.name}</a> : null;
+            })}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</Base>

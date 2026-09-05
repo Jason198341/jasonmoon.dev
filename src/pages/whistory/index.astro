@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro';
+import { INQUIRIES, SCENES, SYNC_POINTS, byTrack, yearOf, CONF_COLOR } from '../../data/subjects/history';
+const NAV = [{ href: '/whistory', label: '홈' }];
+const inqs = byTrack(INQUIRIES, 'world');
+const scenes = byTrack(SCENES, 'world').sort((a, b) => yearOf(a) - yearOf(b));
+---
+<Base title="세계사" subject="whistory" nav={NAV} desc="세연이가 이미 가진 감각. 한국사로 들어가는 문.">
+  <h1>세계사</h1>
+  <p class="lead" style="max-width:700px">
+    세연이는 국제학교에서 세계사를 영어로 배웠습니다. <b>여기가 강점입니다.</b>
+    아는 것 옆에 모르는 것을 나란히 놓아 한국사로 건너갑니다.
+    한국사와 <b>같은 스키마</b>를 씁니다 — 따로 만들면 "그때 저쪽에선?"이 영원히 불가능해집니다.
+  </p>
+
+  <div class="grid c3" style="margin:18px 0">
+    <div class="stat"><div class="n">{inqs.length}</div><div class="k">쟁점 질문</div></div>
+    <div class="stat"><div class="n">{scenes.length}</div><div class="k">장면</div></div>
+    <div class="stat"><div class="n">{SYNC_POINTS.length}</div><div class="k">동시성 지점</div></div>
+  </div>
+
+  <h2>그때 한국은 — 나란히 놓기</h2>
+  <p class="lead" style="margin-top:2px">이 과목의 진짜 일입니다. 아는 것에서 모르는 것으로 건너가는 다리.</p>
+  {SYNC_POINTS.map((s) => (
+    <div class="card lift" style="margin-bottom:12px;border-left:6px solid var(--U)">
+      <b style="font-size:20px">{s.year}년</b>
+      <div class="grid c2" style="margin:10px 0">
+        {s.sceneIds.map((id) => {
+          const sc = SCENES.find((x) => x.id === id);
+          if (!sc) return null;
+          return (
+            <div class="card" style="padding:12px 14px">
+              <div style="display:flex;gap:6px;align-items:baseline">
+                <span>{sc.track === 'kr' ? '🇰🇷' : '🌍'}</span>
+                <b>{sc.title}</b>
+              </div>
+              <p style="margin:5px 0 0;font-size:14px">{sc.what}</p>
+            </div>
+          );
+        })}
+      </div>
+      <p style="margin:0;font-size:15px;background:var(--hl);padding:8px 10px;border-radius:3px">{s.note}</p>
+      <p class="tiny" style="margin:8px 0 0"><a href="/khistory">한국사에서 이어 보기 →</a></p>
+    </div>
+  ))}
+
+  <h2>장면</h2>
+  <ol class="list" style="border-left:2px solid var(--hairline);padding-left:16px;margin-left:6px">
+    {scenes.map((s) => (
+      <li style="border:0;padding:10px 0;position:relative">
+        <span style="position:absolute;left:-23px;top:16px;width:9px;height:9px;border-radius:50%;background:var(--U)"></span>
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <b>{s.span.join('~')}</b><b>{s.title}</b>
+          {s.conf && <span class="tiny" style={`border:1px solid ${CONF_COLOR[s.conf]};color:${CONF_COLOR[s.conf]};padding:0 6px;border-radius:3px`}>{s.conf}</span>}
+        </div>
+        <div style="margin-top:4px;font-size:14.5px">{s.what}</div>
+        {s.constraint && <div class="tiny" style="margin-top:5px;background:#F5F9FF;padding:6px 9px;border-radius:3px"><b>당대의 제약</b> · {s.constraint}</div>}
+      </li>
+    ))}
+  </ol>
+
+  {inqs.map((inq) => (
+    <section style="margin-top:30px">
+      <div class="card lift band-U">
+        <h2 style="border:0;margin:0;padding:0;font-size:24px">{inq.q}</h2>
+        {inq.dadStance && <p style="margin:10px 0 0;font-size:14.5px">{inq.dadStance}</p>}
+      </div>
+    </section>
+  ))}
+</Base>
