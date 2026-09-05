@@ -1,3 +1,5 @@
+import type { Status } from './status';
+
 /**
  * 과학 — 현상 앵커 모형 유닛
  *
@@ -138,6 +140,37 @@ export const MISCONCEPTIONS: Misconception[] = [
 export const MC_BY_ID: Record<string, Misconception> =
   Object.fromEntries(MISCONCEPTIONS.map((m) => [m.id, m]));
 
+/* ---------------- 정답이 어디서 나오나 ----------------
+   ★ 예측 잠금 문제의 진짜 해법.
+
+   문제를 둘로 나눠야 한다:
+     잠금 A — 정답 은닉 : 아이가 정답을 미리 봄 (번들에 있으면 원리적으로 불가능)
+     잠금 B — 예측 확정 : 예측을 사후에 고침 (사후확신편향)
+
+   ★ 교육적으로는 B가 A보다 훨씬 중요하다.
+     "나도 그렇게 생각했어"가 학습을 죽이는 주범이고, 정답 훔쳐보기는 부차적이다.
+
+   그리고 A의 해법은 기술이 아니라 설계다:
+     **좋은 예측 과제는 정답이 데이터가 아니라 현실에 있다.**
+     "쇠와 나무 중 뭐가 먼저 뜨거워지나"의 정답은 TS 파일이 아니라 손에 있다.
+
+   ⚠️ 설계 규칙: answerSource 가 'text' 인 과제는 만들지 않는 것을 원칙으로 한다.
+      이 규칙이 부수 효과로 유닛 설계를 좋게 만든다 —
+      "정답을 어떻게 쓰지?"가 아니라 "정답을 어떻게 겪게 하지?"를 고민하게 되므로.
+*/
+export type AnswerSource =
+  | 'reality'  // 실험 결과. 번들에 정답 없음 → 잠금 A 문제가 소멸한다
+  | 'widget'   // 위젯 조작 결과. 번들에 정답 없음
+  | 'data'     // 공개 데이터를 아이가 직접 조회 (기상청 기온 등)
+  | 'text';    // 정답 문장이 데이터에 있음 — 최소화 대상
+
+export const ANSWER_SOURCE_LABEL: Record<AnswerSource, string> = {
+  reality: '해보면 안다',
+  widget: '움직여보면 안다',
+  data: '찾아보면 안다',
+  text: '적혀 있다 (되도록 피할 것)',
+};
+
 /* ---------------- 유닛 ---------------- */
 export interface Term {
   ko: string;
@@ -148,6 +181,9 @@ export interface Term {
 
 export interface ScienceUnit {
   id: string;
+  status: Status;
+  /** ★ 정답이 어디서 나오나. reality/widget 이면 정답이 번들에 없다 */
+  answerSource: AnswerSource;
   model: BigModel;
   band: Band;
   field: Field;
@@ -172,6 +208,8 @@ export interface ScienceUnit {
 export const UNITS: ScienceUnit[] = [
   {
     id: 'sci-dissolve',
+    status: 'ready',
+    answerSource: 'reality',
     model: 'particle',
     band: 'E',
     field: 'chem',
@@ -193,6 +231,8 @@ export const UNITS: ScienceUnit[] = [
   },
   {
     id: 'sci-heat',
+    status: 'ready',
+    answerSource: 'reality',
     model: 'energy',
     band: 'E',
     field: 'phys',

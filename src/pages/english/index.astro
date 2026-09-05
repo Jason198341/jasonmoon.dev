@@ -1,30 +1,46 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { EN_LOGS, BRIDGES, EN_KIND_LABEL, type EnKind } from '../../data/subjects/misc';
+import {
+  EN_LOGS, BRIDGES, EN_KIND_LABEL, BASELINES, TEST_FORMS,
+  REALITY_LABEL, GAP_LABEL, sceneGrid,
+  type EnKind, type Reality,
+} from '../../data/subjects/misc';
+
 const NAV = [{ href: '/english', label: '홈' }];
 const KINDS: EnKind[] = ['speak', 'listen', 'write', 'read', 'bridge', 'exam'];
+const REALS: Reality[] = ['real', 'semi', 'staged'];
+const grid = sceneGrid();
 ---
 <Base title="영어" subject="english" nav={NAV} desc="11과목 중 유일하게 목표가 「잃지 않기」다.">
   <h1>영어</h1>
   <p class="lead" style="max-width:720px">
     이 과목만 목표가 다릅니다. 나머지 10과목은 <b>쌓는 것</b>이고, 영어만 <b>지키는 것</b>입니다.
-    세연이는 국제학교에서 전 과목을 영어로 배웠습니다. 초보 학습자가 아닙니다.
   </p>
 
-  <div class="card lift" style="margin:18px 0;border-left:6px solid var(--red)">
+  <div class="card lift" style="margin:18px 0;background:#F5F9FF;border-color:#C9DDF5">
+    <p class="hand" style="font-size:26px;margin:0;line-height:1.4;color:var(--ink)">
+      세연이는 영어를 잊지 않습니다. 영어를 쓸 「자리」를 잃습니다.
+    </p>
+    <p style="margin:8px 0 0;font-size:14.5px">
+      마모의 실제 모습은 어휘 망각이 아니라 <b>인출 지연 · 유창성 저하 · 한국어 직역화</b>입니다.
+      단어는 머릿속에 그대로 있는데 나오는 데 3초가 걸리고, 문장 구조가 한국어를 따라가기 시작합니다.
+      그래서 이 사이트는 영어를 저장하는 곳이 아니라 <b>「영어를 쓸 자리」를 제조하는 곳</b>입니다.
+    </p>
+  </div>
+
+  <div class="card lift" style="margin:14px 0;border-left:6px solid var(--red)">
     <b>귀국 후 무너지는 순서</b>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 6px">
       <span class="chip" style="border-color:var(--red);color:var(--red)">말하기</span>
       <span style="color:var(--pencil)">→</span>
-      <span class="chip" style="border-color:var(--current);color:#B45309">듣기</span>
+      <span class="chip" style="border-color:#D97706;color:#B45309">듣기</span>
       <span style="color:var(--pencil)">→</span>
       <span class="chip">쓰기</span>
       <span style="color:var(--pencil)">→</span>
       <span class="chip">읽기</span>
     </div>
     <p class="tiny" style="margin:0">
-      쓸 데가 없어지는 순서대로 무너집니다. 그래서 <b>말하기·듣기 기록을 특히</b> 봅니다.
-      읽기는 혼자서도 유지되지만 말하기는 상대가 있어야 합니다.
+      쓸 데가 없어지는 순서대로 무너집니다. 읽기는 혼자서도 유지되지만 말하기는 상대가 있어야 합니다.
     </p>
   </div>
 
@@ -37,6 +53,87 @@ const KINDS: EnKind[] = ['speak', 'listen', 'write', 'read', 'bridge', 'exam'];
     </p>
   </div>
 
+  <!-- 기준선 -->
+  <h2>기준선 — ★ 지금 안 재면 영영 못 잰다</h2>
+  <p class="lead" style="margin-top:2px">
+    하락은 눈에 안 보입니다. <b>귀국 전에 재두지 않으면 이후 어떤 하락도 감지할 수 없습니다.</b>
+    기준선을 만들 기회는 이번 학기뿐입니다.
+  </p>
+  {BASELINES.map((b) => (
+    <div class="card" style="margin-bottom:10px;border-left:6px solid var(--red)">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <b>{b.what}</b>
+        <span class="tiny" style="margin-left:auto">{b.date}</span>
+      </div>
+      <p style="margin:6px 0 0;font-size:14px"><b class="tiny">방법</b> {b.how}</p>
+      <p style="margin:4px 0 0;font-size:14.5px"><b class="tiny">결과</b> {b.result}</p>
+    </div>
+  ))}
+
+  <!-- 사용 장면 격자 -->
+  <h2>사용 장면 격자 — 빈칸이 곧 위험</h2>
+  <p class="lead" style="margin-top:2px">
+    격자의 목적은 채우는 게 아니라 <b>빈칸을 보는 것</b>입니다.
+    「없으면 안 되는 상황」 칸이 비어 있으면 그게 가장 먼저 죽는 자리입니다.
+  </p>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:600px;margin-top:10px">
+      <thead>
+        <tr style="border-bottom:2px solid var(--graphite)">
+          <th style="text-align:left;padding:8px;width:80px"></th>
+          {REALS.map((r) => <th style="text-align:left;padding:8px">{REALITY_LABEL[r]}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {grid.map((row) => (
+          <tr style="border-bottom:1px solid var(--hairline)">
+            <td style="padding:8px;font-weight:700">{EN_KIND_LABEL[row.kind]}</td>
+            {row.cells.map((c) => (
+              <td style="padding:8px;vertical-align:top">
+                {c.items.length === 0 ? (
+                  <span class="pill upcoming">⚠️ 비어 있음</span>
+                ) : c.items.map((it) => (
+                  <div style="margin:2px 0">
+                    <span style="font-size:13px">{it.what}</span>
+                    {it.expiresAt && (
+                      <div class="tiny" style="color:var(--red)">만료 예정 {it.expiresAt}</div>
+                    )}
+                  </div>
+                ))}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="tiny" style="margin-top:8px">
+    ⚠️ 「만들어낸 상황」에는 <b>만료일이 필수</b>입니다.
+    연출된 장면은 예외 없이 죽습니다 — 서로 한국어를 더 잘한다는 걸 양쪽이 알기 때문입니다.
+    죽을 걸 알면서 방치하면 시스템 전체의 신뢰가 무너집니다. 죽을 날짜를 미리 적어두는 게 정직합니다.
+  </p>
+
+  <!-- 한국 시험 형식 -->
+  <h2>한국 시험 형식 — 빨리 끝내고 잊는다</h2>
+  <p class="lead" style="margin-top:2px">
+    한국 내신은 세연이 실력보다 한참 아래입니다. 여기 시간을 쏟으면 정작 무너지는 말하기를 놓칩니다.
+  </p>
+  <p class="hand" style="font-size:22px;color:var(--ink);margin:6px 0 12px">
+    "이건 네 영어를 재는 시험이 아니야. 형식을 아는지 재는 거야."
+  </p>
+  {TEST_FORMS.map((t) => (
+    <div class="card" style="margin-bottom:8px;padding:12px 14px">
+      <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+        <b>{t.name}</b>
+        <span class={`pill ${t.gapType === 'genuinely-new' ? 'current' : 'upcoming'}`}>
+          {GAP_LABEL[t.gapType]}
+        </span>
+      </div>
+      {t.note && <p class="tiny" style="margin:5px 0 0">{t.note}</p>}
+    </div>
+  ))}
+
+  <!-- 한↔영 다리 -->
   <h2>한↔영 다리 — 이 과목의 진짜 일</h2>
   <p class="lead" style="margin-top:2px">
     세연이는 photosynthesis는 알고 광합성은 모릅니다.
@@ -69,6 +166,7 @@ const KINDS: EnKind[] = ['speak', 'listen', 'write', 'read', 'bridge', 'exam'];
     </table>
   </div>
 
+  <!-- 기록 -->
   <h2>기록 — 양을 유지한다</h2>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0">
     {KINDS.map((k) => (
@@ -83,7 +181,9 @@ const KINDS: EnKind[] = ['speak', 'listen', 'write', 'read', 'bridge', 'exam'];
         {l.amount && <span class="tiny">{l.amount}</span>}
         <span class="tiny" style="margin-left:auto">{l.date}</span>
       </div>
-      {l.note && <p style="margin:8px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px">{l.note}</p>}
+      {l.note && (
+        <p style="margin:8px 0 0;font-size:14px;background:var(--hl);padding:7px 9px;border-radius:3px">{l.note}</p>
+      )}
     </div>
   ))}
 </Base>

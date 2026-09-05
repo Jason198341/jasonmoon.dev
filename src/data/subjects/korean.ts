@@ -1,3 +1,5 @@
+import type { Status } from './status';
+
 /**
  * 국어 — 직조(織造) 구조
  *
@@ -173,6 +175,103 @@ export const TEXTS: Text[] = [
 
 export const TEXT_BY_ID: Record<string, Text> =
   Object.fromEntries(TEXTS.map((t) => [t.id, t]));
+
+/* ============================================================
+   아빠 예습 — ★ 제1원칙 대본이 아니다
+
+   수학은 아빠가 말하고 아이가 듣는다.
+   국어는 아이가 말하고 아빠가 받는다. 대본을 짜면 오히려 방해가 된다.
+   국어 수업의 성패는 아빠의 설명이 아니라
+   **질문의 순서**와 **예상 못 한 답을 받아치는 능력**에 있다.
+
+   ⚠️ ⑤ 채점선이 국어 가정학습 붕괴의 1순위 원인이다.
+      기준을 미리 안 적으면 아빠가 그날 컨디션대로 채점하고,
+      아이는 규칙을 알 수 없어 학습을 포기한다.
+   ============================================================ */
+export interface LessonCard {
+  textId: string;
+  status: Status;
+  updated?: string;
+
+  /** ① 미지어 예보 — 세연이가 모를 낱말 후보를 아빠가 먼저 뽑는다 */
+  predictedUnknown: string[];
+  /** 실제 초견 결과와 대조한 적중률. ★ 아빠의 성장 지표 */
+  hitRate?: number;
+
+  /** ② 문화 배경 브리핑 — ★ 국제학교 아이 최대 함정
+      낱말은 다 아는데 상황을 모른다 (시골 외갓집, 반장선거, 차례, 이산가족) */
+  cultural: { item: string; howToExplain: string }[];
+
+  /** ③ 질문 사다리 — 순서가 곧 수업. 추론을 먼저 물으면 아이가 얼어붙는다 */
+  ladder: {
+    tier: '사실확인' | '관계파악' | '추론' | '평가' | '전이';
+    q: string;
+    /** 기대하는 답의 하한선 */
+    ok: string;
+  }[];
+
+  /** ④ 오독 예보 — 아이의 오독은 대부분 예측 가능하다.
+      미리 준비하면 "틀렸어" 대신 "왜 그렇게 읽었어?"로 받을 수 있다 */
+  misread: { likely: string; why: string; sayThis: string }[];
+
+  /** ⑤ ★ 채점선 — 수업 前에 문장으로 적는다. 붕괴 방지 장치 */
+  rubric: { criterion: string; passLine: string }[];
+
+  /** ⑥ 아빠가 직접 해본 답 — 국어는 시범이 설명보다 강하다 */
+  dadAnswer?: string;
+
+  /** ⑦ 착지 문장 — 수업 끝에 세연이 입에서 나와야 할 한 문장.
+      없으면 수다로 끝난다 */
+  landing: string;
+
+  /** 수업 전 5초 자기점검 */
+  selfCheck?: { rubricWritten: boolean; dadAnsweredFirst: boolean; culturalChecked: boolean };
+}
+
+export const LESSON_CARDS: LessonCard[] = [
+  {
+    textId: 't-sonagi',
+    status: 'ready',
+    updated: '2026-09-05',
+    predictedUnknown: ['윤 초시', '증손녀', '개울', '비단', '대추', '갈밭', '수숫단'],
+    cultural: [
+      { item: '시골 외갓집·개울',
+        howToExplain: '지금 아파트 사는 아이에겐 "개울에서 논다"가 안 그려진다. 사진 한 장 보여주고 시작.' },
+      { item: '윤 초시 — 옛날 마을의 어른',
+        howToExplain: '"초시"는 과거 1차 시험 합격자. 마을에서 존경받던 집안이라는 뜻이지 벼슬이 아니다.' },
+      { item: '소녀가 서울에서 왔다는 것의 의미',
+        howToExplain: '그 시절 서울/시골 격차. 세연이가 국제학교/한국학교 사이에 있는 것과 비슷하다고 이어줄 것.' },
+    ],
+    ladder: [
+      { tier: '사실확인', q: '소년과 소녀가 처음 만난 곳은?', ok: '개울가' },
+      { tier: '사실확인', q: '소녀가 소년에게 던진 건 뭐야?', ok: '조약돌' },
+      { tier: '관계파악', q: '소년의 태도가 언제부터 달라졌어?', ok: '어느 장면을 지목하면 통과' },
+      { tier: '추론', q: '소녀가 아프다는 걸 작가는 어디서 흘렸을까?', ok: '앞쪽 단서 하나라도 문장으로 지목' },
+      { tier: '평가', q: '결말을 어른들 대화로 전한 건 좋은 선택이었을까?', ok: '이유가 있으면 어느 쪽이든 통과' },
+      { tier: '전이', q: '네가 작가라면 마지막을 어떻게 썼을 것 같아?', ok: '원작과 다른 선택 + 이유' },
+    ],
+    misread: [
+      { likely: '소녀가 그냥 갑자기 죽었다고 읽는다',
+        why: '복선을 못 잡음. 추론 렌즈가 아직 약함.',
+        sayThis: '"갑자기였을까? 앞에서 소녀가 힘들어 보인 데가 있었나 다시 찾아볼래?"' },
+      { likely: '소년이 무뚝뚝해서 소녀를 싫어한 줄 안다',
+        why: '한국 문학의 「내색 안 함」 관습을 모름. 국제학교 배경 함정.',
+        sayThis: '"싫으면 왜 계속 개울에 갔을까? 좋아하는데 말 못 하는 걸 본 적 있어?"' },
+    ],
+    rubric: [
+      { criterion: '복선 지목', passLine: '앞부분에서 단서 문장 1개 이상을 정확히 짚으면 통과. 개수는 안 본다.' },
+      { criterion: '인물 마음 변화', passLine: '바뀐 지점을 장면으로 말하면 통과. "좋아하게 됐다"만으로는 미통과.' },
+      { criterion: '결말 평가', passLine: '어느 쪽이든 이유가 본문에 근거하면 통과. 취향은 채점하지 않는다.' },
+    ],
+    dadAnswer:
+      '(아빠가 먼저 써본 복선 목록) 소녀가 개울물에 발을 담그다 감기 든 장면 / 산에서 비를 맞은 뒤 얼굴이 창백해진 묘사 / ' +
+      '"그날 소나기가…"로 시작하는 어른의 말. — 직접 써보니 3개 찾는 것도 쉽지 않다. 아이에게 1개면 충분하다.',
+    landing: '"작가는 소녀가 아플 거라는 걸 미리 조금씩 흘려놨어."',
+    selfCheck: { rubricWritten: true, dadAnsweredFirst: true, culturalChecked: true },
+  },
+];
+
+export const CARD_OF = (textId: string) => LESSON_CARDS.find((c) => c.textId === textId);
 
 /* ============================================================
    교차점(Session) — 학습의 실체. "텍스트 × 렌즈" 1회

@@ -310,3 +310,122 @@ export const BRIDGES: Bridge[] = [
   { en: 'the derivative', ko: '미분계수', from: 'math', knewFirst: 'en' },
   { en: 'estimation', ko: '어림', from: 'math', knewFirst: 'en' },
 ];
+
+/* ============================================================
+   영어 — 기준선(baseline)과 사용 장면 격자
+
+   ★ 핵심 명제:
+     세연이는 영어를 잊지 않는다. 영어를 쓸 「자리」를 잃는다.
+
+   마모의 실제 모습은 어휘 망각이 아니라
+   인출 지연 · 유창성 저하 · 한국어 직역화다.
+   단어는 머릿속에 그대로 있는데 나오는 데 3초가 걸리고,
+   문장 구조가 한국어를 따라가기 시작한다.
+
+   그래서 이 과목은 영어를 저장하는 곳이 아니라
+   **「영어를 쓸 자리」를 제조하는 곳**이다.
+   ============================================================ */
+
+/** ⚠️ 가장 시급한 것 — 귀국 전에 재두지 않으면 이후 어떤 하락도 감지할 수 없다.
+    기준선을 만들 기회는 이번 학기뿐이다. */
+export interface Baseline {
+  date: string;
+  /** 무엇을 쟀나 */
+  what: string;
+  /** 어떻게 쟀나 — 다음에 똑같이 재려면 절차가 남아야 한다 */
+  how: string;
+  /** 결과 */
+  result: string;
+  /** 녹음·파일 경로 */
+  file?: string;
+}
+
+export const BASELINES: Baseline[] = [
+  {
+    date: '2026-09-05',
+    what: '말하기 유창성 — 그림 한 장 보고 2분 설명',
+    how: '무작위 사진 1장, 준비 없이 2분 연속 말하기. 녹음. 막힌 횟수와 총 어절 수를 센다.',
+    result: '(아직 안 잼 — ★ 이번 학기 안에 반드시 할 것)',
+  },
+  {
+    date: '2026-09-05',
+    what: '읽기 속도와 이해',
+    how: '처음 보는 영어 지문 800단어, 시간 재고 읽은 뒤 5문항.',
+    result: '(아직 안 잼)',
+  },
+];
+
+/** 영어를 산출하게 만드는 반복 가능한 상황 */
+export type Reality = 'real' | 'semi' | 'staged';
+
+export const REALITY_LABEL: Record<Reality, string> = {
+  real: '없으면 안 되는 상황',
+  semi: '영어가 자연스러운 상황',
+  staged: '만들어낸 상황',
+};
+
+export interface UseScene {
+  id: string;
+  kind: EnKind;
+  reality: Reality;
+  what: string;
+  /** ⚠️ staged 는 만료일 필수.
+      연출된 장면은 예외 없이 죽는다 — 서로 한국어를 더 잘한다는 걸 양쪽이 알기 때문이다.
+      죽을 걸 알면서 방치하면 시스템 전체의 신뢰가 무너진다.
+      죽을 날짜를 미리 적어두고 그날 재검토하는 게 정직하다. */
+  expiresAt?: string;
+  alive?: boolean;
+}
+
+export const USE_SCENES: UseScene[] = [
+  { id: 'us-dad-email', kind: 'write', reality: 'real', alive: true,
+    what: '아빠 회사 영어 이메일을 세연이가 감수한다. 주 3통.' },
+  { id: 'us-book', kind: 'read', reality: 'real', alive: true,
+    what: '영어 원서 읽기. 지금 Wonder.' },
+  { id: 'us-youtube', kind: 'listen', reality: 'semi', alive: true,
+    what: '영어 유튜브 보고 한 문단으로 요약.' },
+  { id: 'us-dinner', kind: 'speak', reality: 'staged', expiresAt: '2026-12-31', alive: true,
+    what: '저녁 10분 영어로만 말하기. ⚠️ 12월에 살아있는지 재검토.' },
+];
+
+/**
+ * ★ 격자의 목적은 채우는 게 아니라 「빈칸을 보는 것」이다.
+ *   말하기 × real 칸이 비어 있으면, 그게 정확히 가장 먼저 죽는 자리다.
+ */
+export const sceneGrid = () => {
+  const kinds: EnKind[] = ['speak', 'listen', 'write', 'read'];
+  const reals: Reality[] = ['real', 'semi', 'staged'];
+  return kinds.map((k) => ({
+    kind: k,
+    cells: reals.map((r) => ({
+      reality: r,
+      items: USE_SCENES.filter((s) => s.kind === k && s.reality === r && s.alive !== false),
+    })),
+  }));
+};
+
+/** 한국 학교 영어 시험 대응 — 유한하고 작다. 빨리 끝내고 잊는 게 목표 */
+export type GapType = 'naming-only' | 'format-only' | 'genuinely-new';
+
+export const GAP_LABEL: Record<GapType, string> = {
+  'naming-only': '이미 하는 것에 이름만 붙이기',
+  'format-only': '실력은 되는데 문항 형태가 낯섦',
+  'genuinely-new': '진짜 모르는 것',
+};
+
+export interface TestForm {
+  id: string;
+  name: string;
+  gapType: GapType;
+  note?: string;
+  done?: boolean;
+}
+
+export const TEST_FORMS: TestForm[] = [
+  { id: 'tf-relative', name: '관계대명사 — 용어와 문제 형식', gapType: 'naming-only',
+    note: '이미 쓰고 있다. "which/that"을 뭐라 부르는지만 알면 끝. 5분.' },
+  { id: 'tf-underline', name: '어법상 틀린 것 고르기', gapType: 'format-only',
+    note: '읽으면 어색한 걸 안다. 밑줄 5개 중 고르는 형식이 낯설 뿐.' },
+  { id: 'tf-korean-idiom', name: '한국식 영작 관용 표현', gapType: 'genuinely-new',
+    note: '교과서에만 나오는 표현들. 여기만 실제 학습이 필요하다.' },
+];
