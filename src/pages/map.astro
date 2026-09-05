@@ -1,0 +1,193 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  CONCEPTS, THREADS, LEVEL_NAME, LEVEL_SUB, AREAS_BY_LEVEL, type Level,
+} from '../data/concepts';
+import { schoolStatus, stageOf, STAGE_BY_N, SEYEON, SCHOOL_LABEL } from '../data/curriculum';
+
+const LEVELS: Level[] = ['E', 'M', 'H', 'U'];
+const total = CONCEPTS.length;
+const links = CONCEPTS.reduce((s, c) => s + c.pre.length + c.next.length, 0);
+---
+<Base title="개념지도" desc={`수학 개념 ${total}개 전체 지도`}>
+  <h1>전체 개념지도</h1>
+  <p class="lead">
+    개념 {total}개 · 연결 {links}개 · 여섯 줄기.
+    <span class="hand" style="font-size:20px">색 점은 세연이 진도예요.</span>
+  </p>
+
+  <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;margin:10px 0 4px">
+    <span><span class="dot learned"></span>배운 곳</span>
+    <span><span class="dot current"></span>지금 여기 ({STAGE_BY_N[SEYEON.stage].short} {SEYEON.unit}단원)</span>
+    <span><span class="dot upcoming"></span>앞으로</span>
+  </div>
+
+  <!-- 컨트롤 -->
+  <div style="position:sticky;top:52px;z-index:20;background:rgba(252,252,249,.96);backdrop-filter:blur(4px);
+              padding:10px 0;border-bottom:1px solid var(--hairline);display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <input id="q" type="search" placeholder="검색: 기울기, 극한, 피자, 택시, 행렬…"
+           aria-label="개념 검색" style="flex:1;min-width:200px" />
+    <button type="button" id="openAll">전부 펼치기</button>
+    <button type="button" id="closeAll">전부 접기</button>
+    <button type="button" id="onlyNow" class="ghost">세연이 구간만</button>
+    <span class="tiny" id="cnt" style="margin-left:auto"></span>
+  </div>
+
+  <h2>여섯 줄기</h2>
+  <div class="grid" style="margin-top:10px">
+    {THREADS.map((t) => (
+      <div class="card">
+        <b>{t.t}</b>
+        <div class="lead" style="font-size:13.5px">{t.d}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;margin-top:8px">
+          {t.ids.map((id, i) => {
+            const c = CONCEPTS.find((x) => x.id === id);
+            if (!c) return null;
+            const st = schoolStatus(c);
+            return (<>
+              {i > 0 && <span style="color:var(--pencil)">→</span>}
+              <a href={`/c/${id}`} class={`chip ${c.lv}`}
+                 style={st === 'upcoming' ? 'opacity:.55' : st === 'current' ? 'background:#FEF0DC;font-weight:700' : ''}>
+                {c.name.replace(/ ★.*$/, '')}
+              </a>
+            </>);
+          })}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2>전체 트리</h2>
+  <div id="tree">
+    {LEVELS.map((lv) => (
+      <details class={`lv band-${lv}`} id={`lv-${lv}`} open={lv === 'E' || lv === 'M'}>
+        <summary>
+          {LEVEL_NAME[lv]}
+          <span class="hand">{LEVEL_SUB[lv]}</span>
+        </summary>
+
+        {AREAS_BY_LEVEL[lv].map((area) => (
+          <details class="area" open>
+            <summary>{area}</summary>
+            {CONCEPTS.filter((c) => c.lv === lv && c.area === area).map((c) => {
+              const st = schoolStatus(c);
+              return (
+                <details class="c" id={c.id}
+                         data-text={`${c.name} ${c.def} ${c.why} ${c.ex} ${c.a4} ${c.area}`.toLowerCase()}
+                         data-st={st}>
+                  <summary>
+                    <span class={`dot ${st}`} title={SCHOOL_LABEL[st]}></span>
+                    <span class="nm">{c.name}</span>
+                    <span class="tiny" style="border:1px solid var(--hairline);padding:0 5px;border-radius:3px">
+                      {STAGE_BY_N[stageOf(c)].short}
+                    </span>
+                    <span class="df">{c.def}</span>
+                  </summary>
+                  <div class="cbody">
+                    <dl style="margin:0">
+                      <dt>왜 중요한가</dt><dd>{c.why}</dd>
+                      <dt>예시</dt><dd>{c.ex}</dd>
+                      <dt>백지에 해볼 것 (A4)</dt>
+                      <dd style="background:var(--hl);display:inline-block;padding:2px 6px">{c.a4}</dd>
+                    </dl>
+                    <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+                      {c.pre.length > 0 && <span class="tiny">먼저:</span>}
+                      {c.pre.map((p) => {
+                        const pc = CONCEPTS.find((x) => x.id === p);
+                        return pc ? <a href={`/c/${p}`} class={`chip ${pc.lv}`}>{pc.name.replace(/ ★.*$/, '')}</a> : null;
+                      })}
+                    </div>
+                    <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+                      {c.next.length > 0 && <span class="tiny">다음:</span>}
+                      {c.next.map((p) => {
+                        const nc = CONCEPTS.find((x) => x.id === p);
+                        return nc ? <a href={`/c/${p}`} class={`chip ${nc.lv}`}>{nc.name.replace(/ ★.*$/, '')}</a> : null;
+                      })}
+                    </div>
+                    <p style="margin:12px 0 0">
+                      <a class="btn" href={`/c/${c.id}`} style="font-size:13px;padding:5px 11px">백지 기록 열기 →</a>
+                    </p>
+                  </div>
+                </details>
+              );
+            })}
+          </details>
+        ))}
+      </details>
+    ))}
+  </div>
+  <p id="empty" class="lead" hidden>검색 결과 없음. 다른 단어로.</p>
+</Base>
+
+<script>
+  import { listProgress } from '../lib/db';
+
+  const cs = document.querySelectorAll<HTMLDetailsElement>('details.c');
+  const cnt = document.getElementById('cnt')!;
+  const empty = document.getElementById('empty')!;
+  const q = document.getElementById('q') as HTMLInputElement;
+
+  const baseCount = `개념 ${cs.length}개`;
+  cnt.textContent = baseCount;
+
+  // 백지 훈련 상태를 트리에 표시
+  listProgress().then((rows) => {
+    const map = new Map(rows.map((r) => [r.concept_id, r]));
+    cs.forEach((d) => {
+      const p = map.get(d.id);
+      if (!p || p.status === 'todo') return;
+      const s = d.querySelector('summary')!;
+      const tag = document.createElement('span');
+      tag.className = 'pill ' + (p.status === 'done' ? 'learned' : 'current');
+      tag.textContent = p.status === 'done' ? `백지 ✓ ${p.mastery}/5` : `백지 진행 ${p.mastery}/5`;
+      s.appendChild(tag);
+    });
+  }).catch(() => {});
+
+  // 검색
+  let onlyNow = false;
+  function apply() {
+    const v = q.value.trim().toLowerCase();
+    let n = 0;
+    cs.forEach((d) => {
+      const textHit = !v || (d.dataset.text || '').includes(v);
+      const stHit = !onlyNow || d.dataset.st !== 'upcoming';
+      const hit = textHit && stHit;
+      d.style.display = hit ? '' : 'none';
+      d.classList.toggle('hit', hit && !!v);
+      if (hit) n++;
+      if (v && hit) d.open = true;
+      if (!v) d.open = false;
+    });
+    document.querySelectorAll<HTMLDetailsElement>('details.area, details.lv').forEach((d) => {
+      const has = d.querySelector<HTMLElement>('details.c:not([style*="display: none"])');
+      d.style.display = has ? '' : 'none';
+      if (v || onlyNow) d.open = true;
+    });
+    cnt.textContent = v || onlyNow ? `${n}개 표시` : baseCount;
+    empty.hidden = n > 0;
+  }
+
+  q.addEventListener('input', apply);
+  document.getElementById('onlyNow')!.addEventListener('click', (e) => {
+    onlyNow = !onlyNow;
+    (e.currentTarget as HTMLButtonElement).classList.toggle('ghost', !onlyNow);
+    (e.currentTarget as HTMLButtonElement).classList.toggle('primary', onlyNow);
+    apply();
+  });
+  document.getElementById('openAll')!.addEventListener('click', () =>
+    document.querySelectorAll('details').forEach((d) => (d as HTMLDetailsElement).open = true));
+  document.getElementById('closeAll')!.addEventListener('click', () => {
+    document.querySelectorAll('details.c, details.area').forEach((d) => (d as HTMLDetailsElement).open = false);
+    document.querySelectorAll('details.lv').forEach((d) => (d as HTMLDetailsElement).open = true);
+  });
+
+  if (location.hash) {
+    const el = document.querySelector(location.hash);
+    if (el) {
+      let p: HTMLElement | null = el as HTMLElement;
+      while (p) { if (p.tagName === 'DETAILS') (p as HTMLDetailsElement).open = true; p = p.parentElement; }
+      setTimeout(() => el.scrollIntoView({ block: 'center' }), 60);
+    }
+  }
+</script>

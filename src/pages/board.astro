@@ -1,22 +1,166 @@
 ---
-export const prerender = false;
 import Base from '../layouts/Base.astro';
-import CollaborationBoard from '../components/CollaborationBoard';
+import { CONCEPTS } from '../data/concepts';
+const options = CONCEPTS.map((c) => ({ id: c.id, label: c.name.replace(/ ★.*$/, '') }));
 ---
+<Base title="게시판" desc="단상 · 피드백 · 질문 · 공지">
+  <h1>게시판</h1>
+  <p class="lead">단상, 피드백, 질문. 세연이도 쓰고 아빠도 씁니다.</p>
 
-<Base title="Board — Jason Moon">
-  <section class="py-16 sm:py-20">
-    <div class="mx-auto max-w-3xl px-6">
-      <div class="mb-2">
-        <a href="/contact" class="text-sm text-text-muted hover:text-accent transition-colors flex items-center gap-1">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Contact
-        </a>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin:14px 0">
+    <button type="button" class="tab primary" data-cat="">전체</button>
+    <button type="button" class="tab" data-cat="thought">단상</button>
+    <button type="button" class="tab" data-cat="feedback">피드백</button>
+    <button type="button" class="tab" data-cat="question">질문</button>
+    <button type="button" class="tab" data-cat="notice">공지</button>
+  </div>
+
+  <div id="gate"></div>
+  <div id="panel" hidden>
+    <div class="card lift" style="margin-bottom:22px">
+      <div class="row">
+        <div style="flex:0 0 130px">
+          <label for="pCat">분류</label>
+          <select id="pCat">
+            <option value="thought">단상</option>
+            <option value="feedback">피드백</option>
+            <option value="question">질문</option>
+            <option value="notice">공지</option>
+          </select>
+        </div>
+        <div style="flex:0 0 130px">
+          <label for="pAuthor">글쓴이</label>
+          <select id="pAuthor"><option>아빠</option><option>세연</option></select>
+        </div>
+        <div>
+          <label for="pTitle">제목</label>
+          <input id="pTitle" placeholder="제목" />
+        </div>
       </div>
-
-      <CollaborationBoard client:load />
+      <label for="pConcept">연결 개념 (선택)</label>
+      <select id="pConcept">
+        <option value="">— 없음 —</option>
+        {options.map((o) => <option value={o.id}>{o.label}</option>)}
+      </select>
+      <label for="pBody">내용</label>
+      <textarea id="pBody" style="min-height:150px"></textarea>
+      <div style="margin-top:12px"><button type="button" class="primary" id="pSave">글 올리기</button></div>
     </div>
-  </section>
+  </div>
+
+  <div id="list" class="tiny">불러오는 중…</div>
 </Base>
+
+<script>
+  import { addPost, listPosts, deletePost, listComments, addComment, fmtDate, toast, esc } from '../lib/db';
+  import { mountGate } from '../lib/gate';
+  import { BY_ID } from '../data/concepts';
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  const CAT: Record<string, string> = { thought: '단상', feedback: '피드백', question: '질문', notice: '공지' };
+  let cat = '';
+  let unlocked = false;
+
+  async function render() {
+    const box = $('#list');
+    try {
+      const ps = await listPosts((cat || undefined) as any);
+      if (!ps.length) { box.innerHTML = '<p class="lead">아직 글이 없습니다.</p>'; return; }
+      box.innerHTML = ps.map((p) => {
+        const c = p.concept_id ? BY_ID[p.concept_id] : null;
+        return `<article class="card" id="${p.id}" style="margin-bottom:12px">
+          <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+            <span class="pill ${p.category === 'notice' ? 'current' : 'upcoming'}">${CAT[p.category] || p.category}</span>
+            <b style="font-size:17px">${esc(p.title)}</b>
+            <span class="tiny">${esc(p.author)} · ${fmtDate(p.created_at)}</span>
+            ${unlocked ? `<button type="button" class="danger delP" data-id="${p.id}"
+                 style="margin-left:auto;font-size:12px;padding:3px 9px">삭제</button>` : ''}
+          </div>
+          <div style="white-space:pre-wrap;margin-top:8px;font-size:15px">${esc(p.body)}</div>
+          ${c ? `<div style="margin-top:8px"><a href="/c/${c.id}" class="chip ${c.lv}">${esc(c.name.replace(/ ★.*$/, ''))}</a></div>` : ''}
+          <div class="cmt" data-post="${p.id}" style="margin-top:12px;border-top:1px dotted var(--hairline);padding-top:10px"></div>
+        </article>`;
+      }).join('');
+
+      box.querySelectorAll<HTMLButtonElement>('.delP').forEach((b) =>
+        b.addEventListener('click', async () => {
+          if (!confirm('삭제할까요? 댓글도 함께 사라집니다.')) return;
+          try { await deletePost(b.dataset.id!); toast('삭제했습니다'); render(); }
+          catch (e) { toast((e as Error).message); }
+        }));
+
+      box.querySelectorAll<HTMLElement>('.cmt').forEach(renderComments);
+    } catch (e) { box.textContent = '불러오지 못했습니다: ' + (e as Error).message; }
+  }
+
+  async function renderComments(el: HTMLElement) {
+    const pid = el.dataset.post!;
+    try {
+      const cs = await listComments(pid);
+      el.innerHTML =
+        (cs.length
+          ? `<ul class="list" style="margin-bottom:8px">${cs.map((c) => `<li style="padding:6px 0;border:0">
+              <b style="font-size:13px">${esc(c.author)}</b>
+              <span class="tiny">${fmtDate(c.created_at)}</span>
+              <div style="white-space:pre-wrap;font-size:14px">${esc(c.body)}</div></li>`).join('')}</ul>`
+          : '<div class="tiny" style="margin-bottom:8px">댓글 없음</div>')
+        + (unlocked ? `<div class="row">
+            <select class="cA" style="flex:0 0 100px"><option>아빠</option><option>세연</option></select>
+            <input class="cB" placeholder="댓글" />
+            <button type="button" class="cGo" style="flex:0 0 auto;min-width:auto">등록</button>
+          </div>` : '');
+
+      const go = el.querySelector<HTMLButtonElement>('.cGo');
+      if (go) {
+        const send = async () => {
+          const body = el.querySelector<HTMLInputElement>('.cB')!.value.trim();
+          if (!body) return;
+          go.disabled = true;
+          try {
+            await addComment(pid, el.querySelector<HTMLSelectElement>('.cA')!.value, body);
+            renderComments(el);
+          } catch (e) { toast((e as Error).message); }
+          finally { go.disabled = false; }
+        };
+        go.addEventListener('click', send);
+        el.querySelector<HTMLInputElement>('.cB')!
+          .addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+      }
+    } catch { el.textContent = '댓글을 불러오지 못했습니다.'; }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.tab').forEach((b) =>
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach((x) => x.classList.remove('primary'));
+      b.classList.add('primary');
+      cat = b.dataset.cat || '';
+      render();
+    }));
+
+  mountGate($('#gate'), $('#panel'), () => {
+    unlocked = true;
+    render();
+    $('#pSave').addEventListener('click', async (ev) => {
+      const btn = ev.currentTarget as HTMLButtonElement;
+      const title = $<HTMLInputElement>('#pTitle').value.trim();
+      const body = $<HTMLTextAreaElement>('#pBody').value.trim();
+      if (!title || !body) { toast('제목과 내용을 채워주세요'); return; }
+      btn.disabled = true;
+      try {
+        await addPost({
+          category: $<HTMLSelectElement>('#pCat').value as any,
+          title, body,
+          author: $<HTMLSelectElement>('#pAuthor').value,
+          concept_id: $<HTMLSelectElement>('#pConcept').value || null,
+        });
+        $<HTMLInputElement>('#pTitle').value = '';
+        $<HTMLTextAreaElement>('#pBody').value = '';
+        toast('올렸습니다');
+        render();
+      } catch (e) { toast('실패: ' + (e as Error).message); }
+      finally { btn.disabled = false; }
+    });
+  });
+
+  render();
+</script>

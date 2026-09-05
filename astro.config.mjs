@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: cloudflare({
     platformProxy: { enabled: true },
   }),
-  integrations: [react(), sitemap()],
+  integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
     ssr: {

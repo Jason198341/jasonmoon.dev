@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONCEPTS } from '../data/concepts';
+const options = CONCEPTS.map((c) => ({ id: c.id, lv: c.lv, label: `${c.name.replace(/ ★.*$/, '')} (${c.area})` }));
+---
+<Base title="강의노트" desc="아빠가 세연이에게 설명한 것을 남긴 노트">
+  <h1>강의노트</h1>
+  <p class="lead">
+    설명한 것을 글로 남겨 두면, 다음에 같은 곳에서 막혔을 때 그대로 다시 씁니다.
+    <span class="hand" style="font-size:20px">한 번 잘 설명한 건 자산입니다.</span>
+  </p>
+
+  <div id="gate"></div>
+  <div id="panel" hidden>
+    <div class="card lift" style="margin:14px 0 24px">
+      <input type="hidden" id="nId" />
+      <div class="row">
+        <div>
+          <label for="nTitle">제목</label>
+          <input id="nTitle" placeholder="예: 소수의 곱셈에서 소수점이 옮겨지는 진짜 이유" />
+        </div>
+        <div style="flex:0 0 260px">
+          <label for="nConcept">연결 개념</label>
+          <select id="nConcept">
+            <option value="">— 없음 —</option>
+            {options.map((o) => <option value={o.id} data-lv={o.lv}>{o.label}</option>)}
+          </select>
+        </div>
+      </div>
+      <label for="nTags">태그 (쉼표로 구분)</label>
+      <input id="nTags" placeholder="백지훈련, 오개념, 그림설명" />
+      <label for="nBody">노트</label>
+      <textarea id="nBody" style="min-height:260px;font-family:ui-monospace,'D2Coding',Consolas,monospace;font-size:14px"
+        placeholder="# 제목&#10;&#10;## 어디서 막혔나&#10;&#10;## 어떻게 설명했나&#10;&#10;## 다음에 바꿀 것"></textarea>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button type="button" class="primary" id="nSave">노트 저장</button>
+        <button type="button" class="ghost" id="nNew">새 노트</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-bottom:12px">
+    <input id="nq" type="search" placeholder="노트 검색" aria-label="노트 검색" />
+  </div>
+  <div id="list" class="tiny">불러오는 중…</div>
+</Base>
+
+<script>
+  import { saveNote, listNotes, deleteNote, fmtDate, toast, esc } from '../lib/db';
+  import { mountGate } from '../lib/gate';
+  import { BY_ID } from '../data/concepts';
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  let all: any[] = [];
+  let unlocked = false;
+
+  // ?c=concept-id 로 들어오면 미리 선택
+  const pre = new URLSearchParams(location.search).get('c');
+
+  function paint() {
+    const v = $<HTMLInputElement>('#nq').value.trim().toLowerCase();
+    const rows = v
+      ? all.filter((n) => `${n.title} ${n.body} ${(n.tags || []).join(' ')}`.toLowerCase().includes(v))
+      : all;
+    const box = $('#list');
+    if (!rows.length) { box.innerHTML = '<p class="lead">노트가 없습니다.</p>'; return; }
+    box.innerHTML = rows.map((n) => {
+      const c = n.concept_id ? BY_ID[n.concept_id] : null;
+      return `<article class="card ${c ? 'band-' + c.lv : ''}" id="${n.id}" style="margin-bottom:12px">
+        <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+          <b style="font-size:17px">${esc(n.title)}</b>
+          ${c ? `<a href="/c/${c.id}" class="chip ${c.lv}">${esc(c.name.replace(/ ★.*$/, ''))}</a>` : ''}
+          <span class="tiny">${fmtDate(n.updated_at)}</span>
+          ${unlocked ? `<span style="margin-left:auto;display:flex;gap:6px">
+            <button type="button" class="editN" data-id="${n.id}" style="font-size:12px;padding:3px 9px">수정</button>
+            <button type="button" class="danger delN" data-id="${n.id}" style="font-size:12px;padding:3px 9px">삭제</button>
+          </span>` : ''}
+        </div>
+        ${(n.tags || []).length ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${
+          n.tags.map((t: string) => `<span class="chip">${esc(t)}</span>`).join('')}</div>` : ''}
+        <div style="white-space:pre-wrap;margin-top:10px;font-size:15px;line-height:1.75">${esc(n.body)}</div>
+      </article>`;
+    }).join('');
+
+    box.querySelectorAll<HTMLButtonElement>('.delN').forEach((b) =>
+      b.addEventListener('click', async () => {
+        if (!confirm('이 노트를 삭제할까요?')) return;
+        try { await deleteNote(b.dataset.id!); toast('삭제했습니다'); load(); }
+        catch (e) { toast((e as Error).message); }
+      }));
+
+    box.querySelectorAll<HTMLButtonElement>('.editN').forEach((b) =>
+      b.addEventListener('click', () => {
+        const n = all.find((x) => x.id === b.dataset.id);
+        if (!n) return;
+        $<HTMLInputElement>('#nId').value = n.id;
+        $<HTMLInputElement>('#nTitle').value = n.title;
+        $<HTMLTextAreaElement>('#nBody').value = n.body;
+        $<HTMLInputElement>('#nTags').value = (n.tags || []).join(', ');
+        $<HTMLSelectElement>('#nConcept').value = n.concept_id || '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }));
+  }
+
+  async function load() {
+    try { all = await listNotes(); paint(); }
+    catch (e) { $('#list').textContent = '불러오지 못했습니다: ' + (e as Error).message; }
+  }
+
+  $('#nq').addEventListener('input', paint);
+
+  mountGate($('#gate'), $('#panel'), () => {
+    unlocked = true;
+    if (pre) $<HTMLSelectElement>('#nConcept').value = pre;
+    paint();
+
+    $('#nNew').addEventListener('click', () => {
+      $<HTMLInputElement>('#nId').value = '';
+      $<HTMLInputElement>('#nTitle').value = '';
+      $<HTMLTextAreaElement>('#nBody').value = '';
+      $<HTMLInputElement>('#nTags').value = '';
+      toast('새 노트');
+    });
+
+    $('#nSave').addEventListener('click', async (ev) => {
+      const btn = ev.currentTarget as HTMLButtonElement;
+      const title = $<HTMLInputElement>('#nTitle').value.trim();
+      const body = $<HTMLTextAreaElement>('#nBody').value.trim();
+      if (!title || !body) { toast('제목과 내용을 채워주세요'); return; }
+      btn.disabled = true;
+      try {
+        const sel = $<HTMLSelectElement>('#nConcept');
+        await saveNote({
+          id: $<HTMLInputElement>('#nId').value || null,
+          concept_id: sel.value || null,
+          lv: sel.selectedOptions[0]?.dataset.lv || null,
+          title, body,
+          tags: $<HTMLInputElement>('#nTags').value.split(',').map((s) => s.trim()).filter(Boolean),
+        });
+        $<HTMLInputElement>('#nId').value = '';
+        toast('저장했습니다');
+        load();
+      } catch (e) { toast('실패: ' + (e as Error).message); }
+      finally { btn.disabled = false; }
+    });
+  });
+
+  load();
+  if (location.hash) setTimeout(() => document.querySelector(location.hash)?.scrollIntoView({ block: 'center' }), 400);
+</script>

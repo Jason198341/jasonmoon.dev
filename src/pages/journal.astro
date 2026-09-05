@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONCEPTS } from '../data/concepts';
+const options = CONCEPTS.map((c) => ({ id: c.id, label: `${c.name.replace(/ ★.*$/, '')} (${c.area})` }));
+---
+<Base title="일지" desc="아빠와 세연이의 수학 일지">
+  <h1>일지</h1>
+  <p class="lead">
+    그날 무엇을 했고, 어디서 막혔고, 무엇이 열렸는지.
+    <span class="hand" style="font-size:20px">숫자보다 이게 남습니다.</span>
+  </p>
+
+  <div id="gate"></div>
+  <div id="panel" hidden>
+    <div class="card lift" style="margin:14px 0 24px">
+      <div class="row">
+        <div style="flex:0 0 160px">
+          <label for="jDate">날짜</label>
+          <input type="date" id="jDate" />
+        </div>
+        <div style="flex:0 0 150px">
+          <label for="jMood">그날 기분</label>
+          <select id="jMood">
+            <option value="">—</option>
+            <option value="good">잘 됐다</option>
+            <option value="soso">그럭저럭</option>
+            <option value="hard">힘들었다</option>
+            <option value="break">돌파했다</option>
+          </select>
+        </div>
+        <div>
+          <label for="jTitle">제목</label>
+          <input id="jTitle" placeholder="예: 소수의 곱셈, 왜 자리를 옮기는가" />
+        </div>
+      </div>
+
+      <label for="jBody">내용</label>
+      <textarea id="jBody" style="min-height:170px"
+        placeholder="오늘 한 것 / 세연이가 막힌 곳 / 내가 설명한 방식 / 다음에 바꿀 것"></textarea>
+
+      <label for="jConcepts">연결한 개념 (여러 개 선택 가능)</label>
+      <select id="jConcepts" multiple size="6">
+        {options.map((o) => <option value={o.id}>{o.label}</option>)}
+      </select>
+
+      <div style="margin-top:14px">
+        <button type="button" class="primary" id="jSave">일지 저장</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>기록</h2>
+  <div id="list" class="tiny" style="margin-top:10px">불러오는 중…</div>
+</Base>
+
+<script>
+  import { addJournal, listJournal, deleteJournal, fmtDate, toast, esc } from '../lib/db';
+  import { mountGate } from '../lib/gate';
+  import { BY_ID } from '../data/concepts';
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  const MOOD: Record<string, string> = {
+    good: '잘 됐다', soso: '그럭저럭', hard: '힘들었다', break: '돌파했다',
+  };
+
+  const d = new Date();
+  $<HTMLInputElement>('#jDate').value =
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  async function render() {
+    const box = $('#list');
+    try {
+      const js = await listJournal();
+      if (!js.length) { box.innerHTML = '<p class="lead">아직 일지가 없습니다.</p>'; return; }
+      box.innerHTML = js.map((j) => `
+        <article class="card" id="${j.id}" style="margin-bottom:12px">
+          <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+            <b style="font-size:18px">${esc(j.title)}</b>
+            ${j.mood ? `<span class="pill current">${esc(MOOD[j.mood] || j.mood)}</span>` : ''}
+            <span class="tiny">${fmtDate(j.entry_date)}</span>
+            <button type="button" class="danger delJ" data-id="${j.id}"
+                    style="margin-left:auto;font-size:12px;padding:3px 9px">삭제</button>
+          </div>
+          <div style="white-space:pre-wrap;margin-top:8px;font-size:15px">${esc(j.body)}</div>
+          ${j.concept_ids?.length ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">${
+            j.concept_ids.map((id) => {
+              const c = BY_ID[id];
+              return c ? `<a href="/c/${id}" class="chip ${c.lv}">${esc(c.name.replace(/ ★.*$/, ''))}</a>` : '';
+            }).join('')}</div>` : ''}
+        </article>`).join('');
+
+      box.querySelectorAll<HTMLButtonElement>('.delJ').forEach((b) =>
+        b.addEventListener('click', async () => {
+          if (!confirm('이 일지를 삭제할까요?')) return;
+          try { await deleteJournal(b.dataset.id!); toast('삭제했습니다'); render(); }
+          catch (e) { toast((e as Error).message); }
+        }));
+    } catch (e) { box.textContent = '불러오지 못했습니다: ' + (e as Error).message; }
+  }
+
+  mountGate($('#gate'), $('#panel'), () => {
+    $('#jSave').addEventListener('click', async (ev) => {
+      const btn = ev.currentTarget as HTMLButtonElement;
+      const title = $<HTMLInputElement>('#jTitle').value.trim();
+      const body = $<HTMLTextAreaElement>('#jBody').value.trim();
+      if (!title || !body) { toast('제목과 내용을 채워주세요'); return; }
+      btn.disabled = true;
+      try {
+        const sel = $<HTMLSelectElement>('#jConcepts');
+        await addJournal({
+          entry_date: $<HTMLInputElement>('#jDate').value || null,
+          title, body,
+          mood: $<HTMLSelectElement>('#jMood').value || null,
+          concept_ids: Array.from(sel.selectedOptions).map((o) => o.value),
+        });
+        $<HTMLInputElement>('#jTitle').value = '';
+        $<HTMLTextAreaElement>('#jBody').value = '';
+        sel.selectedIndex = -1;
+        toast('일지를 저장했습니다');
+        render();
+      } catch (e) { toast('저장 실패: ' + (e as Error).message); }
+      finally { btn.disabled = false; }
+    });
+  });
+
+  render();
+  if (location.hash) setTimeout(() => document.querySelector(location.hash)?.scrollIntoView({ block: 'center' }), 400);
+</script>

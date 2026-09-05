@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONCEPTS } from '../data/concepts';
+const options = CONCEPTS.map((c) => ({ id: c.id, label: c.name.replace(/ ★.*$/, '') }));
+---
+<Base title="자료실" desc="숙제 업로드 · 학습지 다운로드 · 사진">
+  <h1>자료실</h1>
+  <p class="lead">숙제 올리고, 학습지 받고, 백지 사진 모아 둡니다. 최대 50MB / 파일.</p>
+
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin:14px 0">
+    <button type="button" class="tab primary" data-cat="">전체</button>
+    <button type="button" class="tab" data-cat="homework">숙제</button>
+    <button type="button" class="tab" data-cat="worksheet">학습지</button>
+    <button type="button" class="tab" data-cat="material">자료</button>
+    <button type="button" class="tab" data-cat="photo">백지 사진</button>
+  </div>
+
+  <div id="gate"></div>
+  <div id="panel" hidden>
+    <div class="card lift" style="margin-bottom:22px">
+      <div class="row">
+        <div style="flex:0 0 150px">
+          <label for="fCat">분류</label>
+          <select id="fCat">
+            <option value="homework">숙제</option>
+            <option value="worksheet">학습지</option>
+            <option value="material">자료</option>
+            <option value="photo">백지 사진</option>
+          </select>
+        </div>
+        <div style="flex:0 0 130px">
+          <label for="fWho">올린 사람</label>
+          <select id="fWho"><option>아빠</option><option>세연</option></select>
+        </div>
+        <div>
+          <label for="fTitle">제목 (비우면 파일명)</label>
+          <input id="fTitle" />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="fConcept">연결 개념 (선택)</label>
+          <select id="fConcept">
+            <option value="">— 없음 —</option>
+            {options.map((o) => <option value={o.id}>{o.label}</option>)}
+          </select>
+        </div>
+        <div>
+          <label for="fNote">메모</label>
+          <input id="fNote" placeholder="예: 3단원 복습용" />
+        </div>
+      </div>
+      <label for="fInput">파일 (여러 개 가능)</label>
+      <input type="file" id="fInput" multiple />
+      <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+        <button type="button" class="primary" id="fGo">업로드</button>
+        <span class="tiny" id="fProg"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="list" class="tiny">불러오는 중…</div>
+</Base>
+
+<script>
+  import { uploadFile, listFiles, deleteFile, publicUrl, fmtDate, fmtSize, toast, esc } from '../lib/db';
+  import { mountGate } from '../lib/gate';
+  import { BY_ID } from '../data/concepts';
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  const CAT: Record<string, string> = {
+    homework: '숙제', worksheet: '학습지', material: '자료', photo: '백지 사진',
+  };
+  let cat = '';
+  let unlocked = false;
+
+  const isImg = (m: string | null) => !!m && m.startsWith('image/');
+
+  async function render() {
+    const box = $('#list');
+    try {
+      const fs = await listFiles((cat || undefined) as any);
+      if (!fs.length) { box.innerHTML = '<p class="lead">파일이 없습니다.</p>'; return; }
+      box.innerHTML = `<div class="grid c3">${fs.map((f) => {
+        const url = publicUrl(f.storage_path);
+        const c = f.concept_id ? BY_ID[f.concept_id] : null;
+        return `<div class="card" style="display:flex;flex-direction:column;gap:6px">
+          ${isImg(f.mime)
+            ? `<a href="${url}" target="_blank" rel="noopener">
+                 <img src="${url}" alt="${esc(f.title)}" loading="lazy"
+                      style="width:100%;height:140px;object-fit:cover;border:1px solid var(--hairline);border-radius:3px"></a>`
+            : `<div style="height:70px;display:flex;align-items:center;justify-content:center;
+                    background:#F6F7F9;border:1px solid var(--hairline);border-radius:3px;font-size:26px">📄</div>`}
+          <div style="display:flex;gap:6px;align-items:baseline;flex-wrap:wrap">
+            <span class="pill upcoming">${CAT[f.category] || f.category}</span>
+            <b style="font-size:14.5px;word-break:break-all">${esc(f.title)}</b>
+          </div>
+          ${c ? `<a href="/c/${c.id}" class="chip ${c.lv}" style="align-self:flex-start">${esc(c.name.replace(/ ★.*$/, ''))}</a>` : ''}
+          ${f.note ? `<div class="tiny">${esc(f.note)}</div>` : ''}
+          <div class="tiny">${esc(f.uploaded_by)} · ${fmtDate(f.created_at)} · ${fmtSize(f.size_bytes)}</div>
+          <div style="display:flex;gap:6px;margin-top:auto;padding-top:6px">
+            <a class="btn" href="${url}" download style="font-size:12px;padding:4px 10px">다운로드</a>
+            ${unlocked ? `<button type="button" class="danger delF" data-id="${f.id}"
+                 style="font-size:12px;padding:4px 10px">삭제</button>` : ''}
+          </div>
+        </div>`;
+      }).join('')}</div>`;
+
+      box.querySelectorAll<HTMLButtonElement>('.delF').forEach((b) =>
+        b.addEventListener('click', async () => {
+          if (!confirm('목록에서 삭제할까요?')) return;
+          try { await deleteFile(b.dataset.id!); toast('삭제했습니다'); render(); }
+          catch (e) { toast((e as Error).message); }
+        }));
+    } catch (e) { box.textContent = '불러오지 못했습니다: ' + (e as Error).message; }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.tab').forEach((b) =>
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach((x) => x.classList.remove('primary'));
+      b.classList.add('primary');
+      cat = b.dataset.cat || '';
+      render();
+    }));
+
+  mountGate($('#gate'), $('#panel'), () => {
+    unlocked = true;
+    render();
+    $('#fGo').addEventListener('click', async (ev) => {
+      const btn = ev.currentTarget as HTMLButtonElement;
+      const input = $<HTMLInputElement>('#fInput');
+      const files = input.files ? Array.from(input.files) : [];
+      if (!files.length) { toast('파일을 고르세요'); return; }
+      btn.disabled = true;
+      const prog = $('#fProg');
+      try {
+        for (let i = 0; i < files.length; i++) {
+          prog.textContent = `${i + 1} / ${files.length} 업로드 중…`;
+          await uploadFile(files[i], {
+            title: files.length === 1 ? ($<HTMLInputElement>('#fTitle').value.trim() || files[i].name) : files[i].name,
+            category: $<HTMLSelectElement>('#fCat').value as any,
+            concept_id: $<HTMLSelectElement>('#fConcept').value || null,
+            uploaded_by: $<HTMLSelectElement>('#fWho').value,
+            note: $<HTMLInputElement>('#fNote').value.trim(),
+          });
+        }
+        prog.textContent = '';
+        input.value = '';
+        $<HTMLInputElement>('#fTitle').value = '';
+        toast(`${files.length}개 업로드 완료`);
+        render();
+      } catch (e) {
+        prog.textContent = '';
+        toast('업로드 실패: ' + (e as Error).message);
+      } finally { btn.disabled = false; }
+    });
+  });
+
+  render();
+</script>

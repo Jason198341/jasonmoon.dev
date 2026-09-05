@@ -1,97 +1,82 @@
 ---
 import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import { SEYEON } from '../data/curriculum';
 
-interface Props {
-  title: string;
-  description?: string;
-}
+interface Props { title: string; desc?: string; }
+const { title, desc = '아빠와 세연이가 백지에 다시 그리는 수학 12년 지도' } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
-const { title, description = 'Automotive engineer by day, systems designer by night. I don\'t just use tools — I architect the systems behind them. Then I ship them for everyone.' } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const NAV = [
+  { href: '/',        label: '홈' },
+  { href: '/map',     label: '개념지도' },
+  { href: '/prep',    label: '아빠 예습' },
+  { href: '/journal', label: '일지' },
+  { href: '/notes',   label: '강의노트' },
+  { href: '/board',   label: '게시판' },
+  { href: '/files',   label: '자료실' },
+  { href: '/trash',   label: '휴지통' },
+];
+const cur = (h: string) => (h === '/' ? path === '/' : path.startsWith(h));
 ---
-
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <meta name="theme-color" content="#070b14" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
-    <link rel="apple-touch-icon" href="/logo.png" />
-    <link rel="canonical" href={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={`${Astro.site}og-image.png`} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${Astro.site}og-image.png`} />
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} · 수학 바이블</title>
+  <meta name="description" content={desc} />
+  <meta property="og:title" content={`${title} · 수학 바이블`} />
+  <meta property="og:description" content={desc} />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-head">
+    <div class="bar">
+      <a class="brand" href="/">수학 바이블<span class="pen">세연이의 12년 지도</span></a>
+      <nav class="nav" aria-label="주 메뉴">
+        {NAV.map((n) => (
+          <a href={n.href} aria-current={cur(n.href) ? 'page' : undefined}>{n.label}</a>
+        ))}
+      </nav>
+    </div>
+  </header>
 
-    <!-- Fonts: Space Grotesk (display+body) + JetBrains Mono + Pretendard (Korean) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
+  <main class="wrap" style="padding-top:26px">
+    <slot />
+  </main>
 
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Jason Moon",
-      "url": "https://jasonmoon.dev",
-      "jobTitle": "Automotive Engineer & Systems Designer",
-      "description": "I design vehicle systems by day and architect complete digital systems by night — from AI platforms to multi-agent frameworks.",
-      "sameAs": ["https://github.com/Jason198341"],
-      "knowsAbout": ["React", "TypeScript", "AI/LLM", "Automotive Engineering", "Systems Architecture"]
-    })} />
-    <title>{title}</title>
-  </head>
-  <body class="bg-bg text-text min-h-dvh flex flex-col">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-accent focus:text-black focus:px-4 focus:py-2 font-mono text-xs tracking-widest uppercase">
-      Skip to main content
-    </a>
-    <Header />
-    <main id="main-content" class="flex-1">
-      <slot />
-    </main>
+  <footer class="site-foot">
+    <div class="wrap">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:baseline">
+        <span class="hand" style="font-size:20px;color:var(--graphite)">
+          아빠가 세연이를 위해 만든 지도
+        </span>
+        <span class="tiny">
+          현재 진도: {SEYEON.grade} 2학기 {SEYEON.unit}단원 「{SEYEON.unitName}」
+          · 기준일 {SEYEON.updated}
+        </span>
+        <span class="tiny" style="margin-left:auto">
+          <button type="button" id="lockBtn" class="ghost" style="font-size:12px;padding:4px 10px">잠금</button>
+        </span>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Floating 카톡 오픈채팅 문의 버튼 -->
-    <a
-      href="https://invite.kakao.com/tc/EszOu7fY0i"
-      target="_blank"
-      rel="noopener"
-      class="fixed bottom-5 right-5 z-40 group inline-flex items-center gap-2.5 border-2 border-accent bg-accent text-black px-5 py-3.5 font-bold text-sm sm:text-base tracking-tight shadow-[0_4px_24px_rgba(255,176,0,0.45)] hover:bg-accent-hover hover:scale-[1.03] transition-all duration-200"
-      aria-label="카카오톡으로 무료 제작 문의하기"
-    >
-      <span class="hud-pip hud-pip--amber" style="background:#000;box-shadow:none;"></span>
-      <span>💬 무료 제작 문의</span>
-    </a>
+  <div id="toast" role="status" aria-live="polite"></div>
 
-    <Footer />
-
-    <!-- Scroll-reveal observer -->
-    <script>
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-        );
-        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-      }
-    </script>
-  </body>
+  <script>
+    import { isUnlocked, clearPass, toast } from '../lib/db';
+    const btn = document.getElementById('lockBtn') as HTMLButtonElement | null;
+    if (btn) {
+      isUnlocked().then((ok) => { btn.textContent = ok ? '잠그기' : '잠김'; });
+      btn.addEventListener('click', () => {
+        clearPass();
+        btn.textContent = '잠김';
+        toast('잠갔습니다');
+        setTimeout(() => location.reload(), 600);
+      });
+    }
+  </script>
+</body>
 </html>
